@@ -2,17 +2,11 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { environment } from './config/environment';
 import { ValidationPipe } from '@nestjs/common';
-<<<<<<< HEAD
-<<<<<<< HEAD
 
 import * as cors from 'cors';
 import { json } from 'express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 const version = require('../package.json').version;
-=======
-import * as cors from 'cors';
-import { json } from 'express';
->>>>>>> 4571e18e (CRUD dentalServ)
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -20,7 +14,6 @@ async function bootstrap() {
   app.use(json());
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
 
-<<<<<<< HEAD
   const swaggerConfig = new DocumentBuilder()
     .setTitle('DentAll')
     .setDescription('')
@@ -37,14 +30,6 @@ async function bootstrap() {
     },
   });
 
-=======
->>>>>>> 4571e18e (CRUD dentalServ)
-=======
-
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  app.useGlobalPipes(new ValidationPipe());
->>>>>>> ff45276e (min changes to appointments mod)
   await app.listen(environment.port);
 }
 bootstrap();

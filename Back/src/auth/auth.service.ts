@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { AuthRepository } from './auth.repository';
 import { Auth } from './entities/auth.entity';
 import { Hash } from '../utils/hash';
