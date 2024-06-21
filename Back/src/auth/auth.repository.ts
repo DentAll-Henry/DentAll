@@ -22,7 +22,7 @@ export class AuthRepository {
     });
     return credential;
   }
-  
+
   async signUp(signUpInfo: Omit<Auth, 'id'>): Promise<Auth> {
     const emailExist: Auth = await this.authRepository.findOne({
       where: {
