@@ -5,10 +5,10 @@ export class DentalServ {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ type: 'varchar', length: 100, unique: true })
+  @Column({ type: 'varchar', length: 100 })
   name: string;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2 })
+  @Column({ type: 'int' })
   price: number;
 
   @Column({ type: 'varchar', length: 200 })

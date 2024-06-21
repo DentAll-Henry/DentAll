@@ -12,5 +12,4 @@ export const environment = {
     pass: process.env.DB_PASS || 'test',
     name: process.env.DB_NAME || 'test',
   },
-  jwt: process.env.JWT_SECRET,
 };

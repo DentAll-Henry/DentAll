@@ -1,13 +1,8 @@
-import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { DentalServModule } from './dentalServ/dentalServ.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import typeorm from './config/typeorm';
-import { AppointmentsModule } from './appointments/appointments.module';
-import { LoggerMiddleware } from './middlewares/logger.middleware';
-import { PeopleModule } from './person/person.module';
-import { JwtModule } from '@nestjs/jwt';
-import { environment } from './config/environment';
 
 @Module({
   imports: [
@@ -21,15 +16,6 @@ import { environment } from './config/environment';
         configService.get('typeorm'),
     }),
     DentalServModule,
-    AppointmentsModule,
-    PeopleModule,
-    JwtModule.register({
-      global: true,
-      secret: environment.jwt,
-      signOptions: {
-        expiresIn: '1h',
-      },
-    }),
   ],
   controllers: [],
   providers: [],
