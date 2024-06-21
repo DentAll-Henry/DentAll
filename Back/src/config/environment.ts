@@ -18,5 +18,5 @@ export const environment = {
     port: Number(process.env.NODEMAILER_PORT) || 1025,
     user: process.env.NODEMAILER_USER || 'test',
     pass: process.env.NODEMAILER_PASS || 'test',
-  }
+  },
 };
