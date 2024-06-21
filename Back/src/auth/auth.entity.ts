@@ -1,9 +1,8 @@
-import { Role } from '../person/entities/role.entity';
-import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 
 @Entity({
-  name: 'auths',
+  name: 'auth',
 })
 export class Auth {
   @PrimaryGeneratedColumn('uuid')
@@ -24,10 +23,4 @@ export class Auth {
     select: false,
   })
   password: string;
-
-  @ManyToMany(() => Role)
-  @JoinTable({
-    name: 'roles_id'
-  })
-  roles: Role[]
 }

@@ -9,22 +9,7 @@ export class AuthRepository {
     @InjectRepository(Auth) private authRepository: Repository<Auth>,
   ) {}
 
-  async credentialByEmail(email: string): Promise<Auth> {
-    const credential: Auth = await this.authRepository.findOne({
-      where: {
-        email,
-      },
-      select: {
-        id: true,
-        email: true,
-        password: true,
-      },
-    });
-    if (!credential) throw new BadRequestException('Invalid credentials');
-    return credential;
-  }
-  
-  async signUp(signUpInfo: Omit<Auth, 'id' | 'roles'>): Promise<string> {
+  async signUp(signUpInfo: Omit<Auth, 'id'>): Promise<string> {
     const emailExist: Auth = await this.authRepository.findOne({
       where: {
         email: signUpInfo.email,
@@ -35,7 +20,7 @@ export class AuthRepository {
     return credentialCreated.id;
   }
 
-  async signIn(singInInfo: Omit<Auth, 'id' | 'roles'>): Promise<boolean> {
+  async signIn(singInInfo: Omit<Auth, 'id'>): Promise<boolean> {
     const credentialSignIn: Auth = await this.authRepository.findOne({
       where: {
         password: singInInfo.password,
