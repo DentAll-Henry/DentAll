@@ -1,13 +1,28 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { DentalServRepository } from './dentalServ.repository';
+import { DentalServDto } from './dentalServ.dto';
 
 @Injectable()
 export class DentalServService {
   constructor(private readonly dentalServRepositiory: DentalServRepository) {}
-  getDentalServ() {
-    return this.dentalServRepositiory.getDentalServ();
+  async getDentalServ() {
+    return await this.dentalServRepositiory.getDentalServ();
   }
-  postDentalServ() {
-    return this.dentalServRepositiory.postDentalServ();
+  async createDentalServ(data: DentalServDto) {
+    return await this.dentalServRepositiory.createDentalServ(data);
+  }
+  async getDentalServByID(id: string) {
+    return await this.dentalServRepositiory.getDentalServByID(id);
+  }
+  async editDentalServ(id: string, data: Partial<DentalServDto>) {
+    if (Object.keys(data).length === 0) {
+      throw new BadRequestException(
+        'You must provide name, price or description to update',
+      );
+    }
+    return await this.dentalServRepositiory.editDentalServ(id, data);
+  }
+  async removeDentalServ(id: string) {
+    return await this.dentalServRepositiory.removeDentalServ(id);
   }
 }

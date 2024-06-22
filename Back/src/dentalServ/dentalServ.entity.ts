@@ -8,7 +8,7 @@ export class DentalServ {
   @Column({ type: 'varchar', length: 100 })
   name: string;
 
-  @Column({ type: 'int' })
+  @Column({ type: 'decimal', precision: 10, scale: 2 })
   price: number;
 
   @Column({ type: 'varchar', length: 200 })
