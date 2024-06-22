@@ -8,8 +8,8 @@ import { UpdateAppointmentDto } from './dto/update-appointment.dto';
 @Injectable()
 export class AppointmentsRepository {
   constructor(
-    @InjectRepository(Appointment) private appointment: Repository<Appointment>
-  ) { }
+    @InjectRepository(Appointment) private appointment: Repository<Appointment>,
+  ) {}
   async getAppointments(): Promise<Appointment[]> {
     return await this.appointment.find({
       relations: ['service', 'patient'],
@@ -30,8 +30,9 @@ export class AppointmentsRepository {
     });
   }
 
-  async postAppointment(createAppointmentDto: CreateAppointmentDto): Promise<Appointment> {
-
+  async postAppointment(
+    createAppointmentDto: CreateAppointmentDto,
+  ): Promise<Appointment> {
     return await this.appointment.save({
       date_time: createAppointmentDto.date_time,
       description: createAppointmentDto.description,
@@ -50,8 +51,10 @@ export class AppointmentsRepository {
     });
   }
 
-  async updateAppointment(id: string, updateAppointmentDto: UpdateAppointmentDto) {
-
+  async updateAppointment(
+    id: string,
+    updateAppointmentDto: UpdateAppointmentDto,
+  ) {
     return await this.appointment.update({ id }, updateAppointmentDto);
   }
 
