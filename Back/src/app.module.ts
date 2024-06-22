@@ -17,7 +17,7 @@ import { AppointmentsModule } from './appointments/appointments.module';
         configService.get('typeorm'),
     }),
     DentalServModule,
-    AppointmentsModule
+    AppointmentsModule,
   ],
   controllers: [],
   providers: [],
