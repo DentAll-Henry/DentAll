@@ -5,14 +5,14 @@ import { Hash } from 'src/utils/hash';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
-import { PeopleService } from '../person/person.service';
-import { Person } from 'src/person/person.entity';
+// import { PeopleService } from '../person/person.service';
+// import { Person } from 'src/person/person.entity';
 
 @Injectable()
 export class AuthService {
   constructor(
+    // private readonly peopleService: PeopleService,
     private readonly authRepository: AuthRepository,
-    private readonly peopleService: PeopleService,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
   ) {}
@@ -32,12 +32,12 @@ export class AuthService {
     const isPassCorrect: boolean = await bcrypt.compare(signInInfo.password, credential.password);
     if (!isPassCorrect) throw new BadRequestException('Invalid credentials');
 
-    const person: Person = await this.peopleService.personByAuthId(credential.id)
+    // const person: Person = await this.peopleService.personByAuthId(credential.id)
     
     const userPayload = {
-        id: person.id,
+        // id: person.id,
         email: credential.email,
-        roles: person.role, //! Si el usuario tiene varios roles, debe seleccionar con el que se va a loggear
+        // roles: person.role, //! Si el usuario tiene varios roles, debe seleccionar con el que se va a loggear
     }
     
     const token = this.jwtService.sign(userPayload, {
