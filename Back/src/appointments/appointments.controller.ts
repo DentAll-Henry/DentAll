@@ -18,7 +18,12 @@ export class AppointmentsController {
 
   @Post()
   create(@Body() createAppointmentDto: CreateAppointmentDto) {
-    return this.appointmentsService.create(createAppointmentDto);
+    try {
+      console.log(createAppointmentDto)
+      return this.appointmentsService.create(createAppointmentDto);
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   @Get()

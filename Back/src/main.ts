@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { environment } from './config/environment';
 import { ValidationPipe } from '@nestjs/common';
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 import * as cors from 'cors';
 import { json } from 'express';
@@ -38,6 +39,12 @@ async function bootstrap() {
 
 =======
 >>>>>>> 4571e18e (CRUD dentalServ)
+=======
+
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+  app.useGlobalPipes(new ValidationPipe());
+>>>>>>> ff45276e (min changes to appointments mod)
   await app.listen(environment.port);
 }
 bootstrap();
