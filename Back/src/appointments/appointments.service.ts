@@ -7,11 +7,11 @@ import { AppointmentsRepository } from './appointments.repository';
 export class AppointmentsService {
   constructor(private readonly appointmentsRepository: AppointmentsRepository) {}
   create(createAppointmentDto: CreateAppointmentDto) {
-    return 'This action adds a new appointment';
+    return this.appointmentsRepository.postAppointment(createAppointmentDto);
   }
 
   findAll() {
-    return `This action returns all appointments`;
+    return this.appointmentsRepository.getAppointments();
   }
 
   findOne(id: number) {
