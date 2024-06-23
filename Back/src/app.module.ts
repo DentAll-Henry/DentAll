@@ -7,6 +7,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { environment } from './config/environment';
 import { AuthModule } from './auth/auth.module';
 import { PeopleModule } from './person/person.module';
+import { AppointmentsModule } from './appointments/appointments.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { PeopleModule } from './person/person.module';
     }),
     DentalServModule,
     AuthModule,
+    AppointmentsModule,
     PeopleModule,
     JwtModule.register({
       global: true,

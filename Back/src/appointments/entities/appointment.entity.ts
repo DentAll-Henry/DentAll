@@ -10,9 +10,7 @@ export class Appointment {
     @PrimaryGeneratedColumn("uuid")
     id: string;
 
-    @Column({
-        type: "datetime"
-    })
+    @Column()
     date_time: Date;
 
 
