@@ -1,7 +1,10 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { DentalServ } from "src/dentalServ/dentalServ.entity";
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 
-@Entity('appointments')
+@Entity({
+    name: 'appointments'
+})
 export class Appointment {
 
     /**
@@ -10,9 +13,17 @@ export class Appointment {
     @PrimaryGeneratedColumn("uuid")
     id: string;
 
-    @Column()
+    @Column({
+        nullable: false
+    })
     date_time: Date;
 
+    @Column({
+        type: 'varchar',
+        length: 255,
+        nullable: true
+    })
+    description: string;
 
     /**
      * Dentist ID who will cover the appointment
@@ -33,9 +44,11 @@ export class Appointment {
      * Service ID for the appointment
      * TODO: ADD RELATION WITH SERVICE TABLE
      */
-    @Column()
-    service_id: string;
-
+    @OneToOne(() => DentalServ, (dentalServ) => dentalServ.id, {
+        cascade: true
+    })
+    @JoinColumn({ name: 'service_id' })
+    service_id: DentalServ
 
 
 }
