@@ -3,6 +3,10 @@ import { DentalServModule } from './dentalServ/dentalServ.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import typeorm from './config/typeorm';
+import { JwtModule } from '@nestjs/jwt';
+import { environment } from './config/environment';
+import { AuthModule } from './auth/auth.module';
+import { PeopleModule } from './person/person.module';
 import { AppointmentsModule } from './appointments/appointments.module';
 import { LoggerMiddleware } from './middlewares/logger.middleware';
 import { PeopleModule } from './person/person.module';
@@ -21,6 +25,7 @@ import { environment } from './config/environment';
         configService.get('typeorm'),
     }),
     DentalServModule,
+    AuthModule,
     AppointmentsModule,
     PeopleModule,
     JwtModule.register({
@@ -30,6 +35,7 @@ import { environment } from './config/environment';
         expiresIn: '1h',
       },
     }),
+
   ],
   controllers: [],
   providers: [],
