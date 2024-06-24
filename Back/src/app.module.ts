@@ -9,6 +9,7 @@ import { AuthModule } from './auth/auth.module';
 import { PeopleModule } from './person/person.module';
 import { AppointmentsModule } from './appointments/appointments.module';
 import { LoggerMiddleware } from './middlewares/logger.middleware';
+import { RolesModule } from './role/role.module';
 
 
 @Module({
@@ -26,6 +27,7 @@ import { LoggerMiddleware } from './middlewares/logger.middleware';
     AuthModule,
     AppointmentsModule,
     PeopleModule,
+    RolesModule,
     JwtModule.register({
       global: true,
       secret: environment.jwt,

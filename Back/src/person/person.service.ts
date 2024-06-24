@@ -1,22 +1,20 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PeopleRepository } from './person.repository';
 import { Person } from './entities/person.entity';
+import { Role } from '../role/entities/role.entity';
+import { RolesService } from '../role/role.service';
+import { Roles } from '../role/enums/roles.enum';
 
 @Injectable()
 export class PeopleService {
   constructor(
     private readonly peopleRepository: PeopleRepository,
+    private readonly rolesService: RolesService,
   ) {}
 
   async personById(personId: string) {
     const person: Person =
       await this.peopleRepository.personById(personId);
-    return person;
-  }
-
-  async personByAuthId(personAuthId: string): Promise<Person> {
-    const person: Person =
-      await this.peopleRepository.personByAuthId(personAuthId);
     return person;
   }
 
@@ -32,7 +30,7 @@ export class PeopleService {
     return person;
   }
 
-  async createPerson(personInfo: Partial<Person>) {
+  async createPatient(personInfo: Partial<Person>) {
     const personByEmailExist: Person =
       await this.peopleRepository.personByEmail(personInfo.email);
     if (personByEmailExist)
@@ -43,6 +41,10 @@ export class PeopleService {
     if (personByDniExist)
       throw new BadRequestException('DNI already exist');
 
-    return this.peopleRepository.createPerson(personInfo);
+    const role: Role = await this.rolesService.roleByName(Roles.PATIENT);
+
+    personInfo.roles = [role];
+
+    return this.peopleRepository.createPatient(personInfo);
   }
 }

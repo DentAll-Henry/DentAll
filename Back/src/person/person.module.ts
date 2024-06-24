@@ -4,10 +4,10 @@ import { Person } from './entities/person.entity';
 import { PeopleController } from './person.controller';
 import { PeopleService } from './person.service';
 import { PeopleRepository } from './person.repository';
-import { AuthModule } from 'src/auth/auth.module';
+import { RolesModule } from '../role/role.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Person])],
+  imports: [TypeOrmModule.forFeature([Person]), RolesModule],
   controllers: [PeopleController],
   providers: [PeopleService, PeopleRepository],
   exports: [PeopleService, TypeOrmModule],

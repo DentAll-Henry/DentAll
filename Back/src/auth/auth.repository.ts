@@ -20,11 +20,10 @@ export class AuthRepository {
         password: true,
       },
     });
-    // if (!credential) throw new BadRequestException('Invalid credentials');
     return credential;
   }
   
-  async signUp(signUpInfo: Omit<Auth, 'id' | 'roles'>): Promise<string> {
+  async signUp(signUpInfo: Omit<Auth, 'id'>): Promise<Auth> {
     const emailExist: Auth = await this.authRepository.findOne({
       where: {
         email: signUpInfo.email,
@@ -32,16 +31,6 @@ export class AuthRepository {
     });
     if (emailExist) throw new BadRequestException('Email already registered');
     const credentialCreated: Auth = await this.authRepository.save(signUpInfo);
-    return credentialCreated.id;
-  }
-
-  async signIn(singInInfo: Omit<Auth, 'id' | 'roles'>): Promise<boolean> {
-    const credentialSignIn: Auth = await this.authRepository.findOne({
-      where: {
-        password: singInInfo.password,
-      },
-    });
-    if (!credentialSignIn) throw new BadRequestException('Invalid credentials');
-    return true;
+    return credentialCreated;
   }
 }

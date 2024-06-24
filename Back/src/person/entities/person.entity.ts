@@ -67,7 +67,7 @@ export class Person {
   deleteDate?: Date;
 
   @OneToOne(() => Auth)
-  @JoinColumn({ name: 'auth_id' })
+  @JoinColumn({ name: 'auth' })
   auth: Auth | Auth['id'];
 
   @ManyToMany(() => Role)
