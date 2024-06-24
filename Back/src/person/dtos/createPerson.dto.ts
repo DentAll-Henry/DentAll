@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDate, IsDateString, IsEmail, IsNumberString, IsStrongPassword, Length } from 'class-validator';
+import { IsDateString, IsEmail, IsNumberString, IsStrongPassword, Length } from 'class-validator';
 
 export class CreatePersonDto {
   @Length(2, 20, {
@@ -28,7 +28,7 @@ export class CreatePersonDto {
   )
   @ApiProperty({
     description: 'It must be a valid date',
-    example: '01/01/2000'
+    example: '2000-01-25'
   })
   birthdate: Date;
 
