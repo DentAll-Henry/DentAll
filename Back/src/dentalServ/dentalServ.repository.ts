@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DentalServ } from './dentalServ.entity';
-import { DeleteResult, Repository } from 'typeorm';
+import { DeleteResult, QueryFailedError, Repository } from 'typeorm';
 import { DentalServDto } from './dentalServ.dto';
 
 @Injectable()
@@ -14,7 +14,7 @@ export class DentalServRepository {
   constructor(
     @InjectRepository(DentalServ) private dentalServ: Repository<DentalServ>,
   ) {}
-  async getDentalServ() {
+  async getDentalServ(): Promise<DentalServ[]> {
     try {
       return await this.dentalServ.find();
     } catch (error) {
@@ -22,7 +22,7 @@ export class DentalServRepository {
     }
   }
 
-  async getDentalServByID(id: string) {
+  async getDentalServByID(id: string): Promise<DentalServ> {
     try {
       const service = await this.dentalServ.findOne({ where: { id: id } });
       if (!service) {
@@ -37,28 +37,23 @@ export class DentalServRepository {
     }
   }
 
-  async createDentalServ(data: DentalServDto) {
+  async createDentalServ(data: DentalServDto): Promise<DentalServ> {
     try {
-      const services = await this.getDentalServ();
-      for (const service of services) {
-        console.log(service.name);
-
-        if (service.name === data.name) {
-          throw new BadRequestException('Service already exists');
-        }
-      }
       const newService = this.dentalServ.create(data);
       const result = await this.dentalServ.save(newService);
       return result;
     } catch (error) {
-      if (error instanceof BadRequestException) {
-        throw error;
+      if (error instanceof QueryFailedError) {
+        throw new BadRequestException('Service already exists');
       }
       throw new InternalServerErrorException();
     }
   }
 
-  async editDentalServ(id: string, data: Partial<DentalServDto>) {
+  async editDentalServ(
+    id: string,
+    data: Partial<DentalServDto>,
+  ): Promise<DentalServ> {
     try {
       const service = await this.getDentalServByID(id);
       if (!service) {
@@ -75,7 +70,7 @@ export class DentalServRepository {
     }
   }
 
-  async removeDentalServ(id: string) {
+  async removeDentalServ(id: string): Promise<DeleteResult> {
     try {
       const result: DeleteResult = await this.dentalServ.delete(id);
       if (result.affected === 0)
