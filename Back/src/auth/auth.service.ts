@@ -17,7 +17,7 @@ export class AuthService {
     private readonly configService: ConfigService,
   ) {}
 
-  async signUp(signUpInfo: Omit<Auth, 'id'>): Promise<string> {
+  async signUp(signUpInfo: Omit<Auth, 'id' | 'roles'>): Promise<string> {
     const credential: Auth = await this.authRepository.credentialByEmail(
       signUpInfo.email,
     );
@@ -28,7 +28,7 @@ export class AuthService {
     return newCredentialId;
   }
 
-  async signIn(signInInfo: Omit<Auth, 'id'>) {
+  async signIn(signInInfo: Omit<Auth, 'id' | 'roles'>) {
     const credential: Auth = await this.authRepository.credentialByEmail(
       signInInfo.email,
     );
