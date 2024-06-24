@@ -3,11 +3,14 @@ import {
   DeleteDateColumn,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
-import { Auth } from 'src/auth/auth.entity';
+import { Auth } from '../../auth/entities/auth.entity';
+import { Role } from '../../role/entities/role.entity';
 
 @Entity({
   name: 'people',
@@ -66,4 +69,10 @@ export class Person {
   @OneToOne(() => Auth)
   @JoinColumn({ name: 'auth_id' })
   auth: Auth | Auth['id'];
+
+  @ManyToMany(() => Role)
+  @JoinTable({
+    name: 'people_roles'
+  })
+  roles: Role[];
 }

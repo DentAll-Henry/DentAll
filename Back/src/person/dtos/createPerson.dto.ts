@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDate, IsEmail, IsNumberString, IsStrongPassword, Length } from 'class-validator';
+import { IsDate, IsDateString, IsEmail, IsNumberString, IsStrongPassword, Length } from 'class-validator';
 
 export class CreatePersonDto {
   @Length(2, 20, {
@@ -20,9 +20,12 @@ export class CreatePersonDto {
   })
   last_name: string;
 
-  @IsDate({
-    message: 'It must be a valid date',
-  })
+  @IsDateString(
+    {},
+    {
+      message: 'It must be a valid date',
+    }
+  )
   @ApiProperty({
     description: 'It must be a valid date',
     example: '01/01/2000'
@@ -65,7 +68,7 @@ export class CreatePersonDto {
   })
   email: string;
 
-  @Length(2, 20, {
+  @Length(2, 50, {
     message: 'Address length must be between 2 and 20 characters',
   })
   @ApiProperty({
@@ -74,7 +77,7 @@ export class CreatePersonDto {
   })
   address: string;
 
-  @Length(2, 20, {
+  @Length(2, 50, {
     message: 'Location length must be between 2 and 20 characters',
   })
   @ApiProperty({

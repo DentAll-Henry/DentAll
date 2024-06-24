@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Auth } from './auth.entity';
+import { Auth } from './entities/auth.entity';
 
 @Injectable()
 export class AuthRepository {
@@ -20,7 +20,7 @@ export class AuthRepository {
         password: true,
       },
     });
-    if (!credential) throw new BadRequestException('Invalid credentials');
+    // if (!credential) throw new BadRequestException('Invalid credentials');
     return credential;
   }
   

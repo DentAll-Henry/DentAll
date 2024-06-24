@@ -35,7 +35,7 @@ export class PeopleRepository {
         email: personEmail,
       },
     });
-    if (!person) throw new BadRequestException('Email does not exist');
+    // if (!person) throw new BadRequestException('Email does not exist');
     return person;
   }
 
@@ -45,7 +45,7 @@ export class PeopleRepository {
         dni: personDni,
       },
     });
-    if (!person) throw new BadRequestException('DNI does not exist');
+    // if (!person) throw new BadRequestException('DNI does not exist');
     return person;
   }
 
