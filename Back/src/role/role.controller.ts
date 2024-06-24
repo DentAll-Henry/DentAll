@@ -1,20 +1,25 @@
-import { Body, Controller, Get } from "@nestjs/common";
-import { RolesService } from "./role.service";
-import { Roles } from "./enums/roles.enum";
+import { Controller, Get, Param, Post } from '@nestjs/common';
+import { RolesService } from './role.service';
+import { ApiTags } from '@nestjs/swagger';
+import { Roles } from './enums/roles.enum';
 
+@ApiTags('Roles')
 @Controller('roles')
 export class RolesController {
-    constructor(
-        private readonly rolesService: RolesService,
-    ){}
+  constructor(private readonly rolesService: RolesService) {}
 
-    @Get()
-    async getRoles() {
-        return this.rolesService.getRoles();
-    }
+  @Get()
+  async getRoles() {
+    return this.rolesService.getRoles();
+  }
 
-    @Get()
-    async roleByName(@Body() name: Roles) {
-        return this.rolesService.roleByName(name);
-    }
+  @Get(':id')
+  async roleByName(@Param('role') role: Roles) {
+    return this.rolesService.roleByName(role);
+  }
+
+  @Post()
+  async createRoles() {
+    return this.rolesService.createRoles();
+  }
 }
