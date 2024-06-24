@@ -12,7 +12,7 @@ export class CreateAppointmentDto {
 
     @IsNotEmpty()
     @IsUUID()
-    service_id: string;
+    service: string;
 
     @IsNotEmpty({ message: 'Date is required' })
     date_time: Date;
