@@ -12,7 +12,6 @@ import { LoggerMiddleware } from './middlewares/logger.middleware';
 import { RolesModule } from './role/role.module';
 import { MailModule } from './mail/mail.module';
 
-
 @Module({
   imports: [
     ConfigModule.forRoot({
