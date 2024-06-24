@@ -1,5 +1,5 @@
 import { DentalServ } from "src/dentalServ/dentalServ.entity";
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 
 @Entity({
@@ -42,13 +42,12 @@ export class Appointment {
 
     /**
      * Service ID for the appointment
-     * TODO: ADD RELATION WITH SERVICE TABLE
+     * 
      */
-    @OneToOne(() => DentalServ, (dentalServ) => dentalServ.id, {
+    @ManyToOne(() => DentalServ, (dentalServ) => dentalServ.id, {
         cascade: true
     })
-    @JoinColumn({ name: 'service_id' })
-    service_id: DentalServ
+    service: DentalServ | DentalServ['id']
 
 
 }
