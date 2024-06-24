@@ -11,5 +11,6 @@ import { DentalServRepository } from 'src/dentalServ/dentalServ.repository';
   imports: [TypeOrmModule.forFeature([Appointment, DentalServ])],
   controllers: [AppointmentsController],
   providers: [AppointmentsService, AppointmentsRepository, DentalServRepository],
+  exports: [AppointmentsService]
 })
 export class AppointmentsModule {}
