@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DentalServ } from './dentalServ.entity';
-import { DeleteResult, Repository } from 'typeorm';
+import { DeleteResult, QueryFailedError, Repository } from 'typeorm';
 import { DentalServDto } from './dentalServ.dto';
 
 @Injectable()
@@ -39,20 +39,12 @@ export class DentalServRepository {
 
   async createDentalServ(data: DentalServDto) {
     try {
-      const services = await this.getDentalServ();
-      for (const service of services) {
-        console.log(service.name);
-
-        if (service.name === data.name) {
-          throw new BadRequestException('Service already exists');
-        }
-      }
       const newService = this.dentalServ.create(data);
       const result = await this.dentalServ.save(newService);
       return result;
     } catch (error) {
-      if (error instanceof BadRequestException) {
-        throw error;
+      if (error instanceof QueryFailedError) {
+        throw new BadRequestException('Service already exists');
       }
       throw new InternalServerErrorException();
     }
