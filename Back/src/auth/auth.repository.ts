@@ -24,7 +24,7 @@ export class AuthRepository {
     return credential;
   }
   
-  async signUp(signUpInfo: Omit<Auth, 'id'>): Promise<string> {
+  async signUp(signUpInfo: Omit<Auth, 'id' | 'roles'>): Promise<string> {
     const emailExist: Auth = await this.authRepository.findOne({
       where: {
         email: signUpInfo.email,
@@ -35,7 +35,7 @@ export class AuthRepository {
     return credentialCreated.id;
   }
 
-  async signIn(singInInfo: Omit<Auth, 'id'>): Promise<boolean> {
+  async signIn(singInInfo: Omit<Auth, 'id' | 'roles'>): Promise<boolean> {
     const credentialSignIn: Auth = await this.authRepository.findOne({
       where: {
         password: singInInfo.password,
