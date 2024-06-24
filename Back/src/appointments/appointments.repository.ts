@@ -11,7 +11,20 @@ export class AppointmentsRepository {
   constructor(
     @InjectRepository(Appointment) private appointment: Repository<Appointment>
   ) { }
-  async getAppointments() : Promise<Appointment[]> {
+  async getAppointments(): Promise<Appointment[]> {
+    return await this.appointment.find({
+      relations: ['service'],
+    });
+  }
+
+  async getAppointmentByDentist(id: string): Promise<Appointment[]> {
+    return await this.appointment.find({
+      where: { dentist_id: id },
+      relations: ['service'],
+    });
+  }
+
+  async getAppointmentByPatient(id: string): Promise<Appointment[]> {
     return await this.appointment.find({
       relations: ['service'],});
     @InjectRepository(Appointment) private appointment: Repository<Appointment>,
@@ -51,10 +64,11 @@ export class AppointmentsRepository {
     });
   }
 
-  async getAppointmentById(id: string) {
+  async getAppointmentById(id: string): Promise<Appointment> {
     return await this.appointment.findOne({
       where: { id },
-      relations: ['service'],});
+      relations: ['service'],
+    });
   }
 
   async updateAppointment(id: string, updateAppointmentDto: UpdateAppointmentDto) {

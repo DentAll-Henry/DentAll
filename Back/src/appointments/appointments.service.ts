@@ -68,6 +68,14 @@ export class AppointmentsService {
     return this.appointmentsRepository.getAppointmentByPatient(id);
   }
 
+  findByDentist(id: string) {
+    return this.appointmentsRepository.getAppointmentByDentist(id);
+  }
+
+  findByPatient(id: string) {
+    return this.appointmentsRepository.getAppointmentByPatient(id);
+  }
+
   async findOne(id: string) {
     const appointment: Appointment =
       await this.appointmentsRepository.getAppointmentById(id);
