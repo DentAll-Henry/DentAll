@@ -26,8 +26,8 @@ export class PeopleRepository {
         email: personEmail,
       },
       relations: {
-        roles: true
-      }
+        roles: true,
+      },
     });
     return person;
   }
@@ -54,10 +54,12 @@ export class PeopleRepository {
       },
     });
     if (!person) throw new BadRequestException('Person does not exist');
-    const existsRole: boolean = person.roles.some(role => role.name === roleToAdd.name)
+    const existsRole: boolean = person.roles.some(
+      (role) => role.name === roleToAdd.name,
+    );
 
-    if (!existsRole) person.roles.push(roleToAdd)
+    if (!existsRole) person.roles.push(roleToAdd);
 
-    await this.peopleRepository.save(person)
+    await this.peopleRepository.save(person);
   }
 }
