@@ -36,9 +36,6 @@ export class PeopleService {
     const personByDniExist: Person = await this.peopleRepository.personByDni(
       personInfo.dni,
     );
-    const personByDniExist: Person = await this.peopleRepository.personByDni(
-      personInfo.dni,
-    );
     if (personByDniExist) throw new BadRequestException('DNI already exist');
 
     const role: Role = await this.rolesService.roleByName(Roles.PATIENT);

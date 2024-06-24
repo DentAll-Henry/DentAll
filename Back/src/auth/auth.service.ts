@@ -65,7 +65,7 @@ export class AuthService {
     );
 
     const userPayload = {
-      // id: person.id,
+      id: person.id,
       email: credential.email,
       roles: person.roles[0].name, //! Revisar cambio de rol
     };
