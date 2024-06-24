@@ -1,12 +1,26 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateAppointmentDto } from './dto/create-appointment.dto';
 import { UpdateAppointmentDto } from './dto/update-appointment.dto';
 import { AppointmentsRepository } from './appointments.repository';
+import { DentalServRepository } from 'src/dentalServ/dentalServ.repository';
+import { Appointment } from './entities/appointment.entity';
 
 @Injectable()
 export class AppointmentsService {
-  constructor(private readonly appointmentsRepository: AppointmentsRepository) {}
-  create(createAppointmentDto: CreateAppointmentDto) {
+  constructor(
+    private readonly appointmentsRepository: AppointmentsRepository,
+    private readonly dentalServRepository: DentalServRepository
+  ) { }
+  async create(createAppointmentDto: CreateAppointmentDto) {
+    const dentServ = await this.dentalServRepository.getDentalServByID(createAppointmentDto.service)
+    if (!dentServ)
+      throw new BadRequestException('Service not found with id provided');
+
+    const currentDate = new Date();
+    if (new Date(createAppointmentDto.date_time) <= currentDate) {
+      throw new BadRequestException('Appointment date must be a future date');
+    }
+
     return this.appointmentsRepository.postAppointment(createAppointmentDto);
   }
 
@@ -14,15 +28,47 @@ export class AppointmentsService {
     return this.appointmentsRepository.getAppointments();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} appointment`;
+  async findOne(id: string) {
+    const appointment: Appointment = await this.appointmentsRepository.getAppointmentById(id);
+    if (!appointment)
+      throw new BadRequestException('Appointment not found with id provided');
+
+    return appointment;
   }
 
-  update(id: number, updateAppointmentDto: UpdateAppointmentDto) {
-    return `This action updates a #${id} appointment`;
+  async update(id: string, updateAppointmentDto: UpdateAppointmentDto) {
+
+    const appointment: Appointment = await this.appointmentsRepository.getAppointmentById(id);
+    if (!appointment)
+      throw new BadRequestException('Appointment not found with id provided');
+
+    if (updateAppointmentDto.service) {
+      const dentServ = await this.dentalServRepository.getDentalServByID(updateAppointmentDto.service)
+      if (!dentServ)
+        throw new BadRequestException('Service not found with id provided');
+
+      //updateAppointmentDto.service = dentServ.id
+    }
+
+    if (updateAppointmentDto.date_time) {
+      const currentDate = new Date();
+      if (new Date(updateAppointmentDto.date_time) <= currentDate) {
+        throw new BadRequestException('Appointment date must be a future date');
+      }
+    }
+
+    //TODO: check patient_id and dentist_id like service_id below
+
+    await this.appointmentsRepository.updateAppointment(id, updateAppointmentDto)
+    return await this.appointmentsRepository.getAppointmentById(id);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} appointment`;
+  async remove(id: string) {
+    const appointment: Appointment = await this.appointmentsRepository.getAppointmentById(id);
+    if (!appointment)
+      throw new BadRequestException('Appointment not found with id provided');
+
+    this.appointmentsRepository.removeAppointment(id);
+    return "Appointment deleted succesfully";
   }
 }

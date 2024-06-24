@@ -9,12 +9,7 @@ export class AppointmentsController {
 
   @Post()
   create(@Body() createAppointmentDto: CreateAppointmentDto) {
-    try {
-      console.log(createAppointmentDto)
-      return this.appointmentsService.create(createAppointmentDto);
-    } catch (error) {
-      console.log(error)
-    }
+    return this.appointmentsService.create(createAppointmentDto);
   }
 
   @Get()
@@ -24,16 +19,16 @@ export class AppointmentsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.appointmentsService.findOne(+id);
+    return this.appointmentsService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateAppointmentDto: UpdateAppointmentDto) {
-    return this.appointmentsService.update(+id, updateAppointmentDto);
+    return this.appointmentsService.update(id, updateAppointmentDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.appointmentsService.remove(+id);
+    return this.appointmentsService.remove(id);
   }
 }
