@@ -10,6 +10,7 @@ import { PeopleModule } from './person/person.module';
 import { AppointmentsModule } from './appointments/appointments.module';
 import { LoggerMiddleware } from './middlewares/logger.middleware';
 
+
 @Module({
   imports: [
     ConfigModule.forRoot({
