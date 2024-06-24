@@ -7,6 +7,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { environment } from './config/environment';
 import { AuthModule } from './auth/auth.module';
 import { PeopleModule } from './person/person.module';
+import { AppointmentsModule } from './appointments/appointments.module';
+import { LoggerMiddleware } from './middlewares/logger.middleware';
 
 @Module({
   imports: [
@@ -26,9 +28,9 @@ import { PeopleModule } from './person/person.module';
       global: true,
       secret: environment.jwt,
       signOptions: {
-        expiresIn: '1h'
-      }
-    })
+        expiresIn: '1h',
+      },
+    }),
   ],
   controllers: [],
   providers: [],

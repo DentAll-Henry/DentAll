@@ -25,10 +25,10 @@ export class PeopleController {
     return person;
   }
 
-  @Post()
-  async createPerson(@Body() userInfo: CreatePersonDto) {
-    const { password, ...personInfo } = userInfo;
-    const authInfo = { email: userInfo.email, password: userInfo.password };
-    return this.peopleService.createPerson(personInfo, authInfo);
-  }
+  // @Post('signup')
+  // async createPerson(@Body() userInfo: CreatePersonDto) {
+  //   const { password, ...personInfo } = userInfo;
+  //   const authInfo = { email: userInfo.email, password: userInfo.password }
+  //   return this.peopleService.createPerson(personInfo, authInfo);
+  // }
 }

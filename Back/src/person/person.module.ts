@@ -7,7 +7,7 @@ import { PeopleRepository } from './person.repository';
 import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
-  imports: [AuthModule, TypeOrmModule.forFeature([Person])],
+  imports: [TypeOrmModule.forFeature([Person])],
   controllers: [PeopleController],
   providers: [PeopleService, PeopleRepository],
   exports: [PeopleService, TypeOrmModule],
