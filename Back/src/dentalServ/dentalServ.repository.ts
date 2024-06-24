@@ -14,7 +14,7 @@ export class DentalServRepository {
   constructor(
     @InjectRepository(DentalServ) private dentalServ: Repository<DentalServ>,
   ) {}
-  async getDentalServ() {
+  async getDentalServ(): Promise<DentalServ[]> {
     try {
       return await this.dentalServ.find();
     } catch (error) {
@@ -22,7 +22,7 @@ export class DentalServRepository {
     }
   }
 
-  async getDentalServByID(id: string) {
+  async getDentalServByID(id: string): Promise<DentalServ> {
     try {
       const service = await this.dentalServ.findOne({ where: { id: id } });
       if (!service) {
@@ -37,7 +37,7 @@ export class DentalServRepository {
     }
   }
 
-  async createDentalServ(data: DentalServDto) {
+  async createDentalServ(data: DentalServDto): Promise<DentalServ> {
     try {
       const newService = this.dentalServ.create(data);
       const result = await this.dentalServ.save(newService);
@@ -50,7 +50,10 @@ export class DentalServRepository {
     }
   }
 
-  async editDentalServ(id: string, data: Partial<DentalServDto>) {
+  async editDentalServ(
+    id: string,
+    data: Partial<DentalServDto>,
+  ): Promise<DentalServ> {
     try {
       const service = await this.getDentalServByID(id);
       if (!service) {
@@ -67,7 +70,7 @@ export class DentalServRepository {
     }
   }
 
-  async removeDentalServ(id: string) {
+  async removeDentalServ(id: string): Promise<DeleteResult> {
     try {
       const result: DeleteResult = await this.dentalServ.delete(id);
       if (result.affected === 0)
