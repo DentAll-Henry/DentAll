@@ -14,16 +14,11 @@ import { UpdateAppointmentDto } from './dto/update-appointment.dto';
 
 @Controller('appointments')
 export class AppointmentsController {
-  constructor(private readonly appointmentsService: AppointmentsService) { }
+  constructor(private readonly appointmentsService: AppointmentsService) {}
 
   @Post()
   create(@Body() createAppointmentDto: CreateAppointmentDto) {
-    try {
-      console.log(createAppointmentDto)
-      return this.appointmentsService.create(createAppointmentDto);
-    } catch (error) {
-      console.log(error)
-    }
+    return this.appointmentsService.create(createAppointmentDto);
   }
 
   @Get()

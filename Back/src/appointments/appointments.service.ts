@@ -57,6 +57,7 @@ export class AppointmentsService {
   findAll() {
     return this.appointmentsRepository.getAppointments();
     return this.appointmentsRepository.getAppointments();
+    return this.appointmentsRepository.getAppointments();
   }
 
   findByDentist(id: string) {
