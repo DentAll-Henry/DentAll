@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PeopleRepository } from './person.repository';
-import { Person } from './person.entity';
+import { Person } from './entities/person.entity';
 import { Auth } from 'src/auth/auth.entity';
 import { AuthService } from 'src/auth/auth.service';
 
@@ -19,15 +19,23 @@ export class PeopleService {
   async personByAuthId(personAuthId: string): Promise<Person> {
     const person: Person =
       await this.peopleRepository.personByAuthId(personAuthId);
+    const person: Person =
+      await this.peopleRepository.personByAuthId(personAuthId);
     return person;
   }
 
-  async createPerson(personInfo: Partial<Person>, authInfo: Omit<Auth, 'id'>) {
+  async createPerson(
+    personInfo: Partial<Person>,
+    authInfo: Omit<Auth, 'id' | 'roles'>,
+  ) {
     const personByEmailExist: Person =
       await this.peopleRepository.personByEmail(personInfo.email);
     if (personByEmailExist)
       throw new BadRequestException('Email already exist');
 
+    const personByDniExist: Person = await this.peopleRepository.personByDni(
+      personInfo.dni,
+    );
     const personByDniExist: Person = await this.peopleRepository.personByDni(
       personInfo.dni,
     );
