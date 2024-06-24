@@ -1,6 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { v4 as uuid } from 'uuid';
-import { Roles } from "../roles.enum";
+import { Roles } from '../enums/roles.enum';
 
 @Entity({
     name: 'roles',

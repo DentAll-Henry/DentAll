@@ -9,9 +9,6 @@ import { AuthModule } from './auth/auth.module';
 import { PeopleModule } from './person/person.module';
 import { AppointmentsModule } from './appointments/appointments.module';
 import { LoggerMiddleware } from './middlewares/logger.middleware';
-import { PeopleModule } from './person/person.module';
-import { JwtModule } from '@nestjs/jwt';
-import { environment } from './config/environment';
 
 @Module({
   imports: [
