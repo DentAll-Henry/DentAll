@@ -5,6 +5,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import typeorm from './config/typeorm';
 import { AppointmentsModule } from './appointments/appointments.module';
 import { LoggerMiddleware } from './middlewares/logger.middleware';
+import { PeopleModule } from './person/person.module';
+import { JwtModule } from '@nestjs/jwt';
+import { environment } from './config/environment';
 
 @Module({
   imports: [
@@ -19,6 +22,14 @@ import { LoggerMiddleware } from './middlewares/logger.middleware';
     }),
     DentalServModule,
     AppointmentsModule,
+    PeopleModule,
+    JwtModule.register({
+      global: true,
+      secret: environment.jwt,
+      signOptions: {
+        expiresIn: '1h',
+      },
+    }),
   ],
   controllers: [],
   providers: [],
