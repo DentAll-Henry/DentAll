@@ -2,7 +2,6 @@ import { Controller, Get, Param, ParseUUIDPipe, Post } from '@nestjs/common';
 import { PeopleService } from './person.service';
 import { Person } from './entities/person.entity';
 import { ApiTags } from '@nestjs/swagger';
-import { CreatePersonDto } from './dtos/createPerson.dto';
 
 @ApiTags('People')
 @Controller('people')
