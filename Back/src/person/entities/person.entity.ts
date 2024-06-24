@@ -7,7 +7,6 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
-import { Role } from './person.enum';
 import { Auth } from 'src/auth/auth.entity';
 
 @Entity({
@@ -58,9 +57,6 @@ export class Person {
 
   @Column()
   nationality: string;
-
-  @Column()
-  role: Role;
 
   @DeleteDateColumn({
     nullable: true,
