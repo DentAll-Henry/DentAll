@@ -48,7 +48,7 @@ export class AuthService {
     });
   }
 
-  async signIn(signInInfo: Omit<Auth, 'id' | 'roles'>) {
+  async signIn(signInInfo: Omit<Auth, 'id'>) {
     const credential: Auth = await this.authRepository.credentialByEmail(
       signInInfo.email,
     );
