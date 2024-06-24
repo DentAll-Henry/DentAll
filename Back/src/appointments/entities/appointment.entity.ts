@@ -3,6 +3,7 @@ import {
   Column,
   Entity,
   JoinColumn,
+  ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -59,9 +60,8 @@ export class Appointment {
    * Service ID for the appointment
    *
    */
-  @OneToOne(() => DentalServ, (dentalServ) => dentalServ.id, {
+  @ManyToOne(() => DentalServ, (dentalServ) => dentalServ.id, {
     cascade: true,
   })
-  @JoinColumn({ name: 'service_id' })
-  service_id: DentalServ;
+  service: DentalServ | DentalServ['id'];
 }

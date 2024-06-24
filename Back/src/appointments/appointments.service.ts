@@ -1,7 +1,10 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateAppointmentDto } from './dto/create-appointment.dto';
 import { UpdateAppointmentDto } from './dto/update-appointment.dto';
 import { AppointmentsRepository } from './appointments.repository';
+import { DentalServRepository } from 'src/dentalServ/dentalServ.repository';
+import { Appointment } from './entities/appointment.entity';
 import { DentalServRepository } from 'src/dentalServ/dentalServ.repository';
 import { Appointment } from './entities/appointment.entity';
 
@@ -9,8 +12,20 @@ import { Appointment } from './entities/appointment.entity';
 export class AppointmentsService {
   constructor(
     private readonly appointmentsRepository: AppointmentsRepository,
+    private readonly dentalServRepository: DentalServRepository,
   ) {}
-  create(createAppointmentDto: CreateAppointmentDto) {
+  async create(createAppointmentDto: CreateAppointmentDto) {
+    const dentServ = await this.dentalServRepository.getDentalServByID(
+      createAppointmentDto.service,
+    );
+    if (!dentServ)
+      throw new BadRequestException('Service not found with id provided');
+
+    const currentDate = new Date();
+    if (new Date(createAppointmentDto.date_time) <= currentDate) {
+      throw new BadRequestException('Appointment date must be a future date');
+    }
+
     return this.appointmentsRepository.postAppointment(createAppointmentDto);
   }
 
