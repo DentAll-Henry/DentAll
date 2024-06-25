@@ -5,12 +5,13 @@ const Login = () => {
   return (
     <div className="flex justify-center  items-center h-[100vh]">
       <div className="flex  w-full h-full max-h-[1024px]">
-        <div className="w-[35%] flex flex-col items-center bg-greenD-900 text-white p-8">
+        <div className="w-[35%] flex flex-col items-center bg text-white p-8">
           <div className="flex flex-col items-start justify-start">
           <h2 className="text-[#ECEDF6] text-[34px] font-semibold leading-normal mb-4">
             Bienvenido a Dentall
           </h2>
           <p>Por favor ingresa tu DNI y tu contraseña</p>
+          </div>
           </div>
           <div className="w-full max-w-[80%] flex flex-col gap-4">
             <div className="w-full">
