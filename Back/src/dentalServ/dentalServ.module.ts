@@ -3,7 +3,7 @@ import { DentalServController } from './dentalServ.controller';
 import { DentalServRepository } from './dentalServ.repository';
 import { DentalServService } from './dentalServ.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { DentalServ } from './dentalServ.entity';
+import { DentalServ } from './entities/dentalServ.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([DentalServ])],

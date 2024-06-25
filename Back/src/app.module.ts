@@ -13,6 +13,7 @@ import { RolesModule } from './role/role.module';
 import { MailModule } from './mail/mail.module';
 import { ProductModule } from './product/product.module';
 import { ReportModule } from './report/report.module';
+import { ClinicalHistoryModule } from './clinicalHistory/clinicalHistory.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { ReportModule } from './report/report.module';
     RolesModule,
     ProductModule,
     ReportModule,
+    ClinicalHistoryModule,
 
     JwtModule.register({
       global: true,
