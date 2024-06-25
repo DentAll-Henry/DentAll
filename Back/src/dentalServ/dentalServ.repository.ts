@@ -56,9 +56,6 @@ export class DentalServRepository {
   ): Promise<DentalServ> {
     try {
       const service = await this.getDentalServByID(id);
-      if (!service) {
-        throw new BadRequestException('Service not found for id: ' + id);
-      }
       const updatedService = this.dentalServ.merge(service, data);
       const result = await this.dentalServ.save(updatedService);
       return result;
@@ -70,14 +67,16 @@ export class DentalServRepository {
     }
   }
 
-  async removeDentalServ(id: string): Promise<DeleteResult> {
+  async updateIsActive(id: string): Promise<DentalServ> {
     try {
-      const result: DeleteResult = await this.dentalServ.delete(id);
-      if (result.affected === 0)
-        throw new NotFoundException('Service not found for id: ' + id);
+      const service = await this.getDentalServByID(id);
+      const updatedService = this.dentalServ.merge(service, {
+        isActive: !service.isActive,
+      });
+      const result = await this.dentalServ.save(updatedService);
       return result;
     } catch (error) {
-      if (error instanceof NotFoundException) {
+      if (error.response) {
         throw error;
       }
       throw new InternalServerErrorException();
