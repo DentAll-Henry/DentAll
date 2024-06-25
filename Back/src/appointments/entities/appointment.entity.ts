@@ -1,5 +1,6 @@
 import { DentalServ } from "src/dentalServ/dentalServ.entity";
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Person } from "src/person/entities/person.entity";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 
 @Entity({
@@ -36,8 +37,10 @@ export class Appointment {
      * Patient ID who will attend the appointment
      * TODO: ADD RELATION WITH PATIENT TABLE
      */
-    @Column()
-    patient_id: string;
+    @ManyToOne(() => Person, (person) => person.id, {
+        cascade: true
+    })
+    patient: Person | Person['id']
 
 
     /**
