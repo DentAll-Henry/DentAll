@@ -8,6 +8,19 @@ const config: Config = {
   ],
   theme: {
     extend: {
+        colors: {
+        greenD: {
+          100: '#CAFCD9',
+          200: '#96FABE',
+          300: '#60F0A8',
+          400: '#38E19E',
+          500: '#00CE90',
+          600: '#1A9850',
+          700: '#009484',
+          800: '#007776',
+          900: '#005962',
+        }
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
@@ -15,6 +28,6 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [require("tailwindcss"), require("autoprefixer")],
 };
 export default config;
