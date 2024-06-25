@@ -11,7 +11,8 @@ import { AppointmentsModule } from './appointments/appointments.module';
 import { LoggerMiddleware } from './middlewares/logger.middleware';
 import { RolesModule } from './role/role.module';
 import { MailModule } from './mail/mail.module';
-
+import { ProductModule } from './product/product.module';
+import { ReportModule } from './report/report.module';
 
 @Module({
   imports: [
@@ -29,6 +30,9 @@ import { MailModule } from './mail/mail.module';
     AppointmentsModule,
     PeopleModule,
     RolesModule,
+    ProductModule,
+    ReportModule,
+
     JwtModule.register({
       global: true,
       secret: environment.jwt,
@@ -37,7 +41,6 @@ import { MailModule } from './mail/mail.module';
       },
     }),
     MailModule,
-
   ],
   controllers: [],
   providers: [],
