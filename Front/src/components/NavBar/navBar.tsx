@@ -4,7 +4,7 @@ import Image from "next/image";
 const Navbar = () => {
   return (
     <div className="text-white">
-      <div className="bg-gray-800 flex justify-between items-center p-4">
+      <div className="bg-[#1D1D1D] flex justify-between items-center p-4">
         <div>
           <Image
             src="/images/Logo.svg"
