@@ -1,7 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link';
-import { maven, mulish } from '@/app/fonts';
+import "@/app/globals.css";
 
 const Footer = () => {
   return (
@@ -18,7 +18,7 @@ const Footer = () => {
         </div>
 
         <div className="flex flex-col gap-4">
-          <h1 className={`${mulish.className} text-2xl`}>CONTACTO</h1>
+          <h1 className="text-2xl">CONTACTO</h1>
           <Link href="#">
             <p>dentall@gmail.com</p>
           </Link>
