@@ -6,7 +6,7 @@ import Link from 'next/link';
 const Footer = () => {
   return (
     <div className="text-white">
-      <div className="bg-[#1D1D1D] flex justify-between items-center p-4">
+      <div className="bg-[#1D1D1D] flex justify-between items-center p-12">
         <div>
           <Image
             src="/images/Logo.svg"

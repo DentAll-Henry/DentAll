@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.1.4",
+    "@react-google-maps/api": "^2.19.3",
     "dotenv": "^16.4.5",
     "next": "14.2.4",
     "react": "^18",
