@@ -49,7 +49,6 @@ export class ProductReportRepository {
 
       const savedProductReport =
         await this.productReportRepository.save(newProductReport);
-      console.log(savedProductReport);
 
       return await this.productReportRepository.findOne({
         where: { id: savedProductReport.id },

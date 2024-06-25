@@ -1,7 +1,7 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { ReportDto } from './report.dto';
+import { ReportDto, UpdateReportDto } from './report.dto';
 import { Report } from './report.entity';
 import { productReportDto } from './productReport.dto';
 @Injectable()
@@ -59,9 +59,9 @@ export class ReportRepository {
     }
   }
 
-  editReport(id: string, data: Partial<ReportDto>) {
+  editReport(report: Report, data: Partial<UpdateReportDto>) {
     try {
-      return this.reportRepo.update({ id }, data);
+      return this.reportRepo.save({ ...report, ...data });
     } catch (error) {
       throw new InternalServerErrorException("Can't edit report");
     }

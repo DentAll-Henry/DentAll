@@ -1,6 +1,6 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { ReportRepository } from './report.repository';
-import { ReportDto } from './report.dto';
+import { ReportDto, UpdateReportDto } from './report.dto';
 import { ProductService } from 'src/product/product.service';
 import { productReportDto } from './productReport.dto';
 import { ProductReportRepository } from './productReport.repository';
@@ -53,8 +53,6 @@ export class ReportService {
         throw new BadRequestException('Product not founded');
       }
 
-      console.log(Number(existingProduct.stock) < Number(producto.quantity));
-
       if (Number(existingProduct.stock) < Number(producto.quantity)) {
         throw new BadRequestException('Insufficient stock');
       } else if (Number(existingProduct.stock) === 0) {
@@ -62,7 +60,7 @@ export class ReportService {
       } else existingProduct.stock -= producto.quantity;
 
       await this.productService.editProduct(existingProduct.id, {
-        stock: existingProduct.stock,
+        stock: existingProduct.stock - producto.quantity,
       });
 
       const productReport = await this.productReportrepository.create({
@@ -85,12 +83,63 @@ export class ReportService {
     return createdReport;
   }
 
-  editReport(id: string, data: Partial<ReportDto>) {
-    const existingReport = this.reportRepo.getReportById(id);
+  async editReport(id: string, data: Partial<UpdateReportDto>) {
+    const existingReport = await this.reportRepo.getReportById(id);
     if (!existingReport) {
       throw new BadRequestException('Report not found');
     }
-    return this.reportRepo.editReport(id, data);
+    const updatedProducts = [];
+
+    for (const editProduct of data.products) {
+      console.log('entra al for');
+
+      const existingProduct = await this.productService.getProductById(
+        editProduct.id,
+      );
+      if (!existingProduct) {
+        throw new BadRequestException('Product not founded');
+      }
+
+      const productReport = existingReport.products.find(
+        (product) => product.id === editProduct.id,
+      );
+
+      if (productReport) {
+        console.log('entra al if');
+
+        await this.productService.editProduct(existingProduct.id, {
+          stock:
+            existingProduct.stock -
+            editProduct.quantity +
+            productReport.quantity,
+        });
+
+        updatedProducts.push(productReport);
+      } else {
+        console.log('entra al else');
+
+        const newProductReport = await this.productReportrepository.create({
+          product_id: existingProduct,
+          quantity: editProduct.quantity,
+          report_id: existingReport.id,
+        });
+
+        console.log('crea el nuevo product report');
+
+        updatedProducts.push(newProductReport);
+        console.log('agrega el nuevo product report', updatedProducts);
+
+        data.products = updatedProducts;
+
+        console.log('actualiza data');
+        await this.productService.editProduct(existingProduct.id, {
+          stock: existingProduct.stock - editProduct.quantity,
+        });
+      }
+    }
+
+    console.log('todo terminando falta editar');
+    return this.reportRepo.editReport(existingReport, data);
   }
 
   async deleteReport(id: string) {
