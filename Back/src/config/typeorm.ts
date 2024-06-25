@@ -10,7 +10,7 @@ const config = {
   username: environment.bdInfo.username,
   password: environment.bdInfo.pass,
   // dropSchema: true,
-   synchronize: true,
+  synchronize: true,
   // logging: true,
   //ssl: true,
   autoLoadEntities: true,
