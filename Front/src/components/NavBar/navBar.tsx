@@ -15,17 +15,37 @@ const Navbar = () => {
           />
         </div>
         <div className="flex flex-wrap w-[578px] items-start gap-x-[61px]">
-          <h4>INICIO</h4>
-          <h4>NOSOTROS</h4>
-          <h4>TRATAMIENTOS</h4>
-          <h4>SERVICIOS</h4>
+          <a
+            href="#"
+            className="text-white font-maven-pro text-[16px] font-semibold leading-normal"
+          >
+            INICIO
+          </a>
+          <a
+            href="#"
+            className="text-white font-maven-pro text-[16px] font-semibold leading-normal"
+          >
+            NOSOTROS
+          </a>
+          <a
+            href="#"
+            className="text-white font-maven-pro text-[16px] font-semibold leading-normal"
+          >
+            TRATAMIENTOS
+          </a>
+          <a
+            href="#"
+            className="text-white font-maven-pro text-[16px] font-semibold leading-normal"
+          >
+            SERVICIOS
+          </a>
         </div>
-        <div className="flex gap-x-4">
-          <button className="flex w-[177px] h-[38px] px-[25px] py-[10px] justify-center items-center gap-x-[10px] rounded-[1px] border-2 border-green-500 text-green-500">
+        <div className="inline-flex items-center px-[10px] gap-[50px]">
+          <button className="flex w-[177px] h-[38px] px-[25px] py-[10px] justify-center items-center gap-x-[10px] rounded-[1px] border-2 border-green-500 text-green-500 font-maven-pro text-[16px] font-semibold leading-normal">
             Agendar cita
           </button>
-          <button className="rounded-[1px] bg-green-500 px-[25px] py-[10px] text-white">
-            Iniciar sesion
+          <button className="rounded-[1px] bg-green-500 px-[25px] py-[10px] text-[#0D0508] font-maven-pro text-[16px] font-semibold leading-normal">
+            Iniciar sesión
           </button>
         </div>
       </div>
