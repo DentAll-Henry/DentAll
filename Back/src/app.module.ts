@@ -10,7 +10,7 @@ import { PeopleModule } from './person/person.module';
 import { AppointmentsModule } from './appointments/appointments.module';
 import { LoggerMiddleware } from './middlewares/logger.middleware';
 import { RolesModule } from './role/role.module';
-
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
@@ -34,6 +34,7 @@ import { RolesModule } from './role/role.module';
         expiresIn: '1h',
       },
     }),
+    MailModule,
   ],
   controllers: [],
   providers: [],

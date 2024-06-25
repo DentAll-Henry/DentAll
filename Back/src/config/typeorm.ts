@@ -9,7 +9,7 @@ const config = {
   port: environment.bdInfo.port,
   username: environment.bdInfo.username,
   password: environment.bdInfo.pass,
-   dropSchema: true,
+  // dropSchema: true,
    synchronize: true,
   // logging: true,
   //ssl: true,
