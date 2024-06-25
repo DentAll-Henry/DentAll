@@ -16,7 +16,7 @@ const Navbar = () => {
         </div>
         <div className="flex flex-wrap w-[578px] items-start gap-x-[61px]">
           <a
-            href="#"
+            href="/"
             className="text-white font-maven-pro text-[16px] font-semibold leading-normal"
           >
             INICIO

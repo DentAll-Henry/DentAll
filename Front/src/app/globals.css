@@ -16,13 +16,22 @@
 
 
 } 
+p{
+   font-family: 'Mulish', sans-serif;
+}
 
+<<<<<<< Updated upstream
 body{
     background-color: #1D1D1D;
 }
 body, p{
   font-family: 'Mulish', sans-serif;
   
+=======
+body {
+  font-family: 'Mulish', sans-serif;
+
+>>>>>>> Stashed changes
 }
 
 h1, h2, h3, h4, h5, h6, a {

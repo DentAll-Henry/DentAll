@@ -90,7 +90,7 @@ const Login = () => {
         <div className="w-[65%] h-full relative ">
           <Image
             className="hidden md:block"
-            src="/images/p2.png"
+            src="/images/imgLogin.png"
             alt="Login Image"
             layout="fill"
             priority

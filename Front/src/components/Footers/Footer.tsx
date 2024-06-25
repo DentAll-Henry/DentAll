@@ -19,10 +19,10 @@ const Footer = () => {
 
         <div className="flex flex-col gap-4">
           <h1 className="text-2xl">CONTACTO</h1>
-          <Link href="#">
+          <Link className="hover:text-greenD-500" href="#">
             <p>dentall@gmail.com</p>
           </Link>
-          <Link href="#">
+          <Link className="hover:text-greenD-500" href="#">
             <p>+51 9128273890</p>
           </Link>
         </div>
@@ -35,10 +35,10 @@ const Footer = () => {
 
         <div className="flex flex-col gap-4">
           <h1 className="text-2xl">EMPRESA</h1>
-          <Link href="#">
+          <Link className="hover:text-greenD-500" href="/about">
             <p>Sobre Nosotros</p>
           </Link>
-          <Link href="/about">
+          <Link className="hover:text-greenD-500" href="#">
             <p>Nuestros Servicios</p>
           </Link>
         </div>
