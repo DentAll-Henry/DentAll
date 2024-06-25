@@ -13,4 +13,10 @@ export const environment = {
     name: process.env.DB_NAME || 'test',
   },
   jwt: process.env.JWT_SECRET,
+  nodemailer: {
+    host: process.env.NODEMAILER_HOST || 'localhost',
+    port: Number(process.env.NODEMAILER_PORT) || 1025,
+    user: process.env.NODEMAILER_USER || 'test',
+    pass: process.env.NODEMAILER_PASS || 'test',
+  }
 };

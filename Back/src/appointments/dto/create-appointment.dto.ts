@@ -8,7 +8,7 @@ export class CreateAppointmentDto {
 
     @IsNotEmpty()
     @IsUUID()
-    patient_id: string;
+    patient: string;
 
     @IsNotEmpty()
     @IsUUID()

@@ -9,5 +9,6 @@ import { DentalServ } from './dentalServ.entity';
   imports: [TypeOrmModule.forFeature([DentalServ])],
   controllers: [DentalServController],
   providers: [DentalServService, DentalServRepository],
+  exports: [DentalServService],
 })
 export class DentalServModule {}

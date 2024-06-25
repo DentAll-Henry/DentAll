@@ -12,7 +12,7 @@ export class AppointmentsRepository {
   ) { }
   async getAppointments(): Promise<Appointment[]> {
     return await this.appointment.find({
-      relations: ['service'],
+      relations: ['service', 'patient'],
     });
   }
 
@@ -25,8 +25,8 @@ export class AppointmentsRepository {
 
   async getAppointmentByPatient(id: string): Promise<Appointment[]> {
     return await this.appointment.find({
-      where: { patient_id: id },
-      relations: ['service'],
+      where: { patient: id },
+      relations: ['service', 'patient'],
     });
   }
 
@@ -36,7 +36,7 @@ export class AppointmentsRepository {
       date_time: createAppointmentDto.date_time,
       description: createAppointmentDto.description,
       dentist_id: createAppointmentDto.dentist_id,
-      patient_id: createAppointmentDto.patient_id,
+      patient: createAppointmentDto.patient,
       service: createAppointmentDto.service,
     });
   }
@@ -44,7 +44,7 @@ export class AppointmentsRepository {
   async getAppointmentById(id: string): Promise<Appointment> {
     return await this.appointment.findOne({
       where: { id },
-      relations: ['service'],
+      relations: ['service', 'patient'],
     });
   }
 
