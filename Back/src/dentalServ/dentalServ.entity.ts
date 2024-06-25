@@ -13,4 +13,7 @@ export class DentalServ {
 
   @Column({ type: 'varchar', length: 200 })
   description: string;
+
+  @Column({ type: 'boolean', default: true })
+  isActive: boolean;
 }
