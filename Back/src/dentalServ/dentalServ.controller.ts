@@ -12,7 +12,9 @@ import {
 import { DentalServService } from './dentalServ.service';
 import { Response } from 'express';
 import { DentalServDto } from './dentalServ.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Dental-Serv')
 @Controller('dental-serv')
 export class DentalServController {
   constructor(private readonly dentalServService: DentalServService) {}
