@@ -4,15 +4,15 @@
 @tailwind utilities;
 
 :root {
-  --green-100: #cafcd9;
-  --green-200: #96fabe;
-  --green-300: #60f0a8;
-  --green-400: #38e19e;
-  --green-500: #00ce90;
-  --green-600: #1a9850;
-  --green-700: #009484;
-  --green-800: #007776;
-  --green-900: #005962;
+  --greenD-100: #cafcd9;
+  --greenD-200: #96fabe;
+  --greenD-300: #60f0a8;
+  --greenD-400: #38e19e;
+  --greenD-500: #00ce90;
+  --greenD-600: #1a9850;
+  --greenD-700: #009484;
+  --greenD-800: #007776;
+  --greenD-900: #005962;
 }
 
 body,
