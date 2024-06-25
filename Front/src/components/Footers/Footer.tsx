@@ -1,12 +1,12 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link';
-import "@/app/globals.css";
+
 
 const Footer = () => {
   return (
     <div className="text-white">
-      <div className="bg-gray-800 flex justify-between items-center p-4">
+      <div className="bg-[#1D1D1D] flex justify-between items-center p-4">
         <div>
           <Image
             src="/images/Logo.svg"
@@ -53,40 +53,40 @@ const Footer = () => {
               priority
             />
           </Link>
-          
+
           <Link href="#">
-          <Image
-            src="/images/facebook.svg"
-            alt="Logo.svg"
-            width={30}
-            height={30}
-            priority
+            <Image
+              src="/images/facebook.svg"
+              alt="Logo.svg"
+              width={30}
+              height={30}
+              priority
             />
-            </Link>
+          </Link>
 
-            <Link href="#">
-          <Image
-            src="/images/LinkedIn.svg"
-            alt="Logo.svg"
-            width={30}
-            height={30}
-            priority
+          <Link href="#">
+            <Image
+              src="/images/LinkedIn.svg"
+              alt="Logo.svg"
+              width={30}
+              height={30}
+              priority
             />
-            </Link>
+          </Link>
 
-            <Link href="#">
-          <Image
-            src="/images/Instagram.svg"
-            alt="Logo.svg"
-            width={30}
-            height={30}
-            priority
+          <Link href="#">
+            <Image
+              src="/images/Instagram.svg"
+              alt="Logo.svg"
+              width={30}
+              height={30}
+              priority
             />
-            </Link>
+          </Link>
         </div>
       </div>
 
-      <div className="text-center  bg-zinc-700 p-4">
+      <div className="text-center  bg-[#404040] p-4">
         &copy;Dentall 2024 Todos los derechos reservados
       </div>
     </div>
