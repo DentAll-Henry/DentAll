@@ -1,41 +1,31 @@
-@import url('https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400;700&family=Mulish:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400;700&family=Mulish:wght@400;700&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
- :root {
-    --greenD-100:#CAFCD9;
-    --greenD-200:#96FABE;
-    --greenD-300:#60F0A8;
-    --greenD-400:#38E19E;
-    --greenD-500:#00CE90;
-    --greenD-600:#1A9850;
-    --greenD-700:#009484;
-    --greenD-800:#007776;
-    --greenD-900:#005962;
-
-
-} 
-
-
-body, p{
-  font-family: 'Mulish', sans-serif;
+:root {
+  --green-100: #cafcd9;
+  --green-200: #96fabe;
+  --green-300: #60f0a8;
+  --green-400: #38e19e;
+  --green-500: #00ce90;
+  --green-600: #1a9850;
+  --green-700: #009484;
+  --green-800: #007776;
+  --green-900: #005962;
 }
 
-h1, h2, h3, h4, h5, h6, a {
-  font-family: 'Maven Pro', sans-serif;
+body,
+p {
+  font-family: "Mulish", sans-serif;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+a {
+  font-family: "Maven Pro", sans-serif;
+}
