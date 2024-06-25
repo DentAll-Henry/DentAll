@@ -1,8 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { DentalServRepository } from './dentalServ.repository';
-import { DentalServDto } from './dentalServ.dto';
-import { DeleteResult } from 'typeorm';
-import { DentalServ } from './dentalServ.entity';
+import { DentalServDto } from './dtos/dentalServ.dto';
+import { DentalServ } from './entities/dentalServ.entity';
 
 @Injectable()
 export class DentalServService {

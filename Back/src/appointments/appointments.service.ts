@@ -9,7 +9,7 @@ import { PeopleRepository } from 'src/person/person.repository';
 import { PeopleService } from 'src/person/person.service';
 import { DentalServService } from 'src/dentalServ/dentalServ.service';
 import { Person } from 'src/person/entities/person.entity';
-import { DentalServ } from 'src/dentalServ/dentalServ.entity';
+import { DentalServ } from 'src/dentalServ/entities/dentalServ.entity';
 
 @Injectable()
 export class AppointmentsService {
@@ -17,14 +17,18 @@ export class AppointmentsService {
     private readonly appointmentsRepository: AppointmentsRepository,
     private readonly dentalServService: DentalServService,
     private readonly peopleService: PeopleService,
-    private readonly mailService: MailService
-  ) { }
+    private readonly mailService: MailService,
+  ) {}
   async create(createAppointmentDto: CreateAppointmentDto) {
-    const dentServ: DentalServ = await this.dentalServService.getDentalServByID(createAppointmentDto.service)
+    const dentServ: DentalServ = await this.dentalServService.getDentalServByID(
+      createAppointmentDto.service,
+    );
     if (!dentServ)
       throw new BadRequestException('Service not found with id provided');
 
-    const patient: Person = await this.peopleService.personById(createAppointmentDto.patient)
+    const patient: Person = await this.peopleService.personById(
+      createAppointmentDto.patient,
+    );
     if (!patient)
       throw new BadRequestException('Patient not found with id provided');
 
@@ -33,15 +37,20 @@ export class AppointmentsService {
       throw new BadRequestException('Appointment date must be a future date');
     }
 
-    const appointment: Appointment = await this.appointmentsRepository.postAppointment(createAppointmentDto);
+    const appointment: Appointment =
+      await this.appointmentsRepository.postAppointment(createAppointmentDto);
 
-    if (!appointment)
-      throw new BadRequestException('Appointment not created');
+    if (!appointment) throw new BadRequestException('Appointment not created');
 
     //send email
-    await this.mailService.sendMail(patient.email, "New appointment at DentAll", `Hi ${patient.first_name} ${patient.last_name} you have been scheduled a new appointment at ${appointment.date_time} for ${dentServ.name}`, `Hi ${patient.first_name} ${patient.last_name} you have been scheduled a new appointment at ${appointment.date_time} for ${dentServ.name}`)
+    await this.mailService.sendMail(
+      patient.email,
+      'New appointment at DentAll',
+      `Hi ${patient.first_name} ${patient.last_name} you have been scheduled a new appointment at ${appointment.date_time} for ${dentServ.name}`,
+      `Hi ${patient.first_name} ${patient.last_name} you have been scheduled a new appointment at ${appointment.date_time} for ${dentServ.name}`,
+    );
 
-    return appointment
+    return appointment;
   }
 
   findAll() {
@@ -57,7 +66,8 @@ export class AppointmentsService {
   }
 
   async findOne(id: string) {
-    const appointment: Appointment = await this.appointmentsRepository.getAppointmentById(id);
+    const appointment: Appointment =
+      await this.appointmentsRepository.getAppointmentById(id);
     if (!appointment)
       throw new BadRequestException('Appointment not found with id provided');
 
@@ -65,13 +75,15 @@ export class AppointmentsService {
   }
 
   async update(id: string, updateAppointmentDto: UpdateAppointmentDto) {
-
-    const appointment: Appointment = await this.appointmentsRepository.getAppointmentById(id);
+    const appointment: Appointment =
+      await this.appointmentsRepository.getAppointmentById(id);
     if (!appointment)
       throw new BadRequestException('Appointment not found with id provided');
 
     if (updateAppointmentDto.service) {
-      const dentServ = await this.dentalServService.getDentalServByID(updateAppointmentDto.service)
+      const dentServ = await this.dentalServService.getDentalServByID(
+        updateAppointmentDto.service,
+      );
       if (!dentServ)
         throw new BadRequestException('Service not found with id provided');
 
@@ -87,16 +99,20 @@ export class AppointmentsService {
 
     //TODO: check patient_id and dentist_id like service_id below
 
-    await this.appointmentsRepository.updateAppointment(id, updateAppointmentDto)
+    await this.appointmentsRepository.updateAppointment(
+      id,
+      updateAppointmentDto,
+    );
     return await this.appointmentsRepository.getAppointmentById(id);
   }
 
   async remove(id: string) {
-    const appointment: Appointment = await this.appointmentsRepository.getAppointmentById(id);
+    const appointment: Appointment =
+      await this.appointmentsRepository.getAppointmentById(id);
     if (!appointment)
       throw new BadRequestException('Appointment not found with id provided');
 
     this.appointmentsRepository.removeAppointment(id);
-    return "Appointment deleted succesfully";
+    return 'Appointment deleted succesfully';
   }
 }

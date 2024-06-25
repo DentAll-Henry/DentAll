@@ -72,7 +72,7 @@ export class Person {
 
   @ManyToMany(() => Role)
   @JoinTable({
-    name: 'people_roles'
+    name: 'people_roles',
   })
   roles: Role[];
 }

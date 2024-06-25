@@ -2,12 +2,11 @@ import {
   BadRequestException,
   Injectable,
   InternalServerErrorException,
-  NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DentalServ } from './dentalServ.entity';
-import { DeleteResult, QueryFailedError, Repository } from 'typeorm';
-import { DentalServDto } from './dentalServ.dto';
+import { DentalServ } from './entities/dentalServ.entity';
+import { QueryFailedError, Repository } from 'typeorm';
+import { DentalServDto } from './dtos/dentalServ.dto';
 
 @Injectable()
 export class DentalServRepository {

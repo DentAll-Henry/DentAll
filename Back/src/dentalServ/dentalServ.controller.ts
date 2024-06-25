@@ -1,18 +1,16 @@
 import {
   Body,
   Controller,
-  Delete,
   Get,
   Param,
   ParseUUIDPipe,
   Patch,
   Post,
-  Put,
   Res,
 } from '@nestjs/common';
 import { DentalServService } from './dentalServ.service';
 import { Response } from 'express';
-import { DentalServDto } from './dentalServ.dto';
+import { DentalServDto } from './dtos/dentalServ.dto';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Dental-Serv')
