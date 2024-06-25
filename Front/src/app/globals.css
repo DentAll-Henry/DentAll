@@ -14,6 +14,11 @@
   --greenD-800: #007776;
   --greenD-900: #005962;
 }
+
+body {
+  background-color: #1d1d1d;
+}
+body,
 p {
   font-family: "Mulish", sans-serif;
 }
