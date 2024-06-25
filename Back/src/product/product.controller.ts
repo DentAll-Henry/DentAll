@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   ParseUUIDPipe,
+  Patch,
   Post,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
@@ -31,7 +32,7 @@ export class ProductController {
     return this.productService.postProduct(product);
   }
 
-  @Post('edit/:id')
+  @Patch('edit/:id')
   editProduct(
     @Param('id', ParseUUIDPipe) id: string,
     @Body()

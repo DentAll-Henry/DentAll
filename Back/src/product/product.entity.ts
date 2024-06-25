@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 import { Report } from '../report/report.entity';
+import { ProductReport } from 'src/report/productReport.entity';
 
 @Entity()
 export class Product {
@@ -26,6 +27,6 @@ export class Product {
   @Column()
   description: string;
 
-  @OneToMany(() => Report, (Report) => Report.products)
-  productReports: Report;
+  @OneToMany(() => ProductReport, (ProductReport) => ProductReport.product)
+  productReports: ProductReport[];
 }

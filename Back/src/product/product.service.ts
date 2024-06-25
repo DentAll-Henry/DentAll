@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { ProductRepository } from './product.repository';
-import { ProductDto } from './product.dto';
+import { ProductDto, toUpdateProductDto } from './product.dto';
 import { Product } from './product.entity';
 
 @Injectable()
@@ -32,7 +32,7 @@ export class ProductService {
     return this.productRepository.postProcut(product);
   }
 
-  async editProduct(id: string, data: Partial<ProductDto>) {
+  async editProduct(id: string, data: Partial<toUpdateProductDto>) {
     const existingProduct = await this.productRepository.getProductById(id);
     if (!existingProduct) {
       throw new BadRequestException('Product not found');
