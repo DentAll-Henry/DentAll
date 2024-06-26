@@ -20,11 +20,9 @@ p {
 
 body{
     background-color: #1D1D1D;
+    font-family: 'Mulish', sans-serif;
 }
-body, p{
-  font-family: 'Mulish', sans-serif;
-  
-}
+
 
 h1,
 h2,

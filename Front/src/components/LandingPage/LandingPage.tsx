@@ -1,6 +1,8 @@
+'use client'
 import Image from "next/image";
 import React from "react";
 import DoctorCard from "../DoctorCards/DoctorCard";
+import MapComponent from "@/components/Maps/maps";
 
 const LandingPage = () => {
   return (
@@ -13,7 +15,12 @@ const LandingPage = () => {
               <h2 className="text-[#00CE90]">TU SONRISA</h2>
               <h2>CON NOSOTROS </h2>
             </div>
-            <Image src="/images/dental1.svg" alt="dental custum" width={500} height={500}/>
+            <Image
+              src="/images/dental1.svg"
+              alt="dental custum"
+              width={500}
+              height={500}
+            />
           </div>
         </div>
 
@@ -30,7 +37,12 @@ const LandingPage = () => {
                 Agendar cita{" "}
               </button>
             </div>
-            <Image src="/images/dental2.svg" alt="dental custum" width={700} height={700}/>
+            <Image
+              src="/images/dental2.svg"
+              alt="dental custum"
+              width={700}
+              height={700}
+            />
           </div>
         </div>
       </section>
@@ -77,69 +89,174 @@ const LandingPage = () => {
         </div>
       </section>
 
-      <section className='flex flex-col bg-[#1D1D1D] p-10 gap-5'>
-        <h2 className='text-[58px] text-center  text-white font-bold leading-normal'>NUESTROS <span className='text-[#00CE90]' >SERVICIOS</span></h2>
-        <div className='flex flex-row gap-12 '>
-            <div className='bg-[#00CE90] flex flex-col gap-3 p-9 rounded-lg'>
-                <h3 className='text-[34px] font-semibold'>Blanqueamiento dental</h3>
-                <p className='text-[16px] font-semibold'> Devuelve el brillo a tu sonrisa. Nuestro blanqueamiento dental profesional elimina manchas y decoloraciones para un aspecto más luminoso y juvenil</p>
-                <div className='flex justify-center pr-16'>
-                <Image  className='text-center' src="/images/dentalVeneer.png" alt="" width={150} height={150}/>
-                </div>
-               
+      <section className="flex flex-col bg-[#1D1D1D] p-10 gap-5">
+        <h2 className="text-[58px] text-center  text-white font-bold leading-normal">
+          NUESTROS <span className="text-[#00CE90]">SERVICIOS</span>
+        </h2>
+        <div className="flex flex-row gap-12 ">
+          <div className="bg-[#00CE90] flex flex-col gap-3 p-9 rounded-lg">
+            <h3 className="text-[34px] font-semibold">Blanqueamiento dental</h3>
+            <p className="text-[16px] font-semibold">
+              {" "}
+              Devuelve el brillo a tu sonrisa. Nuestro blanqueamiento dental
+              profesional elimina manchas y decoloraciones para un aspecto más
+              luminoso y juvenil
+            </p>
+            <div className="flex justify-center pr-16">
+              <Image
+                className="text-center"
+                src="/images/dentalVeneer.png"
+                alt=""
+                width={150}
+                height={150}
+              />
             </div>
+          </div>
 
-            <div className='bg-white flex flex-col gap-3 p-9 rounded-lg'>
-                <h3 className='text-[34px] font-semibold'>Blanqueamiento dental</h3>
-                <p className='text-[16px] font-semibold'> Devuelve el brillo a tu sonrisa. Nuestro blanqueamiento dental profesional elimina manchas y decoloraciones para un aspecto más luminoso y juvenil</p>
-                <div className='flex justify-center pr-16'>
-                <Image  className='text-center' src="/images/toothWhite.png" alt="" width={150} height={150}/>
-                </div>
-               
+          <div className="bg-white flex flex-col gap-3 p-9 rounded-lg">
+            <h3 className="text-[34px] font-semibold">Blanqueamiento dental</h3>
+            <p className="text-[16px] font-semibold">
+              {" "}
+              Devuelve el brillo a tu sonrisa. Nuestro blanqueamiento dental
+              profesional elimina manchas y decoloraciones para un aspecto más
+              luminoso y juvenil
+            </p>
+            <div className="flex justify-center pr-16">
+              <Image
+                className="text-center"
+                src="/images/toothWhite.png"
+                alt=""
+                width={150}
+                height={150}
+              />
             </div>
+          </div>
         </div>
 
-        <div className='flex flex-row gap-8 text-center'>
-
-            <div className='bg-white w-1/3 py-[40px] px-[65px] text-[24px] font-semibold rounded-lg'>Implantes dentales</div>
-            <div className='bg-white w-1/3 py-[40px] px-[65px] text-[24px] font-semibold rounded-lg'>Reconstrucción Dental</div>
-            <div className='bg-white w-1/3 py-[40px] px-[65px] text-[24px] font-semibold rounded-lg'>Puentes dentales</div>
-
+        <div className="flex flex-row gap-8 text-center">
+          <div className="bg-white w-1/3 py-[40px] px-[65px] text-[24px] font-semibold rounded-lg">
+            Implantes dentales
+          </div>
+          <div className="bg-white w-1/3 py-[40px] px-[65px] text-[24px] font-semibold rounded-lg">
+            Reconstrucción Dental
+          </div>
+          <div className="bg-white w-1/3 py-[40px] px-[65px] text-[24px] font-semibold rounded-lg">
+            Puentes dentales
+          </div>
         </div>
-        
-
       </section>
 
-      <section className='flex flex-col gap-5 p-20 text-center bg-[#1D1D1D]'>
+      <section>
+        <h2 className="text-[58px] text-center  text-white font-bold leading-normal">
+          <span className="text-[#00CE90]">UBICANOS </span> EN EL MAPA
+        </h2>
+        <div className="flex flex-row text-white">
+          <div className="w-[50%] p-4">
+            <MapComponent />
+          </div>
 
-        <h2 className='text-[58px] text-center  text-white font-bold leading-normal'>NUESTROS <span className='text-[#00CE90]' >CLIENTES</span> NOS RECOMIENDAN</h2>
-        <div className='flex flex-row gap-10 '>
-            <div className=' w-1/4 flex flex-col  gap-6 justify-center items-center text-white border-[5px] border-greenD-500 rounded-[10px] p-6'>
-                <Image  className='text-center' src="/images/testimonio1.svg" alt="" width={150} height={150}/>
-                <h4 className='text-[20px] font-semibold'>Maria José Vargas</h4>
-                <p className='text-[16px] font-medium'>La atención en el servicio de blanqueamiento dental fue muy bueno, me ayudó a tener un aspecto más luminoso y bonito en mi sonrisa.Lo recomiendo y ¡Gracias por cuidar de mi sonrisa!</p>
-                <Image  className='text-center' src="/images/starts.svg" alt="" width={150} height={150}/>
-            </div>
-            <div className=' w-1/4 flex flex-col gap-6 justify-center items-center text-white border-[5px] border-greenD-500 rounded-[10px] p-6'>
-                <Image  className='text-center' src="/images/testimonio2.svg" alt="" width={150} height={150}/>
-                <h4 className='text-[20px] font-semibold'>Manuel Ochoa </h4>
-                <p className='text-[16px] font-medium'>Dental ha cambiado completamente mi percepción de las visitas dentales. La atención personalizada y la tecnología de vanguardia hacen que cada cita sea rápida y sin dolor</p>
-                <Image  className='text-center' src="/images/starts.svg" alt="" width={150} height={150}/>
-            </div>
-            <div className='w-1/4 flex flex-col gap-6 justify-center items-center text-white border-[5px] border-greenD-500 rounded-[10px] p-6 '>
-                <Image  className='text-center' src="/images/testimonio3.svg" alt="" width={150} height={150}/>
-                <h4 className='text-[20px] font-semibold'>Bianca Santillana</h4>
-                <p className='text-[16px] font-medium'>Desde que empecé a ir a Dental, mis visitas al dentista han sido una experiencia agradable. El personal es amable y atento, y las instalaciones son de primera. ¡Recomiendo Dental a todos!</p>
-                <Image  className='text-center' src="/images/starts.svg" alt="" width={150} height={150}/>
-            </div>
-            <div className='w-1/4 flex flex-col gap-6 justify-center items-center text-white border-[5px] border-greenD-500 rounded-[10px] p-6 '>
-                <Image  className='text-center' src="/images/testimonio4.svg" alt="" width={150} height={150}/>
-                <h4 className='text-[20px] font-semibold'>Gustavo Garcia</h4>
-                <p className='text-[16px] font-medium'>Mi experiencia en Dental ha sido excepcional. Desde la bienvenida hasta el final del tratamiento, todo el equipo se ha mostrado profesional y dedicado. ¡Mi sonrisa nunca se ha visto mejor gracias a Dental!</p>
-                <Image  className='text-center' src="/images/starts.svg" alt="" width={150} height={150}/>
-            </div>
+          <div>
+            <h1>Sobre nosotros</h1>
+          </div>
         </div>
+      </section>
 
+      <section className="flex flex-col gap-5 p-20 text-center bg-[#1D1D1D]">
+        <h2 className="text-[58px] text-center  text-white font-bold leading-normal">
+          NUESTROS <span className="text-[#00CE90]">CLIENTES</span> NOS
+          RECOMIENDAN
+        </h2>
+        <div className="flex flex-row gap-10 ">
+          <div className=" w-1/4 flex flex-col  gap-6 justify-center items-center text-white border-[5px] border-greenD-500 rounded-[10px] p-6">
+            <Image
+              className="text-center"
+              src="/images/testimonio1.svg"
+              alt=""
+              width={150}
+              height={150}
+            />
+            <h4 className="text-[20px] font-semibold">Maria José Vargas</h4>
+            <p className="text-[16px] font-medium">
+              La atención en el servicio de blanqueamiento dental fue muy bueno,
+              me ayudó a tener un aspecto más luminoso y bonito en mi sonrisa.Lo
+              recomiendo y ¡Gracias por cuidar de mi sonrisa!
+            </p>
+            <Image
+              className="text-center"
+              src="/images/starts.svg"
+              alt=""
+              width={150}
+              height={150}
+            />
+          </div>
+          <div className=" w-1/4 flex flex-col gap-6 justify-center items-center text-white border-[5px] border-greenD-500 rounded-[10px] p-6">
+            <Image
+              className="text-center"
+              src="/images/testimonio2.svg"
+              alt=""
+              width={150}
+              height={150}
+            />
+            <h4 className="text-[20px] font-semibold">Manuel Ochoa </h4>
+            <p className="text-[16px] font-medium">
+              Dental ha cambiado completamente mi percepción de las visitas
+              dentales. La atención personalizada y la tecnología de vanguardia
+              hacen que cada cita sea rápida y sin dolor
+            </p>
+            <Image
+              className="text-center"
+              src="/images/starts.svg"
+              alt=""
+              width={150}
+              height={150}
+            />
+          </div>
+          <div className="w-1/4 flex flex-col gap-6 justify-center items-center text-white border-[5px] border-greenD-500 rounded-[10px] p-6 ">
+            <Image
+              className="text-center"
+              src="/images/testimonio3.svg"
+              alt=""
+              width={150}
+              height={150}
+            />
+            <h4 className="text-[20px] font-semibold">Bianca Santillana</h4>
+            <p className="text-[16px] font-medium">
+              Desde que empecé a ir a Dental, mis visitas al dentista han sido
+              una experiencia agradable. El personal es amable y atento, y las
+              instalaciones son de primera. ¡Recomiendo Dental a todos!
+            </p>
+            <Image
+              className="text-center"
+              src="/images/starts.svg"
+              alt=""
+              width={150}
+              height={150}
+            />
+          </div>
+          <div className="w-1/4 flex flex-col gap-6 justify-center items-center text-white border-[5px] border-greenD-500 rounded-[10px] p-6 ">
+            <Image
+              className="text-center"
+              src="/images/testimonio4.svg"
+              alt=""
+              width={150}
+              height={150}
+            />
+            <h4 className="text-[20px] font-semibold">Gustavo Garcia</h4>
+            <p className="text-[16px] font-medium">
+              Mi experiencia en Dental ha sido excepcional. Desde la bienvenida
+              hasta el final del tratamiento, todo el equipo se ha mostrado
+              profesional y dedicado. ¡Mi sonrisa nunca se ha visto mejor
+              gracias a Dental!
+            </p>
+            <Image
+              className="text-center"
+              src="/images/starts.svg"
+              alt=""
+              width={150}
+              height={150}
+            />
+          </div>
+        </div>
       </section>
     </div>
   );
