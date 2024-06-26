@@ -18,12 +18,21 @@ p {
   font-family: "Mulish", sans-serif;
 }
 
+<<<<<<< Updated upstream
 body {
   background-color: #1d1d1d;
 }
 body,
 p {
   font-family: "Mulish", sans-serif;
+=======
+body{
+    background-color: #1D1D1D;
+}
+body, p{
+  font-family: 'Mulish', sans-serif;
+  
+>>>>>>> Stashed changes
 }
 
 h1,
