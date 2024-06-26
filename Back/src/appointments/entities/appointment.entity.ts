@@ -34,7 +34,6 @@ export class Appointment {
 
   /**
    * Patient ID who will attend the appointment
-   * TODO: ADD RELATION WITH PATIENT TABLE
    */
   @ManyToOne(() => Patient, (patient) => patient.id, {
     cascade: true,
