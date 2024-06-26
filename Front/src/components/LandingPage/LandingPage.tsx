@@ -151,12 +151,18 @@ const LandingPage = () => {
           <span className="text-[#00CE90]">UBICANOS </span> EN EL MAPA
         </h2>
         <div className="flex flex-row text-white">
-          <div className="w-[50%] p-4">
+          <div className="w-[150%] p-12">
             <MapComponent />
           </div>
 
-          <div>
-            <h1>Sobre nosotros</h1>
+          <div className="w-full flex flex-col justify-center items-center gap-5">
+            <h2 className="text-[40px] text-white font-bold leading-normal">
+              TE ESPERAMOS EN
+            </h2>
+            <p className="text-2xl">Av. siempre viva 742, Springfield</p>
+          <button className="flex px-[25px] py-[10px] justify-center items-center gap-x-[10px] rounded-[1px] border-2 border-[#00CE90] text-[#00CE90] font-maven-pro text-[16px] font-semibold leading-normal">
+            Agendar cita
+          </button>
           </div>
         </div>
       </section>

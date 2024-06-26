@@ -18,7 +18,7 @@ const Footer = () => {
         </div>
 
         <div className="flex flex-col gap-4">
-          <h1 className="text-2xl">CONTACTO</h1>
+          <h1 className="text-2xl font-semibold">CONTACTO</h1>
           <Link className="hover:text-greenD-500" href="#">
             <p>dentall@gmail.com</p>
           </Link>
@@ -28,13 +28,13 @@ const Footer = () => {
         </div>
 
         <div className="flex flex-col gap-4">
-          <h1 className="text-2xl">HORARIOS</h1>
+          <h1 className="text-2xl font-semibold">HORARIOS</h1>
           <p>Lunes - Viernes: 9:00 - 18:00</p>
           <p>Sábado: 9:00 - 14:00</p>
         </div>
 
         <div className="flex flex-col gap-4">
-          <h1 className="text-2xl">EMPRESA</h1>
+          <h1 className="text-2xl font-semibold">EMPRESA</h1>
           <Link className="hover:text-greenD-500" href="/about">
             <p>Sobre Nosotros</p>
           </Link>
@@ -43,7 +43,7 @@ const Footer = () => {
           </Link>
         </div>
 
-        <div className="flex gap-4">
+        <div className="flex bg-darkD-400 gap-4">
           <Link href="#">
             <Image
               src="/images/WhatsApp.svg"
@@ -87,7 +87,7 @@ const Footer = () => {
       </div>
 
       <div className="text-center  bg-[#404040] p-4">
-        &copy;Dentall 2024 Todos los derechos reservados
+        &copy;DentAll 2024 Todos los derechos reservados
       </div>
     </div>
   );
