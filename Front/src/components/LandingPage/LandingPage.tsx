@@ -1,5 +1,6 @@
 import Image from "next/image";
 import React from "react";
+import DoctorCard from "../DoctorCards/DoctorCard";
 
 const LandingPage = () => {
   return (
@@ -54,6 +55,35 @@ const LandingPage = () => {
             NUESTRO EQUIPO DE{" "}
             <span className="text-[#00CE90]">PROFESIONALES</span>
           </h2>
+        </div>
+      </section>
+
+      <section className="bg-[#1D1D1D] py-8">
+        <div className="container mx-auto flex flex-wrap justify-center gap-4">
+          <DoctorCard
+            name="Dr. Manu Ochoa"
+            specialty="Cirujano dental"
+            description="Cirujano dental especializado en extracciones complejas e implantes. Con más de 10 años de experiencia, asegura el bienestar de sus pacientes."
+            imageSrc="/images/dr1.png"
+          />
+          <DoctorCard
+            name="Dra. Ana Perez"
+            specialty="Ortodoncista"
+            description="Experta en corrección de maloclusiones. Utiliza las últimas tecnologías para proporcionar sonrisas hermosas y saludables."
+            imageSrc="/images/dra1.png"
+          />
+          <DoctorCard
+            name="Dr. Juan López"
+            specialty="Periodoncista"
+            description="Especializado en enfermedades de las encías. Su enfoque se centra en el diagnóstico y tratamiento efectivo de problemas periodontales."
+            imageSrc="/images/dr2.png"
+          />
+          <DoctorCard
+            name="Dra. Sofia Castillo"
+            specialty="Endodoncista"
+            description="Experta en tratamientos de conducto. Con su experiencia, alivia el dolor dental y preserva la salud de los dientes."
+            imageSrc="/images/dra2.png"
+          />
         </div>
       </section>
     </div>
