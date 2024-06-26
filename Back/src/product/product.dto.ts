@@ -30,18 +30,18 @@ export class toUpdateProductDto {
   @IsString()
   @IsOptional()
   @MaxLength(80)
-  name: string;
+  name?: string;
 
   @IsString()
   @IsOptional()
   @MaxLength(80)
-  description: string;
+  description?: string;
 
   @IsNumber({ maxDecimalPlaces: 2 })
   @IsOptional()
-  price: number;
+  price?: number;
 
   @IsNumber()
   @IsOptional()
-  stock: number;
+  stock?: number;
 }

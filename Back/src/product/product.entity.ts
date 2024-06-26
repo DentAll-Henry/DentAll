@@ -1,14 +1,7 @@
-import {
-  Column,
-  Entity,
-  ManyToMany,
-  ManyToOne,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
-import { v4 as uuid } from 'uuid';
-import { Report } from '../report/report.entity';
 import { ProductReport } from 'src/report/productReport.entity';
+import { Report } from 'src/report/report.entity';
+import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { v4 as uuid } from 'uuid';
 
 @Entity()
 export class Product {
@@ -27,6 +20,7 @@ export class Product {
   @Column()
   description: string;
 
-  @OneToMany(() => ProductReport, (ProductReport) => ProductReport.product)
+  // @OneToMany(() => ProductReport, (productReport) => productReport.product)
+  @ManyToMany(() => Report, (report) => report.products)
   productReports: ProductReport[];
 }

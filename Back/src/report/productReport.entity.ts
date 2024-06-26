@@ -3,31 +3,38 @@ import {
   Column,
   Entity,
   JoinColumn,
+  JoinTable,
   ManyToMany,
   ManyToOne,
-  PrimaryColumn,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 import { Report } from './report.entity';
-import { IsNotEmpty } from 'class-validator';
 
-@Entity()
+@Entity({ name: 'productsReport' })
 export class ProductReport {
   @PrimaryGeneratedColumn('uuid')
   id: string = uuid();
 
-  @IsNotEmpty()
   @Column({ type: 'int' })
   quantity: number;
 
-  @IsNotEmpty()
-  @ManyToOne(() => Product, (product) => product.productReports)
-  @JoinColumn({ name: 'product_id' })
-  product: Product;
+  @ManyToOne(() => Report, (report) => report.products)
+  @JoinColumn({ name: 'report_id' })
+  report_id: Report;
 
-  @ManyToOne(() => Report, (report) => report.products, {
-    onDelete: 'CASCADE',
+  @ManyToMany(() => Product, { cascade: true })
+  @JoinColumn()
+  @JoinTable({
+    name: 'products_report',
+    joinColumn: {
+      name: 'productReport_id',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'product_id',
+      referencedColumnName: 'id',
+    },
   })
-  report: Report;
+  product: Product[];
 }

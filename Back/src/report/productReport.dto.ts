@@ -5,7 +5,7 @@ import { v4 as uuid } from 'uuid';
 
 export class productReportDto {
   @IsNotEmpty()
-  product_id: Product;
+  product_id: string;
 
   @IsNumber()
   @IsNotEmpty()
@@ -13,7 +13,7 @@ export class productReportDto {
 
   @IsUUID()
   @IsNotEmpty()
-  report_id: string = uuid();
+  report_id: string;
 }
 
 export class productReportDto2 {
@@ -27,8 +27,21 @@ export class productReportDto2 {
     description: 'Extra quantity of products used. Not the total ',
   })
   quantity: number;
-
-  @IsUUID()
-  @IsNotEmpty()
-  newProduct_id: Product;
 }
+
+// export class productReportDto2 {
+//   @ApiProperty()
+//   @IsNotEmpty()
+//   id: string = uuid();
+
+//   @IsNumber()
+//   @IsNotEmpty()
+//   @ApiProperty({
+//     description: 'Extra quantity of products used. Not the total ',
+//   })
+//   quantity: number;
+
+//   @IsUUID()
+//   @IsNotEmpty()
+//   newProduct_id: Product;
+// }

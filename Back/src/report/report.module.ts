@@ -11,7 +11,8 @@ import { ProductReport } from './productReport.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Report, ProductReport]),
+    TypeOrmModule.forFeature([Report]),
+    TypeOrmModule.forFeature([ProductReport]),
     AppointmentsModule,
     ProductModule,
   ],

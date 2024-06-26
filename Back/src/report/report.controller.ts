@@ -29,6 +29,8 @@ export class ReportController {
 
   @Post()
   createReport(@Body() report: ReportDto) {
+    console.log('llega al controlador');
+
     return this.reportService.createReport(report);
   }
 
