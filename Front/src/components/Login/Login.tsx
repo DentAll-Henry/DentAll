@@ -8,7 +8,7 @@ const Login = () => {
         <div className="w-[35%] flex flex-col items-center bg-greenD-900 text-white p-8">
           <div className="flex flex-col items-start justify-start mb-8">
           <h2 className="text-[#ECEDF6] text-[34px] font-semibold leading-normal mb-4">
-            Bienvenido a Dentall
+            Bienvenido a DentAll
           </h2>
           <p>Por favor ingresa tu DNI y tu contraseña</p>
           </div>
@@ -26,16 +26,6 @@ const Login = () => {
             <div className="w-full">
               <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
                 CONTRASEÑA
-              </label>
-              <input
-                type="password"
-                className="flex h-[38px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
-                placeholder="Placeholder"
-              />
-            </div>
-            <div className="w-full">
-              <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
-                CONFIRMAR CONTRASEÑA
               </label>
               <input
                 type="password"
