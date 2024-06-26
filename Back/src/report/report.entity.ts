@@ -6,7 +6,6 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
-import { Product } from '../product/product.entity';
 import { ProductReport } from './productReport.entity';
 
 @Entity()
@@ -17,7 +16,9 @@ export class Report {
   @Column()
   appointment_id: string = uuid();
 
-  @OneToMany(() => ProductReport, (productReport) => productReport.report)
-  @JoinColumn({ name: 'products' })
+  @OneToMany(() => ProductReport, (productReport) => productReport.report_id, {
+    cascade: true,
+  })
+  @JoinColumn({ name: 'products_used' })
   products: ProductReport[];
 }
