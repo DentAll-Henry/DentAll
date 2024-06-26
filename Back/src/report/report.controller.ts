@@ -9,8 +9,10 @@ import {
   Post,
 } from '@nestjs/common';
 import { ReportService } from './report.service';
-import { ReportDto } from './report.dto';
+import { ReportDto, UpdateReportDto } from './report.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Report')
 @Controller('report')
 export class ReportController {
   constructor(private readonly reportService: ReportService) {}
@@ -33,7 +35,7 @@ export class ReportController {
   @Patch(':id')
   editReport(
     @Param('id', ParseUUIDPipe) id: string,
-    @Body() report: ReportDto,
+    @Body() report: UpdateReportDto,
   ) {
     return this.reportService.editReport(id, report);
   }

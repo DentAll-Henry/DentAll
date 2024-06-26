@@ -1,8 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { DentalServRepository } from './dentalServ.repository';
-import { DentalServDto } from './dentalServ.dto';
-import { DeleteResult } from 'typeorm';
-import { DentalServ } from './dentalServ.entity';
+import { DentalServDto } from './dtos/dentalServ.dto';
+import { DentalServ } from './entities/dentalServ.entity';
 
 @Injectable()
 export class DentalServService {
@@ -23,14 +22,20 @@ export class DentalServService {
     id: string,
     data: Partial<DentalServDto>,
   ): Promise<DentalServ> {
+    const { name, price, description } = data;
     if (Object.keys(data).length === 0) {
       throw new BadRequestException(
         'You must provide name, price or description to update',
       );
     }
-    return await this.dentalServRepositiory.editDentalServ(id, data);
+    return await this.dentalServRepositiory.editDentalServ(id, {
+      name,
+      price,
+      description,
+    });
   }
-  async removeDentalServ(id: string): Promise<DeleteResult> {
-    return await this.dentalServRepositiory.removeDentalServ(id);
+
+  async updateIsActive(id: string): Promise<DentalServ> {
+    return await this.dentalServRepositiory.updateIsActive(id);
   }
 }

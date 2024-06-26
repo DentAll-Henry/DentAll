@@ -12,7 +12,9 @@ import { LoggerMiddleware } from './middlewares/logger.middleware';
 import { RolesModule } from './role/role.module';
 import { MailModule } from './mail/mail.module';
 import { requiresAuth } from 'express-openid-connect';
-
+import { ProductModule } from './product/product.module';
+import { ReportModule } from './report/report.module';
+import { ClinicalHistoryModule } from './clinicalHistory/clinicalHistory.module';
 
 @Module({
   imports: [
@@ -30,6 +32,9 @@ import { requiresAuth } from 'express-openid-connect';
     AppointmentsModule,
     PeopleModule,
     RolesModule,
+    ProductModule,
+    ReportModule,
+    ClinicalHistoryModule,
     JwtModule.register({
       global: true,
       secret: environment.jwt,
@@ -38,7 +43,6 @@ import { requiresAuth } from 'express-openid-connect';
       },
     }),
     MailModule,
-
   ],
   controllers: [],
   providers: [],

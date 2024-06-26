@@ -16,7 +16,7 @@ const Navbar = () => {
         </div>
         <div className="flex flex-wrap w-[578px] items-start gap-x-[61px]">
           <a
-            href="#"
+            href="/"
             className="text-white font-maven-pro text-[16px] font-semibold leading-normal"
           >
             INICIO
@@ -41,7 +41,7 @@ const Navbar = () => {
           </a>
         </div>
         <div className="inline-flex items-center px-[10px] gap-[50px]">
-          <button className="flex w-[177px] h-[38px] px-[25px] py-[10px] justify-center items-center gap-x-[10px] rounded-[1px] border-2 border-[#00CE90] text-[#00CE90] font-maven-pro text-[16px] font-semibold leading-normal">
+          <button className="flex px-[25px] py-[10px] justify-center items-center gap-x-[10px] rounded-[1px] border-2 border-[#00CE90] text-[#00CE90] font-maven-pro text-[16px] font-semibold leading-normal">
             Agendar cita
           </button>
           <button className="rounded-[1px] bg-[#00CE90] px-[25px] py-[10px] text-[#0D0508] font-maven-pro text-[16px] font-semibold leading-normal">
