@@ -36,7 +36,6 @@ import { SystemConfigsModule } from './system_configs/system_configs.module';
     ProductModule,
     ReportModule,
     ClinicalHistoryModule,
-
     JwtModule.register({
       global: true,
       secret: environment.jwt,
@@ -55,6 +54,8 @@ export class AppModule {
     consumer
       .apply(LoggerMiddleware)
       .forRoutes({ path: '*', method: RequestMethod.ALL });
-    consumer.apply(requiresAuth()).forRoutes('/people/auth0');
+    consumer
+      .apply(requiresAuth())
+      .forRoutes('/people/auth0');
   }
 }
