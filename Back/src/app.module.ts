@@ -36,7 +36,6 @@ import { requiresAuth } from 'express-openid-connect';
     ProductModule,
     ReportModule,
     ClinicalHistoryModule,
-
     JwtModule.register({
       global: true,
       secret: environment.jwt,
