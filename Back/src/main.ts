@@ -7,7 +7,7 @@ import * as cors from 'cors';
 import { json } from 'express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { auth } from 'express-openid-connect';
-import { auth0Config } from './config/auth0.config';
+import { auth0Config } from './config/auth0';
 const version = require('../package.json').version;
 
 async function bootstrap() {
