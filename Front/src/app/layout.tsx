@@ -3,7 +3,7 @@ import ClientRouteHandler from "@/app/ClientRouteHandle";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "TechnoVID",
+  title: "DentAll",
   description: "Sitio de venta exclusiva de Apple",
 };
 

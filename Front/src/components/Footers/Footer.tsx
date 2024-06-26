@@ -1,7 +1,6 @@
-import React from 'react'
-import Image from 'next/image'
-import Link from 'next/link';
-
+import React from "react";
+import Image from "next/image";
+import Link from "next/link";
 
 const Footer = () => {
   return (
@@ -43,7 +42,7 @@ const Footer = () => {
           </Link>
         </div>
 
-        <div className="flex bg-darkD-400 gap-4">
+        <div className="flex gap-4">
           <Link href="#">
             <Image
               src="/images/WhatsApp.svg"
@@ -91,6 +90,6 @@ const Footer = () => {
       </div>
     </div>
   );
-}
+};
 
-export default Footer
+export default Footer;

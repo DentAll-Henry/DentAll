@@ -3,6 +3,8 @@
 import { usePathname } from "next/navigation";
 import DefaultLayout from "./Defaultlayout";
 import PageLayout from "@/app/page/PageLayout";
+import RegisterLayout from "@/app/register/RegisterLayout"; // Corrige la importación de RegisterLayout
+import LoginLayout from "./login/LoginLayout";
 import "@/app/globals.css";
 
 export default function ClientRouteHandler({
@@ -11,11 +13,20 @@ export default function ClientRouteHandler({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const isPageLayout = pathname.startsWith("/page"); // Ajusta este criterio según tus rutas
+  const isPageLayout = pathname.startsWith("/page");
+  const isRegisterLayout = pathname.startsWith("/register");
+  const isLoginLayout = pathname.startsWith("/login");
 
-  return isPageLayout ? (
-    <PageLayout>{children}</PageLayout>
-  ) : (
-    <DefaultLayout>{children}</DefaultLayout>
-  );
+  if (isPageLayout) {
+    return <PageLayout>{children}</PageLayout>;
+  }
+
+  if (isRegisterLayout) {
+    return <RegisterLayout>{children}</RegisterLayout>;
+  }
+  if (isLoginLayout) {
+    return <LoginLayout>{children}</LoginLayout>;
+  }
+
+  return <DefaultLayout>{children}</DefaultLayout>;
 }
