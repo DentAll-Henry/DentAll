@@ -3,15 +3,16 @@ import Image from "next/image";
 
 const Login = () => {
   return (
-    <div className="flex justify-center items-center h-screen">
-      <div className="flex w-full max-w-[1440px] h-full max-h-[1024px]">
-        <div className="w-1/2 flex flex-col items-center bg-gray-900 text-white p-8">
+    <div className="flex justify-center  items-center h-[100vh]">
+      <div className="flex  w-full h-full max-h-[1024px]">
+        <div className="w-[35%] flex flex-col items-center bg-greenD-900 text-white p-8">
+          <div className="flex flex-col items-start justify-start mb-8">
           <h2 className="text-[#ECEDF6] text-[34px] font-semibold leading-normal mb-4">
             Bienvenido a Dentall
           </h2>
           <p>Por favor ingresa tu DNI y tu contraseña</p>
-          <div className="w-full max-w-[80%] flex flex-col gap-4">
-           
+          </div>
+          <div className="w-full max-w-[72%] flex flex-col gap-4">
             <div className="w-full">
               <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
                 DNI
@@ -21,7 +22,7 @@ const Login = () => {
                 placeholder="Placeholder"
               />
             </div>
-          
+
             <div className="w-full">
               <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
                 CONTRASEÑA
@@ -86,9 +87,10 @@ const Login = () => {
             <a href="/register">Registrate</a>
           </div>
         </div>
-        <div className="w-1/2 h-full relative">
+        <div className="w-[65%] h-full relative ">
           <Image
-            src="/images/ImgLogin.svg"
+            className="hidden md:block"
+            src="/images/imgLogin.png"
             alt="Login Image"
             layout="fill"
             priority

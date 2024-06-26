@@ -1,18 +1,19 @@
 import {
   Body,
   Controller,
-  Delete,
   Get,
   Param,
   ParseUUIDPipe,
+  Patch,
   Post,
-  Put,
   Res,
 } from '@nestjs/common';
 import { DentalServService } from './dentalServ.service';
 import { Response } from 'express';
-import { DentalServDto } from './dentalServ.dto';
+import { DentalServDto } from './dtos/dentalServ.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Dental-Serv')
 @Controller('dental-serv')
 export class DentalServController {
   constructor(private readonly dentalServService: DentalServService) {}
@@ -35,7 +36,7 @@ export class DentalServController {
     res.status(201).json(newDentalServ);
   }
 
-  @Put(':id')
+  @Patch(':id')
   async editDentalServ(
     @Body() data: Partial<DentalServDto>,
     @Param('id', ParseUUIDPipe) id: string,
@@ -48,16 +49,20 @@ export class DentalServController {
     res.status(200).json(editedDentalServ);
   }
 
-  @Delete(':id')
-  async deleteDentalServ(
+  @Patch('switch/:id')
+  async updateIsActive(
     @Param('id', ParseUUIDPipe) id: string,
     @Res() res: Response,
   ) {
-    const result = await this.dentalServService.removeDentalServ(id);
+    const result = await this.dentalServService.updateIsActive(id);
+    let message = `Service with id: ${id}, is no longer active`;
+    if (result.isActive) {
+      message = `Service with id: ${id}, is now active`;
+    }
     res.status(200).json({
       status: 200,
-      message: 'Service deleted succesfully',
-      affected: result.affected,
+      message,
+      info: result,
     });
   }
 }

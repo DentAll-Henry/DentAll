@@ -35,10 +35,11 @@ export class ProductRepository {
     }
   }
 
-  editProduct(product: Product, data: Partial<ProductDto>) {
+  async editProduct(product: Product, data: Partial<ProductDto>) {
     try {
-      this.productRepo.update(product, data);
-      return 'Product edited successfully';
+      return (await this.productRepo.update(product, data))
+        ? 'Product edited successfully'
+        : 'Product not found';
     } catch (error) {
       throw new InternalServerErrorException("Can't edit product");
     }

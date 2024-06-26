@@ -2,12 +2,11 @@ import {
   BadRequestException,
   Injectable,
   InternalServerErrorException,
-  NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DentalServ } from './dentalServ.entity';
-import { DeleteResult, QueryFailedError, Repository } from 'typeorm';
-import { DentalServDto } from './dentalServ.dto';
+import { DentalServ } from './entities/dentalServ.entity';
+import { QueryFailedError, Repository } from 'typeorm';
+import { DentalServDto } from './dtos/dentalServ.dto';
 
 @Injectable()
 export class DentalServRepository {
@@ -56,9 +55,6 @@ export class DentalServRepository {
   ): Promise<DentalServ> {
     try {
       const service = await this.getDentalServByID(id);
-      if (!service) {
-        throw new BadRequestException('Service not found for id: ' + id);
-      }
       const updatedService = this.dentalServ.merge(service, data);
       const result = await this.dentalServ.save(updatedService);
       return result;
@@ -70,14 +66,16 @@ export class DentalServRepository {
     }
   }
 
-  async removeDentalServ(id: string): Promise<DeleteResult> {
+  async updateIsActive(id: string): Promise<DentalServ> {
     try {
-      const result: DeleteResult = await this.dentalServ.delete(id);
-      if (result.affected === 0)
-        throw new NotFoundException('Service not found for id: ' + id);
+      const service = await this.getDentalServByID(id);
+      const updatedService = this.dentalServ.merge(service, {
+        isActive: !service.isActive,
+      });
+      const result = await this.dentalServ.save(updatedService);
       return result;
     } catch (error) {
-      if (error instanceof NotFoundException) {
+      if (error.response) {
         throw error;
       }
       throw new InternalServerErrorException();

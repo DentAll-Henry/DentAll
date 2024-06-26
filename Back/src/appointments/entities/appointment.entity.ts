@@ -1,56 +1,51 @@
-import { DentalServ } from "src/dentalServ/dentalServ.entity";
-import { Person } from "src/person/entities/person.entity";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-
+import { DentalServ } from 'src/dentalServ/entities/dentalServ.entity';
+import { Patient } from 'src/person/entities/patient.entity';
+// import { Person } from 'src/person/entities/person.entity';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({
-    name: 'appointments'
+  name: 'appointments',
 })
 export class Appointment {
+  /**
+   * UUID generated automatically
+   */
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-    /**
-     * UUID generated automatically
-     */
-    @PrimaryGeneratedColumn("uuid")
-    id: string;
+  @Column({
+    nullable: false,
+  })
+  date_time: Date;
 
-    @Column({
-        nullable: false
-    })
-    date_time: Date;
+  @Column({
+    type: 'varchar',
+    length: 255,
+    nullable: true,
+  })
+  description: string;
 
-    @Column({
-        type: 'varchar',
-        length: 255,
-        nullable: true
-    })
-    description: string;
+  /**
+   * Dentist ID who will cover the appointment
+   * TODO: ADD RELATION WITH DENTIST TABLE
+   */
+  @Column()
+  dentist_id: string;
 
-    /**
-     * Dentist ID who will cover the appointment
-     * TODO: ADD RELATION WITH DENTIST TABLE
-     */
-    @Column()
-    dentist_id: string;
+  /**
+   * Patient ID who will attend the appointment
+   */
+  @ManyToOne(() => Patient, (patient) => patient.id, {
+    cascade: true,
+  })
+  patient: Patient | Patient['id'];
 
-    /**
-     * Patient ID who will attend the appointment
-     * TODO: ADD RELATION WITH PATIENT TABLE
-     */
-    @ManyToOne(() => Person, (person) => person.id, {
-        cascade: true
-    })
-    patient: Person | Person['id']
-
-
-    /**
-     * Service ID for the appointment
-     * 
-     */
-    @ManyToOne(() => DentalServ, (dentalServ) => dentalServ.id, {
-        cascade: true
-    })
-    service: DentalServ | DentalServ['id']
-
-
+  /**
+   * Service ID for the appointment
+   *
+   */
+  @ManyToOne(() => DentalServ, (dentalServ) => dentalServ.id, {
+    cascade: true,
+  })
+  service: DentalServ | DentalServ['id'];
 }
