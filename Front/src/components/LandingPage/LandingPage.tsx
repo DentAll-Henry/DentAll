@@ -13,12 +13,7 @@ const LandingPage = () => {
               <h2 className="text-[#00CE90]">TU SONRISA</h2>
               <h2>CON NOSOTROS </h2>
             </div>
-            <Image
-              src="/images/dental1.png"
-              alt="dental custum"
-              width={500}
-              height={500}
-            />
+            <Image src="/images/dental1.svg" alt="dental custum" width={500} height={500}/>
           </div>
         </div>
 
@@ -35,12 +30,7 @@ const LandingPage = () => {
                 Agendar cita{" "}
               </button>
             </div>
-            <Image
-              src="/images/dental2.png"
-              alt="dental custom"
-              width={700}
-              height={700}
-            />
+            <Image src="/images/dental2.svg" alt="dental custum" width={700} height={700}/>
           </div>
         </div>
       </section>
