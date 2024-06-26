@@ -11,6 +11,7 @@ import { AppointmentsModule } from './appointments/appointments.module';
 import { LoggerMiddleware } from './middlewares/logger.middleware';
 import { RolesModule } from './role/role.module';
 import { MailModule } from './mail/mail.module';
+import { requiresAuth } from 'express-openid-connect';
 
 
 @Module({
@@ -47,5 +48,8 @@ export class AppModule {
     consumer
       .apply(LoggerMiddleware)
       .forRoutes({ path: '*', method: RequestMethod.ALL });
+    consumer
+      .apply(requiresAuth())
+      .forRoutes('/people/auth0');
   }
 }
