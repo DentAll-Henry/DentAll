@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post } from '@nestjs/common';
+import { Controller, Get, Param, ParseUUIDPipe, Post } from '@nestjs/common';
 import { RolesService } from './role.service';
 import { ApiTags } from '@nestjs/swagger';
 import { Roles } from './enums/roles.enum';
@@ -13,9 +13,9 @@ export class RolesController {
     return this.rolesService.getRoles();
   }
 
-  @Get(':id')
-  async roleByName(@Param('role') role: Roles) {
-    return this.rolesService.roleByName(role);
+  @Get(':name')
+  async roleById(@Param('name') name: Roles) {
+    return this.rolesService.roleByName(name);
   }
 
   @Post()

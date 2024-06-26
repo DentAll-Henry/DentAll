@@ -14,6 +14,8 @@ import { MailModule } from './mail/mail.module';
 import { ProductModule } from './product/product.module';
 import { ReportModule } from './report/report.module';
 import { ClinicalHistoryModule } from './clinicalHistory/clinicalHistory.module';
+import { requiresAuth } from 'express-openid-connect';
+
 
 @Module({
   imports: [
@@ -34,7 +36,6 @@ import { ClinicalHistoryModule } from './clinicalHistory/clinicalHistory.module'
     ProductModule,
     ReportModule,
     ClinicalHistoryModule,
-
     JwtModule.register({
       global: true,
       secret: environment.jwt,
@@ -52,5 +53,8 @@ export class AppModule {
     consumer
       .apply(LoggerMiddleware)
       .forRoutes({ path: '*', method: RequestMethod.ALL });
+    consumer
+      .apply(requiresAuth())
+      .forRoutes('/people/auth0');
   }
 }

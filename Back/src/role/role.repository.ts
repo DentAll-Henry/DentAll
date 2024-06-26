@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Role } from './entities/role.entity';
 import { Repository } from "typeorm";
@@ -22,6 +22,7 @@ export class RolesRepository {
             name,
         }
     });
+    if (!role) throw new BadRequestException('Role with that name does not exist')
     return role;
   }
 
