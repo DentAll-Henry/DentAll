@@ -44,7 +44,7 @@ export class Appointment {
    * Service ID for the appointment
    *
    */
-  @ManyToOne(() => DentalServ, (dentalServ) => dentalServ.id, {
+  @ManyToOne(() => DentalServ, (dentalServ) => dentalServ.appo, {
     cascade: true,
   })
   service: DentalServ | DentalServ['id'];
