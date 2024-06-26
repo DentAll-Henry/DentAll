@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class Migracion31719449905411 implements MigrationInterface {
-  name = 'Migracion31719449905411';
+export class SegundaMigracion1719432854749 implements MigrationInterface {
+  name = 'SegundaMigracion1719432854749';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
@@ -14,10 +14,10 @@ export class Migracion31719449905411 implements MigrationInterface {
       `CREATE TABLE "report" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "appointment_id" character varying NOT NULL, CONSTRAINT "PK_99e4d0bea58cba73c57f935a546" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(
-      `CREATE TABLE "system_configs" ("slug_name" character varying NOT NULL, "title" character varying NOT NULL, "value" character varying NOT NULL, CONSTRAINT "UQ_a142ab57a241b44ba9e1f4feab4" UNIQUE ("slug_name"), CONSTRAINT "PK_a142ab57a241b44ba9e1f4feab4" PRIMARY KEY ("slug_name"))`,
+      `CREATE TABLE "roles" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" character varying NOT NULL, "description" character varying NOT NULL, CONSTRAINT "PK_c1433d71a4838793a49dcad46ab" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(
-      `CREATE TABLE "roles" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" character varying NOT NULL, "description" character varying NOT NULL, CONSTRAINT "PK_c1433d71a4838793a49dcad46ab" PRIMARY KEY ("id"))`,
+      `CREATE TABLE "system_configs" ("slug_name" character varying NOT NULL, "title" character varying NOT NULL, "value" character varying NOT NULL, CONSTRAINT "UQ_a142ab57a241b44ba9e1f4feab4" UNIQUE ("slug_name"), CONSTRAINT "PK_a142ab57a241b44ba9e1f4feab4" PRIMARY KEY ("slug_name"))`,
     );
     await queryRunner.query(
       `CREATE TABLE "auths" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "email" character varying(50) NOT NULL, "password" character varying(100) NOT NULL, CONSTRAINT "UQ_a28e912dc6bde5945582f2be0a2" UNIQUE ("email"), CONSTRAINT "PK_22fc0631a651972ddc9c5a31090" PRIMARY KEY ("id"))`,
@@ -26,25 +26,19 @@ export class Migracion31719449905411 implements MigrationInterface {
       `CREATE TABLE "people" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "first_name" character varying(50) NOT NULL, "last_name" character varying(50) NOT NULL, "birthdate" TIMESTAMP NOT NULL, "dni" character varying NOT NULL, "phone" character varying NOT NULL, "email" character varying(50) NOT NULL, "address" character varying NOT NULL, "location" character varying NOT NULL, "nationality" character varying NOT NULL, "deleteDate" TIMESTAMP, "auth" uuid, CONSTRAINT "UQ_c18da65793895769252e363e34d" UNIQUE ("dni"), CONSTRAINT "UQ_c77e8752faa45901af2b245dff2" UNIQUE ("email"), CONSTRAINT "REL_ef1d7960ba3545bf6103284c1a" UNIQUE ("auth"), CONSTRAINT "PK_aa866e71353ee94c6cc51059c5b" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(
-      `CREATE TABLE "deseases" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" character varying(50) NOT NULL, "recordId" uuid, CONSTRAINT "PK_ac2b75d69b272a8e170c92f1192" PRIMARY KEY ("id"))`,
-    );
-    await queryRunner.query(
-      `CREATE TABLE "dental_record" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "health_Insurance" character varying(25) NOT NULL, "observations" character varying(150) NOT NULL, "medication" character varying(50) NOT NULL, CONSTRAINT "PK_49828183f5c3ee1bae5f2a946a3" PRIMARY KEY ("id"))`,
-    );
-    await queryRunner.query(
-      `CREATE TABLE "dental_serv" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" character varying(100) NOT NULL, "price" numeric(10,2) NOT NULL, "description" character varying(200) NOT NULL, "isActive" boolean NOT NULL DEFAULT true, "recordId" uuid, CONSTRAINT "UQ_6ddd112993478d00054a1b30bbd" UNIQUE ("name"), CONSTRAINT "PK_76802d35cae895ec682082ae061" PRIMARY KEY ("id"))`,
+      `CREATE TABLE "dental_serv" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" character varying(100) NOT NULL, "price" numeric(10,2) NOT NULL, "description" character varying(200) NOT NULL, "isActive" boolean NOT NULL DEFAULT true, CONSTRAINT "UQ_6ddd112993478d00054a1b30bbd" UNIQUE ("name"), CONSTRAINT "PK_76802d35cae895ec682082ae061" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(
       `CREATE TABLE "appointments" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "date_time" TIMESTAMP NOT NULL, "description" character varying(255), "dentist_id" character varying NOT NULL, "patientId" integer, "serviceId" uuid, CONSTRAINT "PK_4a437a9a27e948726b8bb3e36ad" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(
-      `CREATE TABLE "systemic_background" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" character varying(50) NOT NULL, "info" character varying(100) NOT NULL, "clinicalHistoryId" uuid, CONSTRAINT "PK_ece19e1a8edf8253de4677ccb9f" PRIMARY KEY ("id"))`,
+      `CREATE TABLE "systemic_background" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" character varying NOT NULL, "info" character varying NOT NULL, "clinicalHistoryId" integer, CONSTRAINT "PK_ece19e1a8edf8253de4677ccb9f" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(
-      `CREATE TABLE "clinical_history" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "guard_card" character varying NOT NULL, "date" TIMESTAMP NOT NULL, CONSTRAINT "UQ_85f319658fa87f6e8e0d937e7f6" UNIQUE ("guard_card"), CONSTRAINT "PK_bc39a3e6645cdb43c64210bf833" PRIMARY KEY ("id"))`,
+      `CREATE TABLE "clinical_history" ("id" SERIAL NOT NULL, "guard_card" character varying NOT NULL, "date" TIMESTAMP NOT NULL, CONSTRAINT "PK_bc39a3e6645cdb43c64210bf833" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(
-      `CREATE TABLE "patient" ("id" SERIAL NOT NULL, "person_id" uuid, "clinicalHistory_id" uuid, CONSTRAINT "REL_b829cf7046dfb9d4e510984e97" UNIQUE ("person_id"), CONSTRAINT "REL_cb74e14f5644ba9eab02e0b0be" UNIQUE ("clinicalHistory_id"), CONSTRAINT "PK_8dfa510bb29ad31ab2139fbfb99" PRIMARY KEY ("id"))`,
+      `CREATE TABLE "patient" ("id" SERIAL NOT NULL, "person_id" uuid, "clinicalHistory_id" integer, CONSTRAINT "REL_b829cf7046dfb9d4e510984e97" UNIQUE ("person_id"), CONSTRAINT "REL_cb74e14f5644ba9eab02e0b0be" UNIQUE ("clinicalHistory_id"), CONSTRAINT "PK_8dfa510bb29ad31ab2139fbfb99" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(
       `CREATE TABLE "products_report" ("productReport_id" uuid NOT NULL, "product_id" uuid NOT NULL, CONSTRAINT "PK_3d0355297ef0e567a4912390ce0" PRIMARY KEY ("productReport_id", "product_id"))`,
@@ -69,12 +63,6 @@ export class Migracion31719449905411 implements MigrationInterface {
     );
     await queryRunner.query(
       `ALTER TABLE "people" ADD CONSTRAINT "FK_ef1d7960ba3545bf6103284c1a8" FOREIGN KEY ("auth") REFERENCES "auths"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`,
-    );
-    await queryRunner.query(
-      `ALTER TABLE "deseases" ADD CONSTRAINT "FK_f2254c5ab0e8e90f8d0c99f84cd" FOREIGN KEY ("recordId") REFERENCES "dental_record"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`,
-    );
-    await queryRunner.query(
-      `ALTER TABLE "dental_serv" ADD CONSTRAINT "FK_53ad13c6c85939b22698374dcb1" FOREIGN KEY ("recordId") REFERENCES "dental_record"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`,
     );
     await queryRunner.query(
       `ALTER TABLE "appointments" ADD CONSTRAINT "FK_13c2e57cb81b44f062ba24df57d" FOREIGN KEY ("patientId") REFERENCES "patient"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`,
@@ -134,12 +122,6 @@ export class Migracion31719449905411 implements MigrationInterface {
       `ALTER TABLE "appointments" DROP CONSTRAINT "FK_13c2e57cb81b44f062ba24df57d"`,
     );
     await queryRunner.query(
-      `ALTER TABLE "dental_serv" DROP CONSTRAINT "FK_53ad13c6c85939b22698374dcb1"`,
-    );
-    await queryRunner.query(
-      `ALTER TABLE "deseases" DROP CONSTRAINT "FK_f2254c5ab0e8e90f8d0c99f84cd"`,
-    );
-    await queryRunner.query(
       `ALTER TABLE "people" DROP CONSTRAINT "FK_ef1d7960ba3545bf6103284c1a8"`,
     );
     await queryRunner.query(
@@ -164,12 +146,10 @@ export class Migracion31719449905411 implements MigrationInterface {
     await queryRunner.query(`DROP TABLE "systemic_background"`);
     await queryRunner.query(`DROP TABLE "appointments"`);
     await queryRunner.query(`DROP TABLE "dental_serv"`);
-    await queryRunner.query(`DROP TABLE "dental_record"`);
-    await queryRunner.query(`DROP TABLE "deseases"`);
     await queryRunner.query(`DROP TABLE "people"`);
     await queryRunner.query(`DROP TABLE "auths"`);
-    await queryRunner.query(`DROP TABLE "roles"`);
     await queryRunner.query(`DROP TABLE "system_configs"`);
+    await queryRunner.query(`DROP TABLE "roles"`);
     await queryRunner.query(`DROP TABLE "report"`);
     await queryRunner.query(`DROP TABLE "productsReport"`);
     await queryRunner.query(`DROP TABLE "product"`);
