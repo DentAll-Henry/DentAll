@@ -17,7 +17,6 @@ import { ClinicalHistoryModule } from './clinicalHistory/clinicalHistory.module'
 import { requiresAuth } from 'express-openid-connect';
 import { SystemConfigsModule } from './system_configs/system_configs.module';
 
-
 @Module({
   imports: [
     ConfigModule.forRoot({

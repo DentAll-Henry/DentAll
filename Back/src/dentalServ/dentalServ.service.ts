@@ -1,11 +1,14 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, OnModuleInit } from '@nestjs/common';
 import { DentalServRepository } from './dentalServ.repository';
 import { DentalServDto } from './dtos/dentalServ.dto';
 import { DentalServ } from './entities/dentalServ.entity';
 
 @Injectable()
-export class DentalServService {
+export class DentalServService implements OnModuleInit {
   constructor(private readonly dentalServRepositiory: DentalServRepository) {}
+  async onModuleInit() {
+    return await this.dentalServRepositiory.init();
+  }
   async getDentalServ(): Promise<DentalServ[]> {
     return await this.dentalServRepositiory.getDentalServ();
   }

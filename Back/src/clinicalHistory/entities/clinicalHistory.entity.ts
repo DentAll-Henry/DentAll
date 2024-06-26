@@ -9,10 +9,10 @@ import { SystemicBackground } from './systemicBackground.entity';
 
 @Entity({ name: 'clinical_history' })
 export class ClinicalHistory {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({ unique: true })
   guard_card: string;
 
   @Column()
