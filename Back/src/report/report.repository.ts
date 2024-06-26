@@ -1,7 +1,7 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { ReportDto, UpdateReportDto } from './report.dto';
+import { CreateReportDto, ReportDto, UpdateReportDto } from './report.dto';
 import { Report } from './report.entity';
 import { productReportDto } from './productReport.dto';
 @Injectable()
@@ -51,17 +51,17 @@ export class ReportRepository {
     });
   }
 
-  async createReport(report: ReportDto) {
+  async createReport(report: CreateReportDto) {
     try {
-      return this.reportRepo.save(report);
+      return await this.reportRepo.save(report);
     } catch (error) {
       throw new InternalServerErrorException("Can't create report");
     }
   }
 
-  editReport(report: Report, data: Partial<UpdateReportDto>) {
+  editReport(report: Report, data: UpdateReportDto) {
     try {
-      return this.reportRepo.save({ ...report, ...data });
+      return this.reportRepo.update(report.id, data);
     } catch (error) {
       throw new InternalServerErrorException("Can't edit report");
     }

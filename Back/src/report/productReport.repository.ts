@@ -1,11 +1,14 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProductReport } from './productReport.entity';
 import { Repository } from 'typeorm';
 import { productReportDto } from './productReport.dto';
-import { ReportService } from './report.service';
 import { Report } from './report.entity';
-import { ReportRepository } from './report.repository';
+import { ProductService } from '../product/product.service';
 @Injectable()
 export class ProductReportRepository {
   constructor(
@@ -13,6 +16,7 @@ export class ProductReportRepository {
     private productReportRepository: Repository<ProductReport>,
     @InjectRepository(Report)
     private readonly ReportRepository: Repository<Report>,
+    private readonly productService: ProductService,
   ) {}
 
   async findOne(id: string) {
@@ -40,12 +44,34 @@ export class ProductReportRepository {
 
   async create(productReportDto: productReportDto) {
     try {
-      const newProductReport = new ProductReport();
-      newProductReport.product = productReportDto.product_id;
-      newProductReport.quantity = productReportDto.quantity;
-      newProductReport.report = await this.ReportRepository.findOne({
+      const product = await this.productService.getProductById(
+        productReportDto.product_id,
+      );
+
+      if (!product) {
+        throw new BadRequestException('Product not founded');
+      }
+
+      const report = await this.ReportRepository.findOne({
         where: { id: productReportDto.report_id },
       });
+
+      if (Number(product.stock) < Number(productReportDto.quantity)) {
+        throw new BadRequestException('Insufficient stock');
+      } else if (Number(product.stock) === 0) {
+        throw new BadRequestException('There is no stock');
+      } else product.stock -= productReportDto.quantity;
+
+      console.log(product.stock - productReportDto.quantity);
+
+      const newProductReport = new ProductReport();
+      const productArray = [];
+
+      productArray.push(product);
+
+      newProductReport.quantity = productReportDto.quantity;
+      newProductReport.report_id = report;
+      newProductReport.product = productArray;
 
       const savedProductReport =
         await this.productReportRepository.save(newProductReport);
