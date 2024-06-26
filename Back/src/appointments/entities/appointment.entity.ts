@@ -21,7 +21,7 @@ export class Appointment {
   @Column({
     type: 'varchar',
     length: 255,
-    nullable: true,
+    nullable: true
   })
   description: string;
 
