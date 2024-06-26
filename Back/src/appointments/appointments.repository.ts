@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Appointment } from './entities/appointment.entity';
@@ -19,7 +19,7 @@ export class AppointmentsRepository {
   async getAppointmentByDentist(id: string): Promise<Appointment[]> {
     return await this.appointment.find({
       where: { dentist_id: id },
-      relations: ['service'],
+      relations: ['service', 'patient'],
     });
   }
 
@@ -52,10 +52,17 @@ export class AppointmentsRepository {
     id: string,
     updateAppointmentDto: UpdateAppointmentDto,
   ) {
-    return await this.appointment.update({ id }, updateAppointmentDto);
+    try {
+      this.appointment.update({ id }, updateAppointmentDto);
+      return await this.getAppointmentById(id);
+    } catch (error) {
+      throw InternalServerErrorException
+    }
+    
   }
 
   async removeAppointment(id: string) {
-    return await this.appointment.delete({ id });
+    const response = await this.appointment.delete({ id });
+    return response.affected ? 'Appointment deleted' : 'Appointment not found';
   }
 }

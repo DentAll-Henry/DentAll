@@ -26,6 +26,7 @@ export class AppointmentsService {
     if (!dentServ)
       throw new BadRequestException('Service not found with id provided');
 
+    //TODO: change this when patient service be created
     const patient: Person = await this.peopleService.personById(
       createAppointmentDto.patient,
     );
