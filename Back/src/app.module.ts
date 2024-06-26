@@ -15,6 +15,7 @@ import { ProductModule } from './product/product.module';
 import { ReportModule } from './report/report.module';
 import { ClinicalHistoryModule } from './clinicalHistory/clinicalHistory.module';
 import { requiresAuth } from 'express-openid-connect';
+import { SystemConfigsModule } from './system_configs/system_configs.module';
 
 @Module({
   imports: [
@@ -44,6 +45,7 @@ import { requiresAuth } from 'express-openid-connect';
       },
     }),
     MailModule,
+    SystemConfigsModule,
   ],
   controllers: [],
   providers: [],
