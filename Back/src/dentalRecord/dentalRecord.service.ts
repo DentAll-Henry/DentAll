@@ -8,15 +8,17 @@ export class DentalRecordService implements OnModuleInit {
   constructor(
     private readonly dentalRecordRepository: DentalRecordRepository,
   ) {}
+
   onModuleInit() {
     return this.dentalRecordRepository.init();
   }
+
   async getDeseases() {
     return await this.dentalRecordRepository.getDeseases();
   }
 
-  async getDentalRecords(): Promise<DentalRecord[]> {
-    return await this.dentalRecordRepository.getDentalRecords();
+  async getDentalRecords(page: number, limit: number): Promise<DentalRecord[]> {
+    return await this.dentalRecordRepository.getDentalRecords(page, limit);
   }
   async getDentalRecordByID(id: string) {
     return await this.dentalRecordRepository.getDentalRecordByID(id);
