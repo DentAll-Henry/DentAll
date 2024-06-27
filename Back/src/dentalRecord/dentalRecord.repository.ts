@@ -10,14 +10,17 @@ import { DentalRecordDto } from './dtos/dentalRecord.dto';
 import { DentalRecord } from './entities/dentalRecord.entity';
 import { Deseases } from './entities/deseases.entity';
 import { deseases } from './dtos/deseases.array';
+import { Patient } from 'src/person/entities/patient.entity';
 
 @Injectable()
 export class DentalRecordRepository {
   constructor(
     @InjectRepository(DentalRecord)
-    private dentalRecordRepository: Repository<DentalRecord>,
+    private readonly dentalRecordRepository: Repository<DentalRecord>,
     @InjectRepository(Deseases)
-    private deseasesRepository: Repository<Deseases>,
+    private readonly deseasesRepository: Repository<Deseases>,
+    @InjectRepository(Patient)
+    private readonly patientRepository: Repository<Patient>,
   ) {}
 
   async init() {
@@ -46,10 +49,17 @@ export class DentalRecordRepository {
     }
   }
 
-  async getDentalRecords() {
+  async getDentalRecords(page: number, limit: number): Promise<DentalRecord[]> {
     try {
-      return await this.dentalRecordRepository.find();
+      const [records, total] = await this.dentalRecordRepository.findAndCount({
+        skip: (page - 1) * limit,
+        take: limit,
+        relations: ['deseases', 'patient'],
+      });
+      return records;
     } catch (error) {
+      console.log(error);
+
       throw new InternalServerErrorException();
     }
   }
@@ -73,11 +83,16 @@ export class DentalRecordRepository {
 
   async createDentalRecord(data: DentalRecordDto) {
     try {
-      // const recordExists = await this.dentalRecordRepository.findOne();
-      // if (recordExists) {
-      //   throw new BadRequestException('Dental record already exists');
+      // implementar cuando se haga el crud de pacientes
+      // const patientExists = await this.patientRepository.findOne({
+      //   where: { id: data.patient_id },
+      // });
+      // if (!patientExists) {
+      //   throw new BadRequestException(
+      //     'Patient not found for id: ' + data.patient_id,
+      //   );
       // }
-      const newRecord = this.dentalRecordRepository.create();
+      const newRecord = this.dentalRecordRepository.create(data);
       const savedRecord = await this.dentalRecordRepository.save(newRecord);
       return savedRecord;
     } catch (error) {

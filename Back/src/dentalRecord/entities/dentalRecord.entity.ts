@@ -4,9 +4,11 @@ import {
   Entity,
   JoinColumn,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Deseases } from './deseases.entity';
+import { Patient } from 'src/person/entities/patient.entity';
 
 @Entity({ name: 'dental_record' })
 export class DentalRecord {
@@ -23,6 +25,8 @@ export class DentalRecord {
 
   // @Column()
   // vestibular: string; // ??
+  @OneToOne(() => Patient)
+  patient: Patient | Patient['id'];
 
   @Column({ type: 'varchar', length: 150 })
   observations: string;
