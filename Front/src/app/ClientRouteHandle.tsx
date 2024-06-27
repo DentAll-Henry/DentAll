@@ -13,9 +13,9 @@ export default function ClientRouteHandler({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const isPageLayout = pathname.startsWith("/page");
-  const isRegisterLayout = pathname.startsWith("/register");
-  const isLoginLayout = pathname.startsWith("/login");
+  const isPageLayout = pathname?.startsWith("/page");
+  const isRegisterLayout = pathname?.startsWith("/register");
+  const isLoginLayout = pathname?.startsWith("/login");
 
   if (isPageLayout) {
     return <PageLayout>{children}</PageLayout>;
