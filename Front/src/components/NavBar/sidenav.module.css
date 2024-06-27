@@ -1,0 +1,9 @@
+/* Estilo para cambiar el color del texto al pasar el mouse */
+.hover\:text-greenD-500:hover {
+  color: #38b000; /* color del texto al pasar el mouse */
+}
+
+/* Estilo para cambiar el color del icono al pasar el mouse */
+.group:hover .icon path {
+  fill: #38b000; /* color del icono al pasar el mouse */
+}
