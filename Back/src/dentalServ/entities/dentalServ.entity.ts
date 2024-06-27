@@ -1,5 +1,12 @@
 import { Appointment } from 'src/appointments/entities/appointment.entity';
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { DentalRecord } from 'src/dentalRecord/entities/dentalRecord.entity';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  ManyToOne,
+} from 'typeorm';
 
 @Entity({ name: 'dental_serv' })
 export class DentalServ {
@@ -20,4 +27,7 @@ export class DentalServ {
 
   @OneToMany(() => Appointment, (appo) => appo.service)
   appo: Appointment | Appointment['id'];
+
+  @ManyToOne(() => DentalRecord, (dentalRecord) => dentalRecord.id)
+  record: DentalRecord | DentalRecord['id'];
 }
