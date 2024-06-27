@@ -5,6 +5,7 @@ import { Appointment } from './entities/appointment.entity';
 import { CreateAppointmentDto } from './dto/create-appointment.dto';
 import { UpdateAppointmentDto } from './dto/update-appointment.dto';
 import { AppointmentPaginationDto } from 'src/common/dto/paginationDto';
+import { GetAvailableSlotsDto } from './dto/get_available-slots.dto';
 
 @Injectable()
 export class AppointmentsRepository {
@@ -91,6 +92,11 @@ export class AppointmentsRepository {
     } catch (error) {
       throw InternalServerErrorException
     }
+
+  }
+
+  async getAppointmentsByDate(date_time: Date, dentist_id: string) {
+    return await this.appointment.findOne({ where: { date_time, dentist_id } });
 
   }
 

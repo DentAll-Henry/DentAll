@@ -16,6 +16,12 @@ import { ReportModule } from './report/report.module';
 import { ClinicalHistoryModule } from './clinicalHistory/clinicalHistory.module';
 import { SystemConfigsModule } from './system_configs/system_configs.module';
 import { DentalRecordModule } from './dentalRecord/dentalRecord.module';
+import { MockAutoLoadService } from './common/service/mock_auto_load.service';
+import { DentalServRepository } from './dentalServ/dentalServ.repository';
+import { DentalServ } from './dentalServ/entities/dentalServ.entity';
+import { AuthService } from './auth/auth.service';
+import { Auth } from './auth/entities/auth.entity';
+import { AuthRepository } from './auth/auth.repository';
 
 @Module({
   imports: [
@@ -45,9 +51,12 @@ import { DentalRecordModule } from './dentalRecord/dentalRecord.module';
     }),
     MailModule,
     SystemConfigsModule,
+    TypeOrmModule.forFeature([DentalServ]),
+    TypeOrmModule.forFeature([Auth]),
   ],
   controllers: [],
-  providers: [],
+
+  providers: [MockAutoLoadService, AuthService, AuthRepository],
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {

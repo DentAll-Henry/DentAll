@@ -7,7 +7,12 @@ export class SystemConfigsService {
 
   constructor(
     private readonly systemConfigsRepository: SystemConfigsRepository
-  ) {}
+  ) { }
+
+  async onModuleInit() {
+    const response = await this.systemConfigsRepository.seedSystemConfigsSeeder();
+    console.log(response)
+  }
 
   findAll() {
     return this.systemConfigsRepository.findAll();
