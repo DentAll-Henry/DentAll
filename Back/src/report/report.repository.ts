@@ -26,7 +26,12 @@ export class ReportRepository {
             stock: true,
           },
         },
-        appointment_id: true,
+        appointment: {
+          id: true,
+          date_time: true,
+          dentist_id: true,
+          service: true,
+        },
       },
     });
   }
@@ -34,7 +39,7 @@ export class ReportRepository {
   async getReportById(id: string) {
     return await this.reportRepo.findOne({
       where: { id },
-      relations: ['products', 'products.product'],
+      relations: ['products', 'products.product', 'appointment'],
       select: {
         id: true,
         products: {
@@ -46,11 +51,15 @@ export class ReportRepository {
             stock: true,
           },
         },
-        appointment_id: true,
+        appointment: {
+          id: true,
+          date_time: true,
+          dentist_id: true,
+          service: true,
+        },
       },
     });
   }
-
   async createReport(report: CreateReportDto) {
     try {
       return await this.reportRepo.save(report);

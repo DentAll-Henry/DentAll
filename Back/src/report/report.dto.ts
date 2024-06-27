@@ -1,6 +1,9 @@
 import { IsNotEmpty, IsOptional, IsUUID } from 'class-validator';
 import { ProductReport } from './productReport.entity';
 import { productReportDto, productReportDto2 } from './productReport.dto';
+import { AppointmentPaginationDto } from 'src/common/dto/paginationDto';
+import { Appointment } from 'src/appointments/entities/appointment.entity';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class ReportDto {
   @IsOptional()
@@ -13,11 +16,12 @@ export class ReportDto {
 
 export class CreateReportDto {
   @IsOptional()
-  products: ProductReport[];
+  products: productReportDto2[];
 
   @IsNotEmpty()
+  @ApiProperty()
   @IsUUID()
-  appointment_id: string;
+  appointment: Appointment;
 }
 
 export class UpdateReportDto {

@@ -9,7 +9,7 @@ import { ReportDto, UpdateReportDto } from './report.dto';
 import { ProductService } from 'src/product/product.service';
 import { ProductReportRepository } from './productReport.repository';
 import { Report } from './report.entity';
-// import { AppointmentsService } from 'src/appointments/appointments.service';
+import { AppointmentsService } from 'src/appointments/appointments.service';
 
 @Injectable()
 export class ReportService {
@@ -18,7 +18,7 @@ export class ReportService {
     private readonly productService: ProductService,
     @Inject(forwardRef(() => ProductReportRepository))
     private readonly productReportRepository: ProductReportRepository,
-    // private readonly appService: AppointmentsService,
+    private readonly appService: AppointmentsService,
   ) {}
 
   async getReport() {
@@ -43,7 +43,7 @@ export class ReportService {
     console.log('llega al servicio');
     const newReport = new Report();
 
-    const savedReport = await this.reportRepo.createReport(newReport);
+    const app = await this.appService.findOne(report.appointment_id);
 
     const arrProductr = [];
 
@@ -51,16 +51,16 @@ export class ReportService {
       const productReport = await this.productReportRepository.create({
         product_id: producto.id,
         quantity: producto.quantity,
-        report_id: savedReport.id,
+        report_id: newReport.id,
       });
 
       arrProductr.push(productReport);
     }
 
-    savedReport.products = arrProductr;
-    savedReport.appointment_id = report.appointment_id;
+    newReport.products = arrProductr;
+    newReport.appointment = app;
 
-    const createdReport = await this.reportRepo.createReport(savedReport);
+    const createdReport = await this.reportRepo.createReport(newReport);
 
     return await this.getReportById(createdReport.id);
   }
