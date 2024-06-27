@@ -10,15 +10,18 @@ import { PeopleRepository } from 'src/person/person.repository';
 import { PeopleModule } from 'src/person/person.module';
 import { DentalServModule } from 'src/dentalServ/dentalServ.module';
 import { DentalServ } from 'src/dentalServ/entities/dentalServ.entity';
+import { SystemConfigsService } from 'src/system_configs/system_configs.service';
+import { SystemConfig } from 'src/system_configs/entities/system_config.entity';
+import { SystemConfigsRepository } from 'src/system_configs/system_configs.repository';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Appointment, DentalServ]),
+    TypeOrmModule.forFeature([Appointment, DentalServ, SystemConfig]),
     PeopleModule,
     DentalServModule,
   ],
   controllers: [AppointmentsController],
-  providers: [AppointmentsService, AppointmentsRepository, MailService],
+  providers: [AppointmentsService, AppointmentsRepository, MailService, SystemConfigsService, SystemConfigsRepository],
   exports: [AppointmentsService],
 })
 export class AppointmentsModule {}

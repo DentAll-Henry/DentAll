@@ -11,6 +11,8 @@ import { DentalServService } from 'src/dentalServ/dentalServ.service';
 import { Person } from 'src/person/entities/person.entity';
 import { DentalServ } from 'src/dentalServ/entities/dentalServ.entity';
 import { AppointmentPaginationDto } from 'src/common/dto/paginationDto';
+import { GetAvailableSlotsDto } from './dto/get_available-slots.dto';
+import { SystemConfigsService } from 'src/system_configs/system_configs.service';
 
 @Injectable()
 export class AppointmentsService {
@@ -19,6 +21,7 @@ export class AppointmentsService {
     private readonly dentalServService: DentalServService,
     private readonly peopleService: PeopleService,
     private readonly mailService: MailService,
+    private readonly systemConfigsService: SystemConfigsService,
   ) { }
   async create(createAppointmentDto: CreateAppointmentDto) {
     const dentServ: DentalServ = await this.dentalServService.getDentalServByID(
@@ -106,6 +109,57 @@ export class AppointmentsService {
       updateAppointmentDto,
     );
     return await this.appointmentsRepository.getAppointmentById(id);
+  }
+
+  async getAvailableSlots(getAvailableSlotsDto: GetAvailableSlotsDto) {
+    const { date, dentist_id } = getAvailableSlotsDto
+
+    const currentDate = new Date();
+    if (new Date(date) < currentDate) {
+      throw new BadRequestException('Date must be a future date');
+    }
+
+    //TODO: check if dentist exists
+
+
+    const slots = await this.getSlots(date)
+
+    const available = await Promise.all(slots.map(async slot => {
+      const appointment = await this.appointmentsRepository.getAppointmentsByDate(slot, dentist_id)
+
+      if (!appointment) return new Date(slot)
+      
+    }))
+
+    return available.filter(slot => slot !== undefined)
+  }
+
+  async getSlots(date: Date) {
+    const slots: Date[] = []
+    const start_time = await this.systemConfigsService.findOne('open_time')
+    const end_time = await this.systemConfigsService.findOne('close_time')
+    const duration = await this.systemConfigsService.findOne('appointment_duration')
+
+    if (!start_time || !end_time || !duration) throw new BadRequestException("Couldn't process this request. System configs not found");
+
+    const start_datetime = new Date(date);
+    const [start_hour, start_minute] = start_time.value.split(':');
+    start_datetime.setHours(parseInt(start_hour))
+    start_datetime.setMinutes(parseInt(start_minute))
+
+    const end_datetime = new Date(date);
+    const [end_hour, end_minute] = end_time.value.split(':');
+    end_datetime.setHours(parseInt(end_hour))
+    end_datetime.setMinutes(parseInt(end_minute))
+
+    const duration_minutes = parseInt(duration.value)
+
+    while (start_datetime < end_datetime) {
+      slots.push(new Date(start_datetime))
+      start_datetime.setMinutes(start_datetime.getMinutes() + duration_minutes)
+    }
+
+    return slots
   }
 
   async remove(id: string) {
