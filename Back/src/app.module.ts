@@ -13,9 +13,9 @@ import { RolesModule } from './role/role.module';
 import { MailModule } from './mail/mail.module';
 import { ProductModule } from './product/product.module';
 import { ReportModule } from './report/report.module';
-import { ClinicalHistoryModule } from './clinicalHistory/clinicalHistory.module';
 import { requiresAuth } from 'express-openid-connect';
 import { SystemConfigsModule } from './system_configs/system_configs.module';
+import { DentalRecordModule } from './dentalRecord/dentalRecord.module';
 
 @Module({
   imports: [
@@ -35,7 +35,7 @@ import { SystemConfigsModule } from './system_configs/system_configs.module';
     RolesModule,
     ProductModule,
     ReportModule,
-    ClinicalHistoryModule,
+    DentalRecordModule,
     JwtModule.register({
       global: true,
       secret: environment.jwt,
@@ -54,8 +54,6 @@ export class AppModule {
     consumer
       .apply(LoggerMiddleware)
       .forRoutes({ path: '*', method: RequestMethod.ALL });
-    consumer
-      .apply(requiresAuth())
-      .forRoutes('/people/auth0');
+    consumer.apply(requiresAuth()).forRoutes('/people/auth0');
   }
 }
