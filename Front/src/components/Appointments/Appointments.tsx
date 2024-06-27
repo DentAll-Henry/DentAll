@@ -1,4 +1,3 @@
-// Front/src/components/Appointments/Appointments.tsx
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -20,10 +19,11 @@ const Appointments: React.FC = () => {
         const response = await fetch(
           "/api/calendar?code=YOUR_AUTHORIZATION_CODE"
         );
-        const events = await response.json();
-        setEvents(events);
+        const data = await response.json();
+        setEvents(Array.isArray(data) ? data : []);
       } catch (error) {
         console.error("Error fetching events: ", error);
+        setEvents([]); // En caso de error, asegurarse de que `events` sea un array vacío
       }
     };
 
