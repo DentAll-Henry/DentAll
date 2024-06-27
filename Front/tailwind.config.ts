@@ -1,4 +1,4 @@
-import type { Config } from "tailwindcss";
+import type { Config } from "tailwindcss"
 
 const config: Config = {
   content: [
@@ -8,7 +8,7 @@ const config: Config = {
   ],
   theme: {
     extend: {
-        colors: {
+      colors: {
         greenD: {
           100: '#CAFCD9',
           200: '#96FABE',
@@ -40,5 +40,5 @@ const config: Config = {
     },
   },
   plugins: [require("tailwindcss"), require("autoprefixer")],
-};
-export default config;
+}
+export default config

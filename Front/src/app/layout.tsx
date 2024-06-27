@@ -1,27 +1,21 @@
 import type { Metadata } from "next";
+import ClientRouteHandler from "@/app/ClientRouteHandle";
 import "./globals.css";
-import Footer from "@/components/Footers/Footer";
-import Navbar from "@/components/NavBar/navBar";
-
-
 
 export const metadata: Metadata = {
   title: "DentAll",
-  description:
-    "Una plataforma para hacer la vida de los odontólogos y pacientes mas sencilla",
+  description: "Sitio de venta exclusiva de Apple",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
-      <body className="bg-black">
-        <Navbar />
-        {children}
-      <Footer />
+      <body>
+        <ClientRouteHandler>{children}</ClientRouteHandler>
       </body>
     </html>
   );

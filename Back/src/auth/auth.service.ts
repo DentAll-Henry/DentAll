@@ -50,6 +50,7 @@ export class AuthService {
   async signIn(signInInfo: Omit<Auth, 'id'>) {
     const credential: Auth =
       await this.authRepository.credentialByEmail(signInInfo.email);
+
     if (!credential) throw new BadRequestException('Invalid credentials');
 
     const isPassCorrect: boolean = await bcrypt.compare(
@@ -57,6 +58,7 @@ export class AuthService {
       credential.password,
     );
     if (!isPassCorrect) throw new BadRequestException('Invalid credentials');
+
 
     const person: Person =
       await this.peopleService.personByEmail(credential.email);

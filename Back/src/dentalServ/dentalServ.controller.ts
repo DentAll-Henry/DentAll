@@ -18,8 +18,9 @@ import { ApiTags } from '@nestjs/swagger';
 export class DentalServController {
   constructor(private readonly dentalServService: DentalServService) {}
   @Get('')
-  async getDentalServ() {
-    return await this.dentalServService.getDentalServ();
+  async getDentalServ(@Res() res: Response) {
+    const services = await this.dentalServService.getDentalServ();
+    res.status(200).json(services);
   }
   @Get(':id')
   async getDentalServById(

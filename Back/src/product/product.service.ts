@@ -23,7 +23,6 @@ export class ProductService {
     const existingProduct = await this.productRepository.getProductByName(
       product.name,
     );
-    console.log(existingProduct);
 
     if (existingProduct) {
       throw new BadRequestException('Product already exists');
@@ -40,9 +39,9 @@ export class ProductService {
     return this.productRepository.editProduct(existingProduct, data);
   }
 
-  async unassociateProduct(product: Product, quantity: number) {
-    product.stock += quantity;
-    return this.productRepository.saveProduct(product);
+  async unassociateProduct(product: Product[], quantity: number) {
+    product[0].stock += quantity;
+    return this.productRepository.saveProduct(product[0]);
   }
 
   async deleteProduct(id: string) {

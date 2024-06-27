@@ -14,6 +14,8 @@ import { MailModule } from './mail/mail.module';
 import { ProductModule } from './product/product.module';
 import { ReportModule } from './report/report.module';
 import { ClinicalHistoryModule } from './clinicalHistory/clinicalHistory.module';
+import { SystemConfigsModule } from './system_configs/system_configs.module';
+import { DentalRecordModule } from './dentalRecord/dentalRecord.module';
 
 @Module({
   imports: [
@@ -33,7 +35,7 @@ import { ClinicalHistoryModule } from './clinicalHistory/clinicalHistory.module'
     RolesModule,
     ProductModule,
     ReportModule,
-    ClinicalHistoryModule,
+    DentalRecordModule,
     JwtModule.register({
       global: true,
       secret: environment.jwt,
@@ -42,6 +44,7 @@ import { ClinicalHistoryModule } from './clinicalHistory/clinicalHistory.module'
       },
     }),
     MailModule,
+    SystemConfigsModule,
   ],
   controllers: [],
   providers: [],

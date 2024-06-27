@@ -4,30 +4,63 @@ import { Repository } from 'typeorm';
 import { Appointment } from './entities/appointment.entity';
 import { CreateAppointmentDto } from './dto/create-appointment.dto';
 import { UpdateAppointmentDto } from './dto/update-appointment.dto';
+import { AppointmentPaginationDto } from 'src/common/dto/paginationDto';
 
 @Injectable()
 export class AppointmentsRepository {
   constructor(
     @InjectRepository(Appointment) private appointment: Repository<Appointment>,
-  ) {}
-  async getAppointments(): Promise<Appointment[]> {
-    return await this.appointment.find({
+  ) { }
+  async getAppointments(paginationDto: AppointmentPaginationDto): Promise<Appointment[]> {
+    /* return await this.appointment.find({
       relations: ['service', 'patient'],
-    });
+      skip: (page - 1) * limit,
+      take: limit,
+    }); */
+    const { page, limit, only_future } = paginationDto;
+    const queryBuilder = this.appointment.createQueryBuilder('appointment')
+      .leftJoinAndSelect('appointment.service', 'service')
+      .leftJoinAndSelect('appointment.patient', 'patient')
+      .skip((page - 1) * limit)
+      .take(limit);
+
+    if (only_future) {
+      queryBuilder.andWhere('appointment.date_time > :now', { now: new Date() });
+    }
+
+    return await queryBuilder.getMany();
   }
 
-  async getAppointmentByDentist(id: string): Promise<Appointment[]> {
-    return await this.appointment.find({
-      where: { dentist_id: id },
-      relations: ['service', 'patient'],
-    });
+  async getAppointmentByDentist(dentist_id: string, paginationDto: AppointmentPaginationDto): Promise<Appointment[]> {
+    const { page, limit, only_future } = paginationDto;
+    const queryBuilder = this.appointment.createQueryBuilder('appointment')
+      .leftJoinAndSelect('appointment.service', 'service')
+      .leftJoinAndSelect('appointment.patient', 'patient')
+      .where('appointment.dentist = :dentist_id', { dentist_id })
+      .skip((page - 1) * limit)
+      .take(limit);
+
+    if (only_future) {
+      queryBuilder.andWhere('appointment.date_time > :now', { now: new Date() });
+    }
+
+    return await queryBuilder.getMany();
   }
 
-  async getAppointmentByPatient(id: string): Promise<Appointment[]> {
-    return await this.appointment.find({
-      where: { patient: { id } },
-      relations: ['service', 'patient'],
-    });
+  async getAppointmentByPatient(patient_id: string, paginationDto: AppointmentPaginationDto): Promise<Appointment[]> {
+    const { page, limit, only_future } = paginationDto;
+    const queryBuilder = this.appointment.createQueryBuilder('appointment')
+      .leftJoinAndSelect('appointment.service', 'service')
+      .leftJoinAndSelect('appointment.patient', 'patient')
+      .where('appointment.patient = :patient_id', { patient_id })
+      .skip((page - 1) * limit)
+      .take(limit);
+
+    if (only_future) {
+      queryBuilder.andWhere('appointment.date_time > :now', { now: new Date() });
+    }
+
+    return await queryBuilder.getMany();
   }
 
   async postAppointment(createAppointmentDto: CreateAppointmentDto) {
@@ -58,7 +91,7 @@ export class AppointmentsRepository {
     } catch (error) {
       throw InternalServerErrorException
     }
-    
+
   }
 
   async removeAppointment(id: string) {

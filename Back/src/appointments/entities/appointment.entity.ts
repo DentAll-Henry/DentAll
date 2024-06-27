@@ -21,7 +21,7 @@ export class Appointment {
   @Column({
     type: 'varchar',
     length: 255,
-    nullable: true,
+    nullable: true
   })
   description: string;
 
@@ -44,7 +44,7 @@ export class Appointment {
    * Service ID for the appointment
    *
    */
-  @ManyToOne(() => DentalServ, (dentalServ) => dentalServ.id, {
+  @ManyToOne(() => DentalServ, (dentalServ) => dentalServ.appo, {
     cascade: true,
   })
   service: DentalServ | DentalServ['id'];

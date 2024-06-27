@@ -10,6 +10,7 @@ import { PeopleService } from 'src/person/person.service';
 import { DentalServService } from 'src/dentalServ/dentalServ.service';
 import { Person } from 'src/person/entities/person.entity';
 import { DentalServ } from 'src/dentalServ/entities/dentalServ.entity';
+import { AppointmentPaginationDto } from 'src/common/dto/paginationDto';
 
 @Injectable()
 export class AppointmentsService {
@@ -18,7 +19,7 @@ export class AppointmentsService {
     private readonly dentalServService: DentalServService,
     private readonly peopleService: PeopleService,
     private readonly mailService: MailService,
-  ) {}
+  ) { }
   async create(createAppointmentDto: CreateAppointmentDto) {
     const dentServ: DentalServ = await this.dentalServService.getDentalServByID(
       createAppointmentDto.service,
@@ -54,16 +55,16 @@ export class AppointmentsService {
     return appointment;
   }
 
-  findAll() {
-    return this.appointmentsRepository.getAppointments();
+  findAll(paginationDto: AppointmentPaginationDto) {
+    return this.appointmentsRepository.getAppointments(paginationDto);
   }
 
-  findByDentist(id: string) {
-    return this.appointmentsRepository.getAppointmentByDentist(id);
+  findByDentist(id: string, paginationDto: AppointmentPaginationDto) {
+    return this.appointmentsRepository.getAppointmentByDentist(id, paginationDto);
   }
 
-  findByPatient(id: string) {
-    return this.appointmentsRepository.getAppointmentByPatient(id);
+  findByPatient(id: string, paginationDto: AppointmentPaginationDto) {
+    return this.appointmentsRepository.getAppointmentByPatient(id, paginationDto);
   }
 
   async findOne(id: string) {

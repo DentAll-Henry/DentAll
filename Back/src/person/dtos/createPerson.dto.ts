@@ -1,5 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDateString, IsEmail, IsNumberString, IsStrongPassword, Length } from 'class-validator';
+import {
+  IsDateString,
+  IsEmail,
+  IsNumberString,
+  IsStrongPassword,
+  Length,
+} from 'class-validator';
 
 export class CreatePersonDto {
   @Length(2, 20, {
@@ -24,11 +30,11 @@ export class CreatePersonDto {
     {},
     {
       message: 'It must be a valid date',
-    }
+    },
   )
   @ApiProperty({
     description: 'It must be a valid date',
-    example: '2000-01-25'
+    example: '2000-01-25',
   })
   birthdate: Date;
 
@@ -40,7 +46,7 @@ export class CreatePersonDto {
   )
   @ApiProperty({
     description: 'It must have only numbers',
-    example: '123456789'
+    example: '123456789',
   })
   dni: string;
 
@@ -52,19 +58,19 @@ export class CreatePersonDto {
   )
   @ApiProperty({
     description: 'It must have only numbers',
-    example: '123456789'
+    example: '123456789',
   })
   phone: string;
 
   @IsEmail(
     {},
     {
-      message: 'It must be a valid email'
-    }
+      message: 'It must be a valid email',
+    },
   )
   @ApiProperty({
     description: 'It must be a valid email',
-    example: 'example@mail.com'
+    example: 'example@mail.com',
   })
   email: string;
 
@@ -73,7 +79,7 @@ export class CreatePersonDto {
   })
   @ApiProperty({
     description: 'Address length must be between 2 and 20 characters',
-    example: 'Avenida Alvarez Jonte 1234, CABA, Buenos Aires'
+    example: 'Avenida Alvarez Jonte 1234, CABA, Buenos Aires',
   })
   address: string;
 
@@ -82,7 +88,7 @@ export class CreatePersonDto {
   })
   @ApiProperty({
     description: 'Location length must be between 2 and 20 characters',
-    example: 'Ciudad Autonoma de Buenos Aires - CABA'
+    example: 'Ciudad Autonoma de Buenos Aires - CABA',
   })
   location: string;
 
@@ -91,7 +97,7 @@ export class CreatePersonDto {
   })
   @ApiProperty({
     description: 'Nationality length must be between 2 and 20 characters',
-    example: 'Argentino'
+    example: 'Argentino',
   })
   nationality: string;
 
@@ -109,8 +115,9 @@ export class CreatePersonDto {
     },
   )
   @ApiProperty({
-    description: 'Password should has at less 8 characters, including a upper case letter, a lower case letter, a number an a symbol.',
-    example: 'Pass*123'
+    description:
+      'Password should has at less 8 characters, including a upper case letter, a lower case letter, a number an a symbol.',
+    example: 'Pass*123',
   })
   password: string;
 }

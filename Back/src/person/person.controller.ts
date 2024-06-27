@@ -1,7 +1,21 @@
-import { BadRequestException, Controller, Get, Param, ParseUUIDPipe } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseUUIDPipe,
+  Patch,
+  Post,
+  Query,
+  Req,
+  Res,
+} from '@nestjs/common';
 import { PeopleService } from './person.service';
 import { Person } from './entities/person.entity';
 import { ApiTags } from '@nestjs/swagger';
+import { Request, Response } from 'express';
+import { Roles } from 'src/role/enums/roles.enum';
+import { RoleByNameDto } from 'src/role/dtos/role.dto';
 
 @ApiTags('People')
 @Controller('people')
@@ -19,5 +33,17 @@ export class PeopleController {
     const person: Person = await this.peopleService.personByEmail(email);
     if(!person) throw new BadRequestException(`Person with email ${email} does not exist`)
     return true;
+  }
+}
+
+  // this endpoint is only for admin,superadmin
+  @Patch('role/:id')
+  async addRole(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Res() res: Response,
+    @Body() role: RoleByNameDto,
+  ) {
+    const response = await this.peopleService.addRole(id, role);
+    return res.status(200).json(response);
   }
 }

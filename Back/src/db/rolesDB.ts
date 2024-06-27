@@ -1,9 +1,10 @@
-import { Roles } from "src/role/enums/roles.enum";
+import { Roles } from 'src/role/enums/roles.enum';
 
 export const rolesDB = [
   {
     name: Roles.PATIENT,
-    description: 'Usuario que desea recibir tratamiento odontológico en DentAll',
+    description:
+      'Usuario que desea recibir tratamiento odontológico en DentAll',
   },
   {
     name: Roles.ADMINISTRATIVE,
