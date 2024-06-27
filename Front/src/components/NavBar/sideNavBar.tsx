@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export default function SideNav() {
   return (
-    <div className="h-screen w-64 bg-darkD-600 text-white">
+    <div className="h-screen w-[22%] bg-darkD-500 text-white">
       <div className="p-4">
         <Image
           src="/images/Logo.svg"
