@@ -20,7 +20,7 @@ export class AuthService {
   async signUp(
     personInfo: Partial<Person>,
     signUpInfo: Omit<Auth, 'id'>,
-  ): Promise<string> {
+  ) {
     const personByEmailExist: Person =
       await this.peopleService.personByEmail(personInfo.email);
     if (personByEmailExist)
