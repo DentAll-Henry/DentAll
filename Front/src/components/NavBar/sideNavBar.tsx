@@ -1,56 +1,73 @@
 import Link from "next/link";
 import Image from "next/image";
 
-
-export default function SideNav() {
-  return (
-    <div className="h-screen w-[22%] bg-darkD-500 text-white">
-      <div className="p-4">
-        <Image
-          src="/images/Logo.svg"
-          alt="Logo.svg"
-          width={200}
-          height={50}
-          priority
-        />
-      </div>
-      <nav className="mt-5">
-        <ul>
-          <li className="py-2 px-4 m-4 rounded-xl hover:bg-gray-700 group">
-            <Link className="flex gap-4" href="/">
-              <Image
-                className="icon group-hover:fill-current group-hover:text-yellow-500"
-                src="/images/home.svg"
-                width={24}
-                height={24}
-                alt=""
-              />
-              <p className="group-hover:text-yellow-500">Inicio</p>
-            </Link>
-          </li>
-          <li className="py-2 px-4 m-4 rounded-xl hover:bg-gray-700">
-            <Link className="flex gap-4" href="/">
-              <Image src="/images/citas.svg" width={24} height={24} alt="" />
-              <p>Mis citas</p>
-            </Link>
-          </li>
-          <li className="py-2 px-4 m-4 rounded-xl hover:bg-gray-700">
-            <Link className="flex gap-4" href="/">
-              <Image src="/images/recetas.svg" width={24} height={24} alt="" />
-              <p>Recetas medicas</p>
-            </Link>
-          </li>
-          <li className="py-2 px-4 m-4 rounded-xl hover:bg-gray-700">
-            <Link className="flex gap-4" href="/">
-              <Image src="/images/user.svg" width={24} height={24} alt="" />
-              <p>Cerrar sesión</p>
-            </Link>
-          </li>
-        </ul>
-      </nav>
+const Navigation = () => (
+  <div className="h-screen w-[20%] bg-darkD-500 text-white fixed">
+    <div className="p-4">
+      <Image
+        src="/images/Logo.svg"
+        alt="Logo"
+        width={200}
+        height={50}
+        priority
+      />
     </div>
-  );
-}
+    <nav className="mt-5">
+      <ul>
+        <li className="py-2 px-4 m-4 rounded-xl hover:bg-zinc-600 group">
+          <Link className="flex gap-4" href="/page/dashboard_1">
+            <Image
+              className="group-hover:fill-current text-white"
+              src="/images/home.svg"
+              width={24}
+              height={24}
+              alt="Home"
+            />
+            <p className="group-hover:text-greenD-500">Inicio</p>
+          </Link>
+        </li>
+        <li className="py-2 px-4 m-4 rounded-xl hover:bg-zinc-600 group">
+          <Link className="flex gap-4" href="/page/dashboard_1/citas">
+            <Image
+              className="group-hover:fill-current text-white"
+              src="/images/citas.svg"
+              width={24}
+              height={24}
+              alt="Citas"
+            />
+            <p className="group-hover:text-greenD-500">Mis citas</p>
+          </Link>
+        </li>
+        <li className="py-2 px-4 m-4 rounded-xl hover:bg-zinc-600 group">
+          <Link className="flex gap-4" href="#">
+            <Image
+              className="group-hover:fill-current text-white"
+              src="/images/recetas.svg"
+              width={24}
+              height={24}
+              alt="Recetas"
+            />
+            <p className="group-hover:text-greenD-500">Recetas médicas</p>
+          </Link>
+        </li>
+        <li className="py-2 px-4 m-4 rounded-xl hover:bg-zinc-600 group">
+          <Link className="flex gap-4" href="/">
+            <Image
+              className="group-hover:fill-current text-white"
+              src="/images/user.svg"
+              width={24}
+              height={24}
+              alt="Cerrar sesión"
+            />
+            <p className="group-hover:text-greenD-500">Cerrar sesión</p>
+          </Link>
+        </li>
+      </ul>
+    </nav>
+  </div>
+);
+
+export default Navigation;
 
 // <div className=" bg-black ">
 //     <Link

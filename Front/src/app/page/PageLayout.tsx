@@ -7,7 +7,7 @@ export default function PageLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex">
+    <div className="flex ">
         <SideNav />
       {children}
     </div>

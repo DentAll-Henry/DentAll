@@ -1,0 +1,7 @@
+.icon {
+  transition: fill 0.3s ease;
+}
+
+.group:hover .icon {
+  fill: #1db954; /* El color verde que quieres */
+}
