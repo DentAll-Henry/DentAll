@@ -30,19 +30,19 @@ export class PeopleService {
   }
 
   async createPatient(personInfo: Partial<Person>) {
-    // const personByEmailExist: Person =
-    //   await this.peopleRepository.personByEmail(personInfo.email);
-    // if (personByEmailExist)
-    //   throw new BadRequestException('Email already exist');
+    const personByEmailExist: Person =
+      await this.peopleRepository.personByEmail(personInfo.email);
+    if (personByEmailExist)
+      throw new BadRequestException('Email already exist');
 
-    // const personByDniExist: Person = await this.peopleRepository.personByDni(
-    //   personInfo.dni,
-    // );
-    // if (personByDniExist) throw new BadRequestException('DNI already exist');
+    const personByDniExist: Person = await this.peopleRepository.personByDni(
+      personInfo.dni,
+    );
+    if (personByDniExist) throw new BadRequestException('DNI already exist');
 
-    // const role: Role = await this.rolesService.roleByName(Roles.PATIENT);
+    const role: Role = await this.rolesService.roleByName(Roles.PATIENT);
 
-    // personInfo.roles = [role];
+    personInfo.roles = [role];
 
     return this.peopleRepository.createPatient(personInfo);
   }
