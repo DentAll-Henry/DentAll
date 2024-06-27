@@ -24,6 +24,7 @@ const Appointments: React.FC = () => {
         setEvents(events);
       } catch (error) {
         console.error("Error fetching events: ", error);
+        setEvents([]);
       }
     };
 
@@ -55,5 +56,4 @@ const Appointments: React.FC = () => {
   );
 };
 
-export default Appointments;
 export default Appointments;
