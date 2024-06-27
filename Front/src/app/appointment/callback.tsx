@@ -1,7 +1,4 @@
-// Front/src/appointment/callback.tsx
-
-"use client";
-
+// Front/src/app/appointment/callback.tsx
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { getToken } from "@/utils/authConfig";
