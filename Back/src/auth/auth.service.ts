@@ -17,27 +17,29 @@ export class AuthService {
     private readonly configService: ConfigService,
   ) {}
 
-  async signUp(personInfo: Partial<Person>, signUpInfo: Omit<Auth, 'id'>) {
-    const personByEmailExist: Person = await this.peopleService.personByEmail(
-      personInfo.email,
-    );
+  async signUp(
+    personInfo: Partial<Person>,
+    signUpInfo: Omit<Auth, 'id'>,
+  ): Promise<string> {
+    const personByEmailExist: Person =
+      await this.peopleService.personByEmail(personInfo.email);
     if (personByEmailExist)
       throw new BadRequestException('Email already exist');
 
-    const personByDniExist: Person = await this.peopleService.personByDni(
-      personInfo.dni,
-    );
+    const personByDniExist: Person =
+      await this.peopleService.personByDni(personInfo.dni);
     if (personByDniExist) throw new BadRequestException('DNI already exist');
 
-    const credential: Auth = await this.authRepository.credentialByEmail(
-      signUpInfo.email,
-    );
+    const credential: Auth =
+      await this.authRepository.credentialByEmail(signUpInfo.email);
 
     if (credential) throw new BadRequestException('Email already exist');
 
-    signUpInfo.password = await Hash(signUpInfo.password);
+    signUpInfo.password = 
+      await Hash(signUpInfo.password);
 
-    const newCredential: Auth = await this.authRepository.signUp(signUpInfo);
+    const newCredential: Auth = 
+      await this.authRepository.signUp(signUpInfo);
 
     return await this.peopleService.createPatient({
       auth: newCredential,
@@ -46,9 +48,9 @@ export class AuthService {
   }
 
   async signIn(signInInfo: Omit<Auth, 'id'>) {
-    const credential: Auth = await this.authRepository.credentialByEmail(
-      signInInfo.email,
-    );
+    const credential: Auth =
+      await this.authRepository.credentialByEmail(signInInfo.email);
+
     if (!credential) throw new BadRequestException('Invalid credentials');
 
     const isPassCorrect: boolean = await bcrypt.compare(
@@ -57,9 +59,9 @@ export class AuthService {
     );
     if (!isPassCorrect) throw new BadRequestException('Invalid credentials');
 
-    const person: Person = await this.peopleService.personByEmail(
-      credential.email,
-    );
+
+    const person: Person =
+      await this.peopleService.personByEmail(credential.email);
 
     const userPayload = {
       id: person.id,

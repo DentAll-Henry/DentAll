@@ -52,14 +52,20 @@ export class Person {
   })
   email: string;
 
-  @Column()
-  address: string;
+  @Column({
+    nullable: true,
+  })
+  address?: string;
 
-  @Column()
-  location: string;
+  @Column({
+    nullable: true,
+  })
+  location?: string;
 
-  @Column()
-  nationality: string;
+  @Column({
+    nullable: true,
+  })
+  nationality?: string;
 
   @DeleteDateColumn({
     nullable: true,

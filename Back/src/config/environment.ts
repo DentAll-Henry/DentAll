@@ -19,10 +19,4 @@ export const environment = {
     user: process.env.NODEMAILER_USER || 'test',
     pass: process.env.NODEMAILER_PASS || 'test',
   },
-  auth0: {
-    secret: process.env.AUTH0_SECRET,
-    baseURL: process.env.AUTH0_BASEURL,
-    clientID: process.env.AUTH0_CLIENTID,
-    issuerBaseURL: process.env.AUTH0_ISSUERBASEURL,
-  }
 };

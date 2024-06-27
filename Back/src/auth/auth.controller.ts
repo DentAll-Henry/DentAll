@@ -2,7 +2,7 @@ import { Body, Controller, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { SignInDto } from './dtos/signIn.dto';
-import { CreatePersonDto } from 'src/person/dtos/createPerson.dto';
+import { CreatePersonDto } from '../person/dtos/createPerson.dto';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -17,7 +17,7 @@ export class AuthController {
   @Post('signup')
   signUp(@Body() userInfo: CreatePersonDto) {
     const { password, ...personInfo } = userInfo;
-    const authInfo = { email: userInfo.email, password: userInfo.password }
+    const authInfo = { email: userInfo.email, password: userInfo.password };
     return this.authService.signUp(personInfo, authInfo);
   }
 }
