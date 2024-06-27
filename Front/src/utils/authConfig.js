@@ -1,4 +1,3 @@
-// Front/src/utils/authConfig.js
 import { google } from "googleapis";
 
 const oAuth2Client = new google.auth.OAuth2(
@@ -9,7 +8,6 @@ const oAuth2Client = new google.auth.OAuth2(
 
 export const getAuthUrl = () => {
   const scopes = ["https://www.googleapis.com/auth/calendar.readonly"];
-
   return oAuth2Client.generateAuthUrl({
     access_type: "offline",
     scope: scopes,
