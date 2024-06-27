@@ -76,9 +76,10 @@ export class ReportRepository {
     }
   }
 
-  deleteReport(report: Report) {
+  async deleteReport(report: Report) {
     try {
-      return this.reportRepo.remove(report);
+      await this.reportRepo.remove(report);
+      return 'Report deleted successfully';
     } catch (error) {
       throw new InternalServerErrorException("Can't delete report");
     }
