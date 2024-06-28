@@ -100,6 +100,17 @@ export class PeopleRepository {
     }
   }
 
+  async getPatientById(patientId: string) {
+    const patient = await this.patientRepository.findOne({
+      where: {
+        id: patientId
+      },
+      relations: ['person_id']
+    });
+    if (!patient) throw new BadRequestException('Patient not found with id provided');
+    return patient;
+  }
+
   async createPatient(personInfo: Partial<Person>): Promise<Person> {
     try {
       const person: Person = await this.peopleRepository.save(personInfo);
