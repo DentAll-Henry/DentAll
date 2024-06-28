@@ -8,13 +8,15 @@ import { Person } from './entities/person.entity';
 import { QueryFailedError, Repository } from 'typeorm';
 import { Role } from '../role/entities/role.entity';
 import { Guest } from './entities/guest.entity';
+import { Patient } from './entities/patient.entity';
 
 @Injectable()
 export class PeopleRepository {
   constructor(
     @InjectRepository(Person) private peopleRepository: Repository<Person>,
     @InjectRepository(Guest) private guestsRepository: Repository<Guest>,
-  ) {}
+    @InjectRepository(Patient) private patientRepository: Repository<Patient>,
+  ) { }
 
   async getAllPeople(paginationDto) {
     const { page, limit } = paginationDto;
@@ -80,6 +82,24 @@ export class PeopleRepository {
     return person;
   }
 
+  async addPatient(person_id: Person['id']) {
+    try {
+      const person: Person = await this.personById(person_id);
+
+      if (!person)
+        throw new BadRequestException('Person not found with id provided. Could not add patient')
+
+      return await this.patientRepository.save({
+        person_id: person_id
+      })
+    } catch (error) {
+      if (error instanceof QueryFailedError) {
+        throw new BadRequestException('Error: ' + error.driverError?.detail);
+      }
+      throw new BadRequestException('Internal server error');
+    }
+  }
+
   async createPatient(personInfo: Partial<Person>): Promise<Person> {
     try {
       const person: Person = await this.peopleRepository.save(personInfo);
@@ -99,7 +119,7 @@ export class PeopleRepository {
       const existingRole = person.roles.find((r) => r.id === roleToAdd.id);
 
       if (existingRole) throw new BadRequestException('Person already has that role');
-      
+
       person.roles.push(roleToAdd);
       const updatedPerson: Person = await this.peopleRepository.save(person);
       return updatedPerson;
