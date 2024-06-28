@@ -10,7 +10,7 @@ import { SignUpInterceptor } from './interceptors/signUp.interceptor';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post('singin')
+  @Post('signin')
   @ApiOperation({ summary: 'Validating credential for signin.' })
   @ApiResponse({ status: 201, description: 'Return the token.', })
   @ApiBadRequestResponse({ status: 400, description: 'Invalid credentials.' })
