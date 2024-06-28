@@ -4,15 +4,23 @@ import { Person } from './entities/person.entity';
 import { Role } from '../role/entities/role.entity';
 import { RolesService } from '../role/role.service';
 import { Roles } from '../role/enums/roles.enum';
-import { CreatePersonDto } from './dtos/createPerson.dto';
-import { RoleByNameDto } from 'src/role/dtos/role.dto';
+import { Guest } from './entities/guest.entity';
+import { CreatePatientDto } from './dtos/createPatient.dto';
 
 @Injectable()
 export class PeopleService {
   constructor(
     private readonly peopleRepository: PeopleRepository,
     private readonly rolesService: RolesService,
-  ) {}
+  ) { }
+
+  async getAllPeople(paginationDto) {
+    return this.peopleRepository.getAllPeople(paginationDto)
+  }
+
+  async getAllGuests(paginationDto) {
+    return this.peopleRepository.getAllGuests(paginationDto)
+  }
 
   async personById(personId: string) {
     const person: Person = await this.peopleRepository.personById(personId);
@@ -24,12 +32,21 @@ export class PeopleService {
     return person;
   }
 
+  async guestByEmail(email: string): Promise<Guest> {
+    const guest: Guest = await this.peopleRepository.guestByEmail(email);
+    return guest;
+  }
+
   async personByDni(dni: string): Promise<Person> {
     const person: Person = await this.peopleRepository.personByDni(dni);
     return person;
   }
 
-  async createPatient(personInfo: Partial<Person>) {
+  async createPatient(person_id: string) {
+    return await this.peopleRepository.createPatient(person_id);
+  }
+
+  async createPersonAsPatient(personInfo: Partial<Person>) {
     const personByEmailExist: Person =
       await this.peopleRepository.personByEmail(personInfo.email);
     if (personByEmailExist)
@@ -44,10 +61,30 @@ export class PeopleService {
 
     personInfo.roles = [role];
 
-    return this.peopleRepository.createPatient(personInfo);
+    const newPerson: Person = await this.peopleRepository.createPersonAsPatient(personInfo);
+
+    await this.createPatient(newPerson.id);
+
+    return newPerson;
   }
 
-  async addRole(id: string, role: RoleByNameDto) {
-    return this.peopleRepository.addRole(id, role);
+  async getPatientById(patientId: string) {
+    const patient = await this.peopleRepository.getPatientById(patientId);
+    return patient;
+  }
+
+  async addRole(personId: string, roleName: Roles) {
+    const roleToAdd: Role = await this.rolesService.roleByName(roleName)
+    return this.peopleRepository.addRole(personId, roleToAdd);
+  }
+
+  async createGuest(guestInfo: Omit<Guest, 'id'>) {
+    const guest: Guest = await this.peopleRepository.createGuest(guestInfo);
+    return guest;
+  }
+
+  async deletePerson(email: string) {
+    const personToDelete: Person = await this.personByEmail(email);
+    return await this.peopleRepository.deletePerson(personToDelete);
   }
 }

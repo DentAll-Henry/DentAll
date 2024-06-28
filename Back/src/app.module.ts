@@ -13,15 +13,16 @@ import { RolesModule } from './role/role.module';
 import { MailModule } from './mail/mail.module';
 import { ProductModule } from './product/product.module';
 import { ReportModule } from './report/report.module';
-import { ClinicalHistoryModule } from './clinicalHistory/clinicalHistory.module';
 import { SystemConfigsModule } from './system_configs/system_configs.module';
 import { DentalRecordModule } from './dentalRecord/dentalRecord.module';
 import { MockAutoLoadService } from './common/service/mock_auto_load.service';
-import { DentalServRepository } from './dentalServ/dentalServ.repository';
 import { DentalServ } from './dentalServ/entities/dentalServ.entity';
 import { AuthService } from './auth/auth.service';
 import { Auth } from './auth/entities/auth.entity';
 import { AuthRepository } from './auth/auth.repository';
+import { FilesController } from './files/files.controller';
+import { FilesService } from './files/files.service';
+import { FilesModule } from './files/files.module';
 
 @Module({
   imports: [
@@ -53,10 +54,11 @@ import { AuthRepository } from './auth/auth.repository';
     SystemConfigsModule,
     TypeOrmModule.forFeature([DentalServ]),
     TypeOrmModule.forFeature([Auth]),
+    FilesModule,
   ],
-  controllers: [],
+  controllers: [FilesController],
 
-  providers: [MockAutoLoadService, AuthService, AuthRepository],
+  providers: [MockAutoLoadService, AuthService, AuthRepository, FilesService],
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {

@@ -1,0 +1,90 @@
+import SearchBar from '@/components/SearchBar/SearchBar';
+import Image from 'next/image';
+import Link from 'next/link';
+import React from 'react'
+import NavDash from '@/components/NavBar/navDash';
+
+const page = () => {
+  return (
+    <div className="w-[80%] h-screen  text-white ml-[20%] ">
+      <NavDash/>
+      <div className="m-8 bg-darkD-500 p-4 mt-24">
+        <h2 className="text-2xl font-bold">Datos de pago</h2>
+        <p>
+          Administra tus pagos, Encuentra tu utimo pago Todo eso lo puedeshacer
+          aqui
+        </p>
+        <div>
+          <p className="font-bold">Nombres:</p>
+          <p className="font-bold">Metodo de pago:</p>
+        </div>
+      </div>
+
+      <div className=" mt-12 m-8 text-xl">
+        <h2 className="font-bold">Historial de pagos</h2>
+      </div>
+      <div className="flex flex-wrap gap-8 w-[90%] m-auto mr-4">
+        <Link href="/page/dashboard_1/citas">
+          <div className="flex-col bg-greenD-500 bg-opacity-5 w-[200px] h-[150px] rounded-md  flex justify-center items-center hover:scale-105 transition-transform duration-300">
+            <p className="text-[#60D66A]">Consulta General</p>
+            <p className="text-[#60D66A]">8/5/2024</p>
+            <p className="text-[#60D66A]">$50</p>
+            <Image
+              className="group-hover:fill-current text-white"
+              src="/images/Vector.svg"
+              width={35}
+              height={35}
+              alt="Pagos"
+            />
+          
+          </div>
+        </Link>
+        <Link href="/page/dashboard_1/citas">
+          <div className=" gap-1 flex-col bg-greenD-500 bg-opacity-5 w-[200px] h-[150px] rounded-md  flex justify-center items-center hover:scale-105 transition-transform duration-300">
+            <p className="text-[#60D66A]">Consulta General</p>
+            <p className="text-[#60D66A]">8/5/2024</p>
+            <p className="text-[#60D66A]">$50</p>
+            <Image
+              className="group-hover:fill-current text-white"
+              src="/images/Vector.svg"
+              width={35}
+              height={35}
+              alt="Pagos"
+            />
+          </div>
+        </Link>
+        <Link href="/page/dashboard_1/citas">
+          <div className="flex-col bg-greenD-500 bg-opacity-5 w-[200px] h-[150px] rounded-md  flex justify-center items-center hover:scale-105 transition-transform duration-300">
+            <p className="text-[#60D66A]">Consulta General</p>
+            <p className="text-[#60D66A]">8/5/2024</p>
+            <p className="text-[#60D66A]">$50</p>
+            <Image
+              className="group-hover:fill-current text-white"
+              src="/images/Vector.svg"
+              width={35}
+              height={35}
+              alt="Pagos"
+            />
+          </div>
+        </Link>
+        <Link href="/page/dashboard_1/citas">
+          <div className="flex-col bg-greenD-500 bg-opacity-5 w-[200px] h-[150px] rounded-md  flex justify-center items-center hover:scale-105 transition-transform duration-300">
+            <p className="text-[#60D66A]">Consulta General</p>
+            <p className="text-[#60D66A]">8/5/2024</p>
+            <p className="text-[#60D66A]">$50</p>
+            <Image
+              className="group-hover:fill-current text-white"
+              src="/images/Vector.svg"
+              width={35}
+              height={35}
+              alt="Pagos"
+            />
+          </div>
+        </Link>
+      </div>
+      
+    </div>
+  );
+}
+
+export default page

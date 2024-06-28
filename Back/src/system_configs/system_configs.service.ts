@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { UpdateSystemConfigDto } from './dto/update-system_config.dto';
 import { SystemConfigsRepository } from './system_configs.repository';
 
@@ -18,17 +18,25 @@ export class SystemConfigsService {
     return this.systemConfigsRepository.findAll();
   }
 
-  findOne(slug_name: string) {
-    return this.systemConfigsRepository.findOne(slug_name);
+  async findOne(slug_name: string) {
+    const param = await this.systemConfigsRepository.findOne(slug_name);
+
+    if (!param) throw new NotFoundException(`System Config with slug_name ${slug_name} does not exist`)
+
+    return param
   }
 
-  update(updateSystemConfig: UpdateSystemConfigDto[]) {
+  async update(updateSystemConfig: UpdateSystemConfigDto[]) {
 
-    updateSystemConfig.map(async (systemConfig) => {
+    await Promise.all(updateSystemConfig.map(async (systemConfig) => {
       const param: UpdateSystemConfigDto = systemConfig
-      await this.systemConfigsRepository.update(systemConfig);
-    })
-    return "System Configs updated successfully"
+      const config = await this.systemConfigsRepository.findOne(param.slug_name);
+
+      if (!config) throw new NotFoundException(`System Config with slug_name ${param.slug_name} does not exist`)
+
+      await this.systemConfigsRepository.update(param)
+    }))
+    return this.findAll()
   }
 
 }

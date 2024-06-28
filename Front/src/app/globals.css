@@ -3,6 +3,12 @@
 @tailwind components;
 @tailwind utilities;
 
+/* #3772FF40
+ #00000040
+ #DF291540
+#FDC84040
+#7737FF3D
+#FF5B373D */
 :root {
   --greenD-100: #cafcd9;
   --greenD-200: #96fabe;
