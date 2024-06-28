@@ -115,4 +115,9 @@ export class PeopleRepository {
     const guest: Guest = await this.guestsRepository.save(guestInfo);
     return guest;
   }
+
+  async deletePerson(personToDelete: Person) {
+    await this.peopleRepository.softDelete(personToDelete.id)
+    return `Person whit email ${personToDelete.email} was deleted.`
+  }
 }
