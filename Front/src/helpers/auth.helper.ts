@@ -6,7 +6,8 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 export async function register(userData: RegisterProps) {
   try {
-    const res = await fetch(`${apiUrl}/auth/singup`, {
+    console.log(userData)
+    const res = await fetch("http://localhost:3000/auth/signup", {
       method: "POST",
       headers: {
         "Content-type": "application/json",

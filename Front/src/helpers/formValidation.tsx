@@ -7,7 +7,8 @@ import {
 
 const regexValidations = {
   email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-  contrasena: /^\d{6,}$/,
+  contrasena:
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+={}\[\]:;<>,.?~-]).{8,}$/,
   nombre: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{2,50}$/,
   apellido: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{2,50}$/,
   fechaNacimiento: /^\d{1,2}[-\/.]\d{1,2}[-\/.]\d{4}$/,
