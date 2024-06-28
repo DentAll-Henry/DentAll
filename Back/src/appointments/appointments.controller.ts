@@ -14,7 +14,7 @@ import {
 import { AppointmentsService } from './appointments.service';
 import { CreateAppointmentDto } from './dto/create-appointment.dto';
 import { UpdateAppointmentDto } from './dto/update-appointment.dto';
-import { ApiBadRequestResponse, ApiBearerAuth, ApiBody, ApiOkResponse, ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AppointmentPaginationDto } from 'src/common/dto/paginationDto';
 import { LimitApiQueries, OnlyFutureApiQueries, PageApiQueries } from 'src/config/swagger-config';
 import { GetAvailableSlotsDto } from './dto/get_available-slots.dto';
