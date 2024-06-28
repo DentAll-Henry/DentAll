@@ -105,7 +105,7 @@ export class CreatePersonDto {
   @IsBoolean()
   @ApiProperty({
     description: 'Just for user from auth0',
-    example: true,
+    example: false,
   })
   is_auth0?: boolean;
 
