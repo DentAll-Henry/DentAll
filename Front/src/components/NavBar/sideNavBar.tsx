@@ -64,6 +64,15 @@ const Navigation = () => (
         </li>
       </ul>
     </nav>
+    <div className="flex items-end justify-end mt-[90%] mr-4 ">
+      <Image
+        className="group-hover:fill-current text-white"
+        src="/images/robot.svg"
+        width={50}
+        height={50}
+        alt="Cerrar sesión"
+      />
+    </div>
   </div>
 );
 
