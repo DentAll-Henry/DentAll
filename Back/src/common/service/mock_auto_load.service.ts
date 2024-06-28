@@ -67,9 +67,14 @@ export class MockAutoLoadService {
                     await this.personService.addPatient({
                         person_id: person.id
                     })
+                else {
+                    await this.personService.addRole(p.id, Roles.DENTIST)
+                    // will saved as dentist
+                    console.log(`<${p.first_name} ${p.last_name}> will be saved as dentist`)
+                }
             })
 
-            console.log("populated persons  and credentials")
+            console.log("populated persons and credentials as patients and dentists")
         } catch (error) {
             console.log(error)
         }
