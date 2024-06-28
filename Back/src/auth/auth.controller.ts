@@ -1,8 +1,9 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, UseInterceptors } from '@nestjs/common';
 import { ApiBadRequestResponse, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { SignInDto } from './dtos/signIn.dto';
 import { CreatePersonDto } from '../person/dtos/createPerson.dto';
+import { SignUpInterceptor } from './interceptors/signUp.interceptor';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -18,9 +19,10 @@ export class AuthController {
   }
 
   @Post('signup')
-  @ApiOperation({ summary: 'Creating an user and its credentials.' })
+  @ApiOperation({ summary: 'Create user and its credentials. It is important to add confirmPass to the request body.' })
   @ApiResponse({ status: 201, description: 'Return the Auth created.', })
   @ApiBadRequestResponse({ status: 400, description: 'Invalid credentials.' })
+  @UseInterceptors(SignUpInterceptor)
   signUp(@Body() userInfo: CreatePersonDto) {
     const { password, ...personInfo } = userInfo;
     const authInfo = { email: userInfo.email, password: userInfo.password };
