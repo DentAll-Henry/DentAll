@@ -9,7 +9,7 @@ import { Repository } from 'typeorm';
 import { DentalRecordDto } from './dtos/dentalRecord.dto';
 import { DentalRecord } from './entities/dentalRecord.entity';
 import { Deseases } from './entities/deseases.entity';
-import { deseases } from './dtos/deseases.array';
+import { deseases } from '../db/deseasesDB';
 import { Patient } from 'src/person/entities/patient.entity';
 
 @Injectable()
@@ -83,20 +83,36 @@ export class DentalRecordRepository {
 
   async createDentalRecord(data: DentalRecordDto) {
     try {
-      // implementar cuando se haga el crud de pacientes
-      // const patientExists = await this.patientRepository.findOne({
-      //   where: { id: data.patient_id },
-      // });
-      // if (!patientExists) {
-      //   throw new BadRequestException(
-      //     'Patient not found for id: ' + data.patient_id,
-      //   );
-      // }
+      const patientExists = await this.patientRepository.findOne({
+        where: { id: data.patient_id },
+      });
+      if (!patientExists) {
+        throw new BadRequestException(
+          'Patient not found for id: ' + data.patient_id,
+        );
+      }
       const newRecord = this.dentalRecordRepository.create(data);
       const savedRecord = await this.dentalRecordRepository.save(newRecord);
       return savedRecord;
     } catch (error) {
       throw error;
+    }
+  }
+
+  async editDentalRecord(id: string, data: Partial<DentalRecordDto>) {
+    try {
+      const dentalRecord = await this.dentalRecordRepository.findOne({
+        where: { id: id },
+      });
+      if (!dentalRecord) {
+        throw new BadRequestException('Dental record not found for id: ' + id);
+      }
+      Object.assign(dentalRecord, data);
+      const updatedRecord =
+        await this.dentalRecordRepository.save(dentalRecord);
+      return updatedRecord;
+    } catch (error) {
+      console.log(error);
     }
   }
 }

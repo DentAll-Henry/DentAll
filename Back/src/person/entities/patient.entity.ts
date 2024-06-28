@@ -8,7 +8,6 @@ import {
 } from 'typeorm';
 import { Person } from './person.entity';
 import { Appointment } from 'src/appointments/entities/appointment.entity';
-import { ClinicalHistory } from 'src/clinicalHistory/entities/clinicalHistory.entity';
 
 @Entity('patient')
 export class Patient {
@@ -19,9 +18,9 @@ export class Patient {
   @JoinColumn({ name: 'person_id' })
   person_id: Person['id'];
 
-  @OneToOne(() => ClinicalHistory)
-  @JoinColumn({ name: 'clinicalHistory_id' })
-  clinicalHistory: ClinicalHistory['id'];
+  // @OneToOne(() => ClinicalHistory)
+  // @JoinColumn({ name: 'clinicalHistory_id' })
+  // clinicalHistory: ClinicalHistory['id'];
 
   @OneToMany(() => Appointment, (appointment) => appointment.patient)
   appointments: Appointment[];

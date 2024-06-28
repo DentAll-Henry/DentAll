@@ -28,6 +28,7 @@ export class DentalServ {
   @OneToMany(() => Appointment, (appo) => appo.service)
   appo: Appointment | Appointment['id'];
 
-  @ManyToOne(() => DentalRecord, (dentalRecord) => dentalRecord.id)
-  record: DentalRecord | DentalRecord['id'];
+  // implement treathments
+  // @ManyToOne(() => DentalRecord, (dentalRecord) => dentalRecord.id)
+  // record: DentalRecord | DentalRecord['id'];
 }

@@ -13,7 +13,6 @@ import { RolesModule } from './role/role.module';
 import { MailModule } from './mail/mail.module';
 import { ProductModule } from './product/product.module';
 import { ReportModule } from './report/report.module';
-import { ClinicalHistoryModule } from './clinicalHistory/clinicalHistory.module';
 import { SystemConfigsModule } from './system_configs/system_configs.module';
 import { DentalRecordModule } from './dentalRecord/dentalRecord.module';
 import { MockAutoLoadService } from './common/service/mock_auto_load.service';
