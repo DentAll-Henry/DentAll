@@ -15,7 +15,7 @@ const Register = () => {
                 NOMBRE Y APELLIDO
               </label>
               <input
-                className="flex h-[38px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
+                className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
                 placeholder="Placeholder"
               />
             </div>
@@ -24,7 +24,7 @@ const Register = () => {
                 DNI
               </label>
               <input
-                className="flex h-[38px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
+                className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
                 placeholder="Placeholder"
               />
             </div>
@@ -33,7 +33,7 @@ const Register = () => {
                 DIRECCIÓN
               </label>
               <input
-                className="flex h-[38px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
+                className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
                 placeholder="Placeholder"
               />
             </div>
@@ -42,7 +42,7 @@ const Register = () => {
                 TELÉFONO
               </label>
               <input
-                className="flex h-[38px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
+                className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
                 placeholder="Placeholder"
               />
             </div>
@@ -51,7 +51,7 @@ const Register = () => {
                 CORREO ELECTRÓNICO
               </label>
               <input
-                className="flex h-[38px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
+                className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
                 placeholder="Placeholder"
               />
             </div>
@@ -61,17 +61,7 @@ const Register = () => {
               </label>
               <input
                 type="password"
-                className="flex h-[38px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
-                placeholder="Placeholder"
-              />
-            </div>
-            <div className="w-full">
-              <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
-                CONFIRMAR CONTRASEÑA
-              </label>
-              <input
-                type="password"
-                className="flex h-[38px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
+                className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
                 placeholder="Placeholder"
               />
             </div>
