@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
+  IsBoolean,
   IsDateString,
   IsEmail,
   IsNumberString,
@@ -100,6 +101,13 @@ export class CreatePersonDto {
     example: 'Argentino',
   })
   nationality: string;
+
+  @IsBoolean()
+  @ApiProperty({
+    description: 'Just for user from auth0',
+    example: true,
+  })
+  is_auth0?: boolean;
 
   @IsStrongPassword(
     {
