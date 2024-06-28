@@ -17,8 +17,8 @@ const config = {
   timezone: 'localtime',
   entities: ['dist/**/*.entity{.ts,.js}'],
   migrations: ['dist/migrations/*{.ts,.js}'],
-  migrationsTableName: 'migrations_typeorm',
-  migrationsRun: true,
+  // migrationsTableName: 'migrations_typeorm',
+  // migrationsRun: true,
 };
 export default registerAs('typeorm', () => config);
 
