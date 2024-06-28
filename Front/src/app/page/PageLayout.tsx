@@ -8,7 +8,7 @@ export default function PageLayout({
 }) {
   return (
     <div className="flex ">
-        <SideNav />
+      <SideNav />
       {children}
     </div>
   );
