@@ -82,7 +82,7 @@ export class PeopleRepository {
     return person;
   }
 
-  async addPatient(person_id: Person['id']) {
+  async createPatient(person_id: Person['id']) {
     try {
       const person: Person = await this.personById(person_id);
 
@@ -100,7 +100,7 @@ export class PeopleRepository {
     }
   }
 
-  async createPatient(personInfo: Partial<Person>): Promise<Person> {
+  async createPersonAsPatient(personInfo: Partial<Person>): Promise<Person> {
     try {
       const person: Person = await this.peopleRepository.save(personInfo);
       return person;
