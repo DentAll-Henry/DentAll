@@ -63,8 +63,8 @@ export class DentalRecordController {
     @Param('id', ParseUUIDPipe) id: string,
     @Res() res: Response,
   ) {
-    // const editedDentalRecord =
-    //   await this.dentalRecordServService.editDentalServ(id, data);
-    // res.status(200).json(editedDentalRecord);
+    const editedDentalRecord =
+      await this.dentalRecordServService.editDentalRecord(id, data);
+    res.status(200).json(editedDentalRecord);
   }
 }

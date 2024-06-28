@@ -20,11 +20,15 @@ export class DentalRecordService implements OnModuleInit {
   async getDentalRecords(page: number, limit: number): Promise<DentalRecord[]> {
     return await this.dentalRecordRepository.getDentalRecords(page, limit);
   }
-  async getDentalRecordByID(id: string) {
+  async getDentalRecordByID(id: string): Promise<DentalRecord> {
     return await this.dentalRecordRepository.getDentalRecordByID(id);
   }
 
   async createDentalRecord(data: DentalRecordDto) {
     return await this.dentalRecordRepository.createDentalRecord(data);
+  }
+
+  async editDentalRecord(id: string, data: Partial<DentalRecordDto>) {
+    return await this.dentalRecordRepository.editDentalRecord(id, data);
   }
 }
