@@ -64,9 +64,7 @@ export class MockAutoLoadService {
             people.map(async (person) => {
                 const p = await this.personService.personById(person.id)
                 if (parseInt(p.phone) % 2 !== 0)
-                    await this.personService.addPatient({
-                        person_id: person.id
-                    })
+                    await this.personService.createPatient(person.id)
             })
 
             console.log("populated persons  and credentials")
