@@ -67,7 +67,7 @@ export class MockAutoLoadService {
                 const p = await Promise.all(persons.map(async (person) => {
                     const p = await this.personService.personByEmail(person.email)
                     if (!p)
-                        return await this.authService.signUp(person, { email: person.email, password: "12345" })
+                        return await this.authService.signUp(person, { email: person.email, password: "Pass*123" })
                 }))
                 const people = await this.personService.getAllPeople({
                     page: 1,
