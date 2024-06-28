@@ -11,7 +11,7 @@ import { Appointment } from 'src/appointments/entities/appointment.entity';
 
 @Entity('patient')
 export class Patient {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn("uuid")
   id: string;
 
   @OneToOne(() => Person)
