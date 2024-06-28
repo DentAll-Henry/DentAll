@@ -20,6 +20,9 @@ import { DentalServ } from './dentalServ/entities/dentalServ.entity';
 import { AuthService } from './auth/auth.service';
 import { Auth } from './auth/entities/auth.entity';
 import { AuthRepository } from './auth/auth.repository';
+import { HeadCuarterModule } from './headCuarters/headCuarters.module';
+import { Cords } from './headCuarters/entities/cords.entity';
+import { HeadCuarter } from './headCuarters/entities/headCuarter.entity';
 
 @Module({
   imports: [
@@ -40,6 +43,8 @@ import { AuthRepository } from './auth/auth.repository';
     ProductModule,
     ReportModule,
     DentalRecordModule,
+    HeadCuarterModule,
+
     JwtModule.register({
       global: true,
       secret: environment.jwt,
@@ -49,7 +54,7 @@ import { AuthRepository } from './auth/auth.repository';
     }),
     MailModule,
     SystemConfigsModule,
-    TypeOrmModule.forFeature([DentalServ]),
+    TypeOrmModule.forFeature([DentalServ, Cords, HeadCuarter]),
     TypeOrmModule.forFeature([Auth]),
   ],
   controllers: [],

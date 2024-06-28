@@ -12,7 +12,7 @@ import { DentalRecord } from 'src/dentalRecord/entities/dentalRecord.entity';
 
 @Entity('patient')
 export class Patient {
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @OneToOne(() => Person)
