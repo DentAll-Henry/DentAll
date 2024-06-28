@@ -1,5 +1,5 @@
 import { Role } from '../../role/entities/role.entity';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, DeleteDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 
 @Entity({
@@ -24,4 +24,9 @@ export class Auth {
     select: false,
   })
   password: string;
+
+  @DeleteDateColumn({
+    nullable: true,
+  })
+  deleteDate?: Date;
 }

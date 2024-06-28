@@ -6,11 +6,15 @@ import { CreateAppointmentDto } from './dto/create-appointment.dto';
 import { UpdateAppointmentDto } from './dto/update-appointment.dto';
 import { AppointmentPaginationDto } from 'src/common/dto/paginationDto';
 import { GetAvailableSlotsDto } from './dto/get_available-slots.dto';
+import { PendingAppointment } from './entities/pending.appointments';
+import { Patient } from 'src/person/entities/patient.entity';
+import { CreatePendingAppointmentDto } from './dto/create_pending_appointment.dt';
 
 @Injectable()
 export class AppointmentsRepository {
   constructor(
     @InjectRepository(Appointment) private appointment: Repository<Appointment>,
+    @InjectRepository(PendingAppointment) private pendingAppointmentRepository: Repository<PendingAppointment>,
   ) { }
   async getAppointments(paginationDto: AppointmentPaginationDto): Promise<Appointment[]> {
     /* return await this.appointment.find({
@@ -97,7 +101,28 @@ export class AppointmentsRepository {
 
   async getAppointmentsByDate(date_time: Date, dentist_id: string) {
     return await this.appointment.findOne({ where: { date_time, dentist_id } });
+  }
 
+  async getPendingAppointmentById(pending_appointment_id: string) {
+    return await this.pendingAppointmentRepository.findOne({ where: { id: pending_appointment_id } });
+  }
+
+  async createPendingAppointmentRequest(createPendingAppointmentDto: CreatePendingAppointmentDto) {
+    return await this.pendingAppointmentRepository.save(createPendingAppointmentDto);
+  }
+
+  async getPendingAppointmentsByPatient(patient_id: string) {
+    const queryBuilder = this.pendingAppointmentRepository.createQueryBuilder('pending_appointments')
+      .leftJoinAndSelect('pending_appointments.service', 'service')
+      .leftJoinAndSelect('pending_appointments.patient', 'patient')
+      .where('pending_appointments.patient = :patient_id', { patient_id })
+
+    return await queryBuilder.getMany();
+  }
+
+  async removePendingAppointment(id: string) {
+    const response = await this.pendingAppointmentRepository.delete({ id });
+    return response.affected ? 'Pending appointment deleted' : 'Pending appointment not found';
   }
 
   async removeAppointment(id: string) {
