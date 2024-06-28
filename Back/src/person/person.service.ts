@@ -5,19 +5,20 @@ import { Role } from '../role/entities/role.entity';
 import { RolesService } from '../role/role.service';
 import { Roles } from '../role/enums/roles.enum';
 import { Guest } from './entities/guest.entity';
+import { CreatePatientDto } from './dtos/createPatient.dto';
 
 @Injectable()
 export class PeopleService {
   constructor(
     private readonly peopleRepository: PeopleRepository,
     private readonly rolesService: RolesService,
-  ) {}
+  ) { }
 
-  async getAllPeople(paginationDto){
+  async getAllPeople(paginationDto) {
     return this.peopleRepository.getAllPeople(paginationDto)
   }
 
-  async getAllGuests(paginationDto){
+  async getAllGuests(paginationDto) {
     return this.peopleRepository.getAllGuests(paginationDto)
   }
 
@@ -39,6 +40,16 @@ export class PeopleService {
   async personByDni(dni: string): Promise<Person> {
     const person: Person = await this.peopleRepository.personByDni(dni);
     return person;
+  }
+
+  async addPatient(createPatientDto: CreatePatientDto) {
+    const { person_id } = createPatientDto
+    const person: Person = await this.peopleRepository.personById(person_id)
+
+    if (!person) throw new BadRequestException('Person not found with id provided. Could not add patient')
+
+    return await this.peopleRepository.addPatient(person_id)
+
   }
 
   async createPatient(personInfo: Partial<Person>) {

@@ -21,7 +21,7 @@ export class Patient {
 
   @OneToOne(() => DentalRecord)
   @JoinColumn({ name: 'dental_record_id' })
-  dentalRecord: DentalRecord | DentalRecord['id'];
+  dentalRecord?: DentalRecord | DentalRecord['id'];
 
   @OneToMany(() => Appointment, (appointment) => appointment.patient)
   appointments: Appointment[];
