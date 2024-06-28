@@ -4,8 +4,7 @@ import { Person } from './entities/person.entity';
 import { Role } from '../role/entities/role.entity';
 import { RolesService } from '../role/role.service';
 import { Roles } from '../role/enums/roles.enum';
-import { CreatePersonDto } from './dtos/createPerson.dto';
-import { RoleByNameDto } from 'src/role/dtos/role.dto';
+import { Guest } from './entities/guest.entity';
 
 @Injectable()
 export class PeopleService {
@@ -47,7 +46,13 @@ export class PeopleService {
     return this.peopleRepository.createPatient(personInfo);
   }
 
-  async addRole(id: string, role: RoleByNameDto) {
-    return this.peopleRepository.addRole(id, role);
+  async addRole(personId: string, roleName: Roles) {
+    const roleToAdd: Role = await this.rolesService.roleByName(roleName)
+    return this.peopleRepository.addRole(personId, roleToAdd);
+  }
+
+  async createGuest(guestInfo: Omit<Guest, 'id'>) {
+    const guest: Guest = await this.peopleRepository.createGuest(guestInfo);
+    return guest;
   }
 }
