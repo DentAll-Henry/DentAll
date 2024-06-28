@@ -23,7 +23,6 @@ export class SystemConfigsRepository {
     }
 
     async update(updateSystemConfigDto: UpdateSystemConfigDto) {
-
         return await this.systemConfig.save(updateSystemConfigDto);
     }
 
@@ -31,7 +30,7 @@ export class SystemConfigsRepository {
         try {
             const default_config = system_default_configs
             default_config.map(async (config) => {
-                const param = await this.systemConfig.findOne({ where: { slug_name: config.slug_name } })
+                const param = await this.findOne(config.slug_name)
                 if (!param)
                     await this.systemConfig.save(config)
             })
