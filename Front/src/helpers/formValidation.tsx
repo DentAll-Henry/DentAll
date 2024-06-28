@@ -7,10 +7,10 @@ import {
 
 const regexValidations = {
   email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-  contrasena: /^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[@$!%?&])[A-Za-z\d@$!%?&]{8,}$/,
+  contrasena: /^\d{6,}$/,
   nombre: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{2,50}$/,
   apellido: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{2,50}$/,
-  fechaNacimiento: /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/,
+  fechaNacimiento: /^\d{1,2}[-\/.]\d{1,2}[-\/.]\d{4}$/,
   dni: /^\d{7,8}$/,
   telefono: /^[\d\s\-()]{10,15}$/,
   direccion: /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s,.-]{5,100}$/,
@@ -36,7 +36,17 @@ export function validateLoginForm(values: LoginProps): LoginErrorProps {
 
   return errors;
 }
-
+  // Función para convertir la fecha de formato YYYY-MM-DD a DD/MM/YYYY
+  function convertirFecha(fecha:any) {
+    const partes = fecha.split("-");
+    if (partes.length === 3) {
+      const yyyy = partes[0];
+      const mm = partes[1];
+      const dd = partes[2];
+      return `${dd}/${mm}/${yyyy}`;
+    }
+    return fecha; // Devuelve la fecha sin cambios si no se puede convertir
+  }
 export function validateRegisterForm(
   values: RegisterProps
 ): RegisterErrorProps {
@@ -54,26 +64,35 @@ export function validateRegisterForm(
     errors.password =
       "Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, a number, and a special character";
   }
+  if (!values.confirmPass) {
+    errors.confirmPass = "Password is required";
+  } else if (!regexValidations.contrasena.test(values.confirmPass)) {
+    errors.confirmPass =
+      "Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, a number, and a special character";
+  }
 
-  if (!values.name) {
-    errors.name = "Name is required";
-  } else if (!regexValidations.nombre.test(values.name)) {
-    errors.name =
+  if (!values.first_name) {
+    errors.first_name = "Name is required";
+  } else if (!regexValidations.nombre.test(values.first_name)) {
+    errors.first_name =
       "Name must be between 2 and 50 characters and only contain letters and spaces";
   }
 
-  if (!values.surname) {
-    errors.surname = "Surname is required";
-  } else if (!regexValidations.apellido.test(values.surname)) {
-    errors.surname =
+  if (!values.last_name) {
+    errors.last_name = "Surname is required";
+  } else if (!regexValidations.apellido.test(values.last_name)) {
+    errors.last_name =
       "Surname must be between 2 and 50 characters and only contain letters and spaces";
   }
 
-  if (!values.birthdate) {
-    errors.birthdate = "Birthdate is required";
-  } else if (!regexValidations.fechaNacimiento.test(values.birthdate)) {
+if (!values.birthdate) {
+  errors.birthdate = "Birthdate is required";
+} else {
+  const fechaConvertida = convertirFecha(values.birthdate);
+  if (!regexValidations.fechaNacimiento.test(fechaConvertida)) {
     errors.birthdate = "Birthdate must be in the format DD/MM/YYYY";
   }
+}
 
   if (!values.dni) {
     errors.dni = "DNI is required";
@@ -95,10 +114,10 @@ export function validateRegisterForm(
       "Address must be between 5 and 100 characters and can contain letters, numbers, and certain special characters (,.-)";
   }
 
-  if (!values.city) {
-    errors.city = "City is required";
-  } else if (!regexValidations.localidad.test(values.city)) {
-    errors.city =
+  if (!values.location) {
+    errors.location = "City is required";
+  } else if (!regexValidations.localidad.test(values.location)) {
+    errors.location =
       "City must be between 2 and 50 characters and only contain letters and spaces";
   }
 
