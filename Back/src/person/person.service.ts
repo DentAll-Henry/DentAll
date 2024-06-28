@@ -42,6 +42,8 @@ export class PeopleService {
     return person;
   }
 
+
+
   async createPatient(person_id: string) {
     return await this.peopleRepository.createPatient(person_id);
   }
