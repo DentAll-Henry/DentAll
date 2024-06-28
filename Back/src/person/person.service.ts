@@ -13,6 +13,14 @@ export class PeopleService {
     private readonly rolesService: RolesService,
   ) {}
 
+  async getAllPeople(paginationDto){
+    return this.peopleRepository.getAllPeople(paginationDto)
+  }
+
+  async getAllGuests(paginationDto){
+    return this.peopleRepository.getAllGuests(paginationDto)
+  }
+
   async personById(personId: string) {
     const person: Person = await this.peopleRepository.personById(personId);
     return person;
@@ -21,6 +29,11 @@ export class PeopleService {
   async personByEmail(email: string): Promise<Person> {
     const person: Person = await this.peopleRepository.personByEmail(email);
     return person;
+  }
+
+  async guestByEmail(email: string): Promise<Guest> {
+    const guest: Guest = await this.peopleRepository.guestByEmail(email);
+    return guest;
   }
 
   async personByDni(dni: string): Promise<Person> {
