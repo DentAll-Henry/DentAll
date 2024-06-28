@@ -2,10 +2,13 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AuthService } from 'src/auth/auth.service';
 import { dentalServicesDB } from 'src/db/dental_services';
+import { headCuartersDB } from 'src/db/headCuartersDB';
 import { personsDB } from 'src/db/persons';
 import { rolesDB } from 'src/db/rolesDB';
 import { DentalServDto } from 'src/dentalServ/dtos/dentalServ.dto';
 import { DentalServ } from 'src/dentalServ/entities/dentalServ.entity';
+import { Cords } from 'src/headCuarters/entities/cords.entity';
+import { HeadCuarter } from 'src/headCuarters/entities/headCuarter.entity';
 import { Person } from 'src/person/entities/person.entity';
 import { PeopleService } from 'src/person/person.service';
 import { RoleByNameDto } from 'src/role/dtos/role.dto';
@@ -15,21 +18,25 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class MockAutoLoadService {
+  constructor(
+    @InjectRepository(DentalServ)
+    private dentalservRepository: Repository<DentalServ>,
+    @InjectRepository(Role) private rolesRepository: Repository<Role>,
+    @InjectRepository(Person) private personRepository: Repository<Person>,
+    private readonly authService: AuthService,
+     private readonly personService: PeopleService,
+    @InjectRepository(HeadCuarter)
+    private headCuarterRepository: Repository<HeadCuarter>,
+    @InjectRepository(Cords)
+    private cordsRepository: Repository<Cords>,
+  ) {}
 
-    constructor(
-        @InjectRepository(DentalServ) private dentalservRepository: Repository<DentalServ>,
-        @InjectRepository(Role) private rolesRepository: Repository<Role>,
-        @InjectRepository(Person) private personRepository: Repository<Person>,
-        private readonly authService: AuthService,
-        private readonly personService: PeopleService
-    ) { }
-
-    async onModuleInit() {
-        await this.seedDentalServices();
-        await this.seedRoles();
-        await this.seedPersons()
-
-    }
+  async onModuleInit() {
+    await this.seedDentalServices();
+    await this.seedRoles();
+    await this.seedPersons();
+    await this.seedHeadCuarters();
+  }
 
     async seedDentalServices() {
         const dental_services: DentalServDto[] = dentalServicesDB
@@ -40,16 +47,19 @@ export class MockAutoLoadService {
         console.log("populated dental services")
     }
 
-    async seedRoles() {
-        const roles: RoleByNameDto[] = rolesDB
-        roles.map(async (role: Role) => {
-            const rol = await this.rolesRepository.findOne({ where: { name: role.name } })
-            !rol && await this.rolesRepository.save(role)
-        })
-        console.log("populated roles")
-    }
 
-    async seedPersons() {
+  async seedRoles() {
+    const roles: RoleByNameDto[] = rolesDB;
+    roles.map(async (role: Role) => {
+      const rol = await this.rolesRepository.findOne({
+        where: { name: role.name },
+      });
+      !rol && (await this.rolesRepository.save(role));
+    });
+    console.log('populated roles');
+  }
+  
+  async seedPersons() {
         const persons = personsDB
         const personsInDB = await this.personRepository.find()
         if (personsInDB.length === 0)
@@ -66,9 +76,7 @@ export class MockAutoLoadService {
                 people.map(async (person) => {
                     const p = await this.personService.personById(person.id)
                     if (parseInt(p.phone) % 2 !== 0)
-                        await this.personService.addPatient({
-                            person_id: person.id
-                        })
+                        await this.personService.createPatient(person.id)
                     else {
                         //await this.personService.addRole(p.id, Roles.DENTIST)
                         // will saved as dentist
@@ -83,5 +91,27 @@ export class MockAutoLoadService {
 
         console.log("populated persons and credentials as patients and dentists")
     }
-
+  
+  async seedHeadCuarters() {
+    try {
+      const count = await this.cordsRepository.count();
+      if (count === 0) {
+        for (const cuarter of headCuartersDB) {
+          const newCords = await this.cordsRepository.save({
+            lat: cuarter.cords.lat,
+            lng: cuarter.cords.lng,
+          });
+          cuarter.cords = newCords;
+          await this.headCuarterRepository.save(cuarter);
+        }
+        console.log('populated head cuarters');
+      }
+    } catch (error) {
+      console.log('Error populating head cuarters:', error);
+    }
+  }
+  
+ 
+    
+  
 }
