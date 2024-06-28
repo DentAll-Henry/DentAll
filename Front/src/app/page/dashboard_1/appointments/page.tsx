@@ -41,12 +41,19 @@ const page = () => {
           alt="Pagos"
         />
       </div>
-      <div>
-        <p className="bg-darkD-500">Fecha</p>
-        <p className="bg-darkD-500">Fecha</p>
-        <p className="bg-darkD-500">Fecha</p>
-        <p className="bg-darkD-500">Fecha</p>
-        
+      <div className="bg-darkD-700 flex justify-around p-4 rounded-md m-8">
+        <p className="bg-darkD-500 p-4 w-[15%]">27/06/2024</p>
+        <p className="bg-darkD-500 p-4 w-[15%]">14:00</p>
+        <p className="bg-darkD-500 p-4 w-[30%]">Dolor de muelita</p>
+        <p className="bg-[#0B5B12] p-4 w-[15%] bg-[#0B5B12]">Activo</p>
+        <Image
+          className="group-hover:fill-current text-white"
+          src="/images/NotePencil.svg"
+          width={35}
+          height={35}
+          alt="Pagos"
+        />
+        <p className="bg-darkD-500 p-4 w-[15%] ">cancelar</p>
       </div>
     </div>
   );

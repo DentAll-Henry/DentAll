@@ -12,26 +12,28 @@ export interface LoginErrorProps {
 export interface RegisterProps {
   email: string;
   password: string;
-  name: string;
-  surname: string;
+  confirmPass: string;
+  first_name: string;
+  last_name: string;
   birthdate: string;
   dni: string;
   phone: string;
   address: string;
-  city: string;
+  location: string;
   nationality: string;
 }
 
 export interface RegisterErrorProps {
   email?: string;
   password?: string;
-  name?: string;
-  surname?: string;
+  confirmPass?: string;
+  first_name?: string;
+  last_name?: string;
   birthdate?: string;
   dni?: string;
   phone?: string;
   address?: string;
-  city?: string;
+  location?: string;
   nationality?: string;
 }
 
@@ -44,7 +46,6 @@ export interface userSession {
     name: string;
     phone: string;
     role: string;
-    
   };
 }
 
