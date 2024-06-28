@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AuthService } from 'src/auth/auth.service';
 import { dentalServicesDB } from 'src/db/dental_services';
@@ -51,26 +51,37 @@ export class MockAutoLoadService {
 
     async seedPersons() {
         const persons = personsDB
-        try {
-            const p = await Promise.all(persons.map(async (person) => {
-                const p = await this.personService.personByEmail(person.email)
-                if (!p)
-                    return await this.authService.signUp(person, { email: person.email, password: "12345" })
-            }))
-            const people = await this.personService.getAllPeople({
-                page: 1,
-                limit: 10
-            })
-            people.map(async (person) => {
-                const p = await this.personService.personById(person.id)
-                if (parseInt(p.phone) % 2 !== 0)
-                    await this.personService.createPatient(person.id)
-            })
+        const personsInDB = await this.personRepository.find()
+        if (personsInDB.length === 0)
+            try {
+                const p = await Promise.all(persons.map(async (person) => {
+                    const p = await this.personService.personByEmail(person.email)
+                    if (!p)
+                        return await this.authService.signUp(person, { email: person.email, password: "12345" })
+                }))
+                const people = await this.personService.getAllPeople({
+                    page: 1,
+                    limit: 10
+                })
+                people.map(async (person) => {
+                    const p = await this.personService.personById(person.id)
+                    if (parseInt(p.phone) % 2 !== 0)
+                        await this.personService.addPatient({
+                            person_id: person.id
+                        })
+                    else {
+                        //await this.personService.addRole(p.id, Roles.DENTIST)
+                        // will saved as dentist
+                        console.log(`<${p.first_name} ${p.last_name}> will be saved as dentist`)
+                    }
+                })
 
-            console.log("populated persons  and credentials")
-        } catch (error) {
-            console.log(error)
-        }
+
+            } catch (error) {
+                console.log(error)
+            }
+
+        console.log("populated persons and credentials as patients and dentists")
     }
 
 }

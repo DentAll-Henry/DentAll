@@ -13,10 +13,11 @@ import { DentalServ } from 'src/dentalServ/entities/dentalServ.entity';
 import { SystemConfigsService } from 'src/system_configs/system_configs.service';
 import { SystemConfig } from 'src/system_configs/entities/system_config.entity';
 import { SystemConfigsRepository } from 'src/system_configs/system_configs.repository';
+import { PendingAppointment } from './entities/pending.appointments';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Appointment, DentalServ, SystemConfig]),
+    TypeOrmModule.forFeature([Appointment, DentalServ, SystemConfig, PendingAppointment]),
     PeopleModule,
     DentalServModule,
   ],

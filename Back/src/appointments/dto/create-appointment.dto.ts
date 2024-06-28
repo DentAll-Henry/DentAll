@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty, IsUUID, IsString } from "class-validator";
+import { IsNotEmpty, IsUUID, IsString, IsOptional } from "class-validator";
 
 export class CreateAppointmentDto {
 
@@ -46,4 +46,12 @@ export class CreateAppointmentDto {
     @IsString()
     description: string;
 
+    @ApiProperty({
+        example: '62a3bd93-1c50-436a-9644-cd314cf71623',
+        description: 'Provide this field if this appointment will be created from a dentist request. UUID format',
+        type: 'UUID',
+    })
+    @IsOptional()
+    @IsUUID()
+    pending_appointment_id?: string;
 }

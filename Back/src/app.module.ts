@@ -20,6 +20,9 @@ import { DentalServ } from './dentalServ/entities/dentalServ.entity';
 import { AuthService } from './auth/auth.service';
 import { Auth } from './auth/entities/auth.entity';
 import { AuthRepository } from './auth/auth.repository';
+import { FilesController } from './files/files.controller';
+import { FilesService } from './files/files.service';
+import { FilesModule } from './files/files.module';
 
 @Module({
   imports: [
@@ -51,10 +54,11 @@ import { AuthRepository } from './auth/auth.repository';
     SystemConfigsModule,
     TypeOrmModule.forFeature([DentalServ]),
     TypeOrmModule.forFeature([Auth]),
+    FilesModule,
   ],
-  controllers: [],
+  controllers: [FilesController],
 
-  providers: [MockAutoLoadService, AuthService, AuthRepository],
+  providers: [MockAutoLoadService, AuthService, AuthRepository, FilesService],
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {

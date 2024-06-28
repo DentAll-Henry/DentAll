@@ -68,6 +68,11 @@ export class PeopleService {
     return newPerson;
   }
 
+  async getPatientById(patientId: string) {
+    const patient = await this.peopleRepository.getPatientById(patientId);
+    return patient;
+  }
+
   async addRole(personId: string, roleName: Roles) {
     const roleToAdd: Role = await this.rolesService.roleByName(roleName)
     return this.peopleRepository.addRole(personId, roleToAdd);

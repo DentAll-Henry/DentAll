@@ -13,6 +13,8 @@ import { DentalServ } from 'src/dentalServ/entities/dentalServ.entity';
 import { AppointmentPaginationDto } from 'src/common/dto/paginationDto';
 import { GetAvailableSlotsDto } from './dto/get_available-slots.dto';
 import { SystemConfigsService } from 'src/system_configs/system_configs.service';
+import { CreatePendingAppointmentDto } from './dto/create_pending_appointment.dt';
+import { Patient } from 'src/person/entities/patient.entity';
 
 @Injectable()
 export class AppointmentsService {
@@ -31,9 +33,7 @@ export class AppointmentsService {
       throw new BadRequestException('Service not found with id provided');
 
     //TODO: change this when patient service be created
-    const patient: Person = await this.peopleService.personById(
-      createAppointmentDto.patient,
-    );
+    const patient: Patient = await this.peopleService.getPatientById(createAppointmentDto.patient)
     if (!patient)
       throw new BadRequestException('Patient not found with id provided');
 
@@ -47,13 +47,21 @@ export class AppointmentsService {
 
     if (!appointment) throw new BadRequestException('Appointment not created');
 
+    const person: Person = await this.peopleService.personById(patient.person_id)
     //send email
     await this.mailService.sendMail(
-      patient.email,
+      person.email,
       'New appointment at DentAll',
-      `Hi ${patient.first_name} ${patient.last_name} you have been scheduled a new appointment at ${appointment.date_time} for ${dentServ.name}`,
-      `Hi ${patient.first_name} ${patient.last_name} you have been scheduled a new appointment at ${appointment.date_time} for ${dentServ.name}`,
+      `Hi ${person.first_name} ${person.last_name} you have been scheduled a new appointment at ${appointment.date_time} for ${dentServ.name}`,
+      `Hi ${person.first_name} ${person.last_name} you have been scheduled a new appointment at ${appointment.date_time} for ${dentServ.name}`,
     );
+
+    if (createAppointmentDto.pending_appointment_id) {
+      const pending = await this.appointmentsRepository.getPendingAppointmentById(createAppointmentDto.pending_appointment_id)
+      if (pending) {
+        await this.appointmentsRepository.removePendingAppointment(pending.id)
+      }
+    }
 
     return appointment;
   }
@@ -128,7 +136,7 @@ export class AppointmentsService {
       const appointment = await this.appointmentsRepository.getAppointmentsByDate(slot, dentist_id)
 
       if (!appointment) return new Date(slot)
-      
+
     }))
 
     return available.filter(slot => slot !== undefined)
@@ -160,6 +168,25 @@ export class AppointmentsService {
     }
 
     return slots
+  }
+
+  async getPendingAppointmentsByPatient(patient_id: string) {
+    const patient = await this.peopleService.getPatientById(patient_id);
+    if (!patient) throw new BadRequestException('Patient not found with id provided');
+
+    return this.appointmentsRepository.getPendingAppointmentsByPatient(patient_id)
+  }
+
+  async createPendingAppointmentRequest(createPendingAppointmentDto: CreatePendingAppointmentDto) {
+    const { patient, service } = createPendingAppointmentDto
+
+    const patientData = this.peopleService.getPatientById(patient)
+    if (!patientData) throw new BadRequestException('Patient not found with id provided');
+
+    const serviceData = this.dentalServService.getDentalServByID(service)
+    if (!serviceData) throw new BadRequestException('Service not found with id provided');
+
+    return this.appointmentsRepository.createPendingAppointmentRequest(createPendingAppointmentDto)
   }
 
   async remove(id: string) {
