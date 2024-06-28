@@ -20,9 +20,14 @@ import { DentalServ } from './dentalServ/entities/dentalServ.entity';
 import { AuthService } from './auth/auth.service';
 import { Auth } from './auth/entities/auth.entity';
 import { AuthRepository } from './auth/auth.repository';
+
 import { HeadCuarterModule } from './headCuarters/headCuarters.module';
 import { Cords } from './headCuarters/entities/cords.entity';
 import { HeadCuarter } from './headCuarters/entities/headCuarter.entity';
+
+import { FilesController } from './files/files.controller';
+import { FilesService } from './files/files.service';
+import { FilesModule } from './files/files.module';
 
 @Module({
   imports: [
@@ -56,10 +61,11 @@ import { HeadCuarter } from './headCuarters/entities/headCuarter.entity';
     SystemConfigsModule,
     TypeOrmModule.forFeature([DentalServ, Cords, HeadCuarter]),
     TypeOrmModule.forFeature([Auth]),
+    FilesModule,
   ],
-  controllers: [],
+  controllers: [FilesController],
 
-  providers: [MockAutoLoadService, AuthService, AuthRepository],
+  providers: [MockAutoLoadService, AuthService, AuthRepository, FilesService],
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
