@@ -42,17 +42,11 @@ export class PeopleService {
     return person;
   }
 
-  async addPatient(createPatientDto: CreatePatientDto) {
-    const { person_id } = createPatientDto
-    const person: Person = await this.peopleRepository.personById(person_id)
-
-    if (!person) throw new BadRequestException('Person not found with id provided. Could not add patient')
-
-    return await this.peopleRepository.addPatient(person_id)
-
+  async createPatient(person_id: string) {
+    return await this.peopleRepository.createPatient(person_id);
   }
 
-  async createPatient(personInfo: Partial<Person>) {
+  async createPersonAsPatient(personInfo: Partial<Person>) {
     const personByEmailExist: Person =
       await this.peopleRepository.personByEmail(personInfo.email);
     if (personByEmailExist)
@@ -67,7 +61,11 @@ export class PeopleService {
 
     personInfo.roles = [role];
 
-    return this.peopleRepository.createPatient(personInfo);
+    const newPerson: Person = await this.peopleRepository.createPersonAsPatient(personInfo);
+
+    await this.createPatient(newPerson.id);
+
+    return newPerson;
   }
 
   async addRole(personId: string, roleName: Roles) {
