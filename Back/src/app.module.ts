@@ -16,7 +16,6 @@ import { ReportModule } from './report/report.module';
 import { SystemConfigsModule } from './system_configs/system_configs.module';
 import { DentalRecordModule } from './dentalRecord/dentalRecord.module';
 import { MockAutoLoadService } from './common/service/mock_auto_load.service';
-import { DentalServRepository } from './dentalServ/dentalServ.repository';
 import { DentalServ } from './dentalServ/entities/dentalServ.entity';
 import { AuthService } from './auth/auth.service';
 import { Auth } from './auth/entities/auth.entity';
