@@ -106,9 +106,78 @@ const page = () => {
             <p>Aun No Se Sabe</p>
           </div>
         </Link>
+        <Link href="/page/dashboard_1/citas">
+          <div className="flex-col bg-orange-900 w-[200px] h-[150px] rounded-md border flex justify-center items-center hover:scale-105 transition-transform duration-300">
+            <Image
+              className="group-hover:fill-current text-white"
+              src="/images/pagos.svg"
+              width={35}
+              height={35}
+              alt="Pagos"
+            />
+            <p>Aun No Se Sabe</p>
+          </div>
+        </Link>
+        <Link href="/page/dashboard_1/citas">
+          <div className="flex-col bg-orange-900 w-[200px] h-[150px] rounded-md border flex justify-center items-center hover:scale-105 transition-transform duration-300">
+            <Image
+              className="group-hover:fill-current text-white"
+              src="/images/pagos.svg"
+              width={35}
+              height={35}
+              alt="Pagos"
+            />
+            <p>Aun No Se Sabe</p>
+          </div>
+        </Link>
+        <Link href="/page/dashboard_1/citas">
+          <div className="flex-col bg-orange-900 w-[200px] h-[150px] rounded-md border flex justify-center items-center hover:scale-105 transition-transform duration-300">
+            <Image
+              className="group-hover:fill-current text-white"
+              src="/images/pagos.svg"
+              width={35}
+              height={35}
+              alt="Pagos"
+            />
+            <p>Aun No Se Sabe</p>
+          </div>
+        </Link>
+        <Link href="/page/dashboard_1/citas">
+          <div className="flex-col bg-orange-900 w-[200px] h-[150px] rounded-md border flex justify-center items-center hover:scale-105 transition-transform duration-300">
+            <Image
+              className="group-hover:fill-current text-white"
+              src="/images/pagos.svg"
+              width={35}
+              height={35}
+              alt="Pagos"
+            />
+            <p>Aun No Se Sabe</p>
+          </div>
+        </Link>
+        <Link href="/page/dashboard_1/citas">
+          <div className="flex-col bg-orange-900 w-[200px] h-[150px] rounded-md border flex justify-center items-center hover:scale-105 transition-transform duration-300">
+            <Image
+              className="group-hover:fill-current text-white"
+              src="/images/pagos.svg"
+              width={35}
+              height={35}
+              alt="Pagos"
+            />
+            <p>Aun No Se Sabe</p>
+          </div>
+        </Link>
       </div>
 
-      <div className="flex justify-end mr-4">bots</div>
+      <div className='flex justify-end '>
+        <Image
+          className=" "
+          src="/images/sombra.svg"
+          width={600}
+          height={200}
+          alt="Pagos"
+        />
+      </div>
+      <div className="flex justify-end mr-4">Robot</div>
     </div>
   );
 }
