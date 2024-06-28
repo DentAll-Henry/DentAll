@@ -41,7 +41,7 @@ export class AuthService {
     const newCredential: Auth = 
       await this.authRepository.signUp(signUpInfo);
 
-    return await this.peopleService.createPatient({
+    return await this.peopleService.createPersonAsPatient({
       auth: newCredential,
       ...personInfo,
     });
