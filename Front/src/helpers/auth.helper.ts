@@ -6,7 +6,7 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 export async function register(userData: RegisterProps) {
   try {
-    const res = await fetch(`${apiUrl}/users/register`, {
+    const res = await fetch(`${apiUrl}/auth/singup`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",
@@ -39,7 +39,7 @@ export async function register(userData: RegisterProps) {
 
 export async function login(userData: LoginProps) {
   try {
-    const res = await fetch(`${apiUrl}/auth/singin`, {
+    const res = await fetch(`${apiUrl}/auth/signin`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",

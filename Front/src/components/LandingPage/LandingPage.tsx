@@ -47,10 +47,6 @@ const LandingPage = () => {
         </div>
       </section>
 
-      <section>
-        <div>Nuestros servicios</div>
-      </section>
-
       <section className="flex flex-row bg-[#1D1D1D]">
         <div className="w-full flex justify-center items-center h-[200px]">
           <h2 className="text-white font-bold text-[48px] leading-tight whitespace-nowrap">
