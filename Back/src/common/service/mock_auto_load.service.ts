@@ -10,6 +10,7 @@ import { DentalServ } from 'src/dentalServ/entities/dentalServ.entity';
 import { Cords } from 'src/headCuarters/entities/cords.entity';
 import { HeadCuarter } from 'src/headCuarters/entities/headCuarter.entity';
 import { Person } from 'src/person/entities/person.entity';
+import { PeopleService } from 'src/person/person.service';
 import { RoleByNameDto } from 'src/role/dtos/role.dto';
 import { Role } from 'src/role/entities/role.entity';
 import { Roles } from 'src/role/enums/roles.enum';
