@@ -130,7 +130,7 @@ const Register = () => {
                   onChange={handleChange}
                 />
                 {errorUser.last_name && (
-                  <p className="text-red-500">{errorUser.last_name}</p>
+                  <p className="text-red-600">{errorUser.last_name}</p>
                 )}
               </div>
               <div className="w-full">
