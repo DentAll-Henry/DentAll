@@ -82,6 +82,7 @@ export class PeopleRepository {
     return person;
   }
 
+
   async createPatient(person_id: Person['id']) {
     try {
       const person: Person = await this.personById(person_id);
@@ -99,6 +100,7 @@ export class PeopleRepository {
       throw new BadRequestException('Internal server error');
     }
   }
+
 
   async getPatientById(patientId: string) {
     const patient = await this.patientRepository.findOne({
