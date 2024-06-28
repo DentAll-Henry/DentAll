@@ -67,6 +67,11 @@ export class Person {
   })
   nationality?: string;
 
+  @Column({
+    default: false,
+  })
+  is_auth0?: boolean;
+
   @DeleteDateColumn({
     nullable: true,
   })
