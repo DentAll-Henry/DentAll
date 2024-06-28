@@ -1,18 +1,15 @@
 import {
   BadRequestException,
-  Body,
   Controller,
   Get,
   Param,
   ParseUUIDPipe,
   Patch,
-  Res,
 } from '@nestjs/common';
 import { PeopleService } from './person.service';
 import { Person } from './entities/person.entity';
 import { ApiTags } from '@nestjs/swagger';
-import { RoleByNameDto } from 'src/role/dtos/role.dto';
-import { Response } from 'express';
+import { Roles } from '../role/enums/roles.enum';
 
 @ApiTags('People')
 @Controller('people')
@@ -34,8 +31,7 @@ export class PeopleController {
 
   // this endpoint is only for admin,superadmin
   @Patch('role/:id')
-  async addRole(@Param('id', ParseUUIDPipe) id: string, @Res() res: Response, @Body() role: RoleByNameDto) {
-    const response = await this.peopleService.addRole(id, role);
-    return res.status(200).json(response);
+  async addRole(@Param('id', ParseUUIDPipe) personId: string, roleName: Roles) {
+    return await this.peopleService.addRole(personId, roleName);
   }
 }

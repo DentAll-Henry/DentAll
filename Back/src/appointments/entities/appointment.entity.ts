@@ -1,7 +1,8 @@
 import { DentalServ } from 'src/dentalServ/entities/dentalServ.entity';
+import { Dentist } from 'src/person/entities/dentist.entity';
 import { Patient } from 'src/person/entities/patient.entity';
 // import { Person } from 'src/person/entities/person.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({
   name: 'appointments',
@@ -27,10 +28,12 @@ export class Appointment {
 
   /**
    * Dentist ID who will cover the appointment
-   * TODO: ADD RELATION WITH DENTIST TABLE
    */
-  @Column()
-  dentist_id: string;
+  @ManyToOne(() => Dentist, (dentist) => dentist.id)
+  @JoinColumn({
+    name: 'dentis_id',
+  })
+  dentist_id: Dentist | Dentist['id']
 
   /**
    * Patient ID who will attend the appointment

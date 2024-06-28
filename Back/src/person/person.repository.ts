@@ -7,14 +7,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Person } from './entities/person.entity';
 import { QueryFailedError, Repository } from 'typeorm';
 import { Role } from '../role/entities/role.entity';
-import { Roles } from 'src/role/enums/roles.enum';
-import { RoleByNameDto } from 'src/role/dtos/role.dto';
+import { Guest } from './entities/guest.entity';
 
 @Injectable()
 export class PeopleRepository {
   constructor(
     @InjectRepository(Person) private peopleRepository: Repository<Person>,
-    @InjectRepository(Role) private rolesRepository: Repository<Role>,
+    @InjectRepository(Guest) private guestRepository: Repository<Guest>,
   ) {}
 
   async personById(personId: string): Promise<Person> {
@@ -52,14 +51,9 @@ export class PeopleRepository {
     return person;
   }
 
-  async createPatient(personInfo: Partial<Person>) {
+  async createPatient(personInfo: Partial<Person>): Promise<Person> {
     try {
-      const newPerson = await this.peopleRepository.create(personInfo);
-      const role = await this.rolesRepository.findOne({
-        where: { name: Roles.PATIENT },
-      });
-      newPerson.roles = [role];
-      const person: Person = await this.peopleRepository.save(newPerson);
+      const person: Person = await this.peopleRepository.save(personInfo);
       return person;
     } catch (error) {
       if (error instanceof QueryFailedError) {
@@ -69,30 +63,15 @@ export class PeopleRepository {
     }
   }
 
-  async addRole(id: string, roleToAdd: RoleByNameDto) {
+  async addRole(personId: string, roleToAdd: Role): Promise<Person> {
     try {
-      const person: Person = await this.peopleRepository.findOne({
-        where: {
-          id,
-        },
-        relations: {
-          roles: true,
-        },
-      });
-      if (!person)
-        throw new BadRequestException('Person does not exist for id: ' + id);
-      const role = await this.rolesRepository.findOneBy({
-        name: roleToAdd.name,
-      });
-      if (!role)
-        throw new BadRequestException(
-          'The role: ' + roleToAdd.name + ' does not exist: ',
-        );
-      const existingRole = person.roles.find((r) => r.id === role.id);
-      if (existingRole) {
-        throw new BadRequestException('Person already has that role');
-      }
-      person.roles.push(role);
+      const person: Person = await this.personById(personId)
+
+      const existingRole = person.roles.find((r) => r.id === roleToAdd.id);
+
+      if (existingRole) throw new BadRequestException('Person already has that role');
+      
+      person.roles.push(roleToAdd);
       const updatedPerson: Person = await this.peopleRepository.save(person);
       return updatedPerson;
     } catch (error) {
@@ -101,5 +80,10 @@ export class PeopleRepository {
       }
       throw new InternalServerErrorException('Internal server error');
     }
+  }
+
+  async createGuest(guestInfo: Omit<Guest, 'id'>) {
+    const guest: Guest = await this.guestRepository.save(guestInfo);
+    return guest;
   }
 }
