@@ -1,4 +1,4 @@
-import "../globals.css";
+
 import SideNav from "@/components/NavBar/sideNavBar";
 
 export default function PageLayout({
@@ -7,10 +7,14 @@ export default function PageLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex ">
-      <SideNav />
-      {children}
-    </div>
+    <html lang="en">
+      <body className="bg-darkD-600">
+        <div className="flex ">
+          <SideNav />
+          {children}
+        </div>
+      </body>
+    </html>
   );
 }
 // className = "flex h-screen flex-col md:flex-row md:overflow-hidden";
