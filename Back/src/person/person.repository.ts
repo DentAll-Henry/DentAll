@@ -13,8 +13,28 @@ import { Guest } from './entities/guest.entity';
 export class PeopleRepository {
   constructor(
     @InjectRepository(Person) private peopleRepository: Repository<Person>,
-    @InjectRepository(Guest) private guestRepository: Repository<Guest>,
+    @InjectRepository(Guest) private guestsRepository: Repository<Guest>,
   ) {}
+
+  async getAllPeople(paginationDto) {
+    const { page, limit } = paginationDto;
+    const queryBuilder = this.peopleRepository.createQueryBuilder('people')
+      .select('people')
+      .skip((page - 1) * limit)
+      .take(limit);
+
+    return await queryBuilder.getMany();
+  }
+
+  async getAllGuests(paginationDto) {
+    const { page, limit } = paginationDto;
+    const queryBuilder = this.guestsRepository.createQueryBuilder('guests')
+      .select('guests')
+      .skip((page - 1) * limit)
+      .take(limit);
+
+    return await queryBuilder.getMany();
+  }
 
   async personById(personId: string): Promise<Person> {
     const person: Person = await this.peopleRepository.findOne({
@@ -39,6 +59,15 @@ export class PeopleRepository {
       },
     });
     return person;
+  }
+
+  async guestByEmail(guestEmail: string): Promise<Guest> {
+    const guest: Guest = await this.guestsRepository.findOne({
+      where: {
+        email: guestEmail,
+      },
+    });
+    return guest;
   }
 
   async personByDni(personDni: string): Promise<Person> {
@@ -83,7 +112,7 @@ export class PeopleRepository {
   }
 
   async createGuest(guestInfo: Omit<Guest, 'id'>) {
-    const guest: Guest = await this.guestRepository.save(guestInfo);
+    const guest: Guest = await this.guestsRepository.save(guestInfo);
     return guest;
   }
 }
