@@ -4,6 +4,7 @@ import {
   IsDateString,
   IsEmail,
   IsNumberString,
+  IsOptional,
   IsStrongPassword,
   Length,
 } from 'class-validator';
@@ -103,6 +104,7 @@ export class CreatePersonDto {
   nationality: string;
 
   @IsBoolean()
+  @IsOptional()
   @ApiProperty({
     description: 'Just for user from auth0',
     example: false,
