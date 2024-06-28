@@ -33,4 +33,9 @@ export class AuthRepository {
     const credentialCreated: Auth = await this.authRepository.save(signUpInfo);
     return credentialCreated;
   }
+
+  async deleteAuth(authToDelete: Auth) {
+    await this.authRepository.softDelete(authToDelete.id)
+    return `Auth whit ID ${authToDelete.id} was deleted.`
+  }
 }

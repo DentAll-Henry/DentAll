@@ -82,7 +82,7 @@ export class PeopleRepository {
     return person;
   }
 
-  async addPatient(person_id: Person['id']) {
+  async createPatient(person_id: Person['id']) {
     try {
       const person: Person = await this.personById(person_id);
 
@@ -111,7 +111,7 @@ export class PeopleRepository {
     return patient;
   }
 
-  async createPatient(personInfo: Partial<Person>): Promise<Person> {
+  async createPersonAsPatient(personInfo: Partial<Person>): Promise<Person> {
     try {
       const person: Person = await this.peopleRepository.save(personInfo);
       return person;
@@ -145,5 +145,10 @@ export class PeopleRepository {
   async createGuest(guestInfo: Omit<Guest, 'id'>) {
     const guest: Guest = await this.guestsRepository.save(guestInfo);
     return guest;
+  }
+
+  async deletePerson(personToDelete: Person) {
+    await this.peopleRepository.softDelete(personToDelete.id)
+    return `Person whit email ${personToDelete.email} was deleted.`
   }
 }

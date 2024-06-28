@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   Controller,
+  Delete,
   Get,
   Param,
   ParseUUIDPipe,
@@ -71,7 +72,16 @@ export class PeopleController {
   @Patch('role/:id')
   @ApiOperation({ summary: 'Add new person role.' })
   @ApiResponse({ status: 200, description: 'Returns to the person with the new role.' })
+  @ApiBadRequestResponse({ status: 400, description: 'Role does not exist.' })
   async addRole(@Param('id', ParseUUIDPipe) personId: string, roleName: Roles) {
     return await this.peopleService.addRole(personId, roleName);
   }
+
+  // @Delete(':id')
+  // @ApiOperation({ summary: 'Delete a person by ID.' })
+  // @ApiResponse({ status: 201, description: 'Action confirmed.', })
+  // @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
+  // async deletePerson(@Param('id', ParseUUIDPipe) id: string) {
+  //   return this.peopleService.deletePerson(id);
+  // }
 }
