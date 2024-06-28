@@ -82,7 +82,8 @@ export class PeopleRepository {
     return person;
   }
 
-  async addPatient(person_id: Person['id']) {
+
+  async createPatient(person_id: Person['id']) {
     try {
       const person: Person = await this.personById(person_id);
 
@@ -100,7 +101,19 @@ export class PeopleRepository {
     }
   }
 
-  async createPatient(personInfo: Partial<Person>): Promise<Person> {
+
+  async getPatientById(patientId: string) {
+    const patient = await this.patientRepository.findOne({
+      where: {
+        id: patientId
+      },
+      relations: ['person_id']
+    });
+    if (!patient) throw new BadRequestException('Patient not found with id provided');
+    return patient;
+  }
+
+  async createPersonAsPatient(personInfo: Partial<Person>): Promise<Person> {
     try {
       const person: Person = await this.peopleRepository.save(personInfo);
       return person;
@@ -134,5 +147,10 @@ export class PeopleRepository {
   async createGuest(guestInfo: Omit<Guest, 'id'>) {
     const guest: Guest = await this.guestsRepository.save(guestInfo);
     return guest;
+  }
+
+  async deletePerson(personToDelete: Person) {
+    await this.peopleRepository.softDelete(personToDelete.id)
+    return `Person whit email ${personToDelete.email} was deleted.`
   }
 }

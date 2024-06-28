@@ -18,10 +18,11 @@ export class Patient {
   @OneToOne(() => Person)
   @JoinColumn({ name: 'person_id' })
   person_id: Person['id'];
-
+/* 
   @OneToOne(() => DentalRecord)
   @JoinColumn({ name: 'dental_record_id' })
-  dentalRecord?: DentalRecord | DentalRecord['id'];
+  dentalRecord?: DentalRecord | DentalRecord['id']; */
+
 
   @OneToMany(() => Appointment, (appointment) => appointment.patient)
   appointments: Appointment[];

@@ -41,7 +41,7 @@ export class AuthService {
     const newCredential: Auth = 
       await this.authRepository.signUp(signUpInfo);
 
-    return await this.peopleService.createPatient({
+    return await this.peopleService.createPersonAsPatient({
       auth: newCredential,
       ...personInfo,
     });
@@ -74,5 +74,13 @@ export class AuthService {
     });
 
     return { succes: 'Authorized acces', token };
+  }
+
+  async deleteAuth(email: string) {
+    const authToDelte: Auth = await this.authRepository.credentialByEmail(email);
+    if (!authToDelte) throw new BadRequestException('Auth does not exist');
+    await this.authRepository.deleteAuth(authToDelte);
+    const responsePerson: string = await this.peopleService.deletePerson(authToDelte.email);
+    return responsePerson;
   }
 }

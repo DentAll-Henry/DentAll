@@ -20,6 +20,9 @@ import { DentalServ } from './dentalServ/entities/dentalServ.entity';
 import { AuthService } from './auth/auth.service';
 import { Auth } from './auth/entities/auth.entity';
 import { AuthRepository } from './auth/auth.repository';
+import { FilesController } from './files/files.controller';
+import { FilesService } from './files/files.service';
+import { FilesModule } from './files/files.module';
 
 import { HeadCuarterModule } from './headCuarters/headCuarters.module';
 import { Cords } from './headCuarters/entities/cords.entity';
