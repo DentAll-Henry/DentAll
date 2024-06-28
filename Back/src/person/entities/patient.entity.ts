@@ -12,7 +12,7 @@ import { ClinicalHistory } from 'src/clinicalHistory/entities/clinicalHistory.en
 
 @Entity('patient')
 export class Patient {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn("uuid")
   id: string;
 
   @OneToOne(() => Person)
