@@ -68,4 +68,9 @@ export class PeopleService {
     const guest: Guest = await this.peopleRepository.createGuest(guestInfo);
     return guest;
   }
+
+  async deletePerson(email: string) {
+    const personToDelete: Person = await this.personByEmail(email);
+    return await this.peopleRepository.deletePerson(personToDelete);
+  }
 }
