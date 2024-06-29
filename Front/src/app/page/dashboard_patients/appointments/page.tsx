@@ -45,7 +45,7 @@ const page = () => {
         <p className="bg-darkD-500 p-4 w-[15%]">27/06/2024</p>
         <p className="bg-darkD-500 p-4 w-[15%]">14:00</p>
         <p className="bg-darkD-500 p-4 w-[30%]">Dolor de muelita</p>
-        <p className="bg-[#0B5B12] p-4 w-[15%] bg-[#0B5B12]">Activo</p>
+        <p className="bg-[#0B5B12] p-4 w-[15%] ">Activo</p>
         <Image
           className="group-hover:fill-current text-white"
           src="/images/NotePencil.svg"
