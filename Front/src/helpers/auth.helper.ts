@@ -1,22 +1,27 @@
 import { LoginProps, RegisterProps } from "@/types";
+import { enviroment } from "@/utils/config";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 
+
+
 export async function register(userData: RegisterProps) {
   try {
-    console.log(userData)
-    const res = await fetch("http://localhost:3000/auth/signup", {
+    console.log(enviroment.apiUrl)
+    const res = await fetch(`${enviroment.apiUrl}/auth/signup`, {
+
       method: "POST",
       headers: {
         "Content-type": "application/json",
         "ngrok-skip-browser-warning": "true",
       },
       body: JSON.stringify(userData),
-    });
+    }).then();
 
     if (res.ok) {
+      console.log(res)
       return res.json();
     } else {
         Swal.fire({
@@ -32,7 +37,7 @@ export async function register(userData: RegisterProps) {
       throw new Error("Error en el registro");
     }
   } catch (error: any) {
-    throw new Error(error);
+    console.log(error);
   }
 }
 
@@ -40,7 +45,7 @@ export async function register(userData: RegisterProps) {
 
 export async function login(userData: LoginProps) {
   try {
-    const res = await fetch(`${apiUrl}/auth/signin`, {
+    const res = await fetch(`${enviroment.apiUrl}/auth/signin`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",

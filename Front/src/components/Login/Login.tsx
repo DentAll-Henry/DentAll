@@ -62,7 +62,7 @@ console.log('sgfdfg', dataUser)
               "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
           },
         });
-        router.push("/home");
+        router.push("/page/dashboard_patients");
       } catch (error: any) {
         Swal.fire({
           title: "Error",
