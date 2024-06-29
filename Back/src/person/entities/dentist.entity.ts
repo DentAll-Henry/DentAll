@@ -10,16 +10,17 @@ export class Dentist {
     @PrimaryGeneratedColumn('uuid')
     id: string = uuid();
 
-    @Column()
-    career: string;
+    // @OneToOne(() => Speciality)
+    // @JoinColumn({ name: 'speciality_id'})
+    // speciality: Speciality | Speciality['id'] | Speciality['name'];
 
     @Column()
-    speciality: string;
+    rate?: number;
 
     @OneToOne(() => Person)
     @JoinColumn({ name: 'person_id' })
     person: Person | Person['id'];
 
     @OneToMany(() => Appointment, (appointment) => appointment.id)
-    appointments: Appointment[];
+    appointments?: Appointment[];
 }

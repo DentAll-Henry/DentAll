@@ -2,6 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Auth } from './entities/auth.entity';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthRepository {
@@ -37,5 +38,28 @@ export class AuthRepository {
   async deleteAuth(authToDelete: Auth) {
     await this.authRepository.softDelete(authToDelete.id)
     return `Auth whit ID ${authToDelete.id} was deleted.`
+  }
+
+  async restoreAuth(email: string, password: string): Promise<Auth> {
+    const authToRestore: Auth = await this.authRepository
+      .createQueryBuilder('auth')
+      .withDeleted()
+      .where('auth.email = :email', { email })
+      .andWhere('auth.deleteDate IS NOT NULL')
+      .select(['auth.password', 'auth.id'])
+      .getOne()
+    
+    if (!authToRestore) throw new BadRequestException('Wrong credentials. It is not possible to restore person.');
+
+    if (await bcrypt.compare(password, authToRestore.password)) {
+      await this.authRepository.restore(authToRestore);
+      return authToRestore;
+    }
+
+    throw new BadRequestException('Wrong credentials. It is not possible to restore person.');
+  }
+
+  async changePass(authToUpdate: Auth) {
+    return this.authRepository.save(authToUpdate);
   }
 }
