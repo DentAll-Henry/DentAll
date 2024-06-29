@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Role } from './entities/role.entity';
 import { Repository } from 'typeorm';
 import { Roles } from './enums/roles.enum';
-import { rolesDB } from '../db/rolesDB';
 
 @Injectable()
 export class RolesRepository {
@@ -11,17 +10,15 @@ export class RolesRepository {
     @InjectRepository(Role) private rolesRepository: Repository<Role>,
   ) {}
 
-  async init() {
-    const rolesInDB: Role[] = await this.getRoles();
-    if (rolesInDB.length !== 0) return;
-    for (const role of rolesDB) {
-      await this.rolesRepository.save(role);
-    }
-  }
+  async getRoles(paginationDto) {
+    const { page, limit } = paginationDto;
+    const queryBuilder = this.rolesRepository
+      .createQueryBuilder('Roles')
+      .select('Roles')
+      .skip((page - 1) * limit)
+      .take(limit);
 
-  async getRoles() {
-    const roles: Role[] = await this.rolesRepository.find();
-    return roles;
+    return await queryBuilder.getMany();
   }
 
   async roleByName(name: Roles): Promise<Role> {
@@ -33,14 +30,5 @@ export class RolesRepository {
     if (!role)
       throw new BadRequestException('Role with that name does not exist');
     return role;
-  }
-
-  async createRoles() {
-    const rolesInDB: Role[] = await this.getRoles();
-    if (rolesInDB.length !== 0) return 'Data in Roles already exist';
-    for (const role of rolesDB) {
-      await this.rolesRepository.save(role);
-    }
-    return 'Data in Roles loaded';
   }
 }
