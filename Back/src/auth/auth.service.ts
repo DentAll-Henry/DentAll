@@ -83,4 +83,30 @@ export class AuthService {
     const responsePerson: string = await this.peopleService.deletePerson(authToDelte.email);
     return responsePerson;
   }
+
+  async restoreAuth({ email, password, confirmPass }) {
+    if(password === confirmPass) {
+      const AuthToRestore: Auth = await this.authRepository.restoreAuth(email, password);
+      const person: Person = await this.peopleService.restorePerson(email);
+      return person;
+    }
+  }
+
+  async changePass(newPass) {
+    const authToUpdate: Auth = await this.authRepository.credentialByEmail(newPass.email);
+    
+    if (!authToUpdate) throw new BadRequestException('Invalid credentials.');
+
+    const isPassCorrect: boolean = await bcrypt.compare(
+      newPass.currentPass,
+      authToUpdate.password,
+    );
+    if (!isPassCorrect) throw new BadRequestException('Invalid credentials');
+
+    if (newPass.newPass !== newPass.confirmNewPass) throw new BadRequestException('New password and confirm new password must be equal.');
+
+    authToUpdate.password = await Hash(newPass.newPass)
+    
+    return await this.authRepository.changePass(authToUpdate);
+  }
 }
