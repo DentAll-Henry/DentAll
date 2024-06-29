@@ -1,4 +1,3 @@
-import { Role } from '../../role/entities/role.entity';
 import { Column, DeleteDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 
