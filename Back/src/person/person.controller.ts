@@ -1,11 +1,13 @@
 import {
   BadRequestException,
+  Body,
   Controller,
   Delete,
   Get,
   Param,
   ParseUUIDPipe,
   Patch,
+  Post,
   Query,
 } from '@nestjs/common';
 import { PeopleService } from './person.service';
@@ -15,6 +17,8 @@ import { Roles } from '../role/enums/roles.enum';
 import { LimitApiQueries, PageApiQueries } from '../config/swagger-config';
 import { PaginationDto } from '../common/dto/paginationDto';
 import { Guest } from './entities/guest.entity';
+import { UpdatePersonDto } from './dtos/updatePerson.dto';
+import { CreateDentistDto } from './dtos/createDentist.dto';
 
 @ApiTags('People')
 @Controller('people')
@@ -30,7 +34,7 @@ export class PeopleController {
     return this.peopleService.getAllPeople(paginationDto);
   }
 
-  @Get('guest')
+  @Get('guests')
   @ApiOperation({ summary: 'Get all guests.' })
   @ApiResponse({ status: 200, description: 'Returns an array with all guests.' })
   @ApiQuery(PageApiQueries)
@@ -77,11 +81,19 @@ export class PeopleController {
     return await this.peopleService.addRole(personId, roleName);
   }
 
-  // @Delete(':id')
-  // @ApiOperation({ summary: 'Delete a person by ID.' })
-  // @ApiResponse({ status: 201, description: 'Action confirmed.', })
-  // @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
-  // async deletePerson(@Param('id', ParseUUIDPipe) id: string) {
-  //   return this.peopleService.deletePerson(id);
-  // }
+  @Patch('updateinfo')
+  @ApiOperation({ summary: 'Update person information.' })
+  @ApiResponse({ status: 200, description: 'Returns to the person with the updated information.' })
+  @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
+  async updatePerson(@Param('id', ParseUUIDPipe) id: string, @Body() infoToUpdate: UpdatePersonDto) {
+    return this.peopleService.updatePerson(id, infoToUpdate);
+  }
+
+  @Post('dentist/create/:idperson')
+  @ApiOperation({ summary: 'Create a dentist.' })
+  @ApiResponse({ status: 201, description: 'Returns the information of the created dentist.', })
+  @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
+  async createDentist(@Param('id', ParseUUIDPipe) personId: string, @Body() dentistInfo: CreateDentistDto) {
+    return this.peopleService.createDentist(personId, dentistInfo);
+  }
 }
