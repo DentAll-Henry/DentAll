@@ -1,7 +1,9 @@
-import { Controller, Get, Param, ParseUUIDPipe, Post } from '@nestjs/common';
+import { Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { RolesService } from './role.service';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Roles } from './enums/roles.enum';
+import { LimitApiQueries, PageApiQueries } from 'src/config/swagger-config';
+import { PaginationDto } from 'src/common/dto/paginationDto';
 
 @ApiTags('Roles')
 @Controller('roles')
@@ -9,17 +11,19 @@ export class RolesController {
   constructor(private readonly rolesService: RolesService) {}
 
   @Get()
-  async getRoles() {
-    return this.rolesService.getRoles();
+  @ApiOperation({ summary: 'Get all roles.' })
+  @ApiResponse({ status: 200, description: 'Returns an array with all of the roles.' })
+  @ApiQuery(PageApiQueries)
+  @ApiQuery(LimitApiQueries)
+  async getRoles(@Query() paginationDto: PaginationDto) {
+    return this.rolesService.getRoles(paginationDto);
   }
 
   @Get(':name')
-  async roleById(@Param('name') name: Roles) {
+  @ApiOperation({ summary: 'Get role by name.' })
+  @ApiResponse({ status: 200, description: 'Returns a role by name.' })
+  @ApiBadRequestResponse({ status: 400, description: 'Role with that name does not exist.' })
+  async roleByName(@Param('name') name: Roles) {
     return this.rolesService.roleByName(name);
-  }
-
-  @Post()
-  async createRoles() {
-    return this.rolesService.createRoles();
   }
 }

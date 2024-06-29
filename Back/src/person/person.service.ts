@@ -5,13 +5,15 @@ import { Role } from '../role/entities/role.entity';
 import { RolesService } from '../role/role.service';
 import { Roles } from '../role/enums/roles.enum';
 import { Guest } from './entities/guest.entity';
-import { CreatePatientDto } from './dtos/createPatient.dto';
+// import { Dentist } from './entities/dentist.entity';
+// import { SpecialitiesService } from '../specialities/speciality.service';
 
 @Injectable()
 export class PeopleService {
   constructor(
     private readonly peopleRepository: PeopleRepository,
     private readonly rolesService: RolesService,
+    // private readonly specialitiesService: SpecialitiesService,
   ) { }
 
   async getAllPeople(paginationDto) {
@@ -80,6 +82,11 @@ export class PeopleService {
     return this.peopleRepository.addRole(personId, roleToAdd);
   }
 
+  async updatePerson(id: string, infoToUpdate: Partial<Person>) {
+    const personToUpdate: Person = await this.personById(id);
+    return this.peopleRepository.updatePerson(personToUpdate, infoToUpdate);
+  }
+
   async createGuest(guestInfo: Omit<Guest, 'id'>) {
     const guest: Guest = await this.peopleRepository.createGuest(guestInfo);
     return guest;
@@ -88,5 +95,17 @@ export class PeopleService {
   async deletePerson(email: string) {
     const personToDelete: Person = await this.personByEmail(email);
     return await this.peopleRepository.deletePerson(personToDelete);
+  }
+
+  async restorePerson (email: string): Promise<Person> {
+    const personToRestore: Person = await this.peopleRepository.restorePerson(email);
+    return personToRestore;
+  }
+
+  async createDentist(personId: string, dentistInfo) {
+    const person: Person = await this.addRole(personId, Roles.DENTIST);
+    // const speciality: Speciality = await this.specialitiesService.specialityByName(dentistInfo.speciality);
+    // dentistInfo.speciality = speciality
+    return await this.peopleRepository.createDentist(dentistInfo);
   }
 }
