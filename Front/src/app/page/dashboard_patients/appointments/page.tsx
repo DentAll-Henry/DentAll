@@ -3,6 +3,8 @@ import Image from 'next/image';
 import React from 'react'
 import NavDash from '@/components/NavBar/navDash';
 import Link from 'next/link';
+import Citas from '@/components/Citas/Citas';
+import Citasr from '@/components/ccitasR/citasr';
 
 const page = () => {
   return (
@@ -18,43 +20,18 @@ const page = () => {
       </div>
       <div className="flex justify-end">
         <Link href="#">
-          <p>+ Agregar cita</p>
+          <p className="bg-gray-500 p-1 mr-8 rounded-md">+ Agregar cita</p>
         </Link>
       </div>
-      <div className="bg-darkD-500 flex justify-around p-4 rounded-md m-8">
-        <p>Fecha</p>
-        <p>Hora</p>
-        <p>Tipo de consulta</p>
-        <p>Estado</p>
-        <Image
-          className="group-hover:fill-current text-white"
-          src="/images/NotePencil.svg"
-          width={35}
-          height={35}
-          alt="Pagos"
-        />
-        <Image
-          className="group-hover:fill-current text-white"
-          src="/images/ToggleLeft.svg"
-          width={35}
-          height={35}
-          alt="Pagos"
-        />
+      <div>
+        <Citas />
       </div>
-      <div className="bg-darkD-700 flex justify-around p-4 rounded-md m-8">
-        <p className="bg-darkD-500 p-4 w-[15%]">27/06/2024</p>
-        <p className="bg-darkD-500 p-4 w-[15%]">14:00</p>
-        <p className="bg-darkD-500 p-4 w-[30%]">Dolor de muelita</p>
-        <p className="bg-[#0B5B12] p-4 w-[15%] ">Activo</p>
-        <Image
-          className="group-hover:fill-current text-white"
-          src="/images/NotePencil.svg"
-          width={35}
-          height={35}
-          alt="Pagos"
-        />
-        <p className="bg-darkD-500 p-4 w-[15%] ">cancelar</p>
+      <div>
+        <h2 className="font-bold ml-8 mt-20">CITAS REALIZADAS</h2>
       </div>
+    <div>
+<Citasr/>
+    </div>
     </div>
   );
 }
