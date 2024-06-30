@@ -23,9 +23,10 @@ import { AuthRepository } from './auth/auth.repository';
 import { FilesController } from './files/files.controller';
 import { FilesService } from './files/files.service';
 import { FilesModule } from './files/files.module';
-import { HeadCuarterModule } from './headCuarters/headCuarters.module';
-import { Cords } from './headCuarters/entities/cords.entity';
-import { HeadCuarter } from './headCuarters/entities/headCuarter.entity';
+import { Headquarter } from './headquarters/entities/headquarter.entity';
+import { Cords } from './headquarters/entities/cords.entity';
+import { HeadquarterModule } from './headquarters/headquarter.module';
+
 
 @Module({
   imports: [
@@ -46,7 +47,7 @@ import { HeadCuarter } from './headCuarters/entities/headCuarter.entity';
     ProductModule,
     ReportModule,
     DentalRecordModule,
-    HeadCuarterModule,
+    HeadquarterModule,
 
     JwtModule.register({
       global: true,
@@ -57,7 +58,7 @@ import { HeadCuarter } from './headCuarters/entities/headCuarter.entity';
     }),
     MailModule,
     SystemConfigsModule,
-    TypeOrmModule.forFeature([DentalServ, Cords, HeadCuarter]),
+    TypeOrmModule.forFeature([DentalServ, Cords, Headquarter]),
     TypeOrmModule.forFeature([Auth]),
     FilesModule,
   ],
