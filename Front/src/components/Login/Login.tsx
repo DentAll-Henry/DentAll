@@ -22,30 +22,27 @@ const Login = () => {
 
   useEffect(() => {
     console.log("Componente Login renderizado");
-  }, []);
+    const userSession = localStorage.getItem("userSession");
+    if (userSession) {
+      router.push("/page/patients");
+    }
+  }, [router]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("handleChange llamado");
     setDataUser({
       ...dataUser,
       [event.target.name]: event.target.value,
     });
-    console.log("Nuevo estado de dataUser:", {
-      ...dataUser,
-      [event.target.name]: event.target.value,
-    });
   };
-console.log('sgfdfg', dataUser)
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log("handleSubmit llamado");
     const errors = validateLoginForm(dataUser);
     setErrorUser(errors);
 
     if (Object.keys(errors).length === 0) {
       try {
         const response = await login(dataUser);
-        console.log("Este es el response", response);
         const { token, user } = response;
 
         localStorage.setItem(
@@ -62,7 +59,7 @@ console.log('sgfdfg', dataUser)
               "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
           },
         });
-        router.push("/page/dashboard_patients");
+        router.push("/page/patients");
       } catch (error: any) {
         Swal.fire({
           title: "Error",
@@ -82,7 +79,7 @@ console.log('sgfdfg', dataUser)
             <h2 className="text-[#ECEDF6] text-[34px] font-semibold leading-normal mb-4">
               Bienvenido a DentAll
             </h2>
-            <p>Por favor ingresa tu DNI y tu contraseña</p>
+            <p>Por favor ingresa tu correo electrónico y tu contraseña</p>
           </div>
           <div className="w-full max-w-[72%] flex flex-col gap-4">
             <form onSubmit={handleSubmit}>
@@ -167,7 +164,7 @@ console.log('sgfdfg', dataUser)
           </div>
           <div className="w-full max-w-[80%] text-[#00CE90] mt-8 flex flex-row items-center justify-center gap-4">
             <p>No tienes cuenta?</p>
-            <a href="/register">Registrate</a>
+            <a href="/register">Regístrate</a>
           </div>
         </div>
         <div className="w-[65%] h-full relative">

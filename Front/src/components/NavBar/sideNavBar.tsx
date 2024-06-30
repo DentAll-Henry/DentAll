@@ -1,85 +1,109 @@
 import Link from "next/link";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 
-const Navigation = () => (
-  <div className="h-screen w-[20%] bg-darkD-500 text-white fixed ">
-    <div className="p-4">
-      <Image
-        src="/images/Logo.svg"
-        alt="Logo"
-        width={200}
-        height={50}
-        priority
-      />
-    </div>
-    <nav className="mt-5">
-      <ul>
-        <li className="py-2 px-4 m-4 rounded-xl hover:bg-zinc-600 group">
-          <Link className="flex gap-4" href="/page/dashboard_patients">
-            <Image
-              className="group-hover:fill-current text-white"
-              src="/images/home.svg"
-              width={24}
-              height={24}
-              alt="Home"
-            />
-            <p className="group-hover:text-greenD-500">Inicio</p>
-          </Link>
-        </li>
-        <li className="py-2 px-4 m-4 rounded-xl hover:bg-zinc-600 group">
-          <Link
-            className="flex gap-4"
-            href="/page/dashboard_patients/appointments"
-          >
-            <Image
-              className="group-hover:fill-current text-white"
-              src="/images/citas.svg"
-              width={24}
-              height={24}
-              alt="Citas"
-            />
-            <p className="group-hover:text-greenD-500">Mis citas</p>
-          </Link>
-        </li>
-        <li className="py-2 px-4 m-4 rounded-xl hover:bg-zinc-600 group">
-          <Link className="flex gap-4" href="#">
-            <Image
-              className="group-hover:fill-current text-white"
-              src="/images/recetas.svg"
-              width={24}
-              height={24}
-              alt="Recetas"
-            />
-            <p className="group-hover:text-greenD-500">Recetas médicas</p>
-          </Link>
-        </li>
-        <li className="py-2 px-4 m-4 rounded-xl hover:bg-zinc-600 group">
-          <Link className="flex gap-4" href="/">
-            <Image
-              className="group-hover:fill-current text-white"
-              src="/images/user.svg"
-              width={24}
-              height={24}
-              alt="Cerrar sesión"
-            />
-            <p className="group-hover:text-greenD-500">Cerrar sesión</p>
-          </Link>
-        </li>
-      </ul>
-    </nav>
-    <div className="flex items-end justify-end mt-[90%] mr-4 ">
-      <Image
-        className="group-hover:fill-current text-white"
-        src="/images/robot.svg"
-        width={50}
-        height={50}
-        alt="Cerrar sesión"
-      />
-    </div>
-  </div>
-);
+const SideNav = () => {
+  const handleLogout = () => {
+    localStorage.removeItem("userSession");
+    // window.location.reload();
+    Swal.fire({
+      title: "¡Excelente!",
+      text: "Sesión cerrada correctamente.",
+      icon: "success",
+      confirmButtonText: "Aceptar",
+      customClass: {
+        confirmButton:
+          "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded",
+      },
+    });
+  };
 
-export default Navigation;
+  return (
+    <div className="h-screen w-[20%] bg-darkD-500 text-white fixed">
+      <div className="p-4">
+        <Image
+          src="/images/Logo.svg"
+          alt="Logo"
+          width={200}
+          height={50}
+          priority
+        />
+      </div>
+      <nav className="mt-5">
+        <ul>
+          <li className="py-2 px-4 m-4 rounded-xl hover:bg-zinc-600 group">
+            <Link className="flex gap-4" href="/page/dashboard_patients">
+              <Image
+                className="group-hover:fill-current text-white"
+                src="/images/home.svg"
+                width={24}
+                height={24}
+                alt="Home"
+              />
+              <p className="group-hover:text-greenD-500">Inicio</p>
+            </Link>
+          </li>
+          <li className="py-2 px-4 m-4 rounded-xl hover:bg-zinc-600 group">
+            <Link
+              className="flex gap-4"
+              href="/page/dashboard_patients/appointments"
+            >
+              <Image
+                className="group-hover:fill-current text-white"
+                src="/images/citas.svg"
+                width={24}
+                height={24}
+                alt="Citas"
+              />
+              <p className="group-hover:text-greenD-500">Mis citas</p>
+            </Link>
+          </li>
+          <li className="py-2 px-4 m-4 rounded-xl hover:bg-zinc-600 group">
+            <Link className="flex gap-4" href="#">
+              <Image
+                className="group-hover:fill-current text-white"
+                src="/images/recetas.svg"
+                width={24}
+                height={24}
+                alt="Recetas"
+              />
+              <p className="group-hover:text-greenD-500">Recetas médicas</p>
+            </Link>
+          </li>
+          <li className="py-2 px-4 m-4 rounded-xl hover:bg-zinc-600 group">
+            <Link className="flex gap-4" href="/">
+              <Image
+                className="group-hover:fill-current text-white"
+                src="/images/user.svg"
+                width={24}
+                height={24}
+                alt="Cerrar sesión"
+              />
+              <button
+                onClick={handleLogout}
+                className="group-hover:text-greenD-500"
+              >
+                Cerrar sesión
+              </button>
+            </Link>
+          </li>
+        </ul>
+      </nav>
+      <div className="flex items-end justify-end mt-[90%] mr-4">
+        <Image
+          className="group-hover:fill-current text-white"
+          src="/images/robot.svg"
+          width={50}
+          height={50}
+          alt="Cerrar sesión"
+        />
+      </div>
+    </div>
+  );
+};
+
+export default SideNav;
 
 // <div className=" bg-black ">
 //     <Link
