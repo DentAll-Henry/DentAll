@@ -49,9 +49,10 @@ export class HeadCuartersRepository {
 
   async createHeadCuarter(data: HeadCuarterDto): Promise<HeadCuarter> {
     try {
-      const newCords = this.cords.create(data.cords);
+      const newCords = this.cords.create({ lng: data.lng, lat: data.lat });
       const savedCords = await this.cords.save(newCords);
-      const newCuarter = this.headCuarter.create(data);
+      const { name, address, img } = data;
+      const newCuarter = this.headCuarter.create({ name, address, img });
       newCuarter.cords = savedCords;
       const result = await this.headCuarter.save(newCuarter);
       return result;
@@ -63,7 +64,13 @@ export class HeadCuartersRepository {
   async editHeadCuarter(id: string, data: Partial<HeadCuarterDto>) {
     try {
       const cuarter = await this.getHeadCuarterByID(id);
-      const updatedCuarter = this.headCuarter.merge(cuarter, data);
+      const { name, address, img, lat, lng } = data;
+      const updatedCuarter = this.headCuarter.merge(cuarter, {
+        name,
+        address,
+        img,
+        cords: { lat, lng },
+      });
       const result = await this.headCuarter.save(updatedCuarter);
       return result;
     } catch (error) {
