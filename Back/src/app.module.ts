@@ -22,10 +22,11 @@ import { AuthRepository } from './auth/auth.repository';
 import { FilesController } from './files/files.controller';
 import { FilesService } from './files/files.service';
 import { FilesModule } from './files/files.module';
-import { HeadCuarterModule } from './headCuarters/headCuarters.module';
-import { Cords } from './headCuarters/entities/cords.entity';
-import { HeadCuarter } from './headCuarters/entities/headCuarter.entity';
+
 import { SpecialtyModule } from './specialty/specialty.module';
+import { HeadquarterModule } from './headquarters/headquarter.module';
+import { Cords } from './headquarters/entities/cords.entity';
+import { Headquarter } from './headquarters/entities/headquarter.entity';
 
 @Module({
   imports: [
