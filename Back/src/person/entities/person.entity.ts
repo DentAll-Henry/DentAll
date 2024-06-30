@@ -72,6 +72,11 @@ export class Person {
   })
   is_auth0?: boolean;
 
+  @Column({
+    default: '',
+  })
+  photo?: string;
+
   @DeleteDateColumn({
     nullable: true,
   })

@@ -106,7 +106,7 @@ export class PeopleController {
   }
 
   // this endpoint is only for admin,superadmin
-  @Patch('role/:id')
+  @Patch('role/:idperson')
   @ApiOperation({ summary: 'Add new person role.' })
   @ApiResponse({
     status: 200,
@@ -117,31 +117,14 @@ export class PeopleController {
     return await this.peopleService.addRole(personId, roleName);
   }
 
-  @Patch('updateinfo')
-  @ApiOperation({ summary: 'Update person information.' })
-  @ApiResponse({
-    status: 200,
-    description: 'Returns to the person with the updated information.',
-  })
-  @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
-  async updatePerson(
-    @Param('id', ParseUUIDPipe) id: string,
-    @Body() infoToUpdate: UpdatePersonDto,
-  ) {
-    return this.peopleService.updatePerson(id, infoToUpdate);
-  }
-
-  @Post('dentist/create/:idperson')
+  @Post('dentist/create')
   @ApiOperation({ summary: 'Create a dentist.' })
   @ApiResponse({
     status: 201,
     description: 'Returns the information of the created dentist.',
   })
   @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
-  async createDentist(
-    @Param('id', ParseUUIDPipe) personId: string,
-    @Body() dentistInfo: CreateDentistDto,
-  ) {
-    return this.peopleService.createDentist(personId, dentistInfo);
+  async createDentist(@Body() dentistInfo: CreateDentistDto) {
+    return this.peopleService.createDentist(dentistInfo);
   }
 }

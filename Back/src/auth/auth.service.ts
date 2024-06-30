@@ -84,7 +84,7 @@ export class AuthService {
     return responsePerson;
   }
 
-  async restoreAuth({ email, password, confirmPass }) {
+  async restoreAuth({ email, password, confirmPass }: { email: string, password: string, confirmPass: string }) {
     if(password === confirmPass) {
       const AuthToRestore: Auth = await this.authRepository.restoreAuth(email, password);
       const person: Person = await this.peopleService.restorePerson(email);
@@ -92,7 +92,7 @@ export class AuthService {
     }
   }
 
-  async changePass(newPass) {
+  async changePass(newPass: {email: string, currentPass: string, newPass: string, confirmNewPass: string }) {
     const authToUpdate: Auth = await this.authRepository.credentialByEmail(newPass.email);
     
     if (!authToUpdate) throw new BadRequestException('Invalid credentials.');
@@ -108,5 +108,23 @@ export class AuthService {
     authToUpdate.password = await Hash(newPass.newPass)
     
     return await this.authRepository.changePass(authToUpdate);
+  }
+
+  async updatePerson(personId: string, infoToUpdate: { phone?: string, email?: string, address?: string, location?: string, confirmPass: string }){
+    const person: Person = await this.peopleService.personById(personId);
+    
+    const { confirmPass, ...infoPersonToUpdate } = infoToUpdate;
+    
+    const credentials: Auth = await this.authRepository.credentialByEmail(person.email);
+    if(!credentials) throw new BadRequestException('Bad request')
+    const isPassCorrect: boolean = await bcrypt.compare(
+      credentials.password,
+      confirmPass,
+    )
+    if (!isPassCorrect) throw new BadRequestException('Can not to preccess de request. Wrong information.');
+
+    const personUpdated: Person = await this.peopleService.updatePerson(person.id, infoPersonToUpdate);
+
+    return personUpdated;
   }
 }
