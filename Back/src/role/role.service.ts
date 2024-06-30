@@ -6,7 +6,7 @@ import { Roles } from './enums/roles.enum';
 export class RolesService{
   constructor(private readonly rolesRespository: RolesRepository) {}
 
-  async getRoles(paginationDto) {
+  async getRoles(paginationDto: {page: number , limit: number}) {
     return this.rolesRespository.getRoles(paginationDto);
   }
 
