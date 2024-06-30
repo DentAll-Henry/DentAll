@@ -6,6 +6,7 @@ import { CreatePersonDto } from '../person/dtos/createPerson.dto';
 import { SignUpInterceptor } from './interceptors/signUp.interceptor';
 import { RestoreAuthDto } from './dtos/restoreAuth.dto';
 import { UpdatePasswordDto } from './dtos/updatePassword.dto';
+import { UpdatePersonDto } from 'src/person/dtos/updatePerson.dto';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -53,5 +54,13 @@ export class AuthController {
   @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
   async changePass(@Body() newPass: UpdatePasswordDto) {
     return this.authService.changePass(newPass);
+  }
+
+  @Patch('updateperson/:idperson')
+  @ApiOperation({ summary: 'Update person information.' })
+  @ApiResponse({ status: 201, description: 'Onformation updated succesfully.' })
+  @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
+  async updatePerson(@Param('id', ParseUUIDPipe) personId: string, @Body() infoToUpdate: UpdatePersonDto) {
+    return this.authService.updatePerson(personId, infoToUpdate);
   }
 }
