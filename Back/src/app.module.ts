@@ -12,7 +12,6 @@ import { LoggerMiddleware } from './middlewares/logger.middleware';
 import { RolesModule } from './role/role.module';
 import { MailModule } from './mail/mail.module';
 import { ProductModule } from './product/product.module';
-import { ReportModule } from './report/report.module';
 import { SystemConfigsModule } from './system_configs/system_configs.module';
 import { DentalRecordModule } from './dentalRecord/dentalRecord.module';
 import { MockAutoLoadService } from './common/service/mock_auto_load.service';
@@ -23,10 +22,11 @@ import { AuthRepository } from './auth/auth.repository';
 import { FilesController } from './files/files.controller';
 import { FilesService } from './files/files.service';
 import { FilesModule } from './files/files.module';
-import { Headquarter } from './headquarters/entities/headquarter.entity';
-import { Cords } from './headquarters/entities/cords.entity';
-import { HeadquarterModule } from './headquarters/headquarter.module';
 
+import { HeadCuarterModule } from './headCuarters/headCuarters.module';
+import { Cords } from './headCuarters/entities/cords.entity';
+import { HeadCuarter } from './headCuarters/entities/headCuarter.entity';
+import { SpecialtyModule } from './specialty/specialty.module';
 
 @Module({
   imports: [
@@ -45,7 +45,6 @@ import { HeadquarterModule } from './headquarters/headquarter.module';
     PeopleModule,
     RolesModule,
     ProductModule,
-    ReportModule,
     DentalRecordModule,
     HeadquarterModule,
 
@@ -61,6 +60,7 @@ import { HeadquarterModule } from './headquarters/headquarter.module';
     TypeOrmModule.forFeature([DentalServ, Cords, Headquarter]),
     TypeOrmModule.forFeature([Auth]),
     FilesModule,
+    SpecialtyModule,
   ],
   controllers: [FilesController],
 
