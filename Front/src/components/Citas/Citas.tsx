@@ -37,7 +37,7 @@ const Citas = () => {
         <p className="bg-green-500 text-white p-2 rounded-md text-center">
           Activo
         </p>
-        <div className="justify-self-center bg-blue-500 p-2 rounded-md ml-[70%]">
+        <div className="justify-self-center bg-blue-500 p-2 rounded-md ml-[67%]">
           <Image
             className="h-6"
             src="/images/NotePencil.svg"
