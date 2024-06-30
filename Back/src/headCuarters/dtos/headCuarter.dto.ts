@@ -6,7 +6,6 @@ import {
   MaxLength,
   Min,
 } from 'class-validator';
-import { CordsDto } from './cords.dto';
 
 export class HeadCuarterDto {
   @IsNotEmpty()
@@ -25,5 +24,14 @@ export class HeadCuarterDto {
   img: string;
 
   @IsNotEmpty()
-  cords: CordsDto;
+  @IsNumber()
+  @Min(-90)
+  @Max(90)
+  lat: number;
+
+  @IsNotEmpty()
+  @IsNumber()
+  @Min(-180)
+  @Max(180)
+  lng: number;
 }
