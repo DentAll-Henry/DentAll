@@ -10,7 +10,7 @@ export class RolesRepository {
     @InjectRepository(Role) private rolesRepository: Repository<Role>,
   ) {}
 
-  async getRoles(paginationDto) {
+  async getRoles(paginationDto: {page: number , limit: number}) {
     const { page, limit } = paginationDto;
     const queryBuilder = this.rolesRepository
       .createQueryBuilder('Roles')
