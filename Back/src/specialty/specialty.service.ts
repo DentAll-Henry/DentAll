@@ -89,4 +89,10 @@ export class SpecialtyService {
       : await this.specialtyRepository.getSpecialties();
     // return await this.specialtyRepository.getSpecialties();
   }
+
+  async SpecialtyByName(name: string) {
+    return !(await this.specialtyRepository.getSpecialityByName(name))
+      ? 'Specialty not found'
+      : await this.specialtyRepository.getSpecialityByName(name);
+  }
 }
