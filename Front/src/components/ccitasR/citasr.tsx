@@ -27,7 +27,7 @@ const Citasr = () => {
         <p className="bg-gray-500 text-white p-2 rounded-md text-center ">
           27/06/2024
         </p>
-        <p className="bg-gray-500 text-white p-2 rounded-md text-center ">
+        <p className="bg-gray-600 text-white p-2 rounded-md text-center ">
           14:00
         </p>
         <p className="bg-gray-500 text-white p-2 rounded-md text-center ">
