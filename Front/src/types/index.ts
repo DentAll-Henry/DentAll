@@ -40,8 +40,8 @@ export interface RegisterErrorProps {
 export interface userSession {
   token: string;
   userData: {
-    address: string;
     email: string;
+    address: string;
     id: number;
     name: string;
     phone: string;
