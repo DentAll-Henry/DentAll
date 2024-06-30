@@ -1,4 +1,4 @@
-import { Roles } from 'src/role/enums/roles.enum';
+import { Roles } from '../role/enums/roles.enum';
 
 export const rolesDB = [
   {
