@@ -5,6 +5,7 @@ import { Role } from '../role/entities/role.entity';
 import { RolesService } from '../role/role.service';
 import { Roles } from '../role/enums/roles.enum';
 import { Guest } from './entities/guest.entity';
+import { Auth } from 'src/auth/entities/auth.entity';
 // import { Dentist } from './entities/dentist.entity';
 // import { SpecialitiesService } from '../specialities/speciality.service';
 
@@ -16,11 +17,11 @@ export class PeopleService {
     // private readonly specialitiesService: SpecialitiesService,
   ) { }
 
-  async getAllPeople(paginationDto) {
+  async getAllPeople(paginationDto: {page: number , limit: number}) {
     return this.peopleRepository.getAllPeople(paginationDto)
   }
 
-  async getAllGuests(paginationDto) {
+  async getAllGuests(paginationDto: {page: number , limit: number}) {
     return this.peopleRepository.getAllGuests(paginationDto)
   }
 
@@ -43,8 +44,6 @@ export class PeopleService {
     const person: Person = await this.peopleRepository.personByDni(dni);
     return person;
   }
-
-
 
   async createPatient(person_id: string) {
     return await this.peopleRepository.createPatient(person_id);
@@ -102,8 +101,8 @@ export class PeopleService {
     return personToRestore;
   }
 
-  async createDentist(personId: string, dentistInfo) {
-    const person: Person = await this.addRole(personId, Roles.DENTIST);
+  async createDentist(dentistInfo: { speciality: string, rate?: number, person: string }) {
+    const person: Person = await this.addRole(dentistInfo.person, Roles.DENTIST);
     // const speciality: Speciality = await this.specialitiesService.specialityByName(dentistInfo.speciality);
     // dentistInfo.speciality = speciality
     return await this.peopleRepository.createDentist(dentistInfo);
