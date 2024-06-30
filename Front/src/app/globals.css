@@ -41,3 +41,49 @@ h6,
 a {
   font-family: "Maven Pro", sans-serif;
 }
+
+/* Agrega estas reglas CSS a tu archivo styles/globals.css */
+/* Estilo para navegadores basados en WebKit (Chrome, Safari) */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background:  #1D1D1D;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #777;
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #494647;
+}
+
+/* Estilo para Firefox
+scrollbar-width: thin;
+scrollbar-color: #888 #f1f1f1; */
+
+/* Aplicando estilos a un contenedor específico */
+.custom-scrollbar {
+  overflow-y: scroll;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 12px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 6px;
+  border: 3px solid #f1f1f1;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

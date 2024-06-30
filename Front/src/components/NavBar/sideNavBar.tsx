@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 const Navigation = () => (
-  <div className="h-screen w-[20%] bg-darkD-500 text-white fixed">
+  <div className="h-screen w-[20%] bg-darkD-500 text-white fixed ">
     <div className="p-4">
       <Image
         src="/images/Logo.svg"
@@ -15,7 +15,7 @@ const Navigation = () => (
     <nav className="mt-5">
       <ul>
         <li className="py-2 px-4 m-4 rounded-xl hover:bg-zinc-600 group">
-          <Link className="flex gap-4" href="/page/dashboard_1">
+          <Link className="flex gap-4" href="/page/dashboard_patients">
             <Image
               className="group-hover:fill-current text-white"
               src="/images/home.svg"
@@ -27,7 +27,10 @@ const Navigation = () => (
           </Link>
         </li>
         <li className="py-2 px-4 m-4 rounded-xl hover:bg-zinc-600 group">
-          <Link className="flex gap-4" href="/page/dashboard_1/citas">
+          <Link
+            className="flex gap-4"
+            href="/page/dashboard_patients/appointments"
+          >
             <Image
               className="group-hover:fill-current text-white"
               src="/images/citas.svg"

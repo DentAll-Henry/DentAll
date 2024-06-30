@@ -88,12 +88,10 @@ export class PeopleRepository {
   async createPatient(person_id: Person['id']) {
     try {
       const person: Person = await this.personById(person_id);
-
       if (!person)
         throw new BadRequestException(
           'Person not found with id provided. Could not add patient',
         );
-
       return await this.patientRepository.save({
         person_id: person_id,
       });
