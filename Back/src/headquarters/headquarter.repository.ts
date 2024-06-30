@@ -4,41 +4,41 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { HeadCuarter } from './entities/headCuarter.entity';
+import { Headquarter } from './entities/headquarter.entity';
 import { Repository } from 'typeorm';
 import { Cords } from './entities/cords.entity';
-import { HeadCuarterDto } from './dtos/headCuarter.dto';
+import { HeadquarterDto } from './dtos/headquarter.dto';
 
 @Injectable()
-export class HeadCuartersRepository {
+export class HeadquarterRepository {
   constructor(
-    @InjectRepository(HeadCuarter) private headCuarter: Repository<HeadCuarter>,
+    @InjectRepository(Headquarter) private headquarter: Repository<Headquarter>,
     @InjectRepository(Cords) private cords: Repository<Cords>,
   ) {}
 
-  async getHeadCuarters(page: number, limit: number): Promise<HeadCuarter[]> {
+  async getHeadquarters(page: number, limit: number): Promise<Headquarter[]> {
     try {
-      const [cuarters, total] = await this.headCuarter.findAndCount({
+      const [headquarters, total] = await this.headquarter.findAndCount({
         skip: (page - 1) * limit,
         take: limit,
         relations: ['cords'],
       });
-      return cuarters;
+      return headquarters;
     } catch (error) {
-      throw new InternalServerErrorException("Can't get head cuarters");
+      throw new InternalServerErrorException("Can't get Headquarters");
     }
   }
 
-  async getHeadCuarterByID(id: string): Promise<HeadCuarter> {
+  async getHeadquarterByID(id: string): Promise<Headquarter> {
     try {
-      const cuarter = await this.headCuarter.findOne({
+      const headquarter = await this.headquarter.findOne({
         where: { id: id },
         relations: ['cords'],
       });
-      if (!cuarter) {
-        throw new BadRequestException('Cuarter not found for id: ' + id);
+      if (!headquarter) {
+        throw new BadRequestException('Headquarter not found for id: ' + id);
       }
-      return cuarter;
+      return headquarter;
     } catch (error) {
       if (error instanceof BadRequestException) {
         throw error;
@@ -47,31 +47,31 @@ export class HeadCuartersRepository {
     }
   }
 
-  async createHeadCuarter(data: HeadCuarterDto): Promise<HeadCuarter> {
+  async createHeadquarter(data: HeadquarterDto): Promise<Headquarter> {
     try {
       const newCords = this.cords.create({ lng: data.lng, lat: data.lat });
       const savedCords = await this.cords.save(newCords);
       const { name, address, img } = data;
-      const newCuarter = this.headCuarter.create({ name, address, img });
-      newCuarter.cords = savedCords;
-      const result = await this.headCuarter.save(newCuarter);
+      const newHeadquarter = this.headquarter.create({ name, address, img });
+      newHeadquarter.cords = savedCords;
+      const result = await this.headquarter.save(newHeadquarter);
       return result;
     } catch (error) {
       throw error;
     }
   }
 
-  async editHeadCuarter(id: string, data: Partial<HeadCuarterDto>) {
+  async editHeadquarter(id: string, data: Partial<HeadquarterDto>) {
     try {
-      const cuarter = await this.getHeadCuarterByID(id);
+      const Headquarter = await this.getHeadquarterByID(id);
       const { name, address, img, lat, lng } = data;
-      const updatedCuarter = this.headCuarter.merge(cuarter, {
+      const updatedHeadquarter = this.headquarter.merge(Headquarter, {
         name,
         address,
         img,
         cords: { lat, lng },
       });
-      const result = await this.headCuarter.save(updatedCuarter);
+      const result = await this.headquarter.save(updatedHeadquarter);
       return result;
     } catch (error) {
       if (error instanceof BadRequestException) {
@@ -83,11 +83,11 @@ export class HeadCuartersRepository {
     }
   }
 
-  async deleteHeadCuarter(id: string) {
+  async deleteHeadquarter(id: string) {
     try {
-      const cuarter: HeadCuarter = await this.getHeadCuarterByID(id);
-      await this.headCuarter.delete(cuarter);
-      return await this.cords.delete(cuarter.cords);
+      const headquarter: Headquarter = await this.getHeadquarterByID(id);
+      await this.headquarter.delete(headquarter);
+      return await this.cords.delete(headquarter.cords);
     } catch (error) {
       if (error instanceof BadRequestException) {
         throw error;
