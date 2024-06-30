@@ -19,7 +19,7 @@ export class PeopleRepository {
     @InjectRepository(Patient) private patientRepository: Repository<Patient>,
   ) {}
 
-  async getAllPeople(paginationDto) {
+  async getAllPeople(paginationDto: {page: number , limit: number}) {
     const { page, limit } = paginationDto;
     const queryBuilder = this.peopleRepository
       .createQueryBuilder('people')
@@ -30,7 +30,7 @@ export class PeopleRepository {
     return await queryBuilder.getMany();
   }
 
-  async getAllGuests(paginationDto) {
+  async getAllGuests(paginationDto: {page: number , limit: number}) {
     const { page, limit } = paginationDto;
     const queryBuilder = this.guestsRepository
       .createQueryBuilder('guests')
@@ -48,7 +48,7 @@ export class PeopleRepository {
       },
       relations: {
         roles: true,
-      },
+      }
     });
     if (!person) throw new BadRequestException('Person not found');
     return person;
@@ -167,7 +167,7 @@ export class PeopleRepository {
     return `Person whit email ${personToDelete.email} was deleted.`;
   }
 
-  async restorePerson(email): Promise<Person> {
+  async restorePerson(email: string): Promise<Person> {
     const personToRestore: Person = await this.peopleRepository
       .createQueryBuilder('person')
       .withDeleted()
