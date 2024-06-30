@@ -1,4 +1,4 @@
-export const headCuartersDB = [
+export const headquartersDB = [
   {
     name: 'Headquarters 1',
     address: '123 Main Street, City, Country',
