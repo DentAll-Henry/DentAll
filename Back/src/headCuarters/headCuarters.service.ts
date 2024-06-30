@@ -27,15 +27,12 @@ export class HeadCuartersService {
         'You must provide name, address, img or cords to update',
       );
     }
-    const allowedCords = {
-      lat: data.cords?.lat,
-      lng: data.cords?.lng,
-    };
     const allowedData = {
       name: data.name,
       address: data.address,
       img: data.img,
-      cords: allowedCords,
+      lat: data.lat,
+      lng: data.lng,
     };
     return await this.headCuartersRepository.editHeadCuarter(id, allowedData);
   }
