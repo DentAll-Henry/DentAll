@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
   IsEmail,
+  IsNotEmpty,
   IsNumberString,
   IsOptional,
   Length,
@@ -18,7 +19,7 @@ export class UpdatePersonDto {
     description: 'It must have only numbers',
     example: '123456789',
   })
-  phone: string;
+  phone?: string;
 
   @IsOptional()
   @IsEmail(
@@ -31,7 +32,7 @@ export class UpdatePersonDto {
     description: 'It must be a valid email',
     example: 'example@mail.com',
   })
-  email: string;
+  email?: string;
 
   @IsOptional()
   @Length(2, 50, {
@@ -41,7 +42,7 @@ export class UpdatePersonDto {
     description: 'Address length must be between 2 and 20 characters',
     example: 'Avenida Alvarez Jonte 1234, CABA, Buenos Aires',
   })
-  address: string;
+  address?: string;
 
   @IsOptional()
   @Length(2, 50, {
@@ -51,5 +52,12 @@ export class UpdatePersonDto {
     description: 'Location length must be between 2 and 20 characters',
     example: 'Ciudad Autonoma de Buenos Aires - CABA',
   })
-  location: string;
+  location?: string;
+
+  @IsNotEmpty()
+  @ApiProperty({
+    description: 'Confirm your current password',
+    example: 'Pass*123',
+  })
+  confirmPass: string;
 }
