@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import Image from "next/image";
 import React from "react";
 import DoctorCard from "../DoctorCards/DoctorCard";
@@ -156,9 +156,9 @@ const LandingPage = () => {
               TE ESPERAMOS EN
             </h2>
             <p className="text-2xl">Av. siempre viva 742, Springfield</p>
-          <button className="flex px-[25px] py-[10px] justify-center items-center gap-x-[10px] rounded-[1px] border-2 border-[#00CE90] text-[#00CE90] font-maven-pro text-[16px] font-semibold leading-normal">
-            Agendar cita
-          </button>
+            <button className="flex px-[25px] py-[10px] justify-center items-center gap-x-[10px] rounded-[1px] border-2 border-[#00CE90] text-[#00CE90] font-maven-pro text-[16px] font-semibold leading-normal">
+              Agendar cita
+            </button>
           </div>
         </div>
       </section>
