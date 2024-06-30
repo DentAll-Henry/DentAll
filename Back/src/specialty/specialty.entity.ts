@@ -1,5 +1,11 @@
 import { DentalServ } from 'src/dentalServ/entities/dentalServ.entity';
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Specialty {
@@ -12,6 +18,19 @@ export class Specialty {
   @Column()
   description: string;
 
-  @ManyToMany(() => DentalServ, (dentalServ) => dentalServ.id)
+  @ManyToMany(() => DentalServ, {
+    cascade: true,
+  })
+  @JoinTable({
+    name: 'specialty_dentalServ',
+    joinColumn: {
+      name: 'specialty_id',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'dentalServ_id',
+      referencedColumnName: 'id',
+    },
+  })
   services: DentalServ[];
 }
