@@ -1,10 +1,8 @@
-import SearchBar from '@/components/SearchBar/SearchBar';
-import Image from 'next/image';
 import React from 'react'
 import NavDash from '@/components/NavBar/navDash';
 import Link from 'next/link';
 import Citas from '@/components/Citas/Citas';
-import Citasr from '@/components/ccitasR/citasr';
+import Citasr from '@/components/CitasRealizadas/CitasRealizadas';
 
 const page = () => {
   return (
@@ -15,10 +13,10 @@ const page = () => {
           Mis <span className="text-[#00CE90]">citas</span>
         </h2>
       </div>
+      <div className="flex justify-between">
       <div>
         <h2 className="font-bold ml-8">PROXIMAS CITAS</h2>
       </div>
-      <div className="flex justify-end">
         <Link href="#">
           <p className="bg-gray-500 p-1 mr-8 rounded-md">+ Agregar cita</p>
         </Link>
@@ -27,7 +25,7 @@ const page = () => {
         <Citas />
       </div>
       <div>
-        <h2 className="font-bold ml-8 mt-20">CITAS REALIZADAS</h2>
+        <h2 className="font-bold ml-8 mt-20 ">CITAS REALIZADAS</h2>
       </div>
     <div>
 <Citasr/>

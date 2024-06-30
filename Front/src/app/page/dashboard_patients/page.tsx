@@ -11,16 +11,16 @@ const page = () => {
       <NavDash />
       <div className="m-4 mt-24">
         <h2 className="text-[58px] text-center text-white font-bold leading-normal">
-          <span className="text-[#00CE90]">Bienvenido/a </span> Manuel Ochoa
+          <span className="text-[#00CE90]">Bienvenido/a </span> Jhon Doe
         </h2>
       </div>
-      <div className="ml-8 text-xl">
+      <div className="ml-12 text-xl ">
         <h2 className="font-bold">SELECCIONA UN SERVICIO</h2>
       </div>
 
       <div className="flex  absolute">
         <div className="grid grid-cols-3 gap-14 w-[80%] m-8 p-4">
-          <Link href="/page/dashboard_1/appointments">
+          <Link href="/page/dashboard_patients/appointments">
             <div className="flex-col bg-[#3772FF40] gap-1 w-[200px] h-[150px] rounded-md border flex justify-center items-center hover:scale-105 transition-transform duration-300">
               <Image
                 className="group-hover:fill-current text-white"
@@ -44,7 +44,7 @@ const page = () => {
               <p>Pagos</p>
             </div>
           </Link>
-          <Link href="/page/dashboard_1/citas">
+          <Link href="/page/dashboard_patients/citas">
             <div className="flex-col bg-[#DF291540] gap-1 w-[200px] h-[150px] rounded-md border flex justify-center items-center hover:scale-105 transition-transform duration-300">
               <Image
                 className="group-hover:fill-current text-white"
