@@ -27,6 +27,7 @@ import { Headquarter } from './headquarters/entities/headquarter.entity';
 import { Cords } from './headquarters/entities/cords.entity';
 import { HeadquarterModule } from './headquarters/headquarter.module';
 
+
 @Module({
   imports: [
     ConfigModule.forRoot({
