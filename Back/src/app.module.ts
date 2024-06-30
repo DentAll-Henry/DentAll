@@ -12,7 +12,6 @@ import { LoggerMiddleware } from './middlewares/logger.middleware';
 import { RolesModule } from './role/role.module';
 import { MailModule } from './mail/mail.module';
 import { ProductModule } from './product/product.module';
-import { ReportModule } from './report/report.module';
 import { SystemConfigsModule } from './system_configs/system_configs.module';
 import { DentalRecordModule } from './dentalRecord/dentalRecord.module';
 import { MockAutoLoadService } from './common/service/mock_auto_load.service';
@@ -26,6 +25,7 @@ import { FilesModule } from './files/files.module';
 import { HeadCuarterModule } from './headCuarters/headCuarters.module';
 import { Cords } from './headCuarters/entities/cords.entity';
 import { HeadCuarter } from './headCuarters/entities/headCuarter.entity';
+import { SpecialtyModule } from './specialty/specialty.module';
 
 @Module({
   imports: [
@@ -44,7 +44,6 @@ import { HeadCuarter } from './headCuarters/entities/headCuarter.entity';
     PeopleModule,
     RolesModule,
     ProductModule,
-    ReportModule,
     DentalRecordModule,
     HeadCuarterModule,
 
@@ -60,6 +59,7 @@ import { HeadCuarter } from './headCuarters/entities/headCuarter.entity';
     TypeOrmModule.forFeature([DentalServ, Cords, HeadCuarter]),
     TypeOrmModule.forFeature([Auth]),
     FilesModule,
+    SpecialtyModule,
   ],
   controllers: [FilesController],
 
