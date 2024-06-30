@@ -106,7 +106,7 @@ export class PeopleController {
   }
 
   // this endpoint is only for admin,superadmin
-  @Patch('role/:id')
+  @Patch('role/:idperson')
   @ApiOperation({ summary: 'Add new person role.' })
   @ApiResponse({
     status: 200,
