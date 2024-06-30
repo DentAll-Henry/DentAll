@@ -2,8 +2,8 @@ import { Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { RolesService } from './role.service';
 import { ApiBadRequestResponse, ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Roles } from './enums/roles.enum';
-import { LimitApiQueries, PageApiQueries } from 'src/config/swagger-config';
-import { PaginationDto } from 'src/common/dto/paginationDto';
+import { LimitApiQueries, PageApiQueries } from '../config/swagger-config';
+import { PaginationDto } from '../common/dto/paginationDto';
 
 @ApiTags('Roles')
 @Controller('roles')
