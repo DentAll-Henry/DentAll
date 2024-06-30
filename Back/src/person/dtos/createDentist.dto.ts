@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import {
   IsNotEmpty,
   IsNumber,
@@ -9,6 +10,10 @@ import {
 
 export class CreateDentistDto {
   @IsNotEmpty()
+  @ApiProperty({
+    description: 'The speciality name.',
+    example: 'Endodontics',
+  })
   speciality: string;
 
   @IsOptional()
@@ -22,10 +27,14 @@ export class CreateDentistDto {
   )
   @Min(0)
   @Max(5)
+  @ApiProperty({
+    description: '',
+    example: ''
+  })
   rate?: number;
 
   @IsUUID('4', {
-    message: 'El ID debe ser un UUID válido de versión 4',
+    message: 'The UUID of the person who will have the dentist role.',
   })
   person: string;
 }
