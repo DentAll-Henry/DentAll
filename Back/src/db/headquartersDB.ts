@@ -1,21 +1,21 @@
 export const headquartersDB = [
   {
 
-    name: "Headquarters 1",
-    address: "123 Main Street, City, Country",
-    img: "http://example.com/image1.jpg",
+    name: "Círculo Odontológico Tucumano",
+    address: "Pcia de Salta 385, T4000 San Miguel de Tucumán, Tucumán",
+    img: "https://lh5.googleusercontent.com/p/AF1QipNBmf0i8zOo-Ate3o-RX1gohDq-EsCFFrM7XLpy=w86-h114-k-no",
     cords: {
-      lat: 37.7749295,
-      lng: -122.4194155
+      lat: -26.8217658,
+      lng: -65.2094311
     }
   },
   {
-    name: "Headquarters 2",
-    address: "456 Another Ave, Another City, Another Country",
-    img: "http://example.com/image2.jpg",
+    name: "Odontologia Integral Tucuman",
+    address: "9 de Julio 712, T4000 San Miguel de Tucumán, Tucumán",
+    img: "https://lh5.googleusercontent.com/p/AF1QipPLPdnSrl5gIoQzPeJJiHOQ9xQk6SjYY7cKLgA4=w260-h175-n-k-no",
     cords: {
-      lat: 34.0522342,
-      lng: -118.2436849
+      lat: -26.8377104,
+      lng: -65.2075707
     }
   }
 ];
