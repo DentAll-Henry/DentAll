@@ -73,7 +73,7 @@ export class AuthService {
       secret: this.configService.get<string>('JWT_SECRET'),
     });
 
-    return { succes: 'Authorized acces', token };
+    return { succes: 'Authorized acces', token, userData: person };
   }
 
   async deleteAuth(email: string) {
