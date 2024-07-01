@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 const Citasr = () => {
   return (
     <div className="mx-8 mt-4 h-screen">
@@ -56,6 +56,6 @@ const Citasr = () => {
       </div>
     </div>
   );
-}
+};
 
-export default Citasr
+export default Citasr;
