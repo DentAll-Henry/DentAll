@@ -26,6 +26,8 @@ export class AppointmentsRepository {
     const queryBuilder = this.appointment.createQueryBuilder('appointment')
       .leftJoinAndSelect('appointment.service', 'service')
       .leftJoinAndSelect('appointment.patient', 'patient')
+      .leftJoinAndSelect('appointment.dentist_id', 'dentist')
+      .leftJoinAndSelect('dentist.person', 'person')
       .skip((page - 1) * limit)
       .take(limit);
 
