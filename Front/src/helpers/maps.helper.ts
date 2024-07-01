@@ -3,7 +3,7 @@ import { enviroment } from "@/utils/config";
 
 export async function fetchMapData() {
   try {
-    const response = await axios.get(`${enviroment.apiUrl}/head-cuarter/`);
+    const response = await axios.get(`${enviroment.apiUrl}/headquarter/`);
     return response.data;
   } catch (error) {
     console.error(error);
