@@ -73,7 +73,7 @@ export class Person {
   is_auth0?: boolean;
 
   @Column({
-    default: '',
+    default: 'https://res.cloudinary.com/ddpohfyur/image/upload/v1719842517/profileImage_okbvqw.jpg',
   })
   photo?: string;
 
