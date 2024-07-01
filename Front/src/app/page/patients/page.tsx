@@ -1,17 +1,35 @@
-import Image from 'next/image'
-import React from 'react'
-import SearchBar from '@/components/SearchBar/SearchBar';
-import Link from 'next/link';
-import NavDash from '@/components/NavBar/navDash';
-
+"use client";
+import Image from "next/image";
+import React, { useEffect, useState } from "react";
+import SearchBar from "@/components/SearchBar/SearchBar";
+import Link from "next/link";
+import NavDash from "@/components/NavBar/navDash";
+import { usePathname } from "next/navigation";
+import { RegisterProps } from "@/types";
 
 const page = () => {
+  const pathname = usePathname();
+  const [userData, setUserData] = useState<RegisterProps | any>(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.localStorage) {
+      const storedUserData = localStorage.getItem("userSession");
+      console.log("Stored User Data:", storedUserData);
+      if (storedUserData) {
+        const parsedUserData = JSON.parse(storedUserData);
+        console.log("Parsed User Data:", parsedUserData);
+        setUserData(parsedUserData); // Asegúrate de actualizar el estado correctamente
+      }
+    }
+  }, [pathname]);
+  console.log(userData);
   return (
     <div className="w-[80%] h-screen text-white ml-[20%] relative">
       <NavDash />
       <div className="m-4 mt-24">
         <h2 className="text-[58px] text-center text-white font-bold leading-normal">
-          <span className="text-[#00CE90]">Bienvenido/a </span> Jhon Doe
+          <span className="text-[#00CE90]">Bienvenido/a </span>{" "}
+          {/* {userData.userData.first_name} */}
         </h2>
       </div>
       <div className="ml-12 text-xl ">
@@ -105,10 +123,9 @@ const page = () => {
       </div>
     </div>
   );
-}
+};
 
-export default page
-
+export default page;
 
 //  <div className="w-full border-t border-gray-400 shadow-sm"></div>
 
