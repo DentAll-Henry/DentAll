@@ -1,26 +1,42 @@
-import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { v4 as uuid } from 'uuid';
-import { Person } from "./person.entity";
-import { Appointment } from "src/appointments/entities/appointment.entity";
+import { Person } from './person.entity';
+import { Appointment } from 'src/appointments/entities/appointment.entity';
+import { Specialty } from 'src/specialty/specialty.entity';
 
 @Entity({
-    name: 'dentists'
+  name: 'dentists',
 })
 export class Dentist {
-    @PrimaryGeneratedColumn('uuid')
-    id: string = uuid();
+  @PrimaryGeneratedColumn('uuid')
+  id: string = uuid();
 
-    // @OneToOne(() => Speciality)
-    // @JoinColumn({ name: 'speciality_id'})
-    // speciality: Speciality | Speciality['id'] | Speciality['name'];
+  @OneToOne(() => Specialty)
+  @JoinColumn({ name: 'speciality_id' })
+  specialty?: Specialty | Specialty['id'] | Specialty['name'];
 
-    @Column()
-    rate?: number;
+  @Column('decimal', {
+    precision: 2,
+    scale: 1,
+  })
+  rate?: number;
 
-    @OneToOne(() => Person)
-    @JoinColumn({ name: 'person_id' })
-    person: Person | Person['id'];
+  @OneToOne(() => Person)
+  @JoinColumn({ name: 'person_id' })
+  person: Person | Person['id'];
 
-    @OneToMany(() => Appointment, (appointment) => appointment.id)
-    appointments?: Appointment[];
+  @OneToMany(() => Appointment, (appointment) => appointment.id)
+  appointments?: Appointment[];
+
+  @Column({
+    default: true,
+  })
+  is_active: boolean;
 }
