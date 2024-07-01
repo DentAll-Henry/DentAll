@@ -5,24 +5,20 @@ import { Role } from '../role/entities/role.entity';
 import { RolesService } from '../role/role.service';
 import { Roles } from '../role/enums/roles.enum';
 import { Guest } from './entities/guest.entity';
-import { Auth } from 'src/auth/entities/auth.entity';
-// import { Dentist } from './entities/dentist.entity';
-// import { SpecialitiesService } from '../specialities/speciality.service';
 
 @Injectable()
 export class PeopleService {
   constructor(
     private readonly peopleRepository: PeopleRepository,
     private readonly rolesService: RolesService,
-    // private readonly specialitiesService: SpecialitiesService,
-  ) { }
+  ) {}
 
-  async getAllPeople(paginationDto: {page: number , limit: number}) {
-    return this.peopleRepository.getAllPeople(paginationDto)
+  async getAllPeople(paginationDto: { page: number; limit: number }) {
+    return this.peopleRepository.getAllPeople(paginationDto);
   }
 
-  async getAllGuests(paginationDto: {page: number , limit: number}) {
-    return this.peopleRepository.getAllGuests(paginationDto)
+  async getAllGuests(paginationDto: { page: number; limit: number }) {
+    return this.peopleRepository.getAllGuests(paginationDto);
   }
 
   async personById(personId: string) {
@@ -64,7 +60,8 @@ export class PeopleService {
 
     personInfo.roles = [role];
 
-    const newPerson: Person = await this.peopleRepository.createPersonAsPatient(personInfo);
+    const newPerson: Person =
+      await this.peopleRepository.createPersonAsPatient(personInfo);
 
     await this.createPatient(newPerson.id);
 
@@ -76,9 +73,16 @@ export class PeopleService {
     return patient;
   }
 
-  async addRole(personId: string, roleName: Roles) {
-    const roleToAdd: Role = await this.rolesService.roleByName(roleName)
-    return this.peopleRepository.addRole(personId, roleToAdd);
+  async addRole(personId: string, roleName: { roleName: Roles }) {
+    const roleToAdd: Role = await this.rolesService.roleByName(roleName.roleName);
+    const person: Person = await this.personById(personId);
+    return this.peopleRepository.addRole(person, roleToAdd);
+  }
+
+  async delRole(personId: string, roleName: { roleName: Roles }) {
+    const roleToDel: Role = await this.rolesService.roleByName(roleName.roleName);
+    const person: Person = await this.personById(personId);
+    return this.peopleRepository.delRole(person, roleToDel);
   }
 
   async updatePerson(id: string, infoToUpdate: Partial<Person>) {
@@ -96,15 +100,9 @@ export class PeopleService {
     return await this.peopleRepository.deletePerson(personToDelete);
   }
 
-  async restorePerson (email: string): Promise<Person> {
-    const personToRestore: Person = await this.peopleRepository.restorePerson(email);
+  async restorePerson(email: string): Promise<Person> {
+    const personToRestore: Person =
+      await this.peopleRepository.restorePerson(email);
     return personToRestore;
-  }
-
-  async createDentist(dentistInfo: { speciality: string, rate?: number, person: string }) {
-    const person: Person = await this.addRole(dentistInfo.person, Roles.DENTIST);
-    // const speciality: Speciality = await this.specialitiesService.specialityByName(dentistInfo.speciality);
-    // dentistInfo.speciality = speciality
-    return await this.peopleRepository.createDentist(dentistInfo);
   }
 }
