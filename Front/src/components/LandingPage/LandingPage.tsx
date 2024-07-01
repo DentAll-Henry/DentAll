@@ -151,18 +151,6 @@ const LandingPage = () => {
             <MapComponent />
           </div>
 
-<<<<<<< Updated upstream
-          <div className="w-full flex flex-col justify-center items-center gap-5">
-            <h2 className="text-[40px] text-white font-bold leading-normal">
-              TE ESPERAMOS EN
-            </h2>
-            <p className="text-2xl">Av. siempre viva 742, Springfield</p>
-            <button className="flex px-[25px] py-[10px] justify-center items-center gap-x-[10px] rounded-[1px] border-2 border-[#00CE90] text-[#00CE90] font-maven-pro text-[16px] font-semibold leading-normal">
-              Agendar cita
-            </button>
-          </div>
-=======
->>>>>>> Stashed changes
         </div>
       </section>
 
