@@ -10,5 +10,6 @@ import { DentalServModule } from 'src/dentalServ/dentalServ.module';
   imports: [TypeOrmModule.forFeature([Specialty]), DentalServModule],
   providers: [SpecialtyService, SpecialtyRepository],
   controllers: [SpecialtyController],
+  exports: [SpecialtyService],
 })
 export class SpecialtyModule {}
