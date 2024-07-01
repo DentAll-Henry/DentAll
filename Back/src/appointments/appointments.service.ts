@@ -46,14 +46,14 @@ export class AppointmentsService {
 
     if (!appointment) throw new BadRequestException('Appointment not created');
 
-    const person: Person = await this.peopleService.personById(patient.person_id)
+   // const person: Person = await this.peopleService.personById(patient.person_id)
     //send email
-    await this.mailService.sendMail(
+    /* await this.mailService.sendMail(
       person.email,
       'New appointment at DentAll',
       `Hi ${person.first_name} ${person.last_name} you have been scheduled a new appointment at ${appointment.date_time} for ${dentServ.name}`,
       `Hi ${person.first_name} ${person.last_name} you have been scheduled a new appointment at ${appointment.date_time} for ${dentServ.name}`,
-    );
+    ); */
 
     if (createAppointmentDto.pending_appointment_id) {
       const pending = await this.appointmentsRepository.getPendingAppointmentById(createAppointmentDto.pending_appointment_id)

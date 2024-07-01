@@ -1,5 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { AppointmentsService } from 'src/appointments/appointments.service';
 import { AuthService } from 'src/auth/auth.service';
 import { dentalServicesDB } from 'src/db/dental_services';
 import { headquartersDB } from 'src/db/headquartersDB';
@@ -9,6 +10,9 @@ import { DentalServDto } from 'src/dentalServ/dtos/dentalServ.dto';
 import { DentalServ } from 'src/dentalServ/entities/dentalServ.entity';
 import { Cords } from 'src/headquarters/entities/cords.entity';
 import { Headquarter } from 'src/headquarters/entities/headquarter.entity';
+import { DentistsService } from 'src/person/dentist.service';
+import { Dentist } from 'src/person/entities/dentist.entity';
+import { Patient } from 'src/person/entities/patient.entity';
 import { Person } from 'src/person/entities/person.entity';
 import { PeopleService } from 'src/person/person.service';
 import { RoleByNameDto } from 'src/role/dtos/role.dto';
@@ -25,6 +29,12 @@ export class MockAutoLoadService {
     @InjectRepository(Person) private personRepository: Repository<Person>,
     private readonly authService: AuthService,
     private readonly personService: PeopleService,
+    private readonly dentistService: DentistsService,
+    private readonly appointmentService: AppointmentsService,
+    @InjectRepository(Patient)
+    private patientRepository: Repository<Patient>,
+    @InjectRepository(Dentist)
+    private dentistRepository: Repository<Dentist>,
     @InjectRepository(Headquarter)
     private headquarterRepository: Repository<Headquarter>,
     @InjectRepository(Cords)
@@ -36,6 +46,7 @@ export class MockAutoLoadService {
     await this.seedRoles();
     await this.seedPersons();
     await this.seedHeadquarters();
+    await this.seedAppointments();
   }
 
   async seedDentalServices() {
@@ -82,10 +93,10 @@ export class MockAutoLoadService {
         people.map(async (person) => {
           const p = await this.personService.personById(person.id);
           if (parseInt(p.phone) % 2 === 0) {
-            await this.personService.addRole(p.id, Roles.DENTIST)
-            // will saved as dentist
+            //await this.personService.addRole(p.id, { roleName: Roles.DENTIST });
+            await this.dentistService.createDentist({ personId: p.id, rate: 4 })
             console.log(
-              `<${p.first_name} ${p.last_name}> will be saved as dentist`,
+              `<${p.first_name} ${p.last_name}> saved as dentist`,
             );
           }
         });
@@ -113,5 +124,42 @@ export class MockAutoLoadService {
     } catch (error) {
       console.log('Error populating Headquarter', error);
     }
+  }
+
+  async seedAppointments() {
+    const persons = await this.personService.getAllPeople({
+      page: 1,
+      limit: 10,
+    });
+    const patients = await this.patientRepository.find();
+    const dentists = persons.filter(person => {
+
+      return parseInt(person.phone) % 2 === 0
+    });
+    const services = await this.dentalservRepository.find();
+
+    patients.map(async (patient) => {
+      const serv = services[Math.floor(Math.random() * services.length)];
+      const dentist = dentists[Math.floor(Math.random() * dentists.length)];
+      const dentista = await this.dentistRepository.createQueryBuilder('dentist')
+        .leftJoinAndSelect('dentist.person', 'person')
+        .where('dentist.person = :person_id', { person_id: dentist.id })
+        .getOne();
+
+      const today = new Date();
+      const threeDaysFromNow = new Date(today);
+      threeDaysFromNow.setDate(today.getDate() + 3);
+
+      const randomTime = today.getTime() + Math.random() * (threeDaysFromNow.getTime() - today.getTime());
+
+      const appointment = await this.appointmentService.create({
+        dentist_id: dentista.id,
+        patient: patient.id,
+        service: serv.id,
+        date_time: new Date(randomTime),
+        description: 'test',
+      })
+    });
+
   }
 }
