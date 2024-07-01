@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { GoogleMap, LoadScript } from "@react-google-maps/api";
+import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 import { fetchMapData } from "@/helpers/maps.helper";
 
 const containerStyle = {
@@ -15,7 +15,14 @@ const center = {
 };
 
 const MapComponent = () => {
-  const [mapData, setMapData] = useState({});
+  const [mapData, setMapData] = useState([
+    {
+      cords: { lat: 37.7749295, lng: -122.4194155 },
+      name: "",
+      address: "",
+      img: "",
+    },
+  ]);
 
   useEffect(() => {
     const getData = async () => {
@@ -32,12 +39,35 @@ const MapComponent = () => {
   }, []);
 
   return (
-    <LoadScript googleMapsApiKey="AIzaSyCmU4rWFvQestVgKRAaovOVkyzOlmwA6_w">
-      <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={10}>
-        {/* Child components, como markers, info windows, etc. */}
-        <></>
-      </GoogleMap>
-    </LoadScript>
+    <div className="flex">
+      <LoadScript googleMapsApiKey="AIzaSyCmU4rWFvQestVgKRAaovOVkyzOlmwA6_w">
+        <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={10}>
+          {mapData.map((map, index) => (
+            <Marker
+              key={index}
+              position={{ lat: map.cords.lat, lng: map.cords.lng }}
+              title={map.address}
+            />
+          ))}
+        </GoogleMap>
+      </LoadScript>
+
+      <div className="w-full flex flex-col justify-center items-center gap-5">
+        <h2 className="text-[40px] text-white font-bold leading-normal">
+          TE ESPERAMOS EN
+        </h2>
+        {mapData.map((map, index) => (
+          <div>
+            <p>{map.address}</p>
+            <p>{map.name}</p>
+            {/* <img src={map.img} /> */}
+          </div>
+        ))}
+        <button className="flex px-[25px] py-[10px] justify-center items-center gap-x-[10px] rounded-[1px] border-2 border-[#00CE90] text-[#00CE90] font-maven-pro text-[16px] font-semibold leading-normal">
+          Agendar cita
+        </button>
+      </div>
+    </div>
   );
 };
 

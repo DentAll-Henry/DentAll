@@ -1,9 +1,21 @@
+'use client'
 import EditProfile from "@/components/EditProfile/EditProfile";
 import NavDash from "@/components/NavBar/navDash";
+import { userSession } from "@/types";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const page = () => {
+    const [userData, setUserData] = useState<userSession>();
+
+    useEffect(() => {
+      if (typeof window !== "undefined" && window.localStorage) {
+        const userData = localStorage.getItem("userSession");
+        setUserData(JSON.parse(userData!));
+      }
+    }, []);
+
+
   return (
     <div className="w-[80%] h-screen text-white ml-[20%] relative">
       <NavDash />
@@ -12,11 +24,11 @@ const page = () => {
         <div className="flex justify-center items-center gap-4">
           <Image src="/images/user.svg" width={150} height={100} alt="" />
           <div className="">
-            <h2 className="text-3xl ">Jhon Doe</h2>
+            <h2 className="text-3xl ">Jhon Doe {userData?.userData?.name}</h2>
             <p>Paciente</p>
             <div className="flex mt-4">
               <Image src="/images/phone.svg" width={24} height={24} alt="" />
-              <p>+1 (385) 880-7000</p>
+              <p>+1 (385) 880-7000 {userData?.userData?.phone} </p>
             </div>
           </div>
         </div>
