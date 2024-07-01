@@ -7,11 +7,16 @@ import { PeopleRepository } from './person.repository';
 import { RolesModule } from '../role/role.module';
 import { Guest } from './entities/guest.entity';
 import { Patient } from './entities/patient.entity';
+import { Dentist } from './entities/dentist.entity';
+import { DentistsService } from './dentist.service';
+import { DentistsRepository } from './dentist.repository';
+import { DentistsController } from './dentists.controller';
+import { SpecialtyModule } from 'src/specialty/specialty.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Person, Patient]), RolesModule, TypeOrmModule.forFeature([Guest])],
-  controllers: [PeopleController],
-  providers: [PeopleService, PeopleRepository],
+  imports: [TypeOrmModule.forFeature([Person, Patient, Guest, Dentist]), RolesModule, SpecialtyModule],
+  controllers: [PeopleController, DentistsController],
+  providers: [PeopleService, PeopleRepository, DentistsService, DentistsRepository],
   exports: [PeopleService, TypeOrmModule],
 })
 export class PeopleModule {}
