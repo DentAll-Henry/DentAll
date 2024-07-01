@@ -74,6 +74,9 @@ const Login = () => {
   return (
     <div className="flex justify-center items-center h-[100vh]">
       <div className="flex w-full h-full max-h-[1024px]">
+        <a href="/" className="absolute top-4 left-4 text-[#00CE90]">
+          Volver
+        </a>
         <div className="w-[35%] flex flex-col items-center bg-darkD-500 text-white p-8">
           <div className="flex flex-col items-start justify-start mb-8">
             <h2 className="text-[#ECEDF6] text-[34px] font-semibold leading-normal mb-4">
@@ -89,7 +92,7 @@ const Login = () => {
                 </label>
                 <input
                   className="flex h-[38px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
-                  placeholder="Correo Electrónico"
+                  placeholder="mail@mail.com"
                   value={dataUser.email}
                   type="text"
                   id="email-address"
@@ -113,7 +116,7 @@ const Login = () => {
                   value={dataUser.password}
                   onChange={handleChange}
                   className="flex h-[38px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
-                  placeholder="Contraseña"
+                  placeholder="********"
                 />
                 {errorUser.password && (
                   <p className="text-red-500">{errorUser.password}</p>
@@ -137,7 +140,7 @@ const Login = () => {
             </form>
           </div>
           <div className="w-full max-w-[80%] text-[#00CE90] mt-8 flex flex-col items-center space-y-4">
-            <a href="#">O inicia sesión con:</a>
+            <p>O inicia sesión con:</p>
             <div className="flex space-x-4">
               <div className="w-[44px] h-[44px] flex-shrink-0 relative">
                 <Image

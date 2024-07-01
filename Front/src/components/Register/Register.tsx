@@ -86,10 +86,11 @@ const Register = () => {
     }
   };
 
-
-
   return (
-    <div className="flex justify-center items-center h-screen bg-[#1D1D1D]">
+    <div className="flex justify-center items-center h-screen bg-[#1D1D1D] relative">
+      <a href="/" className="absolute top-4 left-4 text-[#00CE90]">
+        Volver
+      </a>
       <div className="flex w-full h-full">
         <div className="w-1/3 flex flex-col items-center bg-[#1D1D1D] text-white p-8">
           <h2 className="text-[#ECEDF6] font-maven-pro text-[34px] font-semibold leading-normal mb-4">
@@ -97,55 +98,95 @@ const Register = () => {
           </h2>
           <div className="w-[80%] flex flex-col gap-4">
             <form onSubmit={handleSubmit}>
-              <div className="w-full">
-                <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
-                  NOMBRE
-                </label>
-                <input
-                  className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
-                  placeholder="Nombre"
-                  value={dataUser.first_name}
-                  type="text"
-                  id="first_name"
-                  name="first_name"
-                  required
-                  onChange={handleChange}
-                />
-                {errorUser.first_name && (
-                  <p className="text-red-500">{errorUser.first_name}</p>
-                )}
+              <div className="w-full flex gap-4">
+                <div className="w-1/2">
+                  <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
+                    NOMBRE/S
+                  </label>
+                  <input
+                    className="flex h-[30px] px-[15px] items-center gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
+                    placeholder="Juan"
+                    value={dataUser.first_name}
+                    type="text"
+                    id="first_name"
+                    name="first_name"
+                    required
+                    onChange={handleChange}
+                  />
+                  {errorUser.first_name && (
+                    <p className="text-red-500">{errorUser.first_name}</p>
+                  )}
+                </div>
+                <div className="w-1/2">
+                  <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
+                    APELLIDO/S
+                  </label>
+                  <input
+                    className="flex h-[30px] px-[15px] items-center gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
+                    placeholder="Perez"
+                    value={dataUser.last_name}
+                    type="text"
+                    id="last_name"
+                    name="last_name"
+                    required
+                    onChange={handleChange}
+                  />
+                  {errorUser.last_name && (
+                    <p className="text-red-600">{errorUser.last_name}</p>
+                  )}
+                </div>
+              </div>
+              <div className="w-full flex gap-4">
+                <div className="w-1/2">
+                  <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
+                    DNI
+                  </label>
+                  <input
+                    className="flex h-[30px] px-[15px] items-center gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
+                    placeholder="12345678"
+                    value={dataUser.dni}
+                    type="text"
+                    id="dni"
+                    name="dni"
+                    required
+                    onChange={handleChange}
+                  />
+                  {errorUser.dni && (
+                    <p className="text-red-500">{errorUser.dni}</p>
+                  )}
+                </div>
+                <div className="w-1/2">
+                  <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
+                    TELÉFONO
+                  </label>
+                  <input
+                    className="flex h-[30px] px-[15px] items-center gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
+                    placeholder="0123456789"
+                    value={dataUser.phone}
+                    type="text"
+                    id="phone"
+                    name="phone"
+                    required
+                    onChange={handleChange}
+                  />
+                  {errorUser.phone && (
+                    <p className="text-red-500">{errorUser.phone}</p>
+                  )}
+                </div>
               </div>
               <div className="w-full">
-                <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
-                  APELLIDO
-                </label>
-                <input
-                  className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
-                  placeholder="Apellido"
-                  value={dataUser.last_name}
-                  type="text"
-                  id="last_name"
-                  name="last_name"
-                  required
-                  onChange={handleChange}
-                />
-                {errorUser.last_name && (
-                  <p className="text-red-600">{errorUser.last_name}</p>
-                )}
-              </div>
-              <div className="w-full">
-                <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
+                <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal text-center">
                   FECHA DE NACIMIENTO
                 </label>
                 <input
-                  className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
-                  placeholder="Fecha de Nacimiento"
+                  className="flex h-[30px] px-[15px] items-center border border-[gray-300] rounded-[1px] bg-[#BBB] w-full text-center"
                   value={dataUser.birthdate}
                   type="date"
                   id="birthdate"
                   name="birthdate"
                   required
                   onChange={handleChange}
+                  style={{ lineHeight: "30px" }}
                 />
                 {errorUser.birthdate && (
                   <p className="text-red-500">{errorUser.birthdate}</p>
@@ -153,47 +194,11 @@ const Register = () => {
               </div>
               <div className="w-full">
                 <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
-                  DNI
-                </label>
-                <input
-                  className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
-                  placeholder="DNI"
-                  value={dataUser.dni}
-                  type="text"
-                  id="dni"
-                  name="dni"
-                  required
-                  onChange={handleChange}
-                />
-                {errorUser.dni && (
-                  <p className="text-red-500">{errorUser.dni}</p>
-                )}
-              </div>
-              <div className="w-full">
-                <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
-                  TELÉFONO
-                </label>
-                <input
-                  className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
-                  placeholder="Teléfono"
-                  value={dataUser.phone}
-                  type="text"
-                  id="phone"
-                  name="phone"
-                  required
-                  onChange={handleChange}
-                />
-                {errorUser.phone && (
-                  <p className="text-red-500">{errorUser.phone}</p>
-                )}
-              </div>
-              <div className="w-full">
-                <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
                   CORREO ELECTRÓNICO
                 </label>
                 <input
-                  className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
-                  placeholder="Correo Electrónico"
+                  className="flex h-[30px] px-[15px] items-center gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
+                  placeholder="mail@mail.com"
                   value={dataUser.email}
                   type="email"
                   id="email"
@@ -210,8 +215,8 @@ const Register = () => {
                   DIRECCIÓN
                 </label>
                 <input
-                  className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
-                  placeholder="Dirección"
+                  className="flex h-[30px] px-[15px] items-center gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
+                  placeholder="Calle Falsa 123"
                   value={dataUser.address}
                   type="text"
                   id="address"
@@ -228,8 +233,8 @@ const Register = () => {
                   LOCALIDAD
                 </label>
                 <input
-                  className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
-                  placeholder="Localidad"
+                  className="flex h-[30px] px-[15px] items-center gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
+                  placeholder="Lugar falso"
                   value={dataUser.location}
                   type="text"
                   id="location"
@@ -246,8 +251,8 @@ const Register = () => {
                   NACIONALIDAD
                 </label>
                 <input
-                  className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
-                  placeholder="Nacionalidad"
+                  className="flex h-[30px] px-[15px] items-center gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
+                  placeholder="País de origen"
                   value={dataUser.nationality}
                   type="text"
                   id="nationality"
@@ -259,46 +264,43 @@ const Register = () => {
                   <p className="text-red-500">{errorUser.nationality}</p>
                 )}
               </div>
-              <div className="w-full">
-                <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
-                  CONTRASEÑA
-                </label>
-                <input
-                  type="password"
-                  className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
-                  placeholder="Contraseña"
-                  value={dataUser.password}
-                  id="password"
-                  name="password"
-                  required
-                  onChange={handleChange}
-                />
-                {errorUser.password && (
-                  <p className="text-red-500">{errorUser.password}</p>
-                )}
-              </div>
-              <div className="w-full">
-                <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
-                  REPETIR CONTRASEÑA
-                </label>
-                <input
-                  type="password"
-                  className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
-                  placeholder="Contraseña"
-                  value={dataUser.confirmPass}
-                  id="confirmPass"
-                  name="confirmPass"
-                  required
-                  onChange={handleChange}
-                />
-                {errorUser.confirmPass && (
-                  <p className="text-red-500">{errorUser.confirmPass}</p>
-                )}
-              </div>
-              <div className="w-full mt-2 flex justify-end">
-                <a href="#" className="text-[#00CE90] font-mulish text-[15px]">
-                  Olvidé mi contraseña
-                </a>
+              <div className="w-full flex gap-4">
+                <div className="w-1/2">
+                  <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
+                    CONTRASEÑA
+                  </label>
+                  <input
+                    type="password"
+                    className="flex h-[30px] px-[15px] items-center gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
+                    placeholder="********"
+                    value={dataUser.password}
+                    id="password"
+                    name="password"
+                    required
+                    onChange={handleChange}
+                  />
+                  {errorUser.password && (
+                    <p className="text-red-500">{errorUser.password}</p>
+                  )}
+                </div>
+                <div className="w-1/2">
+                  <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
+                    REPETIR CONTRASEÑA
+                  </label>
+                  <input
+                    type="password"
+                    className="flex h-[30px] px-[15px] items-center gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
+                    placeholder="********"
+                    value={dataUser.confirmPass}
+                    id="confirmPass"
+                    name="confirmPass"
+                    required
+                    onChange={handleChange}
+                  />
+                  {errorUser.confirmPass && (
+                    <p className="text-red-500">{errorUser.confirmPass}</p>
+                  )}
+                </div>
               </div>
               <div className="w-full mt-4 flex justify-center">
                 <button
