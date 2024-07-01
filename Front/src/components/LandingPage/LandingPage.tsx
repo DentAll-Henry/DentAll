@@ -151,6 +151,7 @@ const LandingPage = () => {
             <MapComponent />
           </div>
 
+<<<<<<< Updated upstream
           <div className="w-full flex flex-col justify-center items-center gap-5">
             <h2 className="text-[40px] text-white font-bold leading-normal">
               TE ESPERAMOS EN
@@ -160,6 +161,8 @@ const LandingPage = () => {
               Agendar cita
             </button>
           </div>
+=======
+>>>>>>> Stashed changes
         </div>
       </section>
 
