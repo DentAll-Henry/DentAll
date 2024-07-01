@@ -29,7 +29,7 @@ export class Dentist {
   rate?: number;
 
   @OneToOne(() => Person)
-  @JoinColumn({ name: 'person_id' })
+  @JoinColumn({ name: 'person_id', referencedColumnName: 'id' })
   person: Person | Person['id'];
 
   @OneToMany(() => Appointment, (appointment) => appointment.id)

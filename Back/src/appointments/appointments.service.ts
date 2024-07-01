@@ -32,7 +32,6 @@ export class AppointmentsService {
     if (!dentServ)
       throw new BadRequestException('Service not found with id provided');
 
-    //TODO: change this when patient service be created
     const patient: Patient = await this.peopleService.getPatientById(createAppointmentDto.patient)
     if (!patient)
       throw new BadRequestException('Patient not found with id provided');
@@ -47,14 +46,14 @@ export class AppointmentsService {
 
     if (!appointment) throw new BadRequestException('Appointment not created');
 
-    const person: Person = await this.peopleService.personById(patient.person_id)
+   // const person: Person = await this.peopleService.personById(patient.person_id)
     //send email
-    await this.mailService.sendMail(
+    /* await this.mailService.sendMail(
       person.email,
       'New appointment at DentAll',
       `Hi ${person.first_name} ${person.last_name} you have been scheduled a new appointment at ${appointment.date_time} for ${dentServ.name}`,
       `Hi ${person.first_name} ${person.last_name} you have been scheduled a new appointment at ${appointment.date_time} for ${dentServ.name}`,
-    );
+    ); */
 
     if (createAppointmentDto.pending_appointment_id) {
       const pending = await this.appointmentsRepository.getPendingAppointmentById(createAppointmentDto.pending_appointment_id)
@@ -66,7 +65,7 @@ export class AppointmentsService {
     return appointment;
   }
 
-  findAll(paginationDto: AppointmentPaginationDto) {
+  async findAll(paginationDto: AppointmentPaginationDto) {
     return this.appointmentsRepository.getAppointments(paginationDto);
   }
 

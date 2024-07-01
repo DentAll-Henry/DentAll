@@ -31,7 +31,7 @@ export class Appointment {
    */
   @ManyToOne(() => Dentist, (dentist) => dentist.id)
   @JoinColumn({
-    name: 'dentis_id',
+    name: 'dentist_id',
   })
   dentist_id: Dentist | Dentist['id']
 

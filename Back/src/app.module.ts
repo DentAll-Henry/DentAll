@@ -27,6 +27,8 @@ import { SpecialtyModule } from './specialty/specialty.module';
 import { HeadquarterModule } from './headquarters/headquarter.module';
 import { Cords } from './headquarters/entities/cords.entity';
 import { Headquarter } from './headquarters/entities/headquarter.entity';
+import { DentistsService } from './person/dentist.service';
+import { DentistsRepository } from './person/dentist.repository';
 
 @Module({
   imports: [
@@ -60,11 +62,11 @@ import { Headquarter } from './headquarters/entities/headquarter.entity';
     TypeOrmModule.forFeature([DentalServ, Cords, Headquarter]),
     TypeOrmModule.forFeature([Auth]),
     FilesModule,
-    SpecialtyModule,
+    SpecialtyModule
   ],
   controllers: [FilesController],
 
-  providers: [MockAutoLoadService, AuthService, AuthRepository, FilesService],
+  providers: [MockAutoLoadService, AuthService, AuthRepository, FilesService, DentistsService, DentistsRepository],
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {

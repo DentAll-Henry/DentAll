@@ -19,6 +19,7 @@ import { AppointmentPaginationDto } from 'src/common/dto/paginationDto';
 import { LimitApiQueries, OnlyFutureApiQueries, PageApiQueries } from 'src/config/swagger-config';
 import { GetAvailableSlotsDto } from './dto/get_available-slots.dto';
 import { CreatePendingAppointmentDto } from './dto/create_pending_appointment.dt';
+import { Appointment } from './entities/appointment.entity';
 
 @ApiTags('Appointments')
 @Controller('appointments')
@@ -27,7 +28,7 @@ export class AppointmentsController {
 
   @Post()
   @ApiOperation({ summary: 'Create an appointment' })
-  @ApiResponse({ status: 201, description: 'Return the created appointment.', })
+  @ApiResponse({ status: 201, description: 'Return the created appointment.', type: Appointment })
   @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
   @ApiBody({ type: CreateAppointmentDto })
   create(@Body() createAppointmentDto: CreateAppointmentDto) {
