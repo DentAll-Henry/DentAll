@@ -9,7 +9,6 @@ import { QueryFailedError, Repository } from 'typeorm';
 import { Role } from '../role/entities/role.entity';
 import { Guest } from './entities/guest.entity';
 import { Patient } from './entities/patient.entity';
-import { Dentist } from './entities/dentist.entity';
 
 @Injectable()
 export class PeopleRepository {
@@ -19,18 +18,18 @@ export class PeopleRepository {
     @InjectRepository(Patient) private patientRepository: Repository<Patient>,
   ) {}
 
-  async getAllPeople(paginationDto: {page: number , limit: number}) {
+  async getAllPeople(paginationDto: { page: number; limit: number }) {
     const { page, limit } = paginationDto;
     const queryBuilder = this.peopleRepository
       .createQueryBuilder('people')
-      .select('people')
+      .leftJoinAndSelect('people.roles', 'roles')
       .skip((page - 1) * limit)
       .take(limit);
 
     return await queryBuilder.getMany();
   }
 
-  async getAllGuests(paginationDto: {page: number , limit: number}) {
+  async getAllGuests(paginationDto: { page: number; limit: number }) {
     const { page, limit } = paginationDto;
     const queryBuilder = this.guestsRepository
       .createQueryBuilder('guests')
@@ -48,7 +47,7 @@ export class PeopleRepository {
       },
       relations: {
         roles: true,
-      }
+      },
     });
     if (!person) throw new BadRequestException('Person not found');
     return person;
@@ -127,10 +126,8 @@ export class PeopleRepository {
     }
   }
 
-  async addRole(personId: string, roleToAdd: Role): Promise<Person> {
+  async addRole(person: Person, roleToAdd: Role): Promise<Person> {
     try {
-      const person: Person = await this.personById(personId);
-
       const existingRole = person.roles.find((r) => r.id === roleToAdd.id);
 
       if (existingRole)
@@ -145,6 +142,21 @@ export class PeopleRepository {
       }
       throw new InternalServerErrorException('Internal server error');
     }
+  }
+
+  async delRole(person: Person, roleToDel: Role): Promise<Person> {
+    const existingRole = person.roles.find((r) => r.id === roleToDel.id);
+
+    if (!existingRole)
+      throw new BadRequestException('Person does not have that role');
+
+    const index: number = person.roles.indexOf(existingRole);
+
+    if (index > -1) person.roles.splice(index, 1);
+
+    person = await this.peopleRepository.save(person)
+
+    return person;
   }
 
   async updatePerson(personToUpdate: Person, infoToUpdate: Partial<Person>) {
@@ -193,9 +205,5 @@ export class PeopleRepository {
 
     await this.peopleRepository.restore(personToRestore);
     return personToRestore;
-  }
-
-  async createDentist(dentistInfo: Partial<Dentist>) {
-    // return await this.peopleRepository.save(dentistInfo);
   }
 }
