@@ -9,12 +9,12 @@ import {
 } from 'class-validator';
 
 export class CreateDentistDto {
-  @IsNotEmpty()
+  @IsOptional()
   @ApiProperty({
     description: 'The speciality name.',
     example: 'Endodontics',
   })
-  speciality: string;
+  specialtyName?: string;
 
   @IsOptional()
   @IsNumber(
@@ -28,13 +28,15 @@ export class CreateDentistDto {
   @Min(0)
   @Max(5)
   @ApiProperty({
-    description: '',
-    example: ''
+    description: 'Dentist rating, between 0 an 5, with only one decimal places.',
+    example: 4.5
   })
   rate?: number;
 
-  @IsUUID('4', {
-    message: 'The UUID of the person who will have the dentist role.',
+  @IsNotEmpty()
+  @ApiProperty({
+    description: 'The UUID of the person who will have the dentist role.',
+    example: '3bdd292f-8570-4507-be25-01b5ecfc79d3'
   })
-  person: string;
+  personId: string;
 }
