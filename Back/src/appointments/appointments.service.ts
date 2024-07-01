@@ -32,7 +32,6 @@ export class AppointmentsService {
     if (!dentServ)
       throw new BadRequestException('Service not found with id provided');
 
-    //TODO: change this when patient service be created
     const patient: Patient = await this.peopleService.getPatientById(createAppointmentDto.patient)
     if (!patient)
       throw new BadRequestException('Patient not found with id provided');
@@ -66,7 +65,7 @@ export class AppointmentsService {
     return appointment;
   }
 
-  findAll(paginationDto: AppointmentPaginationDto) {
+  async findAll(paginationDto: AppointmentPaginationDto) {
     return this.appointmentsRepository.getAppointments(paginationDto);
   }
 
