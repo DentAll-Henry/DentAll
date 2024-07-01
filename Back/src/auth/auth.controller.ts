@@ -33,7 +33,7 @@ export class AuthController {
   }
 
   @Delete('email')
-  @ApiOperation({ summary: 'Delete a person and itd credentials.' })
+  @ApiOperation({ summary: 'Delete a person and its credentials.' })
   @ApiResponse({ status: 201, description: 'Action confirmed.', })
   @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
   async deleteAuth(@Body() email: string) {
