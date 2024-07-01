@@ -59,7 +59,7 @@ const LandingPage = () => {
       <section className="bg-[#1D1D1D] py-8">
         <div className="container mx-auto flex flex-wrap justify-center gap-4">
           <DoctorCard
-            name="Dr. Manu Ochoa"
+            name="Dr. Jorge Calvo"
             specialty="Cirujano dental"
             description="Cirujano dental especializado en extracciones complejas e implantes. Con más de 10 años de experiencia, asegura el bienestar de sus pacientes."
             imageSrc="/images/dr1.png"
@@ -190,7 +190,7 @@ const LandingPage = () => {
               width={150}
               height={150}
             />
-            <h4 className="text-[20px] font-semibold">Manuel Ochoa </h4>
+            <h4 className="text-[20px] font-semibold">Carlos Nuñez </h4>
             <p className="text-[16px] font-medium">
               Dental ha cambiado completamente mi percepción de las visitas
               dentales. La atención personalizada y la tecnología de vanguardia
