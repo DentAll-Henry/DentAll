@@ -5,12 +5,14 @@ import {
   OnModuleInit,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { QueryFailedError, Repository } from 'typeorm';
 import { DentalRecordDto } from './dtos/dentalRecord.dto';
 import { DentalRecord } from './entities/dentalRecord.entity';
 import { Deseases } from './entities/deseases.entity';
 import { deseases } from '../db/deseasesDB';
 import { Patient } from 'src/person/entities/patient.entity';
+import { ToothInfoDto } from './dtos/toothInfo.dto';
+import { ToothInfo } from './entities/toothInfo.entity';
 
 @Injectable()
 export class DentalRecordRepository {
@@ -21,6 +23,8 @@ export class DentalRecordRepository {
     private readonly deseasesRepository: Repository<Deseases>,
     @InjectRepository(Patient)
     private readonly patientRepository: Repository<Patient>,
+    @InjectRepository(ToothInfo)
+    private readonly toothInfoRepository: Repository<ToothInfo>,
   ) {}
 
   async init() {
@@ -54,7 +58,7 @@ export class DentalRecordRepository {
       const [records, total] = await this.dentalRecordRepository.findAndCount({
         skip: (page - 1) * limit,
         take: limit,
-        relations: ['deseases', 'patient'],
+        relations: ['deseases', 'toothInfo', 'patient'],
       });
       return records;
     } catch (error) {
@@ -70,7 +74,9 @@ export class DentalRecordRepository {
         where: { id: id },
       });
       if (!history) {
-        throw new BadRequestException('Dental record not found for id: ' + id);
+        throw new BadRequestException(
+          'Historial clinico no encontrado para el id: ' + id,
+        );
       }
       return history;
     } catch (error) {
@@ -89,14 +95,38 @@ export class DentalRecordRepository {
       });
       if (!patientExists) {
         throw new BadRequestException(
-          'Patient not found for id: ' + data.patient_id,
+          'Paciente no encontrado para el id: ' + data.patient_id,
         );
       }
+      const deseases = [];
+      for (const desease of data.deseases) {
+        const des = await this.deseasesRepository.find({
+          where: { name: desease },
+        });
+        deseases.push(des[0]);
+      }
+
+      const newToothInfo = [];
+      if (data.toothInfo.length > 0) {
+        for (const tooth of data.toothInfo) {
+          const newTooth = this.toothInfoRepository.create(tooth);
+          const savedTooth = await this.toothInfoRepository.save(newTooth);
+          newToothInfo.push(savedTooth);
+        }
+      }
+      data.toothInfo = newToothInfo;
+      data.deseases = deseases;
+      data.patient = data.patient_id;
       const newRecord = this.dentalRecordRepository.create(data);
       const savedRecord = await this.dentalRecordRepository.save(newRecord);
       return savedRecord;
     } catch (error) {
-      throw error;
+      if (error instanceof QueryFailedError) {
+        throw new BadRequestException(
+          'Error: el paciente ya posee un historial cargado',
+        );
+      }
+      throw new InternalServerErrorException('Error interno del servidor');
     }
   }
 
@@ -104,16 +134,32 @@ export class DentalRecordRepository {
     try {
       const dentalRecord = await this.dentalRecordRepository.findOne({
         where: { id: id },
+        relations: ['deseases', 'toothInfo'],
       });
       if (!dentalRecord) {
-        throw new BadRequestException('Dental record not found for id: ' + id);
+        throw new BadRequestException(
+          'No se encontro un historial para el id: ' + id,
+        );
       }
+      // seguir aqui
       Object.assign(dentalRecord, data);
       const updatedRecord =
         await this.dentalRecordRepository.save(dentalRecord);
       return updatedRecord;
     } catch (error) {
       console.log(error);
+    }
+  }
+
+  async getDentalRecordByPatient(id: string): Promise<DentalRecord[]> {
+    try {
+      const record = await this.dentalRecordRepository.find({
+        where: { patient: id },
+        relations: ['deseases', 'toothInfo'],
+      });
+      return record;
+    } catch (error) {
+      throw new InternalServerErrorException();
     }
   }
 }

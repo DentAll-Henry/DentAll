@@ -1,18 +1,31 @@
 import {
+  ArrayMinSize,
   IsArray,
   IsNotEmpty,
   IsString,
   IsUUID,
   Length,
   MaxLength,
+  ValidateNested,
 } from 'class-validator';
 import { Deseases } from '../entities/deseases.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { deseases } from 'src/db/deseasesDB';
+import { ToothInfoDto } from './toothInfo.dto';
+import { Type } from 'class-transformer';
 
 export class DentalRecordDto {
   @IsNotEmpty()
-  toothInfo: string;
+  @IsArray()
+  @ArrayMinSize(1)
+  @ValidateNested({ each: true })
+  @Type(() => ToothInfoDto)
+  @ApiProperty({
+    type: Array,
+    description: 'Array of tooth information',
+    required: true,
+  })
+  toothInfo: ToothInfoDto[];
 
   @IsNotEmpty()
   @IsString()
