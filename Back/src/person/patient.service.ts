@@ -18,6 +18,11 @@ export class PatientsService {
     return patient;
   }
 
+  async patientByPersonId(personId: Person['id']): Promise<Patient> {
+    const patient = await this.patientsRepository.patientByPersonId(personId);
+    return patient;
+  }
+
   async createPatient(person: Person | Person['id']) {
     return await this.patientsRepository.createPatient(person);
   }
