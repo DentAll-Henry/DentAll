@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import {
   IsNotEmpty,
   IsNumber,
+  IsOptional,
   IsPositive,
   IsString,
   MaxLength,
@@ -47,4 +48,16 @@ export class DentalServDto {
     maxLength: 200,
   })
   description: string;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(200)
+  @ApiProperty({
+    description: 'Image of the service',
+    example:
+      'https://shop.bbc.com/cdn/shop/products/14847_300x.jpg?v=1567526955',
+    type: String,
+    required: false,
+  })
+  img: string;
 }

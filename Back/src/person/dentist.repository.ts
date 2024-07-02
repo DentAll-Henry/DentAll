@@ -36,7 +36,6 @@ export class DentistsRepository {
       },
     });
     if (!dentist) throw new BadRequestException('No existe un dentista con el ID especificado.')
-      
     return dentist;
   }
 

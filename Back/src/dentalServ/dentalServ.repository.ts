@@ -7,29 +7,12 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DentalServ } from './entities/dentalServ.entity';
 import { QueryFailedError, Repository } from 'typeorm';
 import { DentalServDto } from './dtos/dentalServ.dto';
-import { dentalServices } from './dtos/mock';
 
 @Injectable()
 export class DentalServRepository {
   constructor(
     @InjectRepository(DentalServ) private dentalServ: Repository<DentalServ>,
   ) {}
-
-  async init() {
-    try {
-      const servicesCount = await this.dentalServ.count();
-      if (servicesCount === 0) {
-        for (const service of dentalServices) {
-          await this.createDentalServ(service);
-        }
-        return;
-      } else {
-        return;
-      }
-    } catch (error) {
-      throw new InternalServerErrorException(error);
-    }
-  }
 
   async getDentalServ(): Promise<DentalServ[]> {
     try {
