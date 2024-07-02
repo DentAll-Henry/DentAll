@@ -29,6 +29,8 @@ import { Cords } from './headquarters/entities/cords.entity';
 import { Headquarter } from './headquarters/entities/headquarter.entity';
 import { DentistsService } from './person/dentist.service';
 import { DentistsRepository } from './person/dentist.repository';
+import { MailerModule } from '@nestjs-modules/mailer';
+import nodemailerConfig from './config/nodemailer';
 
 @Module({
   imports: [
@@ -41,6 +43,11 @@ import { DentistsRepository } from './person/dentist.repository';
       useFactory: (configService: ConfigService) =>
         configService.get('typeorm'),
     }),
+    MailerModule.forRootAsync(
+      {
+        useFactory: () => nodemailerConfig,
+      }
+    ),
     DentalServModule,
     AuthModule,
     AppointmentsModule,
