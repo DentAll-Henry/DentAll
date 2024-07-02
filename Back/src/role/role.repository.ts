@@ -28,7 +28,7 @@ export class RolesRepository {
       },
     });
     if (!role)
-      throw new BadRequestException('Role with that name does not exist');
+      throw new BadRequestException('No existe rol con ese nombre.');
     return role;
   }
 }
