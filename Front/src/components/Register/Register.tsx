@@ -7,6 +7,7 @@ import { register } from "@/helpers/auth.helper";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
+import PasswordInput from "../../components/PasswordImput";
 
 const Register = () => {
   const router = useRouter();
@@ -270,15 +271,12 @@ const Register = () => {
                   <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
                     CONTRASEÑA
                   </label>
-                  <input
-                    type="password"
-                    className="flex h-[30px] px-[15px] items-center gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
-                    placeholder="********"
+                  <PasswordInput
                     value={dataUser.password}
+                    onChange={handleChange}
                     id="password"
                     name="password"
                     required
-                    onChange={handleChange}
                   />
                   {errorUser.password && (
                     <p className="text-red-500">{errorUser.password}</p>
@@ -288,15 +286,12 @@ const Register = () => {
                   <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
                     REPETIR CONTRASEÑA
                   </label>
-                  <input
-                    type="password"
-                    className="flex h-[30px] px-[15px] items-center gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
-                    placeholder="********"
+                  <PasswordInput
                     value={dataUser.confirmPass}
+                    onChange={handleChange}
                     id="confirmPass"
                     name="confirmPass"
                     required
-                    onChange={handleChange}
                   />
                   {errorUser.confirmPass && (
                     <p className="text-red-500">{errorUser.confirmPass}</p>
