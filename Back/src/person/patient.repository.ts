@@ -35,6 +35,23 @@ export class PatientsRepository {
     return patient;
   }
 
+  async patientByPersonId(personId: Person ['id']): Promise<Patient> {
+    const patient = await this.patientsRepository.findOne({
+      where: {
+        person: { 
+          id: personId
+        },
+      },
+      relations: {
+        person: true,
+        appointments: true,
+      },
+    });
+    if (!patient)
+      throw new BadRequestException('No existe paciente con el ID de persona especificado.');
+    return patient;
+  }
+
   async createPatient(person: Person | Person['id']) {
     try {
       return await this.patientsRepository.save({ person });

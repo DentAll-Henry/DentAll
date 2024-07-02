@@ -42,10 +42,31 @@ export interface userSession {
   userData: {
     email: string;
     address: string;
-    id: number;
+    id: string;
     name: string;
     phone: string;
-    role: string;
+    role: {};
   };
 }
 
+export interface NewServiceProps {
+  name: string;
+  price: string;
+  description: string;
+  img: string;
+}
+
+export interface NewServiceErrorProps {
+  name?: string;
+  price?: string;
+  description?: string;
+  img?: string;
+}
+export interface Service {
+  id: string;
+  name: string;
+  price: string;
+  description: string;
+  img: string;
+  isActive: boolean
+} 

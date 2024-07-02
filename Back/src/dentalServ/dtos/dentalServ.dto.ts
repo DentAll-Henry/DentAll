@@ -12,7 +12,7 @@ import {
 export class DentalServDto {
   @IsNotEmpty()
   @IsString()
-  @MinLength(3)
+  @MinLength(2)
   @MaxLength(50)
   @ApiProperty({
     description: 'Name of the service',
