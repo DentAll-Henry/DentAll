@@ -30,14 +30,14 @@ export class AuthRepository {
         email: signUpInfo.email,
       },
     });
-    if (emailExist) throw new BadRequestException('Email already registered');
+    if (emailExist) throw new BadRequestException('Ya existe usuario registrado con ese email.');
     const credentialCreated: Auth = await this.authRepository.save(signUpInfo);
     return credentialCreated;
   }
 
   async deleteAuth(authToDelete: Auth) {
     await this.authRepository.softDelete(authToDelete.id)
-    return `Auth whit ID ${authToDelete.id} was deleted.`
+    return `Las credenciales con ID ${authToDelete.id} fueron eliminadas.`
   }
 
   async restoreAuth(email: string, password: string): Promise<Auth> {
@@ -49,14 +49,14 @@ export class AuthRepository {
       .select(['auth.password', 'auth.id'])
       .getOne()
     
-    if (!authToRestore) throw new BadRequestException('Wrong credentials. It is not possible to restore person.');
+    if (!authToRestore) throw new BadRequestException('Credenciales erroneas. No es posible restaurar el usuario.');
 
     if (await bcrypt.compare(password, authToRestore.password)) {
       await this.authRepository.restore(authToRestore);
       return authToRestore;
     }
 
-    throw new BadRequestException('Wrong credentials. It is not possible to restore person.');
+    throw new BadRequestException('Credenciales erroneas. No es posible restaurar el usuario.');
   }
 
   async changePass(authToUpdate: Auth) {
