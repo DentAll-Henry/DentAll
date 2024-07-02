@@ -16,7 +16,7 @@ import { CreateAppointmentDto } from './dto/create-appointment.dto';
 import { UpdateAppointmentDto } from './dto/update-appointment.dto';
 import { ApiBadRequestResponse, ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AppointmentPaginationDto } from 'src/common/dto/paginationDto';
-import { LimitApiQueries, OnlyFutureApiQueries, PageApiQueries } from 'src/config/swagger-config';
+import { LimitApiQueries, OnlyFutureApiQueries, OnlyPastApiQueries, PageApiQueries } from 'src/config/swagger-config';
 import { GetAvailableSlotsDto } from './dto/get_available-slots.dto';
 import { CreatePendingAppointmentDto } from './dto/create_pending_appointment.dt';
 import { Appointment } from './entities/appointment.entity';
@@ -42,6 +42,7 @@ export class AppointmentsController {
   @ApiQuery(PageApiQueries)
   @ApiQuery(LimitApiQueries)
   @ApiQuery(OnlyFutureApiQueries)
+  @ApiQuery(OnlyPastApiQueries)
   findAll(@Query() paginationDto: AppointmentPaginationDto) {
 
     return this.appointmentsService.findAll(paginationDto);
@@ -56,6 +57,7 @@ export class AppointmentsController {
   @ApiQuery(PageApiQueries)
   @ApiQuery(LimitApiQueries)
   @ApiQuery(OnlyFutureApiQueries)
+  @ApiQuery(OnlyPastApiQueries)
   findByDentist(@Param('dentist_id', ParseUUIDPipe) dentist_id: string, @Query() paginationDto: AppointmentPaginationDto) {
     const { page, limit, only_future } = paginationDto;
     return this.appointmentsService.findByDentist(dentist_id, paginationDto);
@@ -88,6 +90,7 @@ export class AppointmentsController {
   @ApiQuery(PageApiQueries)
   @ApiQuery(LimitApiQueries)
   @ApiQuery(OnlyFutureApiQueries)
+  @ApiQuery(OnlyPastApiQueries)
   findByPatient(@Param('patient_id', ParseUUIDPipe) id: string, @Query() paginationDto: AppointmentPaginationDto) {
     return this.appointmentsService.findByPatient(id, paginationDto);
   }
