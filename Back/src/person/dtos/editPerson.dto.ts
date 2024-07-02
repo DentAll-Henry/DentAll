@@ -3,7 +3,6 @@ import {
   IsBoolean,
   IsDateString,
   IsEmail,
-  IsNotEmpty,
   IsNumberString,
   IsOptional,
   IsStrongPassword,
