@@ -13,7 +13,7 @@ export class PatientsController {
 
   @Get()
   @ApiOperation({ summary: 'Get all patients.' })
-  @ApiResponse({ status: 200, description: 'Return an array with all people.' })
+  @ApiResponse({ status: 200, description: 'Return an array with all patients.' })
   @ApiQuery(PageApiQueries)
   @ApiQuery(LimitApiQueries)
   async getAllPeople(@Query() paginationDto: PaginationDto): Promise<Patient[]> {
@@ -21,11 +21,19 @@ export class PatientsController {
   }
 
   @Get(':id')
-  @ApiOperation({ summary: 'Get a person by ID.' })
-  @ApiResponse({ status: 200, description: 'Returns to the person with the specified ID.' })
-  @ApiBadRequestResponse({ status: 400, description: 'Person with that ID does not exist.' })
+  @ApiOperation({ summary: 'Get a patient by ID.' })
+  @ApiResponse({ status: 200, description: 'Returns to the patient with the specified ID.' })
+  @ApiBadRequestResponse({ status: 400, description: 'Patient with that ID does not exist.' })
   async patientById(@Param('id', ParseUUIDPipe) id: string): Promise<Patient> {
     return this.patientsService.patientById(id);
+  }
+
+  @Get('person/:id')
+  @ApiOperation({ summary: 'Get a patient by person ID.' })
+  @ApiResponse({ status: 200, description: 'Returns to the patient with the specified person ID.' })
+  @ApiBadRequestResponse({ status: 400, description: 'Patient with that ID does not exist.' })
+  async patientByPersonId(@Param('id', ParseUUIDPipe) id: string): Promise<Patient> {
+    return this.patientsService.patientByPersonId(id);
   }
 
   @Post('create/:idperson')
