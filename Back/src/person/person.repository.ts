@@ -37,7 +37,7 @@ export class PeopleRepository {
         roles: true,
       },
     });
-    if (!person) throw new BadRequestException('Person not found');
+    if (!person) throw new BadRequestException('No existe una persona con el ID especificado.');
     return person;
   }
 
@@ -59,7 +59,7 @@ export class PeopleRepository {
         dni: personDni,
       },
     });
-    // if (!person) throw new BadRequestException('DNI does not exist');
+    // if (!person) throw new BadRequestException('No existe un usuario con el DNI especificado.');
     return person;
   }
 
@@ -71,7 +71,7 @@ export class PeopleRepository {
       if (error instanceof QueryFailedError) {
         throw new BadRequestException('Error: ' + error.driverError?.detail);
       }
-      throw new BadRequestException('Internal server error');
+      throw new BadRequestException('Error interno del servidor.');
     }
   }
 
@@ -80,7 +80,7 @@ export class PeopleRepository {
       const existingRole = person.roles.find((r) => r.id === roleToAdd.id);
 
       if (existingRole)
-        throw new BadRequestException('Person already has that role');
+        throw new BadRequestException('El usuario ya tiene el rol asignado.');
 
       person.roles.push(roleToAdd);
       const updatedPerson: Person = await this.peopleRepository.save(person);
@@ -89,7 +89,7 @@ export class PeopleRepository {
       if (error instanceof BadRequestException) {
         throw error;
       }
-      throw new InternalServerErrorException('Internal server error');
+      throw new InternalServerErrorException('Error interno del servidor.');
     }
   }
 
@@ -97,7 +97,7 @@ export class PeopleRepository {
     const existingRole = person.roles.find((r) => r.id === roleToDel.id);
 
     if (!existingRole)
-      throw new BadRequestException('Person does not have that role');
+      throw new BadRequestException('El usuario no tiene asignado ese rol.');
 
     const index: number = person.roles.indexOf(existingRole);
 
@@ -118,7 +118,7 @@ export class PeopleRepository {
 
   async deletePerson(personToDelete: Person) {
     await this.peopleRepository.softDelete(personToDelete.id);
-    return `Person whit email ${personToDelete.email} was deleted.`;
+    return `El usuario con email ${personToDelete.email} fue eliminado.`;
   }
 
   async restorePerson(email: string): Promise<Person> {
@@ -144,7 +144,7 @@ export class PeopleRepository {
 
     if (!personToRestore)
       throw new BadRequestException(
-        'Wrong credentials. It is not possible to restore person.',
+        'Credenciales inválidas. No es posible restaurar el usuario.',
       );
 
     await this.peopleRepository.restore(personToRestore);
