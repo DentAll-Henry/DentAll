@@ -2,11 +2,11 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { AuthRepository } from './auth.repository';
 import { Auth } from './entities/auth.entity';
 import { Hash } from '../utils/hash';
-import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { PeopleService } from '../person/person.service';
 import { Person } from '../person/entities/person.entity';
+import { ComparePass } from '../utils/comparePass';
 
 @Injectable()
 export class AuthService {
@@ -16,6 +16,10 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
   ) {}
+
+  async credentialByEmail(email: string): Promise<Auth> {
+    return await this.authRepository.credentialByEmail(email);
+  }
 
   async signUp(
     personInfo: Partial<Person>,
@@ -31,7 +35,7 @@ export class AuthService {
     if (personByDniExist) throw new BadRequestException(`El DNI ${personInfo.dni} ya existe.`);
 
     const credential: Auth =
-      await this.authRepository.credentialByEmail(signUpInfo.email);
+      await this.credentialByEmail(signUpInfo.email);
 
     if (credential) throw new BadRequestException(`El email ${personInfo.email} ya existe.`);
 
@@ -49,14 +53,11 @@ export class AuthService {
 
   async signIn(signInInfo: Omit<Auth, 'id'>) {
     const credential: Auth =
-      await this.authRepository.credentialByEmail(signInInfo.email);
+      await this.credentialByEmail(signInInfo.email);
 
     if (!credential) throw new BadRequestException('Credenciales de acceso inválidas.');
 
-    const isPassCorrect: boolean = await bcrypt.compare(
-      signInInfo.password,
-      credential.password,
-    );
+    const isPassCorrect: boolean = await ComparePass(signInInfo.password, credential.password)
     if (!isPassCorrect) throw new BadRequestException('Credenciales de acceso inválidas.');
 
 
@@ -76,34 +77,34 @@ export class AuthService {
     return { succes: 'Authorized acces', token, userData: person };
   }
 
-  async deleteAuth(email: string) {
-    const authToDelte: Auth = await this.authRepository.credentialByEmail(email);
-    if (!authToDelte) throw new BadRequestException(`No existen credenciales de acceso para el email ${email}.`);
+  async deleteAuth(authInfo: Partial<Auth>) {
+    const authToDelte: Auth = await this.credentialByEmail(authInfo.email);
+    if (!authToDelte) throw new BadRequestException(`No existen credenciales de acceso para el email ${authInfo.email}.`);
+
+    if (! await ComparePass(authInfo.password, authToDelte.password))
+      throw new BadRequestException('Credenciales inválidas. No se pueden eliminar las credenciales.')
+    
     await this.authRepository.deleteAuth(authToDelte);
     const responsePerson: string = await this.peopleService.deletePerson(authToDelte.email);
     return responsePerson;
   }
 
-  async restoreAuth({ email, password, confirmPass }: { email: string, password: string, confirmPass: string }) {
-    if(password === confirmPass) {
-      const AuthToRestore: Auth = await this.authRepository.restoreAuth(email, password);
-      const person: Person = await this.peopleService.restorePerson(email);
-      return person;
-    }
+  async restoreAuth({ email, password }: Partial<Auth>) {
+    const AuthToRestore: Auth = await this.authRepository.restoreAuth(email, password);
+    const person: Person = await this.peopleService.restorePerson(email);
+    return person;
   }
 
   async changePass(newPass: {email: string, currentPass: string, newPass: string, confirmNewPass: string }) {
-    const authToUpdate: Auth = await this.authRepository.credentialByEmail(newPass.email);
+    const authToUpdate: Auth = await this.credentialByEmail(newPass.email);
     
     if (!authToUpdate) throw new BadRequestException('Credenciales de acceso inválidas.');
 
-    const isPassCorrect: boolean = await bcrypt.compare(
-      newPass.currentPass,
-      authToUpdate.password,
-    );
+    const isPassCorrect: boolean = await ComparePass(newPass.currentPass, authToUpdate.password);
     if (!isPassCorrect) throw new BadRequestException('Credenciales de acceso inválidas.');
 
-    if (newPass.newPass !== newPass.confirmNewPass) throw new BadRequestException('La contraseña nueva debe ser igual a la confirmación de la contraseña.');
+    if (newPass.newPass !== newPass.confirmNewPass)
+      throw new BadRequestException('La contraseña nueva debe ser igual a la confirmación de la contraseña.');
 
     authToUpdate.password = await Hash(newPass.newPass)
     
@@ -115,12 +116,9 @@ export class AuthService {
     
     const { confirmPass, ...infoPersonToUpdate } = infoToUpdate;
     
-    const credentials: Auth = await this.authRepository.credentialByEmail(person.email);
+    const credentials: Auth = await this.credentialByEmail(person.email);
     if(!credentials) throw new BadRequestException('Error en la solicitud.')
-    const isPassCorrect: boolean = await bcrypt.compare(
-      credentials.password,
-      confirmPass,
-    )
+    const isPassCorrect: boolean = await ComparePass(credentials.password, confirmPass);
     if (!isPassCorrect) throw new BadRequestException('No se puede proceder con la solicitud. Información incorrecta.');
 
     const personUpdated: Person = await this.peopleService.updatePerson(person.id, infoPersonToUpdate);
