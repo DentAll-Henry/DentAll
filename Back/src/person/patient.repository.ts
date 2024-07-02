@@ -31,7 +31,7 @@ export class PatientsRepository {
       relations: ['person'],
     });
     if (!patient)
-      throw new BadRequestException('Patient not found with id provided');
+      throw new BadRequestException('No existe paciente con el ID especificado.');
     return patient;
   }
 
@@ -42,7 +42,7 @@ export class PatientsRepository {
       if (error instanceof QueryFailedError) {
         throw new BadRequestException('Error: ' + error.driverError?.detail);
       }
-      throw new BadRequestException('Internal server error');
+      throw new BadRequestException('Error interno del servidor.');
     }
   }
 }

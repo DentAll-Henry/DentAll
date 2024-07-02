@@ -5,7 +5,6 @@ import {
   Param,
   ParseUUIDPipe,
   Patch,
-  Post,
   Query,
 } from '@nestjs/common';
 import {
@@ -14,17 +13,47 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { DentistsService } from './dentist.service';
-import { CreateDentistDto } from './dtos/createDentist.dto';
-import { PaginationDto } from 'src/common/dto/paginationDto';
+import { LimitApiQueries, PageApiQueries } from '../config/swagger-config';
+import { PaginationDto } from '../common/dto/paginationDto';
+import { Guest } from './entities/guest.entity';
+import { ChangeRoleDto } from './dtos/changeRoles.dto';
 
 @ApiTags('Dentists')
 @Controller('dentists')
 export class DentistsController {
   constructor(private readonly dentistsService: DentistsService) {}
 
+  //& --> people endpoints <--
   @Get()
-  @ApiOperation({ summary: 'Get all dentists.' })
+  @ApiOperation({ summary: 'Get all people.' })
+  @ApiResponse({ status: 200, description: 'Return an array with all people.' })
+  @ApiQuery(PageApiQueries)
+  @ApiQuery(LimitApiQueries)
+  async getAllPeople(@Query() paginationDto: PaginationDto) {
+    return this.peopleService.getAllPeople(paginationDto);
+  }
+  
+  @Get('email')
+  @ApiOperation({ summary: 'Get a person by email.' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns to the person with the specified email.',
+  })
+  @ApiBadRequestResponse({
+    status: 400,
+    description: 'Person with that email does not exist.',
+  })
+  async personByEmail(@Param('email') email: string) {
+    const person: Person = await this.peopleService.personByEmail(email);
+    if (!person)
+      throw new BadRequestException(
+        `Person with email ${email} does not exist`,
+      );
+    return true;
+  }
+
+  @Get(':idPerson')
+  @ApiOperation({ summary: 'Get a person by ID.' })
   @ApiResponse({
     status: 200,
     description: 'Returns the information of all dentists.',
@@ -34,36 +63,56 @@ export class DentistsController {
     return this.dentistsService.getAllDentists(paginationDto);
   }
 
-  @Get(':id')
-  @ApiOperation({ summary: 'Get a dentist by ID.' })
+  @Patch('addrole/:idperson')
+  @ApiOperation({ summary: 'Add new person role.' })
   @ApiResponse({
     status: 200,
     description: 'Returns to the dentist with the specified ID.',
   })
-  @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
-  async dentistById(@Param('id', ParseUUIDPipe) id: string) {
-    return this.dentistsService.dentistById(id);
+
+  @ApiBadRequestResponse({ status: 400, description: 'Role does not exist.' })
+  async addRole(@Param('idperson', ParseUUIDPipe) idperson: string, @Body() roleName: ChangeRoleDto) {
+    return await this.peopleService.addRole(idperson, roleName);
+  }
+  
+  @Patch('delrole/:idperson')
+  @ApiOperation({ summary: 'Delete a person role.' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns to the person without the role.',
+  })
+  @ApiBadRequestResponse({ status: 400, description: 'Role does not exist.' })
+  async delRole(@Param('idperson', ParseUUIDPipe) idperson: string, @Body() roleName: ChangeRoleDto) {
+    return await this.peopleService.delRole(idperson, roleName);
   }
 
-  @Post('create')
-  @ApiOperation({ summary: 'Create a dentist.' })
+  //& --> guests endpoints <--
+  @Get('guests')
+  @ApiOperation({ summary: 'Get all guests.' })
   @ApiResponse({
-    status: 201,
-    description: 'Returns the information of the created dentist.',
+    status: 200,
+    description: 'Returns an array with all guests.',
   })
-  @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
-  async createDentist(@Body() dentistInfo: CreateDentistDto) {
-    return this.dentistsService.createDentist(dentistInfo);
+  @ApiQuery(PageApiQueries)
+  @ApiQuery(LimitApiQueries)
+  async getAllGuests(@Query() paginationDto: PaginationDto) {
+    return this.peopleService.getAllGuests(paginationDto);
   }
 
-  @Patch()
-  @ApiOperation({ summary: 'Enable o disable a dentist with the specific ID.' })
+  @Get('guestemail')
+  @ApiOperation({ summary: 'Get a person by email.' })
   @ApiResponse({
-    status: 201,
-    description: 'Returns the dentist with the status changed.',
+    status: 200,
+    description: 'Returns to the guest with the specified email.',
   })
-  @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
-  async changeDentistStatus(@Param('id', ParseUUIDPipe) id: string) {
-    return this.dentistsService.changeDentistStatus(id);
+  @ApiBadRequestResponse({
+    status: 400,
+    description: 'Guest with that email does not exist.',
+  })
+  async guestByEmail(@Param('email') email: string): Promise<Guest> {
+    const guest: Guest = await this.peopleService.guestByEmail(email);
+    if (!guest)
+      throw new BadRequestException(`Guest with email ${email} does not exist`);
+    return guest;
   }
 }
