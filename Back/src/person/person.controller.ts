@@ -27,6 +27,7 @@ import { ChangeRoleDto } from './dtos/changeRoles.dto';
 export class PeopleController {
   constructor(private readonly peopleService: PeopleService) {}
 
+  //& --> people endpoints <--
   @Get()
   @ApiOperation({ summary: 'Get all people.' })
   @ApiResponse({ status: 200, description: 'Return an array with all people.' })
@@ -35,19 +36,7 @@ export class PeopleController {
   async getAllPeople(@Query() paginationDto: PaginationDto) {
     return this.peopleService.getAllPeople(paginationDto);
   }
-
-  @Get('guests')
-  @ApiOperation({ summary: 'Get all guests.' })
-  @ApiResponse({
-    status: 200,
-    description: 'Returns an array with all guests.',
-  })
-  @ApiQuery(PageApiQueries)
-  @ApiQuery(LimitApiQueries)
-  async getAllGuests(@Query() paginationDto: PaginationDto) {
-    return this.peopleService.getAllGuests(paginationDto);
-  }
-
+  
   @Get('email')
   @ApiOperation({ summary: 'Get a person by email.' })
   @ApiResponse({
@@ -67,23 +56,6 @@ export class PeopleController {
     return true;
   }
 
-  @Get('guestemail')
-  @ApiOperation({ summary: 'Get a person by email.' })
-  @ApiResponse({
-    status: 200,
-    description: 'Returns to the guest with the specified email.',
-  })
-  @ApiBadRequestResponse({
-    status: 400,
-    description: 'Guest with that email does not exist.',
-  })
-  async guestByEmail(@Param('email') email: string): Promise<Guest> {
-    const guest: Guest = await this.peopleService.guestByEmail(email);
-    if (!guest)
-      throw new BadRequestException(`Guest with email ${email} does not exist`);
-    return guest;
-  }
-
   @Get(':idPerson')
   @ApiOperation({ summary: 'Get a person by ID.' })
   @ApiResponse({
@@ -101,7 +73,6 @@ export class PeopleController {
     return person;
   }
 
-  // this endpoint is only for admin,superadmin
   @Patch('addrole/:idperson')
   @ApiOperation({ summary: 'Add new person role.' })
   @ApiResponse({
@@ -113,7 +84,6 @@ export class PeopleController {
     return await this.peopleService.addRole(idperson, roleName);
   }
   
-  // this endpoint is only for admin,superadmin
   @Patch('delrole/:idperson')
   @ApiOperation({ summary: 'Delete a person role.' })
   @ApiResponse({
@@ -123,5 +93,35 @@ export class PeopleController {
   @ApiBadRequestResponse({ status: 400, description: 'Role does not exist.' })
   async delRole(@Param('idperson', ParseUUIDPipe) idperson: string, @Body() roleName: ChangeRoleDto) {
     return await this.peopleService.delRole(idperson, roleName);
+  }
+
+  //& --> guests endpoints <--
+  @Get('guests')
+  @ApiOperation({ summary: 'Get all guests.' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns an array with all guests.',
+  })
+  @ApiQuery(PageApiQueries)
+  @ApiQuery(LimitApiQueries)
+  async getAllGuests(@Query() paginationDto: PaginationDto) {
+    return this.peopleService.getAllGuests(paginationDto);
+  }
+
+  @Get('guestemail')
+  @ApiOperation({ summary: 'Get a person by email.' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns to the guest with the specified email.',
+  })
+  @ApiBadRequestResponse({
+    status: 400,
+    description: 'Guest with that email does not exist.',
+  })
+  async guestByEmail(@Param('email') email: string): Promise<Guest> {
+    const guest: Guest = await this.peopleService.guestByEmail(email);
+    if (!guest)
+      throw new BadRequestException(`Guest with email ${email} does not exist`);
+    return guest;
   }
 }
