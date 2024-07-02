@@ -6,6 +6,7 @@ import {
   ParseUUIDPipe,
   Patch,
   Post,
+  Query,
   Res,
 } from '@nestjs/common';
 import { DentalServService } from './dentalServ.service';
@@ -35,6 +36,41 @@ export class DentalServController {
   @ApiQuery(PageApiQueries)
   async getDentalServ(@Res() res: Response) {
     const services = await this.dentalServService.getDentalServ();
+    res.status(200).json(services);
+  }
+
+  @Get('/filter/')
+  @ApiOperation({
+    summary: 'Get all dental services by name or isActive',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Return an array of dental services',
+  })
+  @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
+  @ApiInternalServerErrorResponse({ status: 500, description: 'Server error.' })
+  @ApiQuery({
+    name: 'name',
+    type: String,
+  })
+  @ApiQuery({
+    name: 'isActive',
+    type: Boolean,
+  })
+  async getDentalServByFilter(
+    @Res() res: Response,
+    @Query('name') name?: string,
+    @Query('isActive') isActive?: string,
+  ) {
+    const services = await this.dentalServService.getDentalServByFilter(
+      name,
+      isActive,
+    );
+    if (services.length === 0) {
+      return res
+        .status(404)
+        .json({ message: 'No dental services for the criteria' });
+    }
     res.status(200).json(services);
   }
 

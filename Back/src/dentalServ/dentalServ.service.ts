@@ -6,7 +6,6 @@ import { DentalServ } from './entities/dentalServ.entity';
 @Injectable()
 export class DentalServService {
   constructor(private readonly dentalServRepositiory: DentalServRepository) {}
- 
   async getDentalServ(): Promise<DentalServ[]> {
     return await this.dentalServRepositiory.getDentalServ();
   }
@@ -17,6 +16,20 @@ export class DentalServService {
 
   async getDentalServByID(id: string): Promise<DentalServ> {
     return await this.dentalServRepositiory.getDentalServByID(id);
+  }
+
+  async getDentalServByFilter(name: string, isActive) {
+    if (name || isActive) {
+      if (isActive === 'false') isActive = false;
+      else if (isActive === 'true') isActive = true;
+      return await this.dentalServRepositiory.getDentalServByFilter(
+        name,
+        isActive,
+      );
+    }
+    throw new BadRequestException(
+      'You must provide name or isActive to filter',
+    );
   }
 
   async editDentalServ(
