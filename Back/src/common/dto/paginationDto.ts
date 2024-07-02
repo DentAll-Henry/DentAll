@@ -15,4 +15,8 @@ export class AppointmentPaginationDto extends PaginationDto {
     @IsBoolean()
     @Type(() => Boolean)
     only_future: boolean = false;
+
+    @IsBoolean()
+    @Type(() => Boolean)
+    only_past: boolean = false;
 }
