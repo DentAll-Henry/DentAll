@@ -3,6 +3,7 @@ import Image from "next/image";
 import React from "react";
 import DoctorCard from "../DoctorCards/DoctorCard";
 import MapComponent from "@/components/Maps/maps";
+import Services from "../services/services";
 
 const LandingPage = () => {
   return (
@@ -150,7 +151,6 @@ const LandingPage = () => {
           <div className="w-[150%] p-12">
             <MapComponent />
           </div>
-
         </div>
       </section>
 

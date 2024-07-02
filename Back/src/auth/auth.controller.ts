@@ -4,7 +4,7 @@ import { AuthService } from './auth.service';
 import { SignInDto } from './dtos/signIn.dto';
 import { CreatePersonDto } from '../person/dtos/createPerson.dto';
 import { ConfirmPassInterceptor } from './interceptors/confirmPass.interceptor';
-import { AuthDto } from './dtos/Auth.dto';
+import { AuthDto } from './dtos/auth.dto';
 import { UpdatePasswordDto } from './dtos/updatePassword.dto';
 import { UpdatePersonDto } from '../person/dtos/updatePerson.dto';
 import { AuthByEmailDto } from './dtos/authByEmail.dto';

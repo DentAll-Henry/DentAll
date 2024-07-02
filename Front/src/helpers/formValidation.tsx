@@ -1,6 +1,8 @@
 import {
   LoginErrorProps,
   LoginProps,
+  NewServiceErrorProps,
+  NewServiceProps,
   RegisterErrorProps,
   RegisterProps,
 } from "@/types";
@@ -10,6 +12,7 @@ const regexValidations = {
   contrasena:
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+={}\[\]:;<>,.?~-]).{8,}$/,
   nombre: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{2,50}$/,
+  descripcion: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{20,200}$/,
   apellido: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{2,50}$/,
   fechaNacimiento: /^\d{1,2}[-\/.]\d{1,2}[-\/.]\d{4}$/,
   dni: /^\d{7,8}$/,
@@ -17,8 +20,11 @@ const regexValidations = {
   direccion: /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s,.-]{5,100}$/,
   localidad: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{2,50}$/,
   nacionalidad: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{2,50}$/,
+  precio: /^\d+(.\d{1,2})?$/,
 };
 
+
+//LOGIN//
 export function validateLoginForm(values: LoginProps): LoginErrorProps {
   let errors: LoginErrorProps = {};
 
@@ -48,6 +54,10 @@ export function validateLoginForm(values: LoginProps): LoginErrorProps {
     }
     return fecha; // Devuelve la fecha sin cambios si no se puede convertir
   }
+
+
+
+  //REGISTER//
 export function validateRegisterForm(
   values: RegisterProps
 ): RegisterErrorProps {
@@ -127,6 +137,35 @@ if (!values.birthdate) {
   } else if (!regexValidations.nacionalidad.test(values.nationality)) {
     errors.nationality =
       "Nationality must be between 2 and 50 characters and only contain letters and spaces";
+  }
+
+  return errors;
+}
+
+
+
+
+//SERVICE//
+export function validateNewServiceForm(values: NewServiceProps): NewServiceErrorProps {
+  let errors: NewServiceErrorProps = {};
+
+  if (!values.name) {
+    errors.name = "El nombre es requerido";
+  } else if (!regexValidations.nombre.test(values.name)) {
+    errors.name = "El nombre debe tener entre 2 y 50 caracteres";
+  }
+
+  if (!values.price) {
+    errors.price = "El precio es requerido";
+  } else if (!regexValidations.precio.test(values.price)) {
+    errors.price =
+      "Formato no valido";
+  }
+  if (!values.description) {
+    errors.description = "La descripción es requerida";
+  } else if (!regexValidations.descripcion.test(values.description)) {
+    errors.description =
+      "La descripción debe tener entre 20 y 200 caracteres";
   }
 
   return errors;

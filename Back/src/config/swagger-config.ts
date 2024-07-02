@@ -25,3 +25,12 @@ export const OnlyFutureApiQueries =
     example: true,
     type: Boolean
 }
+
+export const OnlyPastApiQueries =
+{
+    name: 'only_past',
+    required: false,
+    description: 'Only past appointments',
+    example: true,
+    type: Boolean
+}

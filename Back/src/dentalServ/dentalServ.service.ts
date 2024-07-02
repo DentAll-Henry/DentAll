@@ -6,6 +6,7 @@ import { DentalServ } from './entities/dentalServ.entity';
 @Injectable()
 export class DentalServService {
   constructor(private readonly dentalServRepositiory: DentalServRepository) {}
+ 
   async getDentalServ(): Promise<DentalServ[]> {
     return await this.dentalServRepositiory.getDentalServ();
   }
