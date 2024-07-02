@@ -7,6 +7,7 @@ import { login } from "@/helpers/auth.helper";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
+import PasswordInput from "../PasswordImput";
 
 const Login = () => {
   const router = useRouter();
@@ -110,14 +111,12 @@ const Login = () => {
                 <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
                   CONTRASEÑA
                 </label>
-                <input
+                <PasswordInput
                   id="password"
                   name="password"
-                  type="password"
                   value={dataUser.password}
                   onChange={handleChange}
-                  className="flex h-[38px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
-                  placeholder="********"
+                  required
                 />
                 {errorUser.password && (
                   <p className="text-red-500">{errorUser.password}</p>
