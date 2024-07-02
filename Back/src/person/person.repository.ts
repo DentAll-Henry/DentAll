@@ -28,6 +28,32 @@ export class PeopleRepository {
     return await queryBuilder.getMany();
   }
 
+  async getAllPeopleIncludeDeleted(paginationDto: { page: number; limit: number }) {
+    const { page, limit } = paginationDto;
+    const queryBuilder = this.peopleRepository
+      .createQueryBuilder('people')
+      .withDeleted()
+      .select([
+        'people.id',
+        'people.first_name',
+        'people.last_name',
+        'people.birthdate',
+        'people.dni',
+        'people.phone',
+        'people.email',
+        'people.address',
+        'people.location',
+        'people.nationality',
+        'people.is_auth0',
+        'people.deleteDate',
+      ])
+      .leftJoinAndSelect('people.roles', 'roles')
+      .skip((page - 1) * limit)
+      .take(limit);
+      
+    return await queryBuilder.getMany();
+  }
+
   async personById(personId: string): Promise<Person> {
     const person: Person = await this.peopleRepository.findOne({
       where: {
@@ -37,6 +63,32 @@ export class PeopleRepository {
         roles: true,
       },
     });
+    if (!person) throw new BadRequestException('No existe una persona con el ID especificado.');
+    return person;
+  }
+
+  async personByIdIncludeDeleted(id: string): Promise<Person> {
+    const person: Person = await this.peopleRepository
+      .createQueryBuilder('person')
+      .withDeleted()
+      .where('person.id = :id', { id })
+      .select([
+        'person.id',
+        'person.first_name',
+        'person.last_name',
+        'person.birthdate',
+        'person.dni',
+        'person.phone',
+        'person.address',
+        'person.location',
+        'person.nationality',
+        'person.is_auth0',
+        'person.email',
+        'person.deleteDate',
+      ])
+      .leftJoinAndSelect('person.roles', 'roles')
+      .getOne();
+
     if (!person) throw new BadRequestException('No existe una persona con el ID especificado.');
     return person;
   }
@@ -53,13 +105,38 @@ export class PeopleRepository {
     return person;
   }
 
+  async personByEmailIncludeDeleted(email: string): Promise<Person> {
+    const person: Person = await this.peopleRepository
+      .createQueryBuilder('person')
+      .withDeleted()
+      .where('person.email = :email', { email })
+      .select([
+        'person.id',
+        'person.first_name',
+        'person.last_name',
+        'person.birthdate',
+        'person.dni',
+        'person.phone',
+        'person.address',
+        'person.location',
+        'person.nationality',
+        'person.is_auth0',
+        'person.email',
+        'person.deleteDate',
+      ])
+      .leftJoinAndSelect('person.roles', 'roles')
+      .getOne();
+
+    if (!person) throw new BadRequestException('No existe una persona con el email especificado.');
+    return person;
+  }
+
   async personByDni(personDni: string): Promise<Person> {
     const person: Person = await this.peopleRepository.findOne({
       where: {
         dni: personDni,
       },
     });
-    // if (!person) throw new BadRequestException('No existe un usuario con el DNI especificado.');
     return person;
   }
 
@@ -121,34 +198,9 @@ export class PeopleRepository {
     return `El usuario con email ${personToDelete.email} fue eliminado.`;
   }
 
-  async restorePerson(email: string): Promise<Person> {
-    const personToRestore: Person = await this.peopleRepository
-      .createQueryBuilder('person')
-      .withDeleted()
-      .where('person.email = :email', { email })
-      .andWhere('person.deleteDate IS NOT NULL')
-      .select([
-        'person.id',
-        'person.first_name',
-        'person.last_name',
-        'person.birthdate',
-        'person.dni',
-        'person.phone',
-        'person.address',
-        'person.location',
-        'person.nationality',
-        'person.is_auth0',
-        'person.email',
-      ])
-      .getOne();
-
-    if (!personToRestore)
-      throw new BadRequestException(
-        'Credenciales inválidas. No es posible restaurar el usuario.',
-      );
-
-    await this.peopleRepository.restore(personToRestore);
-    return personToRestore;
+  async restorePerson(personDeleted: Person): Promise<Person> {
+    await this.peopleRepository.restore(personDeleted);
+    return personDeleted;
   }
 
   //& --> guests endpoints <--
