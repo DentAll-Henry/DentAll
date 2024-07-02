@@ -20,12 +20,26 @@ export class PeopleService {
     return this.peopleRepository.getAllPeople(paginationDto);
   }
 
+  async getAllPeopleIncludeDeleted(paginationDto: { page: number; limit: number }) {
+    return this.peopleRepository.getAllPeopleIncludeDeleted(paginationDto);
+  }
+
   async personById(personId: string) {
     const person: Person = await this.peopleRepository.personById(personId);
     return person;
   }
 
+  async personByIdIncludeDeleted(personId: string) {
+    const person: Person = await this.peopleRepository.personByIdIncludeDeleted(personId);
+    return person;
+  }
+
   async personByEmail(email: string): Promise<Person> {
+    const person: Person = await this.peopleRepository.personByEmail(email);
+    return person;
+  }
+
+  async personByEmailIncludeDeleted(email: string): Promise<Person> {
     const person: Person = await this.peopleRepository.personByEmail(email);
     return person;
   }
@@ -81,8 +95,8 @@ export class PeopleService {
   }
 
   async restorePerson(email: string): Promise<Person> {
-    const personToRestore: Person =
-      await this.peopleRepository.restorePerson(email);
+    const personDeleted: Person = await this.personByEmailIncludeDeleted(email)
+    const personToRestore: Person = await this.peopleRepository.restorePerson(personDeleted);
     return personToRestore;
   }
 
