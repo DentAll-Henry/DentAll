@@ -1,3 +1,4 @@
+import { NewServiceProps } from "@/types";
 import { enviroment } from "@/utils/config";
 import axios from "axios";
 
@@ -10,3 +11,15 @@ export async function fetchService() {
     throw error;
   }
 }
+export async function createService(newServiceData : any ) {
+  try {
+    newServiceData.price = parseFloat(newServiceData.price)
+    console.log(newServiceData)
+    const response = await axios.post(`${enviroment.apiUrl}/dental-serv/`, newServiceData);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+

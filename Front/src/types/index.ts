@@ -49,3 +49,16 @@ export interface userSession {
   };
 }
 
+export interface NewServiceProps {
+  name: string;
+  price: string;
+  description: string;
+  img: string;
+}
+
+export interface NewServiceErrorProps {
+  name?: string;
+  price?: string;
+  description?: string;
+  img?: string;
+}

@@ -35,7 +35,7 @@ const Navbar = () => {
             TRATAMIENTOS
           </a>
           <a
-            href="#"
+            href="/service"
             className="text-white font-maven-pro text-[16px] font-semibold leading-normal"
           >
             SERVICIOS
