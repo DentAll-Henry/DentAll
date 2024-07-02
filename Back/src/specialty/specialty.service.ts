@@ -63,7 +63,7 @@ export class SpecialtyService {
     for (const service of specialtyData.services) {
       const existingDentallServ =
         await this.dentalServService.getDentalServByID(service.id);
-
+      
       if (!existingDentallServ) {
         throw new BadRequestException('Dental service not found');
       }
@@ -77,7 +77,7 @@ export class SpecialtyService {
     specialtyData.services = dentalServs;
     console.log(specialtyData);
 
-    return this.specialtyRepository.createSpeciality(specialtyData);
+    return await this.specialtyRepository.createSpeciality(specialtyData);
   }
   getSpecialtyById(id: string) {
     const speciality = this.specialtyRepository.getSpecialityById(id);

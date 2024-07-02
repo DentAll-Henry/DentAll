@@ -6,6 +6,7 @@ import { dentalServicesDB } from 'src/db/dental_services';
 import { headquartersDB } from 'src/db/headquartersDB';
 import { personsDB } from 'src/db/persons';
 import { rolesDB } from 'src/db/rolesDB';
+import { specialitiesDB } from 'src/db/specialitiesDB';
 import { DentalServDto } from 'src/dentalServ/dtos/dentalServ.dto';
 import { DentalServ } from 'src/dentalServ/entities/dentalServ.entity';
 import { Cords } from 'src/headquarters/entities/cords.entity';
@@ -18,6 +19,7 @@ import { PeopleService } from 'src/person/person.service';
 import { RoleByNameDto } from 'src/role/dtos/role.dto';
 import { Role } from 'src/role/entities/role.entity';
 import { Roles } from 'src/role/enums/roles.enum';
+import { SpecialtyService } from 'src/specialty/specialty.service';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -39,6 +41,7 @@ export class MockAutoLoadService {
     private headquarterRepository: Repository<Headquarter>,
     @InjectRepository(Cords)
     private cordsRepository: Repository<Cords>,
+    private readonly specialityService: SpecialtyService
   ) { }
 
   async onModuleInit() {
@@ -50,14 +53,47 @@ export class MockAutoLoadService {
   }
 
   async seedDentalServices() {
-    const dental_services: DentalServDto[] = dentalServicesDB;
-    dental_services.map(async (dental_service: DentalServDto) => {
+
+    const dental_services = dentalServicesDB;
+
+    const especialidades = dental_services.reduce((acc, curr) => {
+      if (!acc[curr.speciality]) {
+        acc[curr.speciality] = [];
+      }
+      return acc;
+    }, {});
+
+    for (const dental_service of dental_services) {
       const ds = await this.dentalservRepository.findOne({
         where: { name: dental_service.name },
       });
-      !ds && (await this.dentalservRepository.save(dental_service));
-    });
-    console.log('populated dental services');
+
+      if (!ds) {
+        const created = await this.dentalservRepository.save(dental_service);
+        especialidades[dental_service.speciality].push({ id: created.id });
+      } else {
+        especialidades[dental_service.speciality].push({ id: ds.id });
+      }
+    }
+
+    for (const especialidad of Object.keys(especialidades)) {
+      const speciality = await this.specialityService.SpecialtyByName(especialidad);
+      if (speciality === "Specialty not found") {
+        for (const speciality of specialitiesDB) {
+          if (speciality.name === especialidad) {
+
+            await this.specialityService.createSpecialty({
+              name: especialidad,
+              services: especialidades[especialidad],
+              description: speciality.description
+            });
+            break;
+          }
+        }
+      }
+    }
+
+    console.log('populated dental services with speciality');
   }
 
   async seedRoles() {
