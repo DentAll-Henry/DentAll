@@ -61,6 +61,7 @@ export interface NewServiceErrorProps {
   description?: string;
   img?: string;
 }
+
 export interface Service {
   id: string;
   name: string;
