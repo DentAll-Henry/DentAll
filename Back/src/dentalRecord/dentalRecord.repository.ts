@@ -81,7 +81,8 @@ export class DentalRecordRepository {
     }
   }
 
-  async createDentalRecord(data: DentalRecordDto) {
+  async createDentalRecord(data) {
+    //: DentalRecordDto
     try {
       const patientExists = await this.patientRepository.findOne({
         where: { id: data.patient_id },

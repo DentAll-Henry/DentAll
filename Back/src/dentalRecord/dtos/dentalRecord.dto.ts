@@ -12,6 +12,9 @@ import { deseases } from 'src/db/deseasesDB';
 
 export class DentalRecordDto {
   @IsNotEmpty()
+  toothInfo: string;
+
+  @IsNotEmpty()
   @IsString()
   @Length(3, 25)
   @ApiProperty({

@@ -3,6 +3,7 @@ import {
   Column,
   Entity,
   JoinColumn,
+  ManyToOne,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -10,6 +11,7 @@ import {
 import { Deseases } from './deseases.entity';
 import { Patient } from 'src/person/entities/patient.entity';
 import { ApiProperty } from '@nestjs/swagger';
+import { ToothInfo } from './toothInfo.entity';
 
 @Entity({ name: 'dental_record' })
 export class DentalRecord {
@@ -25,13 +27,9 @@ export class DentalRecord {
   })
   health_Insurance: string;
 
-  // ??
-  // @Column({ type: 'int' })
-  // number: number;
-  // ??
+  @OneToMany(() => ToothInfo, (toothInfo) => toothInfo.record)
+  toothInfo: ToothInfo[];
 
-  // @Column()
-  // vestibular: string; // ??
   @OneToOne(() => Patient)
   @ApiProperty({
     description: 'Patient',
