@@ -2,7 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Auth } from './entities/auth.entity';
-import * as bcrypt from 'bcrypt';
+import { ComparePass } from '../utils/comparePass';
 
 @Injectable()
 export class AuthRepository {
@@ -51,7 +51,7 @@ export class AuthRepository {
     
     if (!authToRestore) throw new BadRequestException('Credenciales erroneas. No es posible restaurar el usuario.');
 
-    if (await bcrypt.compare(password, authToRestore.password)) {
+    if (await ComparePass(password, authToRestore.password)) {
       await this.authRepository.restore(authToRestore);
       return authToRestore;
     }
