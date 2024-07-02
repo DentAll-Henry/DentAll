@@ -17,12 +17,7 @@ export class AppointmentsRepository {
     @InjectRepository(PendingAppointment) private pendingAppointmentRepository: Repository<PendingAppointment>,
   ) { }
   async getAppointments(paginationDto: AppointmentPaginationDto): Promise<Appointment[]> {
-    /* return await this.appointment.find({
-      relations: ['service', 'patient'],
-      skip: (page - 1) * limit,
-      take: limit,
-    }); */
-    const { page, limit, only_future } = paginationDto;
+    const { page, limit, only_future, only_past } = paginationDto;
     const queryBuilder = this.appointment.createQueryBuilder('appointment')
       .leftJoinAndSelect('appointment.service', 'service')
       .leftJoinAndSelect('appointment.patient', 'patient')
@@ -36,11 +31,15 @@ export class AppointmentsRepository {
       queryBuilder.andWhere('appointment.date_time > :now', { now: new Date() });
     }
 
+    if (only_past) {
+      queryBuilder.andWhere('appointment.date_time < :now', { now: new Date() });
+    }
+
     return await queryBuilder.getMany();
   }
 
   async getAppointmentByDentist(dentist_id: string, paginationDto: AppointmentPaginationDto): Promise<Appointment[]> {
-    const { page, limit, only_future } = paginationDto;
+    const { page, limit, only_future, only_past } = paginationDto;
     const queryBuilder = this.appointment.createQueryBuilder('appointment')
       .leftJoinAndSelect('appointment.service', 'service')
       .leftJoinAndSelect('appointment.patient', 'patient')
@@ -52,11 +51,14 @@ export class AppointmentsRepository {
       queryBuilder.andWhere('appointment.date_time > :now', { now: new Date() });
     }
 
+    if (only_past)
+      queryBuilder.andWhere('appointment.date_time < :now', { now: new Date() });
+
     return await queryBuilder.getMany();
   }
 
   async getAppointmentByPatient(patient_id: string, paginationDto: AppointmentPaginationDto): Promise<Appointment[]> {
-    const { page, limit, only_future } = paginationDto;
+    const { page, limit, only_future, only_past } = paginationDto;
     const queryBuilder = this.appointment.createQueryBuilder('appointment')
       .leftJoinAndSelect('appointment.service', 'service')
       .leftJoinAndSelect('appointment.patient', 'patient')
@@ -67,6 +69,9 @@ export class AppointmentsRepository {
     if (only_future) {
       queryBuilder.andWhere('appointment.date_time > :now', { now: new Date() });
     }
+
+    if (only_past)
+      queryBuilder.andWhere('appointment.date_time < :now', { now: new Date() });
 
     return await queryBuilder.getMany();
   }
