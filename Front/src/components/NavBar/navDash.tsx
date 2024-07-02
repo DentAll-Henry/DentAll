@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React, { useEffect, useState } from "react";
 import SearchBar from "../SearchBar/SearchBar";
 import Image from "next/image";
@@ -10,17 +10,17 @@ const NavDash = () => {
   const pathname = usePathname();
   const [userData, setUserData] = useState<RegisterProps | any>(null);
 
-useEffect(() => {
-  if (typeof window !== "undefined" && window.localStorage) {
-    const storedUserData = localStorage.getItem("userSession");
-    console.log("Stored User Data:", storedUserData);
-    if (storedUserData) {
-      const parsedUserData = JSON.parse(storedUserData);
-      console.log("Parsed User Data:", parsedUserData);
-      setUserData(parsedUserData); // Asegúrate de actualizar el estado correctamente
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.localStorage) {
+      const storedUserData = localStorage.getItem("userSession");
+      console.log("Stored User Data:", storedUserData);
+      if (storedUserData) {
+        const parsedUserData = JSON.parse(storedUserData);
+        console.log("Parsed User Data:", parsedUserData);
+        setUserData(parsedUserData); // Asegúrate de actualizar el estado correctamente
+      }
     }
-  }
-}, [pathname]);
+  }, [pathname]);
 
   return (
     <div className="fixed z-50 w-[80%] bg-darkD-600 items-center">
@@ -51,7 +51,9 @@ useEffect(() => {
                 height={30}
                 alt="Usuario"
               />
-              <p className="m-4">BIENVENIDO/A {userData.name}</p>
+              <p className="m-4">
+                {userData.userData.first_name} {userData.userData.last_name}
+              </p>
             </Link>
           </div>
         ) : (
@@ -61,7 +63,7 @@ useEffect(() => {
                 Iniciar sesión
               </p>
             </Link>
-            <p className="flex justify-center">o</p>
+            <p className="flex justify-center">O</p>
             <Link href="/register">
               <p className="flex justify-center rounded-lg p-1 hover:bg-red-600">
                 Registrarse

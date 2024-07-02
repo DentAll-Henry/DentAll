@@ -5,20 +5,19 @@ import { Role } from '../role/entities/role.entity';
 import { RolesService } from '../role/role.service';
 import { Roles } from '../role/enums/roles.enum';
 import { Guest } from './entities/guest.entity';
+import { PatientsService } from './patient.service';
 
 @Injectable()
 export class PeopleService {
   constructor(
     private readonly peopleRepository: PeopleRepository,
     private readonly rolesService: RolesService,
+    private readonly patientsService: PatientsService
   ) {}
 
+  //& --> people endpoints <--
   async getAllPeople(paginationDto: { page: number; limit: number }) {
     return this.peopleRepository.getAllPeople(paginationDto);
-  }
-
-  async getAllGuests(paginationDto: { page: number; limit: number }) {
-    return this.peopleRepository.getAllGuests(paginationDto);
   }
 
   async personById(personId: string) {
@@ -31,30 +30,21 @@ export class PeopleService {
     return person;
   }
 
-  async guestByEmail(email: string): Promise<Guest> {
-    const guest: Guest = await this.peopleRepository.guestByEmail(email);
-    return guest;
-  }
-
   async personByDni(dni: string): Promise<Person> {
     const person: Person = await this.peopleRepository.personByDni(dni);
     return person;
-  }
-
-  async createPatient(person_id: string) {
-    return await this.peopleRepository.createPatient(person_id);
   }
 
   async createPersonAsPatient(personInfo: Partial<Person>) {
     const personByEmailExist: Person =
       await this.peopleRepository.personByEmail(personInfo.email);
     if (personByEmailExist)
-      throw new BadRequestException('Email already exist');
+      throw new BadRequestException('Ya existe un registro con ese email.');
 
     const personByDniExist: Person = await this.peopleRepository.personByDni(
       personInfo.dni,
     );
-    if (personByDniExist) throw new BadRequestException('DNI already exist');
+    if (personByDniExist) throw new BadRequestException('Ya existe un registro con ese DNI.');
 
     const role: Role = await this.rolesService.roleByName(Roles.PATIENT);
 
@@ -63,14 +53,9 @@ export class PeopleService {
     const newPerson: Person =
       await this.peopleRepository.createPersonAsPatient(personInfo);
 
-    await this.createPatient(newPerson.id);
+    await this.patientsService.createPatient(newPerson);
 
     return newPerson;
-  }
-
-  async getPatientById(patientId: string) {
-    const patient = await this.peopleRepository.getPatientById(patientId);
-    return patient;
   }
 
   async addRole(personId: string, roleName: { roleName: Roles }) {
@@ -90,11 +75,6 @@ export class PeopleService {
     return this.peopleRepository.updatePerson(personToUpdate, infoToUpdate);
   }
 
-  async createGuest(guestInfo: Omit<Guest, 'id'>) {
-    const guest: Guest = await this.peopleRepository.createGuest(guestInfo);
-    return guest;
-  }
-
   async deletePerson(email: string) {
     const personToDelete: Person = await this.personByEmail(email);
     return await this.peopleRepository.deletePerson(personToDelete);
@@ -104,5 +84,20 @@ export class PeopleService {
     const personToRestore: Person =
       await this.peopleRepository.restorePerson(email);
     return personToRestore;
+  }
+
+  //& --> guests endpoints <--
+  async getAllGuests(paginationDto: { page: number; limit: number }) {
+    return this.peopleRepository.getAllGuests(paginationDto);
+  }
+
+  async guestByEmail(email: string): Promise<Guest> {
+    const guest: Guest = await this.peopleRepository.guestByEmail(email);
+    return guest;
+  }
+
+  async createGuest(guestInfo: Omit<Guest, 'id'>) {
+    const guest: Guest = await this.peopleRepository.createGuest(guestInfo);
+    return guest;
   }
 }

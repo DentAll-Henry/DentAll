@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   Body,
   Controller,
   Get,
@@ -8,12 +7,9 @@ import {
   Patch,
   Query,
 } from '@nestjs/common';
-import { PeopleService } from './person.service';
-import { Person } from './entities/person.entity';
 import {
   ApiBadRequestResponse,
   ApiOperation,
-  ApiQuery,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
@@ -22,11 +18,12 @@ import { PaginationDto } from '../common/dto/paginationDto';
 import { Guest } from './entities/guest.entity';
 import { ChangeRoleDto } from './dtos/changeRoles.dto';
 
-@ApiTags('People')
-@Controller('people')
-export class PeopleController {
-  constructor(private readonly peopleService: PeopleService) {}
+@ApiTags('Dentists')
+@Controller('dentists')
+export class DentistsController {
+  constructor(private readonly dentistsService: DentistsService) {}
 
+  //& --> people endpoints <--
   @Get()
   @ApiOperation({ summary: 'Get all people.' })
   @ApiResponse({ status: 200, description: 'Return an array with all people.' })
@@ -35,19 +32,7 @@ export class PeopleController {
   async getAllPeople(@Query() paginationDto: PaginationDto) {
     return this.peopleService.getAllPeople(paginationDto);
   }
-
-  @Get('guests')
-  @ApiOperation({ summary: 'Get all guests.' })
-  @ApiResponse({
-    status: 200,
-    description: 'Returns an array with all guests.',
-  })
-  @ApiQuery(PageApiQueries)
-  @ApiQuery(LimitApiQueries)
-  async getAllGuests(@Query() paginationDto: PaginationDto) {
-    return this.peopleService.getAllGuests(paginationDto);
-  }
-
+  
   @Get('email')
   @ApiOperation({ summary: 'Get a person by email.' })
   @ApiResponse({
@@ -67,6 +52,53 @@ export class PeopleController {
     return true;
   }
 
+  @Get(':idPerson')
+  @ApiOperation({ summary: 'Get a person by ID.' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns the information of all dentists.',
+  })
+  @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
+  async getAllDentists(@Query() paginationDto: PaginationDto) {
+    return this.dentistsService.getAllDentists(paginationDto);
+  }
+
+  @Patch('addrole/:idperson')
+  @ApiOperation({ summary: 'Add new person role.' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns to the dentist with the specified ID.',
+  })
+
+  @ApiBadRequestResponse({ status: 400, description: 'Role does not exist.' })
+  async addRole(@Param('idperson', ParseUUIDPipe) idperson: string, @Body() roleName: ChangeRoleDto) {
+    return await this.peopleService.addRole(idperson, roleName);
+  }
+  
+  @Patch('delrole/:idperson')
+  @ApiOperation({ summary: 'Delete a person role.' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns to the person without the role.',
+  })
+  @ApiBadRequestResponse({ status: 400, description: 'Role does not exist.' })
+  async delRole(@Param('idperson', ParseUUIDPipe) idperson: string, @Body() roleName: ChangeRoleDto) {
+    return await this.peopleService.delRole(idperson, roleName);
+  }
+
+  //& --> guests endpoints <--
+  @Get('guests')
+  @ApiOperation({ summary: 'Get all guests.' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns an array with all guests.',
+  })
+  @ApiQuery(PageApiQueries)
+  @ApiQuery(LimitApiQueries)
+  async getAllGuests(@Query() paginationDto: PaginationDto) {
+    return this.peopleService.getAllGuests(paginationDto);
+  }
+
   @Get('guestemail')
   @ApiOperation({ summary: 'Get a person by email.' })
   @ApiResponse({
@@ -82,46 +114,5 @@ export class PeopleController {
     if (!guest)
       throw new BadRequestException(`Guest with email ${email} does not exist`);
     return guest;
-  }
-
-  @Get(':idPerson')
-  @ApiOperation({ summary: 'Get a person by ID.' })
-  @ApiResponse({
-    status: 200,
-    description: 'Returns to the person with the specified ID.',
-  })
-  @ApiBadRequestResponse({
-    status: 400,
-    description: 'Person with that ID does not exist.',
-  })
-  async personById(
-    @Param('idPerson', ParseUUIDPipe) personId: string,
-  ): Promise<Person> {
-    const person: Person = await this.peopleService.personById(personId);
-    return person;
-  }
-
-  // this endpoint is only for admin,superadmin
-  @Patch('addrole/:idperson')
-  @ApiOperation({ summary: 'Add new person role.' })
-  @ApiResponse({
-    status: 200,
-    description: 'Returns to the person with the new role.',
-  })
-  @ApiBadRequestResponse({ status: 400, description: 'Role does not exist.' })
-  async addRole(@Param('idperson', ParseUUIDPipe) idperson: string, @Body() roleName: ChangeRoleDto) {
-    return await this.peopleService.addRole(idperson, roleName);
-  }
-  
-  // this endpoint is only for admin,superadmin
-  @Patch('delrole/:idperson')
-  @ApiOperation({ summary: 'Delete a person role.' })
-  @ApiResponse({
-    status: 200,
-    description: 'Returns to the person without the role.',
-  })
-  @ApiBadRequestResponse({ status: 400, description: 'Role does not exist.' })
-  async delRole(@Param('idperson', ParseUUIDPipe) idperson: string, @Body() roleName: ChangeRoleDto) {
-    return await this.peopleService.delRole(idperson, roleName);
   }
 }

@@ -8,32 +8,20 @@ import { Person } from './entities/person.entity';
 import { QueryFailedError, Repository } from 'typeorm';
 import { Role } from '../role/entities/role.entity';
 import { Guest } from './entities/guest.entity';
-import { Patient } from './entities/patient.entity';
 
 @Injectable()
 export class PeopleRepository {
   constructor(
     @InjectRepository(Person) private peopleRepository: Repository<Person>,
     @InjectRepository(Guest) private guestsRepository: Repository<Guest>,
-    @InjectRepository(Patient) private patientRepository: Repository<Patient>,
   ) {}
 
+  //& --> people endpoints <--
   async getAllPeople(paginationDto: { page: number; limit: number }) {
     const { page, limit } = paginationDto;
     const queryBuilder = this.peopleRepository
       .createQueryBuilder('people')
       .leftJoinAndSelect('people.roles', 'roles')
-      .skip((page - 1) * limit)
-      .take(limit);
-
-    return await queryBuilder.getMany();
-  }
-
-  async getAllGuests(paginationDto: { page: number; limit: number }) {
-    const { page, limit } = paginationDto;
-    const queryBuilder = this.guestsRepository
-      .createQueryBuilder('guests')
-      .select('guests')
       .skip((page - 1) * limit)
       .take(limit);
 
@@ -49,7 +37,7 @@ export class PeopleRepository {
         roles: true,
       },
     });
-    if (!person) throw new BadRequestException('Person not found');
+    if (!person) throw new BadRequestException('No existe una persona con el ID especificado.');
     return person;
   }
 
@@ -65,53 +53,14 @@ export class PeopleRepository {
     return person;
   }
 
-  async guestByEmail(guestEmail: string): Promise<Guest> {
-    const guest: Guest = await this.guestsRepository.findOne({
-      where: {
-        email: guestEmail,
-      },
-    });
-    return guest;
-  }
-
   async personByDni(personDni: string): Promise<Person> {
     const person: Person = await this.peopleRepository.findOne({
       where: {
         dni: personDni,
       },
     });
-    // if (!person) throw new BadRequestException('DNI does not exist');
+    // if (!person) throw new BadRequestException('No existe un usuario con el DNI especificado.');
     return person;
-  }
-
-  async createPatient(person_id: Person['id']) {
-    try {
-      const person: Person = await this.personById(person_id);
-      if (!person)
-        throw new BadRequestException(
-          'Person not found with id provided. Could not add patient',
-        );
-      return await this.patientRepository.save({
-        person_id: person_id,
-      });
-    } catch (error) {
-      if (error instanceof QueryFailedError) {
-        throw new BadRequestException('Error: ' + error.driverError?.detail);
-      }
-      throw new BadRequestException('Internal server error');
-    }
-  }
-
-  async getPatientById(patientId: string) {
-    const patient = await this.patientRepository.findOne({
-      where: {
-        id: patientId,
-      },
-      relations: ['person_id'],
-    });
-    if (!patient)
-      throw new BadRequestException('Patient not found with id provided');
-    return patient;
   }
 
   async createPersonAsPatient(personInfo: Partial<Person>): Promise<Person> {
@@ -122,7 +71,7 @@ export class PeopleRepository {
       if (error instanceof QueryFailedError) {
         throw new BadRequestException('Error: ' + error.driverError?.detail);
       }
-      throw new BadRequestException('Internal server error');
+      throw new BadRequestException('Error interno del servidor.');
     }
   }
 
@@ -131,7 +80,7 @@ export class PeopleRepository {
       const existingRole = person.roles.find((r) => r.id === roleToAdd.id);
 
       if (existingRole)
-        throw new BadRequestException('Person already has that role');
+        throw new BadRequestException('El usuario ya tiene el rol asignado.');
 
       person.roles.push(roleToAdd);
       const updatedPerson: Person = await this.peopleRepository.save(person);
@@ -140,7 +89,7 @@ export class PeopleRepository {
       if (error instanceof BadRequestException) {
         throw error;
       }
-      throw new InternalServerErrorException('Internal server error');
+      throw new InternalServerErrorException('Error interno del servidor.');
     }
   }
 
@@ -148,7 +97,7 @@ export class PeopleRepository {
     const existingRole = person.roles.find((r) => r.id === roleToDel.id);
 
     if (!existingRole)
-      throw new BadRequestException('Person does not have that role');
+      throw new BadRequestException('El usuario no tiene asignado ese rol.');
 
     const index: number = person.roles.indexOf(existingRole);
 
@@ -167,14 +116,9 @@ export class PeopleRepository {
     return await this.peopleRepository.save(personToUpdate);
   }
 
-  async createGuest(guestInfo: Omit<Guest, 'id'>) {
-    const guest: Guest = await this.guestsRepository.save(guestInfo);
-    return guest;
-  }
-
   async deletePerson(personToDelete: Person) {
     await this.peopleRepository.softDelete(personToDelete.id);
-    return `Person whit email ${personToDelete.email} was deleted.`;
+    return `El usuario con email ${personToDelete.email} fue eliminado.`;
   }
 
   async restorePerson(email: string): Promise<Person> {
@@ -200,10 +144,37 @@ export class PeopleRepository {
 
     if (!personToRestore)
       throw new BadRequestException(
-        'Wrong credentials. It is not possible to restore person.',
+        'Credenciales inválidas. No es posible restaurar el usuario.',
       );
 
     await this.peopleRepository.restore(personToRestore);
     return personToRestore;
   }
+
+  //& --> guests endpoints <--
+  async getAllGuests(paginationDto: { page: number; limit: number }) {
+    const { page, limit } = paginationDto;
+    const queryBuilder = this.guestsRepository
+      .createQueryBuilder('guests')
+      .select('guests')
+      .skip((page - 1) * limit)
+      .take(limit);
+
+    return await queryBuilder.getMany();
+  }
+
+  async guestByEmail(guestEmail: string): Promise<Guest> {
+    const guest: Guest = await this.guestsRepository.findOne({
+      where: {
+        email: guestEmail,
+      },
+    });
+    return guest;
+  }
+
+  async createGuest(guestInfo: Omit<Guest, 'id'>) {
+    const guest: Guest = await this.guestsRepository.save(guestInfo);
+    return guest;
+  }
+
 }

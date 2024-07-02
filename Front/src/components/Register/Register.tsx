@@ -76,9 +76,10 @@ const Register = () => {
         });
         router.push("/login");
       } catch (error: any) {
+        console.log(error);
         Swal.fire({
           title: "Error",
-          text: "Hubo un problema al crear la cuenta. Por favor, intente de nuevo.",
+          text: error.response.data.message,
           icon: "error",
           confirmButtonText: "Aceptar",
         });

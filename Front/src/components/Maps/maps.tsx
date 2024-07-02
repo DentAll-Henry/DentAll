@@ -10,14 +10,14 @@ const containerStyle = {
 };
 
 const center = {
-  lat: 37.7749295,
-  lng: -122.4194155,
+  lat: -26.8377104,
+  lng: -65.2075707,
 };
 
 const MapComponent = () => {
   const [mapData, setMapData] = useState([
     {
-      cords: { lat: 37.7749295, lng: -122.4194155 },
+      cords: { lat: "", lng: "" },
       name: "",
       address: "",
       img: "",
@@ -45,7 +45,10 @@ const MapComponent = () => {
           {mapData.map((map, index) => (
             <Marker
               key={index}
-              position={{ lat: map.cords.lat, lng: map.cords.lng }}
+              position={{
+                lat: parseFloat(map.cords.lat),
+                lng: parseFloat(map.cords.lng),
+              }}
               title={map.address}
             />
           ))}

@@ -42,6 +42,17 @@ export class DentalServ {
   })
   description: string;
 
+  @Column({ type: 'varchar', nullable: true, length: 200 })
+  @ApiProperty({
+    description: 'The image of the service',
+    example:
+      'https://shop.bbc.com/cdn/shop/products/14847_300x.jpg?v=1567526955',
+    type: String,
+    required: false,
+    maxLength: 200,
+  })
+  img: string;
+
   @Column({ type: 'boolean', default: true })
   @ApiProperty({
     description: 'The status of the service',

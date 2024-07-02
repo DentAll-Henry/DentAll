@@ -43,15 +43,15 @@ const Login = () => {
     if (Object.keys(errors).length === 0) {
       try {
         const response = await login(dataUser);
-        const { token, user } = response;
-
+        const { token, userData } = response;
+        console.log(response);
         localStorage.setItem(
           "userSession",
-          JSON.stringify({ token: token, userData: user })
+          JSON.stringify({ token: token, userData })
         );
         Swal.fire({
           title: "¡Excelente!",
-          text: "Se ha iniciado sesión correctamente.",
+          text: `${userData.first_name}, has iniciado sesión correctamente. `,
           icon: "success",
           confirmButtonText: "Aceptar",
           customClass: {
@@ -61,6 +61,7 @@ const Login = () => {
         });
         router.push("/page/patients");
       } catch (error: any) {
+        console.log(error);
         Swal.fire({
           title: "Error",
           text: "Hubo un problema al iniciar sesión. Por favor, intente de nuevo.",
