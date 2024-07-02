@@ -1,4 +1,3 @@
-
 export interface LoginProps {
   email: string;
   password: string;
@@ -62,6 +61,22 @@ export interface NewServiceErrorProps {
   description?: string;
   img?: string;
 }
+
+export type Appointment = {
+  id: string;
+  date_time: string;
+  description: string;
+  patient: string;
+  service: {
+    description: string;
+    id: string;
+    img: string;
+    isActive: boolean;
+    name: string;
+    price: string;
+  };
+};
+
 export interface Service {
   id: string;
   name: string;
@@ -70,3 +85,4 @@ export interface Service {
   img: string;
   isActive: boolean
 } 
+
