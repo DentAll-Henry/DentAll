@@ -1,37 +1,124 @@
-import React from 'react'
-import NavDash from '@/components/NavBar/navDash';
-import Link from 'next/link';
-import Citas from '@/components/Citas/Citas';
-import Citasr from '@/components/CitasRealizadas/CitasRealizadas';
+"use client";
 
-const page = () => {
+import React, { useEffect, useState } from "react";
+import NavDash from "@/components/NavBar/navDash";
+import Link from "next/link";
+import Citas from "@/components/Citas/Citas";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { enviroment } from "@/utils/config";
+import { Appointment } from "@/types";
+
+type User = {
+  id: string;
+  [key: string]: any;
+};
+
+const Page = () => {
+  const [futureAppointments, setFutureAppointments] = useState<Appointment[]>(
+    []
+  );
+  const [pastAppointments, setPastAppointments] = useState<Appointment[]>([]);
+  const [user, setUser] = useState<User | null>(null);
+  const [loggin, setLoggin] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    const userSession = localStorage.getItem("userSession");
+    if (userSession) {
+      const parsedUser = JSON.parse(userSession);
+      setUser(parsedUser.userData);
+      setLoggin(true);
+    } else {
+      router.push("/register");
+    }
+  }, [router]);
+
+  const fetchAppointments = async () => {
+    if (loggin && user && user.id) {
+      try {
+        const patient = await axios.get(
+          `${enviroment.apiUrl}/patients/person/${user.id}`
+        );
+        const futureResponse = await axios.get(
+          `${enviroment.apiUrl}/appointments/patient/${patient.data.id}?only_future=true`
+        );
+        console.log(futureResponse.data);
+        setFutureAppointments(futureResponse.data);
+
+        const pastResponse = await axios.get(
+          `${enviroment.apiUrl}/appointments/patient/${patient.data.id}?only_past=true`
+        );
+        setPastAppointments(pastResponse.data);
+      } catch (error) {
+        console.error("Error al obtener las citas:", error);
+      }
+    }
+  };
+  console.log("este es un componente valido");
+
+  useEffect(() => {
+    fetchAppointments();
+  }, [loggin, user]);
+
   return (
     <div className="w-[80%] h-screen bg-darkD-600 text-white ml-[20%]">
       <NavDash />
       <div className="flex justify-between items-center m-8 mt-24">
-        <h2 className="text-[58px] text-center  text-white font-bold leading-normal">
+        <h2 className="text-[58px] text-center text-white font-bold leading-normal">
           Mis <span className="text-[#00CE90]">citas</span>
         </h2>
       </div>
       <div className="flex justify-between">
-      <div>
-        <h2 className="font-bold ml-8">PROXIMAS CITAS</h2>
-      </div>
-        <Link href="#">
-          <p className="bg-gray-500 p-1 mr-8 rounded-md">+ Agregar cita</p>
+        <div>
+          <h2 className="font-bold ml-8">PROXIMAS CITAS</h2>
+        </div>
+        <Link href="/page/patients/create-appointment">
+          <p className="bg-gray-500 p-1 mr-8 rounded-md cursor-pointer">
+            + Agregar cita
+          </p>
         </Link>
       </div>
       <div>
-        <Citas />
+        <Citas
+          futureAppointments={futureAppointments}
+          pastAppointments={pastAppointments}
+        />
       </div>
-      <div>
-        <h2 className="font-bold ml-8 mt-20 ">CITAS REALIZADAS</h2>
-      </div>
-    <div>
-<Citasr/>
-    </div>
     </div>
   );
-}
+};
 
-export default page
+export default Page;
+
+// const page = () => {
+//   return (
+//     <div className="w-[80%] h-screen bg-darkD-600 text-white ml-[20%]">
+//       <NavDash />
+//       <div className="flex justify-between items-center m-8 mt-24">
+//         <h2 className="text-[58px] text-center  text-white font-bold leading-normal">
+//           Mis <span className="text-[#00CE90]">citas</span>
+//         </h2>
+//       </div>
+//       <div className="flex justify-between">
+//         <div>
+//           <h2 className="font-bold ml-8">PROXIMAS CITAS</h2>
+//         </div>
+//         <Link href="#">
+//           <p className="bg-gray-500 p-1 mr-8 rounded-md">+ Agregar cita</p>
+//         </Link>
+//       </div>
+//       <div>
+//         <Citas />
+//       </div>
+//       <div>
+//         <h2 className="font-bold ml-8 mt-20 ">CITAS REALIZADAS</h2>
+//       </div>
+//       <div>
+//         <Citasr />
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default page;
