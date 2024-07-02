@@ -39,12 +39,12 @@ export class PeopleService {
     const personByEmailExist: Person =
       await this.peopleRepository.personByEmail(personInfo.email);
     if (personByEmailExist)
-      throw new BadRequestException('Email already exist');
+      throw new BadRequestException('Ya existe un registro con ese email.');
 
     const personByDniExist: Person = await this.peopleRepository.personByDni(
       personInfo.dni,
     );
-    if (personByDniExist) throw new BadRequestException('DNI already exist');
+    if (personByDniExist) throw new BadRequestException('Ya existe un registro con ese DNI.');
 
     const role: Role = await this.rolesService.roleByName(Roles.PATIENT);
 
