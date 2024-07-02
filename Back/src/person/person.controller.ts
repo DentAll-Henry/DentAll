@@ -66,12 +66,10 @@ export class PeopleController {
   ): Promise<Person> {
     const person: Person = await this.peopleService.personById(idperson);
     if (!person)
-      throw new BadRequestException(
-        `No existe usuario con el ID ${idperson}.`,
-      );
+      throw new BadRequestException(`No existe usuario con el ID ${idperson}.`);
     return person;
   }
-  
+
   @Get('wd/:idperson')
   @ApiOperation({ summary: 'Get a person by ID.' })
   @ApiResponse({
@@ -85,14 +83,13 @@ export class PeopleController {
   async personByIdIncludeDeleted(
     @Param('idperson', ParseUUIDPipe) idperson: string,
   ): Promise<Person> {
-    const person: Person = await this.peopleService.personByIdIncludeDeleted(idperson);
+    const person: Person =
+      await this.peopleService.personByIdIncludeDeleted(idperson);
     if (!person)
-      throw new BadRequestException(
-        `No existe usuario con el ID ${idperson}.`,
-      );
+      throw new BadRequestException(`No existe usuario con el ID ${idperson}.`);
     return person;
   }
-  
+
   @Get('byemail')
   @ApiOperation({ summary: 'Get a person by email.' })
   @ApiResponse({
@@ -119,10 +116,13 @@ export class PeopleController {
     description: 'Returns to the person with the new role.',
   })
   @ApiBadRequestResponse({ status: 400, description: 'Role does not exist.' })
-  async addRole(@Param('idperson', ParseUUIDPipe) idperson: string, @Body() roleName: ChangeRoleDto) {
+  async addRole(
+    @Param('idperson', ParseUUIDPipe) idperson: string,
+    @Body() roleName: ChangeRoleDto,
+  ) {
     return await this.peopleService.addRole(idperson, roleName);
   }
-  
+
   @Patch('delrole/:idperson')
   @ApiOperation({ summary: 'Delete a person role.' })
   @ApiResponse({
@@ -130,7 +130,10 @@ export class PeopleController {
     description: 'Returns to the person without the role.',
   })
   @ApiBadRequestResponse({ status: 400, description: 'Role does not exist.' })
-  async delRole(@Param('idperson', ParseUUIDPipe) idperson: string, @Body() roleName: ChangeRoleDto) {
+  async delRole(
+    @Param('idperson', ParseUUIDPipe) idperson: string,
+    @Body() roleName: ChangeRoleDto,
+  ) {
     return await this.peopleService.delRole(idperson, roleName);
   }
 
@@ -141,8 +144,11 @@ export class PeopleController {
     description: 'Returns to the updated person.',
   })
   @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
-  async updatePerson(@Param('id', ParseUUIDPipe) id: string, @Body() personInfo: EditPersonDto) {
-    return this.peopleService.updatePerson(id, personInfo)
+  async updatePerson(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() personInfo: EditPersonDto,
+  ) {
+    return this.peopleService.updatePerson(id, personInfo);
   }
 
   //& --> guests endpoints <--
