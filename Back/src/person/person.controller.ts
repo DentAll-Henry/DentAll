@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Get,
@@ -7,9 +8,12 @@ import {
   Patch,
   Query,
 } from '@nestjs/common';
+import { PeopleService } from './person.service';
+import { Person } from './entities/person.entity';
 import {
   ApiBadRequestResponse,
   ApiOperation,
+  ApiQuery,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
@@ -18,10 +22,10 @@ import { PaginationDto } from '../common/dto/paginationDto';
 import { Guest } from './entities/guest.entity';
 import { ChangeRoleDto } from './dtos/changeRoles.dto';
 
-@ApiTags('Dentists')
-@Controller('dentists')
-export class DentistsController {
-  constructor(private readonly dentistsService: DentistsService) {}
+@ApiTags('People')
+@Controller('people')
+export class PeopleController {
+  constructor(private readonly peopleService: PeopleService) {}
 
   //& --> people endpoints <--
   @Get()
@@ -56,20 +60,25 @@ export class DentistsController {
   @ApiOperation({ summary: 'Get a person by ID.' })
   @ApiResponse({
     status: 200,
-    description: 'Returns the information of all dentists.',
+    description: 'Returns to the person with the specified ID.',
   })
-  @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
-  async getAllDentists(@Query() paginationDto: PaginationDto) {
-    return this.dentistsService.getAllDentists(paginationDto);
+  @ApiBadRequestResponse({
+    status: 400,
+    description: 'Person with that ID does not exist.',
+  })
+  async personById(
+    @Param('idPerson', ParseUUIDPipe) personId: string,
+  ): Promise<Person> {
+    const person: Person = await this.peopleService.personById(personId);
+    return person;
   }
 
   @Patch('addrole/:idperson')
   @ApiOperation({ summary: 'Add new person role.' })
   @ApiResponse({
     status: 200,
-    description: 'Returns to the dentist with the specified ID.',
+    description: 'Returns to the person with the new role.',
   })
-
   @ApiBadRequestResponse({ status: 400, description: 'Role does not exist.' })
   async addRole(@Param('idperson', ParseUUIDPipe) idperson: string, @Body() roleName: ChangeRoleDto) {
     return await this.peopleService.addRole(idperson, roleName);
