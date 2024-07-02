@@ -42,10 +42,10 @@ export interface userSession {
   userData: {
     email: string;
     address: string;
-    id: number;
+    id: string;
     name: string;
     phone: string;
-    role: string;
+    role: {};
   };
 }
 

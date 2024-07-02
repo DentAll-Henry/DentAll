@@ -48,7 +48,7 @@ export async function login(userData: LoginProps) {
       },
       body: JSON.stringify(userData),
     });
-
+console.log(res)
     if (res.ok) {
       return res.json();
     } else {
