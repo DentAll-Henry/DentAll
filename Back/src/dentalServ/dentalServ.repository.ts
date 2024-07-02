@@ -37,6 +37,25 @@ export class DentalServRepository {
     }
   }
 
+  async getDentalServByFilter(name?: string, isActive?: boolean) {
+    try {
+      const query = this.dentalServ.createQueryBuilder('dentalServ');
+      if (name !== undefined) {
+        query.andWhere('dentalServ.name LIKE :name', { name: `%${name}%` });
+      }
+      if (isActive !== undefined) {
+        query.andWhere('dentalServ.isActive = :isActive', { isActive });
+      }
+      const services = await query.getMany();
+      return services;
+    } catch (error) {
+      if (error instanceof QueryFailedError) {
+        throw new BadRequestException(error);
+      }
+      throw new InternalServerErrorException();
+    }
+  }
+
   async createDentalServ(data: DentalServDto): Promise<DentalServ> {
     try {
       const newService = this.dentalServ.create(data);

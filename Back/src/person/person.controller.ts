@@ -66,6 +66,7 @@ export class PeopleController {
   ): Promise<Person> {
     const person: Person = await this.peopleService.personById(idperson);
     if (!person)
+
       throw new BadRequestException(`No existe usuario con el ID ${idperson}.`);
     return person;
   }
