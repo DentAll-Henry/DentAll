@@ -1,17 +1,37 @@
-import { Body, Controller, Delete, Param, ParseUUIDPipe, Patch, Post, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, UseInterceptors } from '@nestjs/common';
 import { ApiBadRequestResponse, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { SignInDto } from './dtos/signIn.dto';
 import { CreatePersonDto } from '../person/dtos/createPerson.dto';
-import { SignUpInterceptor } from './interceptors/signUp.interceptor';
-import { RestoreAuthDto } from './dtos/restoreAuth.dto';
+import { ConfirmPassInterceptor } from './interceptors/confirmPass.interceptor';
+import { AuthDto } from './dtos/Auth.dto';
 import { UpdatePasswordDto } from './dtos/updatePassword.dto';
-import { UpdatePersonDto } from 'src/person/dtos/updatePerson.dto';
+import { UpdatePersonDto } from '../person/dtos/updatePerson.dto';
+import { AuthByEmailDto } from './dtos/authByEmail.dto';
 
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
+
+  @Get()
+  @ApiOperation({ summary: 'Returns a credential by email.' })
+  @ApiResponse({ status: 201, description: 'Returns the credentials eith the specificated email.', })
+  @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
+  credentialByEmail(@Body() email: AuthByEmailDto) {
+    return this.authService.credentialByEmail(email.email);
+  }
+
+  @Post('signup')
+  @ApiOperation({ summary: 'Create user and its credentials. The request body must has confirmPass.' })
+  @ApiResponse({ status: 201, description: 'Return the Auth created.', })
+  @ApiBadRequestResponse({ status: 400, description: 'Invalid credentials.' })
+  @UseInterceptors(ConfirmPassInterceptor)
+  signUp(@Body() userInfo: CreatePersonDto) {
+    const { password, ...personInfo } = userInfo;
+    const authInfo = { email: userInfo.email, password: userInfo.password };
+    return this.authService.signUp(personInfo, authInfo);
+  }
 
   @Post('signin')
   @ApiOperation({ summary: 'Validating credential for signin.' })
@@ -19,32 +39,23 @@ export class AuthController {
   @ApiBadRequestResponse({ status: 400, description: 'Invalid credentials.' })
   signIn(@Body() signInInfo: SignInDto) {
     return this.authService.signIn(signInInfo);
-  }
+  }  
 
-  @Post('signup')
-  @ApiOperation({ summary: 'Create user and its credentials. It is important to add confirmPass to the request body.' })
-  @ApiResponse({ status: 201, description: 'Return the Auth created.', })
-  @ApiBadRequestResponse({ status: 400, description: 'Invalid credentials.' })
-  @UseInterceptors(SignUpInterceptor)
-  signUp(@Body() userInfo: CreatePersonDto) {
-    const { password, ...personInfo } = userInfo;
-    const authInfo = { email: userInfo.email, password: userInfo.password };
-    return this.authService.signUp(personInfo, authInfo);
-  }
-
-  @Delete('email')
-  @ApiOperation({ summary: 'Delete a person and its credentials.' })
+  @Delete('delete')
+  @ApiOperation({ summary: 'Delete a person and its credentials. The request body must has confirmPass.' })
   @ApiResponse({ status: 201, description: 'Action confirmed.', })
   @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
-  async deleteAuth(@Body() email: string) {
-    return this.authService.deleteAuth(email);
+  @UseInterceptors(ConfirmPassInterceptor)
+  async deleteAuth(@Body() authInfo: AuthDto) {
+    return this.authService.deleteAuth(authInfo);
   }
 
   @Patch('restore')
-  @ApiOperation({ summary: 'Restore person and its credentials.' })
+  @ApiOperation({ summary: 'Restore person and its credentials. The request body must has confirmPass.' })
   @ApiResponse({ status: 201, description: 'Return the person restored.', })
   @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
-  async restoreAuth(@Body() authInfo: RestoreAuthDto) {
+  @UseInterceptors(ConfirmPassInterceptor)
+  async restoreAuth(@Body() authInfo: AuthDto) {
     return this.authService.restoreAuth(authInfo);
   }
   

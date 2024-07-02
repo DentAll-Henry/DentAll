@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   FileTypeValidator,
   FileValidator,
@@ -8,6 +9,7 @@ import {
   Post,
   UploadedFile,
   UseInterceptors,
+  UsePipes,
 } from '@nestjs/common';
 import { FilesService } from './files.service';
 import {
@@ -19,6 +21,7 @@ import {
 } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { fileUploadDto } from './files.dto';
+import { ValidationFile } from './Pipes/ValidationFile.pipe';
 
 @ApiTags('Files')
 @Controller('files')
@@ -34,20 +37,8 @@ export class FilesController {
     description: 'Image to upload(only files .jpg, .jpeg, .png, .gif)',
     type: fileUploadDto,
   })
-  uploadFile(
-    @UploadedFile(
-      new ParseFilePipe({
-        validators: [
-          new FileTypeValidator({ fileType: /(jpg|jpeg|png|gif)$/i }),
-          new MaxFileSizeValidator({
-            maxSize: 200 * 1024,
-            message: 'The file exceeds the maximum allowed size of 200KB',
-          }),
-        ],
-      }),
-    )
-    file: Express.Multer.File,
-  ) {
-    return this.filesService.uploadFile(file);
+  @UsePipes(ValidationFile)
+  uploadFile(@UploadedFile() file: Express.Multer.File, path: string) {
+    return this.filesService.uploadFile(file, path);
   }
 }
