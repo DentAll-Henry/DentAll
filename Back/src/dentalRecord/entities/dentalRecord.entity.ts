@@ -31,6 +31,7 @@ export class DentalRecord {
   toothInfo: ToothInfo[];
 
   @OneToOne(() => Patient)
+  @JoinColumn()
   @ApiProperty({
     description: 'Patient',
     required: true,

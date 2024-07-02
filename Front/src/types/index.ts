@@ -76,3 +76,13 @@ export type Appointment = {
     price: string;
   };
 };
+
+export interface Service {
+  id: string;
+  name: string;
+  price: string;
+  description: string;
+  img: string;
+  isActive: boolean
+} 
+

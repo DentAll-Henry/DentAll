@@ -16,6 +16,8 @@ import { SystemConfigsService } from 'src/system_configs/system_configs.service'
 import { CreatePendingAppointmentDto } from './dto/create_pending_appointment.dt';
 import { Patient } from 'src/person/entities/patient.entity';
 import { PatientsService } from 'src/person/patient.service';
+import { Dentist } from 'src/person/entities/dentist.entity';
+import { DentistsService } from 'src/person/dentist.service';
 
 @Injectable()
 export class AppointmentsService {
@@ -23,6 +25,7 @@ export class AppointmentsService {
     private readonly appointmentsRepository: AppointmentsRepository,
     private readonly dentalServService: DentalServService,
     private readonly patientsService: PatientsService,
+    private readonly dentistService: DentistsService,
     private readonly mailService: MailService,
     private readonly systemConfigsService: SystemConfigsService,
   ) { }
@@ -42,19 +45,25 @@ export class AppointmentsService {
       throw new BadRequestException('Appointment date must be a future date');
     }
 
-    const appointment: Appointment =
+    const appointment_created: Appointment =
       await this.appointmentsRepository.postAppointment(createAppointmentDto);
 
-    if (!appointment) throw new BadRequestException('Appointment not created');
+    if (!appointment_created) throw new BadRequestException('Appointment not created');
 
-   // const person: Person = await this.peopleService.personById(patient.person_id)
+    const appointment = await this.appointmentsRepository.getAppointmentById(appointment_created.id)
+
     //send email
-    /* await this.mailService.sendMail(
-      person.email,
+    await this.mailService.sendMail(
+      patient.person['email'],
       'New appointment at DentAll',
-      `Hi ${person.first_name} ${person.last_name} you have been scheduled a new appointment at ${appointment.date_time} for ${dentServ.name}`,
-      `Hi ${person.first_name} ${person.last_name} you have been scheduled a new appointment at ${appointment.date_time} for ${dentServ.name}`,
-    ); */
+      'new_appointment',
+      {
+        first_name: patient.person['first_name'],
+        service: dentServ.name,
+        date_time: createAppointmentDto.date_time,
+        dentist: appointment.dentist_id['person']['first_name'],
+      },
+    );
 
     if (createAppointmentDto.pending_appointment_id) {
       const pending = await this.appointmentsRepository.getPendingAppointmentById(createAppointmentDto.pending_appointment_id)
@@ -103,14 +112,22 @@ export class AppointmentsService {
       //updateAppointmentDto.service = dentServ.id
     }
 
+    if (updateAppointmentDto.patient) {
+      const patient = await this.patientsService.patientById(updateAppointmentDto.patient)
+      if (!patient) throw new BadRequestException('Patient not found with id provided');
+    }
+
+    if (updateAppointmentDto.dentist_id) {
+      const dentist = await this.dentistService.dentistById(updateAppointmentDto.dentist_id)
+      if (!dentist) throw new BadRequestException('Dentist not found with id provided');
+    }
+
     if (updateAppointmentDto.date_time) {
       const currentDate = new Date();
       if (new Date(updateAppointmentDto.date_time) <= currentDate) {
         throw new BadRequestException('Appointment date must be a future date');
       }
     }
-
-    //TODO: check patient_id and dentist_id like service_id below
 
     await this.appointmentsRepository.updateAppointment(
       id,
@@ -127,8 +144,8 @@ export class AppointmentsService {
       throw new BadRequestException('Date must be a future date');
     }
 
-    //TODO: check if dentist exists
-
+    const dentist = await this.dentistService.dentistById(dentist_id)
+    if (!dentist) throw new BadRequestException('Dentist not found with id provided');
 
     const slots = await this.getSlots(date)
 
@@ -195,7 +212,21 @@ export class AppointmentsService {
     if (!appointment)
       throw new BadRequestException('Appointment not found with id provided');
 
-    this.appointmentsRepository.removeAppointment(id);
+    console.log()
+
+
+    const res = await this.appointmentsRepository.removeAppointment(id);
+    if (res.affected === 0) throw new BadRequestException('Error al intentar cancelar la cita');
+
+    await this.mailService.sendMail(
+      appointment.patient['person']['email'],
+      'Confirmacion de cancelacion de su cita en DentAll',
+      'cancel_appointment',
+      {
+        first_name: appointment.patient['person']['first_name'],
+        date_time: appointment.date_time,
+      },
+    );
     return 'Appointment deleted succesfully';
   }
 }
