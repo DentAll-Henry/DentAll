@@ -61,6 +61,14 @@ export interface NewServiceErrorProps {
   description?: string;
   img?: string;
 }
+export interface Service {
+  id: string;
+  name: string;
+  price: string;
+  description: string;
+  img: string;
+  isActive: boolean;
+}
 
 export type Appointment = {
   id: string;

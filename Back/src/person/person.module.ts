@@ -20,6 +20,6 @@ import { PatientsRepository } from './patient.repository';
   imports: [TypeOrmModule.forFeature([Person, Patient, Guest, Dentist]), RolesModule, SpecialtyModule],
   controllers: [PeopleController, DentistsController, PatientsController],
   providers: [PeopleService, PeopleRepository, DentistsService, DentistsRepository, PatientsService, PatientsRepository],
-  exports: [PeopleService, TypeOrmModule, PatientsService],
+  exports: [PeopleService, TypeOrmModule, PatientsService, DentistsService],
 })
 export class PeopleModule {}

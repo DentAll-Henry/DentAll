@@ -63,6 +63,8 @@ export class AppointmentsRepository {
       .leftJoinAndSelect('appointment.service', 'service')
       .leftJoinAndSelect('appointment.patient', 'patient')
       .where('appointment.patient = :patient_id', { patient_id })
+      .leftJoinAndSelect('appointment.dentist_id', 'dentist')
+      .leftJoinAndSelect('dentist.person', 'person')
       .skip((page - 1) * limit)
       .take(limit);
 
@@ -90,7 +92,7 @@ export class AppointmentsRepository {
   async getAppointmentById(id: string): Promise<Appointment> {
     return await this.appointment.findOne({
       where: { id },
-      relations: ['service', 'patient'],
+      relations: ['service', 'patient.person', 'dentist_id.person'],
     });
   }
 
@@ -134,7 +136,7 @@ export class AppointmentsRepository {
   }
 
   async removeAppointment(id: string) {
-    const response = await this.appointment.delete({ id });
-    return response.affected ? 'Appointment deleted' : 'Appointment not found';
+
+    return await this.appointment.delete({ id });
   }
 }
