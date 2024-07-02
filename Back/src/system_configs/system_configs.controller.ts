@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UsePipes } from '@nestjs/common';
 import { SystemConfigsService } from './system_configs.service';
 import { UpdateSystemConfigDto } from './dto/update-system_config.dto';
 import { ApiBadRequestResponse, ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ValidateSystemConfigPipe } from './pipes/validate_system_config_pipe';
 
 @ApiTags('System Configs')
 @Controller('system_configs')
@@ -30,6 +31,7 @@ export class SystemConfigsController {
   @ApiResponse({ status: 200, description: 'Return the new system configs.' })
   @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
   @ApiBody({ type: UpdateSystemConfigDto, description: 'An array of system config DTO', isArray: true })
+  @UsePipes(new ValidateSystemConfigPipe())
   update(@Body() updateSystemConfigDto: UpdateSystemConfigDto[]) {
     return this.systemConfigsService.update(updateSystemConfigDto);
   }
