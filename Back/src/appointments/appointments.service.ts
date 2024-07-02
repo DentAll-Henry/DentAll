@@ -15,13 +15,14 @@ import { GetAvailableSlotsDto } from './dto/get_available-slots.dto';
 import { SystemConfigsService } from 'src/system_configs/system_configs.service';
 import { CreatePendingAppointmentDto } from './dto/create_pending_appointment.dt';
 import { Patient } from 'src/person/entities/patient.entity';
+import { PatientsService } from 'src/person/patient.service';
 
 @Injectable()
 export class AppointmentsService {
   constructor(
     private readonly appointmentsRepository: AppointmentsRepository,
     private readonly dentalServService: DentalServService,
-    private readonly peopleService: PeopleService,
+    private readonly patientsService: PatientsService,
     private readonly mailService: MailService,
     private readonly systemConfigsService: SystemConfigsService,
   ) { }
@@ -32,7 +33,7 @@ export class AppointmentsService {
     if (!dentServ)
       throw new BadRequestException('Service not found with id provided');
 
-    const patient: Patient = await this.peopleService.getPatientById(createAppointmentDto.patient)
+    const patient: Patient = await this.patientsService.patientById(createAppointmentDto.patient)
     if (!patient)
       throw new BadRequestException('Patient not found with id provided');
 
@@ -170,7 +171,7 @@ export class AppointmentsService {
   }
 
   async getPendingAppointmentsByPatient(patient_id: string) {
-    const patient = await this.peopleService.getPatientById(patient_id);
+    const patient = await this.patientsService.patientById(patient_id);
     if (!patient) throw new BadRequestException('Patient not found with id provided');
 
     return this.appointmentsRepository.getPendingAppointmentsByPatient(patient_id)
@@ -179,7 +180,7 @@ export class AppointmentsService {
   async createPendingAppointmentRequest(createPendingAppointmentDto: CreatePendingAppointmentDto) {
     const { patient, service } = createPendingAppointmentDto
 
-    const patientData = this.peopleService.getPatientById(patient)
+    const patientData = this.patientsService.patientById(patient)
     if (!patientData) throw new BadRequestException('Patient not found with id provided');
 
     const serviceData = this.dentalServService.getDentalServByID(service)
