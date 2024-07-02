@@ -35,7 +35,7 @@ export class DentistsRepository {
         // appointments: true,
       },
     });
-    if (!dentist) throw new BadRequestException('Does not exist a dentist with that ID.')
+    if (!dentist) throw new BadRequestException('No existe un dentista con el ID especificado.')
       
     return dentist;
   }
