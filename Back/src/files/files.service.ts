@@ -6,10 +6,13 @@ import * as toStream from 'buffer-to-stream';
 export class FilesService {
   constructor() {}
 
-  uploadFile(file: Express.Multer.File): Promise<UploadApiResponse> {
+  uploadFile(
+    file: Express.Multer.File,
+    path: string,
+  ): Promise<UploadApiResponse> {
     return new Promise((resolve, reject) => {
       const upload = v2.uploader.upload_stream(
-        { resource_type: 'auto' },
+        { resource_type: 'auto', folder: path },
         (error, result) => {
           if (error) {
             reject(error);

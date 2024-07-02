@@ -20,6 +20,7 @@ export class Specialty {
 
   @ManyToMany(() => DentalServ, {
     cascade: true,
+    nullable: true,
   })
   @JoinTable({
     name: 'specialty_dentalServ',
@@ -32,5 +33,5 @@ export class Specialty {
       referencedColumnName: 'id',
     },
   })
-  services: DentalServ[];
+  services?: DentalServ[];
 }
