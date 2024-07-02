@@ -23,3 +23,14 @@ export async function createService(newServiceData : any ) {
   }
 }
 
+export async function updateIsActiveService(id: string) {
+  try {
+    const response = await axios.patch(
+      `${enviroment.apiUrl}/dental-serv/switch/${id}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error en la solicitud:", error);
+    throw error;
+  }
+}
