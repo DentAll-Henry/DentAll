@@ -33,5 +33,5 @@ export class Specialty {
       referencedColumnName: 'id',
     },
   })
-  services: DentalServ[];
+  services?: DentalServ[];
 }
