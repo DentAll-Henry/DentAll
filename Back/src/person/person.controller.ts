@@ -30,18 +30,62 @@ import { DRoles } from '../decorators/roles.decorator';
 import { Roles } from '../role/enums/roles.enum';
 import { AuthGuard } from '../auth/guards/auth.guard';
 import { RolesGuard } from '../role/guards/roles.guard';
+import { CreateGuestDto } from './dtos/createGuest.dto';
 
 @ApiTags('People')
 @Controller('people')
 export class PeopleController {
   constructor(private readonly peopleService: PeopleService) {}
 
+  //& --> guests endpoints <--
+  @Get('guests')
+  @ApiOperation({ summary: 'Get all guests.' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns an array with all guests.',
+  })
+  @ApiQuery(PageApiQueries)
+  @ApiQuery(LimitApiQueries)
+  async getAllGuests(@Query() paginationDto: PaginationDto) {
+    return this.peopleService.getAllGuests(paginationDto);
+  }
+
+  @Get('guestemail')
+  @ApiOperation({ summary: 'Get a person by email.' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns to the guest with the specified email.',
+  })
+  @ApiBadRequestResponse({
+    status: 400,
+    description: 'Guest with that email does not exist.',
+  })
+  async guestByEmail(@Param('email') email: string): Promise<Guest> {
+    const guest: Guest = await this.peopleService.guestByEmail(email);
+    if (!guest)
+      throw new BadRequestException(`Guest with email ${email} does not exist`);
+    return guest;
+  }
+
+  @Post()
+  @ApiOperation({ summary: 'Create a guest.' })
+  @ApiResponse({
+    status: 201,
+    description: 'Create a guest.',
+  })
+  @ApiBadRequestResponse({
+    status: 400,
+    description: 'Bad request.',
+  })
+
+  async createGuest(@Body() infoGuest: CreateGuestDto) {} //! Ajustar
+
   //& --> people endpoints <--
   // @ApiBearerAuth()
   @Get()
   // @DRoles(Roles.ADMIN)
   // @UseGuards(AuthGuard, RolesGuard)
-  @ApiOperation({ summary: 'Get all people.' })
+  @ApiOperation({ summary: 'Get all people, the searching includes deleted ones.' })
   @ApiResponse({ status: 200, description: 'Return an array with all people.' })
   @ApiQuery(PageApiQueries)
   @ApiQuery(LimitApiQueries)
@@ -49,22 +93,27 @@ export class PeopleController {
     return this.peopleService.getAllPeople(paginationDto);
   }
 
-  // @ApiBearerAuth()
-  @Get('wd')
-  // @DRoles(Roles.ADMIN)
-  // @UseGuards(AuthGuard, RolesGuard)
-  @ApiOperation({ summary: 'Get all people.' })
-  @ApiResponse({ status: 200, description: 'Return an array with all people.' })
-  @ApiQuery(PageApiQueries)
-  @ApiQuery(LimitApiQueries)
-  async getAllPeopleIncludeDeleted(@Query() paginationDto: PaginationDto) {
-    return this.peopleService.getAllPeopleIncludeDeleted(paginationDto);
+  @Get('byemail')
+  @ApiOperation({ summary: 'Get a person by email, the searching includes deleted ones.' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns to the person with the specified email.',
+  })
+  @ApiBadRequestResponse({
+    status: 400,
+    description: 'Person with that email does not exist.',
+  })
+  async personByEmail(@Query() email: AuthByEmailDto) {
+    const person: Person = await this.peopleService.personByEmail(email.email);
+    if (!person)
+      throw new BadRequestException(
+        `No existe usuario con el email ${email.email}.`,
+      );
+    return person;
   }
 
-  // @ApiBearerAuth()
   @Get(':idperson')
-  // @DRoles(Roles.ADMIN)
-  @ApiOperation({ summary: 'Get a person by ID.' })
+  @ApiOperation({ summary: 'Get a person by ID, the searching includes deleted ones.' })
   @ApiResponse({
     status: 200,
     description: 'Returns to the person with the specified ID.',
@@ -80,45 +129,6 @@ export class PeopleController {
     if (!person)
 
       throw new BadRequestException(`No existe usuario con el ID ${idperson}.`);
-    return person;
-  }
-
-  @Get('wd/:idperson')
-  @ApiOperation({ summary: 'Get a person by ID.' })
-  @ApiResponse({
-    status: 200,
-    description: 'Returns to the person with the specified ID.',
-  })
-  @ApiBadRequestResponse({
-    status: 400,
-    description: 'Person with that ID does not exist.',
-  })
-  async personByIdIncludeDeleted(
-    @Param('idperson', ParseUUIDPipe) idperson: string,
-  ): Promise<Person> {
-    const person: Person =
-      await this.peopleService.personByIdIncludeDeleted(idperson);
-    if (!person)
-      throw new BadRequestException(`No existe usuario con el ID ${idperson}.`);
-    return person;
-  }
-
-  @Get('byemail')
-  @ApiOperation({ summary: 'Get a person by email.' })
-  @ApiResponse({
-    status: 200,
-    description: 'Returns to the person with the specified email.',
-  })
-  @ApiBadRequestResponse({
-    status: 400,
-    description: 'Person with that email does not exist.',
-  })
-  async personByEmail(@Body() email: AuthByEmailDto) {
-    const person: Person = await this.peopleService.personByEmail(email.email);
-    if (!person)
-      throw new BadRequestException(
-        `No existe usuario con el email ${email.email}.`,
-      );
     return person;
   }
 
@@ -162,35 +172,5 @@ export class PeopleController {
     @Body() personInfo: EditPersonDto,
   ) {
     return this.peopleService.updatePerson(id, personInfo);
-  }
-
-  //& --> guests endpoints <--
-  @Get('guests')
-  @ApiOperation({ summary: 'Get all guests.' })
-  @ApiResponse({
-    status: 200,
-    description: 'Returns an array with all guests.',
-  })
-  @ApiQuery(PageApiQueries)
-  @ApiQuery(LimitApiQueries)
-  async getAllGuests(@Query() paginationDto: PaginationDto) {
-    return this.peopleService.getAllGuests(paginationDto);
-  }
-
-  @Get('guestemail')
-  @ApiOperation({ summary: 'Get a person by email.' })
-  @ApiResponse({
-    status: 200,
-    description: 'Returns to the guest with the specified email.',
-  })
-  @ApiBadRequestResponse({
-    status: 400,
-    description: 'Guest with that email does not exist.',
-  })
-  async guestByEmail(@Param('email') email: string): Promise<Guest> {
-    const guest: Guest = await this.peopleService.guestByEmail(email);
-    if (!guest)
-      throw new BadRequestException(`Guest with email ${email} does not exist`);
-    return guest;
   }
 }
