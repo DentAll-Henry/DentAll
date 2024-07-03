@@ -15,9 +15,10 @@ import { SpecialtyModule } from 'src/specialty/specialty.module';
 import { PatientsController } from './patient.controller';
 import { PatientsService } from './patient.service';
 import { PatientsRepository } from './patient.repository';
+import { DentalServModule } from 'src/dentalServ/dentalServ.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Person, Patient, Guest, Dentist]), RolesModule, SpecialtyModule],
+  imports: [TypeOrmModule.forFeature([Person, Patient, Guest, Dentist]), RolesModule, SpecialtyModule, DentalServModule],
   controllers: [PeopleController, DentistsController, PatientsController],
   providers: [PeopleService, PeopleRepository, DentistsService, DentistsRepository, PatientsService, PatientsRepository],
   exports: [PeopleService, TypeOrmModule, PatientsService, DentistsService],
