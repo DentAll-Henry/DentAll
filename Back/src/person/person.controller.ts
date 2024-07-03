@@ -8,11 +8,13 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { PeopleService } from './person.service';
 import { Person } from './entities/person.entity';
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiOperation,
   ApiQuery,
   ApiResponse,
@@ -22,10 +24,12 @@ import { LimitApiQueries, PageApiQueries } from '../config/swagger-config';
 import { PaginationDto } from '../common/dto/paginationDto';
 import { Guest } from './entities/guest.entity';
 import { ChangeRoleDto } from './dtos/changeRoles.dto';
-import { AuthByEmailDto } from 'src/auth/dtos/authByEmail.dto';
-import { UpdatePersonDto } from './dtos/updatePerson.dto';
-import { CreatePersonDto } from './dtos/createPerson.dto';
+import { AuthByEmailDto } from '../auth/dtos/authByEmail.dto';
 import { EditPersonDto } from './dtos/editPerson.dto';
+import { DRoles } from '../decorators/roles.decorator';
+import { Roles } from '../role/enums/roles.enum';
+import { AuthGuard } from '../auth/guards/auth.guard';
+import { RolesGuard } from '../role/guards/roles.guard';
 
 @ApiTags('People')
 @Controller('people')
@@ -33,7 +37,10 @@ export class PeopleController {
   constructor(private readonly peopleService: PeopleService) {}
 
   //& --> people endpoints <--
+  // @ApiBearerAuth()
   @Get()
+  // @DRoles(Roles.ADMIN)
+  // @UseGuards(AuthGuard, RolesGuard)
   @ApiOperation({ summary: 'Get all people.' })
   @ApiResponse({ status: 200, description: 'Return an array with all people.' })
   @ApiQuery(PageApiQueries)
@@ -42,7 +49,10 @@ export class PeopleController {
     return this.peopleService.getAllPeople(paginationDto);
   }
 
+  // @ApiBearerAuth()
   @Get('wd')
+  // @DRoles(Roles.ADMIN)
+  // @UseGuards(AuthGuard, RolesGuard)
   @ApiOperation({ summary: 'Get all people.' })
   @ApiResponse({ status: 200, description: 'Return an array with all people.' })
   @ApiQuery(PageApiQueries)
@@ -51,7 +61,9 @@ export class PeopleController {
     return this.peopleService.getAllPeopleIncludeDeleted(paginationDto);
   }
 
+  // @ApiBearerAuth()
   @Get(':idperson')
+  // @DRoles(Roles.ADMIN)
   @ApiOperation({ summary: 'Get a person by ID.' })
   @ApiResponse({
     status: 200,
