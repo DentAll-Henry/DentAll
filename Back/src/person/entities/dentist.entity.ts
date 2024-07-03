@@ -2,6 +2,8 @@ import {
   Column,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -10,6 +12,7 @@ import { v4 as uuid } from 'uuid';
 import { Person } from './person.entity';
 import { Appointment } from 'src/appointments/entities/appointment.entity';
 import { Specialty } from 'src/specialty/specialty.entity';
+import { DentalServ } from 'src/dentalServ/entities/dentalServ.entity';
 
 @Entity({
   name: 'dentists',
@@ -39,4 +42,10 @@ export class Dentist {
     default: true,
   })
   is_active: boolean;
+
+  @ManyToMany(()=> DentalServ)
+  @JoinTable({
+    name: 'dentists_dentalservices'
+  })
+  dental_services: DentalServ[]
 }
