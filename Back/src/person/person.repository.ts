@@ -16,19 +16,34 @@ export class PeopleRepository {
     @InjectRepository(Guest) private guestsRepository: Repository<Guest>,
   ) {}
 
-  //& --> people endpoints <--
-  async getAllPeople(paginationDto: { page: number; limit: number }) {
+  //& --> guests endpoints <--
+  async getAllGuests(paginationDto: { page: number; limit: number }) {
     const { page, limit } = paginationDto;
-    const queryBuilder = this.peopleRepository
-      .createQueryBuilder('people')
-      .leftJoinAndSelect('people.roles', 'roles')
+    const queryBuilder = this.guestsRepository
+      .createQueryBuilder('guests')
+      .select('guests')
       .skip((page - 1) * limit)
       .take(limit);
 
     return await queryBuilder.getMany();
   }
 
-  async getAllPeopleIncludeDeleted(paginationDto: { page: number; limit: number }) {
+  async guestByEmail(guestEmail: string): Promise<Guest> {
+    const guest: Guest = await this.guestsRepository.findOne({
+      where: {
+        email: guestEmail,
+      },
+    });
+    return guest;
+  }
+
+  async createGuest(guestInfo: Omit<Guest, 'id'>) {
+    const guest: Guest = await this.guestsRepository.save(guestInfo);
+    return guest;
+  }
+
+  //& --> people endpoints <--
+  async getAllPeople(paginationDto: { page: number; limit: number }): Promise<Person[]> {
     const { page, limit } = paginationDto;
     const queryBuilder = this.peopleRepository
       .createQueryBuilder('people')
@@ -51,61 +66,11 @@ export class PeopleRepository {
       .skip((page - 1) * limit)
       .take(limit);
       
-    return await queryBuilder.getMany();
+    const people: Person[] = await queryBuilder.getMany();
+    return people;
   }
 
-  async personById(personId: string): Promise<Person> {
-    const person: Person = await this.peopleRepository.findOne({
-      where: {
-        id: personId,
-      },
-      relations: {
-        roles: true,
-      },
-    });
-    if (!person) throw new BadRequestException('No existe una persona con el ID especificado.');
-    return person;
-  }
-
-  async personByIdIncludeDeleted(id: string): Promise<Person> {
-    const person: Person = await this.peopleRepository
-      .createQueryBuilder('person')
-      .withDeleted()
-      .where('person.id = :id', { id })
-      .select([
-        'person.id',
-        'person.first_name',
-        'person.last_name',
-        'person.birthdate',
-        'person.dni',
-        'person.phone',
-        'person.address',
-        'person.location',
-        'person.nationality',
-        'person.is_auth0',
-        'person.email',
-        'person.deleteDate',
-      ])
-      .leftJoinAndSelect('person.roles', 'roles')
-      .getOne();
-
-    if (!person) throw new BadRequestException('No existe una persona con el ID especificado.');
-    return person;
-  }
-
-  async personByEmail(personEmail: string): Promise<Person> {
-    const person: Person = await this.peopleRepository.findOne({
-      where: {
-        email: personEmail,
-      },
-      relations: {
-        roles: true,
-      },
-    });
-    return person;
-  }
-
-  async personByEmailIncludeDeleted(email: string): Promise<Person> {
+  async personByEmail(email: string): Promise<Person> {
     const person: Person = await this.peopleRepository
       .createQueryBuilder('person')
       .withDeleted()
@@ -127,7 +92,32 @@ export class PeopleRepository {
       .leftJoinAndSelect('person.roles', 'roles')
       .getOne();
 
-    if (!person) throw new BadRequestException('No existe una persona con el email especificado.');
+    // if (!person) throw new BadRequestException('No existe una persona con el email especificado.');
+    return person;
+  }
+
+  async personById(id: string): Promise<Person> {
+    const person: Person = await this.peopleRepository
+      .createQueryBuilder('person')
+      .withDeleted()
+      .where('person.id = :id', { id })
+      .select([
+        'person.id',
+        'person.first_name',
+        'person.last_name',
+        'person.birthdate',
+        'person.dni',
+        'person.phone',
+        'person.address',
+        'person.location',
+        'person.nationality',
+        'person.is_auth0',
+        'person.email',
+        'person.deleteDate',
+      ])
+      .leftJoinAndSelect('person.roles', 'roles')
+      .getOne();
+
     return person;
   }
 
@@ -138,6 +128,32 @@ export class PeopleRepository {
       },
     });
     return person;
+  }
+
+  async peopleByRole(roleName: Role['name']): Promise<Person[]> {
+    const people: Person[] = await this.peopleRepository
+      .createQueryBuilder('person')
+      .withDeleted()
+      .where('person.roles.name = :roleName', { roleName })
+      .select([
+        'person.id',
+        'person.first_name',
+        'person.last_name',
+        'person.birthdate',
+        'person.dni',
+        'person.phone',
+        'person.address',
+        'person.location',
+        'person.nationality',
+        'person.is_auth0',
+        'person.email',
+        'person.deleteDate',
+      ])
+      .leftJoinAndSelect('person.roles', 'roles')
+      .getMany();
+
+    if (!people) throw new BadRequestException('No existen usuarios con el rol especificado.');
+    return people;
   }
 
   async createPersonAsPatient(personInfo: Partial<Person>): Promise<Person> {
@@ -202,31 +218,4 @@ export class PeopleRepository {
     await this.peopleRepository.restore(personDeleted);
     return personDeleted;
   }
-
-  //& --> guests endpoints <--
-  async getAllGuests(paginationDto: { page: number; limit: number }) {
-    const { page, limit } = paginationDto;
-    const queryBuilder = this.guestsRepository
-      .createQueryBuilder('guests')
-      .select('guests')
-      .skip((page - 1) * limit)
-      .take(limit);
-
-    return await queryBuilder.getMany();
-  }
-
-  async guestByEmail(guestEmail: string): Promise<Guest> {
-    const guest: Guest = await this.guestsRepository.findOne({
-      where: {
-        email: guestEmail,
-      },
-    });
-    return guest;
-  }
-
-  async createGuest(guestInfo: Omit<Guest, 'id'>) {
-    const guest: Guest = await this.guestsRepository.save(guestInfo);
-    return guest;
-  }
-
 }
