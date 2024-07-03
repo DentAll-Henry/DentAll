@@ -1,33 +1,15 @@
 import {
-  ArrayMinSize,
   IsArray,
-  IsEnum,
   IsNotEmpty,
+  IsOptional,
   IsString,
-  IsUUID,
   Length,
   MaxLength,
-  ValidateNested,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { ToothInfoDto } from './toothInfo.dto';
-import { Type } from 'class-transformer';
-import { TreatmentDto } from './treatment.dto';
 
-export class DentalRecordDto {
-  @IsNotEmpty()
-  @IsArray()
-  @ArrayMinSize(1)
-  @ValidateNested({ each: true })
-  @Type(() => ToothInfoDto)
-  @ApiProperty({
-    type: Array,
-    description: 'Array of tooth information',
-    required: true,
-  })
-  toothInfo: ToothInfoDto[];
-
-  @IsNotEmpty()
+export class DentalRecordDtoForEdit {
+  @IsOptional()
   @IsString()
   @Length(3, 25)
   @ApiProperty({
@@ -40,17 +22,7 @@ export class DentalRecordDto {
   })
   health_Insurance: string;
 
-  @IsNotEmpty()
-  @IsString()
-  @IsUUID()
-  @ApiProperty({
-    description: 'The id of the patient',
-    example: 'd6a2f6a9-5b2f-4f7b-9e9d-8f8e8f8e8f8e',
-    type: String,
-    required: true,
-  })
-  patient_id: string;
-
+  @IsOptional()
   @IsString()
   @MaxLength(150)
   @ApiProperty({
@@ -62,6 +34,7 @@ export class DentalRecordDto {
   })
   observations: string;
 
+  @IsOptional()
   @IsArray()
   @IsString({ each: true })
   @ApiProperty({
@@ -71,6 +44,7 @@ export class DentalRecordDto {
   })
   deseases: string[];
 
+  @IsOptional()
   @IsString()
   @MaxLength(50)
   @ApiProperty({
@@ -81,16 +55,4 @@ export class DentalRecordDto {
     maxLength: 50,
   })
   medication: string;
-
-  @IsNotEmpty()
-  @IsArray()
-  @ArrayMinSize(1)
-  @ValidateNested({ each: true })
-  @Type(() => TreatmentDto)
-  @ApiProperty({
-    type: Array,
-    description: 'Array of treatments',
-    required: true,
-  })
-  treatments: TreatmentDto[];
 }

@@ -1,6 +1,6 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { ToothNumber } from './toothNumber.enum';
-import { Paint } from './paint.enum';
+import { ToothNumber } from '../enum/toothNumber.enum';
+import { Paint } from '../enum/paint.enum';
 import { ApiProperty } from '@nestjs/swagger';
 import { DentalRecord } from './dentalRecord.entity';
 

@@ -1,7 +1,10 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { BadRequestException, Injectable, OnModuleInit } from '@nestjs/common';
 import { DentalRecordRepository } from './dentalRecord.repository';
 import { DentalRecordDto } from './dtos/dentalRecord.dto';
 import { DentalRecord } from './entities/dentalRecord.entity';
+import { DentalRecordDtoForEdit } from './dtos/dentalRecordDtoForEdit.dto';
+import { TreatmentDto } from './dtos/treatment.dto';
+import { ToothArray } from './dtos/toothArray.dto';
 
 @Injectable()
 export class DentalRecordService implements OnModuleInit {
@@ -28,7 +31,25 @@ export class DentalRecordService implements OnModuleInit {
     return await this.dentalRecordRepository.createDentalRecord(data);
   }
 
-  async editDentalRecord(id: string, data: Partial<DentalRecordDto>) {
+  async editDentalRecord(id: string, data: DentalRecordDtoForEdit) {
+    if (Object.keys(data).length === 0) {
+      throw new BadRequestException(
+        'Debes enviar al menos un campo para editar',
+      );
+    }
+    if (!data.deseases) data.deseases = [];
     return await this.dentalRecordRepository.editDentalRecord(id, data);
+  }
+
+  async signDentalRecord(id: string) {
+    return await this.dentalRecordRepository.signDentalRecord(id);
+  }
+
+  async newDentalTreatment(id: string, data: TreatmentDto) {
+    return await this.dentalRecordRepository.newDentalTreatment(id, data);
+  }
+
+  async editToothInfo(id: string, data: ToothArray) {
+    return await this.dentalRecordRepository.editToothInfo(id, data);
   }
 }
