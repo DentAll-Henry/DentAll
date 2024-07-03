@@ -15,23 +15,25 @@ export class PeopleService {
     private readonly patientsService: PatientsService
   ) {}
 
+  //& --> guests endpoints <--
+  async getAllGuests(paginationDto: { page: number; limit: number }) {
+    return this.peopleRepository.getAllGuests(paginationDto);
+  }
+
+  async guestByEmail(email: string): Promise<Guest> {
+    const guest: Guest = await this.peopleRepository.guestByEmail(email);
+    return guest;
+  }
+
+  async createGuest(guestInfo: Omit<Guest, 'id'>) {
+    const guest: Guest = await this.peopleRepository.createGuest(guestInfo);
+    return guest;
+  }
+  
   //& --> people endpoints <--
-  async getAllPeople(paginationDto: { page: number; limit: number }) {
-    return this.peopleRepository.getAllPeople(paginationDto);
-  }
-
-  async getAllPeopleIncludeDeleted(paginationDto: { page: number; limit: number }) {
-    return this.peopleRepository.getAllPeopleIncludeDeleted(paginationDto);
-  }
-
-  async personById(personId: string) {
-    const person: Person = await this.peopleRepository.personById(personId);
-    return person;
-  }
-
-  async personByIdIncludeDeleted(personId: string) {
-    const person: Person = await this.peopleRepository.personByIdIncludeDeleted(personId);
-    return person;
+  async getAllPeople(paginationDto: { page: number; limit: number }): Promise<Person[]> {
+    const people: Person[] = await this.peopleRepository.getAllPeople(paginationDto);
+    return people;
   }
 
   async personByEmail(email: string): Promise<Person> {
@@ -39,14 +41,19 @@ export class PeopleService {
     return person;
   }
 
-  async personByEmailIncludeDeleted(email: string): Promise<Person> {
-    const person: Person = await this.peopleRepository.personByEmail(email);
+  async personById(personId: string) {
+    const person: Person = await this.peopleRepository.personById(personId);
     return person;
   }
 
   async personByDni(dni: string): Promise<Person> {
     const person: Person = await this.peopleRepository.personByDni(dni);
     return person;
+  }
+
+  async peopleByRole(roleName: Role['name']): Promise<Person[]> {
+    const people: Person[] = await this.peopleRepository.peopleByRole(roleName);
+    return people;
   }
 
   async createPersonAsPatient(personInfo: Partial<Person>) {
@@ -95,23 +102,9 @@ export class PeopleService {
   }
 
   async restorePerson(email: string): Promise<Person> {
-    const personDeleted: Person = await this.personByEmailIncludeDeleted(email)
+    const personDeleted: Person = await this.personByEmail(email);
+    if(!personDeleted.deleteDate) throw new BadRequestException('Usuario activo, no requiere restauración de cuenta.')
     const personToRestore: Person = await this.peopleRepository.restorePerson(personDeleted);
     return personToRestore;
-  }
-
-  //& --> guests endpoints <--
-  async getAllGuests(paginationDto: { page: number; limit: number }) {
-    return this.peopleRepository.getAllGuests(paginationDto);
-  }
-
-  async guestByEmail(email: string): Promise<Guest> {
-    const guest: Guest = await this.peopleRepository.guestByEmail(email);
-    return guest;
-  }
-
-  async createGuest(guestInfo: Omit<Guest, 'id'>) {
-    const guest: Guest = await this.peopleRepository.createGuest(guestInfo);
-    return guest;
   }
 }
