@@ -74,6 +74,23 @@ export class DentalServController {
     res.status(200).json(services);
   }
 
+  @Get('/by-name/')
+  @ApiOperation({ summary: 'Get one dental service by name' })
+  @ApiResponse({ status: 200, description: 'Return one dental service' })
+  @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
+  @ApiInternalServerErrorResponse({ status: 500, description: 'Server error.' })
+  @ApiQuery({
+    name: 'name',
+    type: String,
+  })
+  async getDentalServByName(
+    @Query('name') name: string = '',
+    @Res() res: Response,
+  ) {
+    const service = await this.dentalServService.getDentalServByName(name);
+    res.status(200).json(service);
+  }
+
   @Get(':id')
   @ApiOperation({ summary: 'Get one dental service by id' })
   @ApiResponse({ status: 200, description: 'Return one dental service' })

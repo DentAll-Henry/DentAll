@@ -2,7 +2,6 @@ import {
   BadRequestException,
   Injectable,
   InternalServerErrorException,
-  OnModuleInit,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { QueryFailedError, Repository } from 'typeorm';
@@ -13,6 +12,10 @@ import { deseases } from '../db/deseasesDB';
 import { Patient } from 'src/person/entities/patient.entity';
 import { ToothInfoDto } from './dtos/toothInfo.dto';
 import { ToothInfo } from './entities/toothInfo.entity';
+import { Treatments } from './entities/treatments.entity';
+import { DentalServ } from 'src/dentalServ/entities/dentalServ.entity';
+import { TreatmentDto } from './dtos/treatment.dto';
+import { ToothArray } from './dtos/toothArray.dto';
 
 @Injectable()
 export class DentalRecordRepository {
@@ -25,6 +28,10 @@ export class DentalRecordRepository {
     private readonly patientRepository: Repository<Patient>,
     @InjectRepository(ToothInfo)
     private readonly toothInfoRepository: Repository<ToothInfo>,
+    @InjectRepository(Treatments)
+    private readonly treatmentsRepository: Repository<Treatments>,
+    @InjectRepository(DentalServ)
+    private readonly dentalServRepository: Repository<DentalServ>,
   ) {}
 
   async init() {
@@ -58,13 +65,13 @@ export class DentalRecordRepository {
       const [records, total] = await this.dentalRecordRepository.findAndCount({
         skip: (page - 1) * limit,
         take: limit,
-        relations: ['deseases', 'toothInfo', 'patient'],
+        relations: ['deseases', 'toothInfo', 'patient', 'treatments'],
       });
       return records;
     } catch (error) {
       console.log(error);
 
-      throw new InternalServerErrorException();
+      throw new InternalServerErrorException('Error interno del servidor');
     }
   }
 
@@ -72,6 +79,7 @@ export class DentalRecordRepository {
     try {
       const history = await this.dentalRecordRepository.findOne({
         where: { id: id },
+        relations: ['deseases', 'toothInfo', 'patient', 'treatments'],
       });
       if (!history) {
         throw new BadRequestException(
@@ -83,7 +91,7 @@ export class DentalRecordRepository {
       if (error instanceof BadRequestException) {
         throw error;
       }
-      throw new InternalServerErrorException();
+      throw new InternalServerErrorException('Error interno del servidor');
     }
   }
 
@@ -98,12 +106,43 @@ export class DentalRecordRepository {
           'Paciente no encontrado para el id: ' + data.patient_id,
         );
       }
+      const newTreatments = [];
+      for (const treatment of data.treatments) {
+        const service = await this.dentalServRepository.findOne({
+          where: { id: treatment.dentalServ_id },
+        });
+        if (!service) {
+          throw new BadRequestException(
+            'Servicio dental no encontrado para el id: ' +
+              treatment.dentalServ_id,
+          );
+        }
+        newTreatments.push({
+          dentalServ: service.id,
+          ...treatment,
+          date: new Date(),
+        });
+      }
+      const treatments = [];
+      for (const treatment of newTreatments) {
+        const newTreatment = this.treatmentsRepository.create(treatment);
+        const savedTreatment =
+          await this.treatmentsRepository.save(newTreatment);
+
+        treatments.push(savedTreatment);
+      }
+
       const deseases = [];
       for (const desease of data.deseases) {
-        const des = await this.deseasesRepository.find({
-          where: { name: desease },
+        const des = await this.deseasesRepository.findOneBy({
+          name: desease,
         });
-        deseases.push(des[0]);
+        if (!des) {
+          throw new BadRequestException(
+            'Enfermedad no encontrada para el nombre: ' + desease,
+          );
+        }
+        deseases.push(des);
       }
 
       const newToothInfo = [];
@@ -117,6 +156,7 @@ export class DentalRecordRepository {
       data.toothInfo = newToothInfo;
       data.deseases = deseases;
       data.patient = data.patient_id;
+      data.treatments = treatments;
       const newRecord = this.dentalRecordRepository.create(data);
       const savedRecord = await this.dentalRecordRepository.save(newRecord);
       return savedRecord;
@@ -126,28 +166,55 @@ export class DentalRecordRepository {
           'Error: el paciente ya posee un historial cargado',
         );
       }
+      if (error instanceof BadRequestException) {
+        throw error;
+      }
       throw new InternalServerErrorException('Error interno del servidor');
     }
   }
 
-  async editDentalRecord(id: string, data: Partial<DentalRecordDto>) {
+  async editDentalRecord(id: string, data) {
+    //: Omit<DentalRecordDto, 'toothInfo' | 'patient_id' | 'treatments'>
     try {
       const dentalRecord = await this.dentalRecordRepository.findOne({
         where: { id: id },
-        relations: ['deseases', 'toothInfo'],
+        relations: ['deseases'],
       });
       if (!dentalRecord) {
         throw new BadRequestException(
           'No se encontro un historial para el id: ' + id,
         );
       }
-      // seguir aqui
-      Object.assign(dentalRecord, data);
-      const updatedRecord =
-        await this.dentalRecordRepository.save(dentalRecord);
-      return updatedRecord;
+      const updatedDeseases = [...dentalRecord.deseases];
+      for (const deseaseName of data.deseases) {
+        const deseaseExists = dentalRecord.deseases.some(
+          (d) => d.name === deseaseName,
+        );
+        if (!deseaseExists) {
+          const desease = await this.deseasesRepository.findOneBy({
+            name: deseaseName,
+          });
+          if (!desease) {
+            throw new BadRequestException(
+              'Enfermedad no encontrada para el nombre: ' + deseaseName,
+            );
+          }
+          updatedDeseases.push(desease);
+        }
+      }
+      const { deseases, ...otherData } = data;
+      const mergedRecord = this.dentalRecordRepository.merge(
+        dentalRecord,
+        otherData,
+      );
+      mergedRecord.deseases = updatedDeseases;
+      await this.dentalRecordRepository.save(mergedRecord);
+      return mergedRecord;
     } catch (error) {
-      console.log(error);
+      if (error instanceof BadRequestException) {
+        throw error;
+      }
+      throw new InternalServerErrorException('Error interno del servidor');
     }
   }
 
@@ -160,6 +227,79 @@ export class DentalRecordRepository {
       return record;
     } catch (error) {
       throw new InternalServerErrorException();
+    }
+  }
+
+  async signDentalRecord(id: string) {
+    try {
+      const record = await this.dentalRecordRepository.findOne({
+        where: { id: id },
+      });
+      if (!record) {
+        throw new BadRequestException(
+          'No se encontro un historial para el id: ' + id,
+        );
+      }
+      if (record.isSigned) {
+        throw new BadRequestException('El historial ya fue firmado');
+      }
+      record.isSigned = true;
+      await this.dentalRecordRepository.save(record);
+      return record;
+    } catch (error) {
+      if (error instanceof BadRequestException) {
+        throw error;
+      }
+      throw new InternalServerErrorException('Error interno del servidor');
+    }
+  }
+
+  async newDentalTreatment(id: string, data) {
+    try {
+      const dentalRecord = await this.getDentalRecordByID(id);
+      const savedTreatment = await this.treatmentsRepository.save({
+        dentalServ: data.dentalServ_id,
+        ...data,
+        date: new Date(),
+      });
+      dentalRecord.treatments.push(savedTreatment);
+      await this.dentalRecordRepository.save(dentalRecord);
+      return savedTreatment;
+    } catch (error) {
+      if (error instanceof BadRequestException) {
+        throw error;
+      }
+      throw new InternalServerErrorException('Error interno del servidor');
+    }
+  }
+
+  async editToothInfo(id: string, data: ToothArray) {
+    try {
+      const dentalRecord = await this.getDentalRecordByID(id);
+      const updatedTooths = [];
+      for (const toothInfo of data.data) {
+        for (const record of dentalRecord.toothInfo) {
+          let updatedTooth = {};
+          if (toothInfo.toothNumber == record.toothNumber) {
+            updatedTooth = await this.toothInfoRepository.merge(
+              record,
+              toothInfo,
+            );
+            await this.toothInfoRepository.save(updatedTooth);
+            updatedTooths.push(updatedTooth);
+          } else {
+            updatedTooth = await this.toothInfoRepository.save(toothInfo);
+          }
+          updatedTooths.push(updatedTooth);
+        }
+      }
+      const updatedRecord = this.dentalRecordRepository.merge(dentalRecord, {
+        toothInfo: updatedTooths,
+      });
+      await this.dentalRecordRepository.save(updatedRecord);
+      return { message: 'Se actualizo la informacion correctamente' };
+    } catch (error) {
+      throw error;
     }
   }
 }

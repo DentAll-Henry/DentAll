@@ -6,7 +6,7 @@ import { DentalServ } from './entities/dentalServ.entity';
 @Injectable()
 export class DentalServService {
   constructor(private readonly dentalServRepositiory: DentalServRepository) {}
- 
+
   async getDentalServ(): Promise<DentalServ[]> {
     return await this.dentalServRepositiory.getDentalServ();
   }
@@ -53,5 +53,15 @@ export class DentalServService {
 
   async updateIsActive(id: string): Promise<DentalServ> {
     return await this.dentalServRepositiory.updateIsActive(id);
+  }
+
+  async getDentalServByName(name: string) {
+    if (name.length < 3)
+      throw new BadRequestException('El nombre debe tener mas de 3 caracteres');
+    if (name.length > 50)
+      throw new BadRequestException(
+        'El nombre debe tener menos de 50 caracteres',
+      );
+    return await this.dentalServRepositiory.getDentalServByName(name);
   }
 }

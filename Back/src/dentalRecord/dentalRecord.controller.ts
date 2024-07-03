@@ -13,6 +13,9 @@ import { ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { DentalRecordDto } from './dtos/dentalRecord.dto';
 import { DentalRecordService } from './dentalRecord.service';
+import { DentalRecordDtoForEdit } from './dtos/dentalRecordDtoForEdit.dto';
+import { TreatmentDto } from './dtos/treatment.dto';
+import { ToothArray } from './dtos/toothArray.dto';
 
 @ApiTags('Dental-Record')
 @Controller('dental-record')
@@ -48,7 +51,7 @@ export class DentalRecordController {
   }
 
   @Post()
-  async createClinicalHistory(
+  async createDentalRecord(
     @Body() data: DentalRecordDto,
     @Res() res: Response,
   ) {
@@ -57,9 +60,47 @@ export class DentalRecordController {
     res.status(201).json(newDentalRecord);
   }
 
+  @Patch('sign/:id')
+  async signDentalRecord(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Res() res: Response,
+  ) {
+    await this.dentalRecordServService.signDentalRecord(id);
+    res.status(200).json({ message: 'Se firmo correctamente' });
+  }
+
+  @Patch('/new-treatment/:id')
+  async newDentalTreatment(
+    @Body()
+    data: TreatmentDto,
+    @Param('id', ParseUUIDPipe) id: string,
+    @Res() res: Response,
+  ) {
+    const newTreatment = await this.dentalRecordServService.newDentalTreatment(
+      id,
+      data,
+    );
+    res.status(200).json(newTreatment);
+  }
+
+  @Patch('/edit-tooth-info/:id')
+  async editToothInfo(
+    @Body()
+    data: ToothArray,
+    @Param('id', ParseUUIDPipe) id: string,
+    @Res() res: Response,
+  ) {
+    const editedToothInfo = await this.dentalRecordServService.editToothInfo(
+      id,
+      data,
+    );
+    res.status(200).json(editedToothInfo);
+  }
+
   @Patch(':id')
   async editDentalRecord(
-    @Body() data: Partial<DentalRecordDto>,
+    @Body()
+    data: DentalRecordDtoForEdit,
     @Param('id', ParseUUIDPipe) id: string,
     @Res() res: Response,
   ) {
