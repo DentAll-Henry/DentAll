@@ -76,3 +76,27 @@ export type Appointment = {
     price: string
   }
 }
+
+export interface Service {
+  id: string;
+  name: string;
+  price: string;
+  description: string;
+  img: string;
+  isActive: boolean;
+}
+
+export type Appointment = {
+  id: string;
+  date_time: string;
+  description: string;
+  patient: string;
+  service: {
+    description: string;
+    id: string;
+    img: string;
+    isActive: boolean;
+    name: string;
+    price: string;
+  };
+};
