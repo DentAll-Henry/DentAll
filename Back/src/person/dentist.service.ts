@@ -30,8 +30,8 @@ export class DentistsService {
     return this.dentistsRepository.dentistsBySpecialty(specialtyName);
   }
 
-  async dentistsByDentalServ(dentalServId: DentalServ['id']) {
-    return this.dentistsRepository.dentistsByDentalServ(dentalServId);
+  async dentistsByDentalServ(dentalServName: DentalServ['name']) {
+    return this.dentistsRepository.dentistsByDentalServ(dentalServName);
   }
 
   async dentistByPersonId(idperson: Person['id']) {
@@ -82,12 +82,18 @@ export class DentistsService {
     return this.dentistsRepository.changeDentistStatus(dentist);
   }
 
-  async addDentalServ(id: string, dentalServId: DentalServ['id']) {
-    const dentalServ: DentalServ = await this.dentalServService.getDentalServByID(dentalServId);
-    if (!dentalServ) throw new BadRequestException('No existe un servicio dental con ese ID.');
+  async addDentalServ(id: string, dentalServNames: { name: DentalServ['name']}[]) {
+    const dentalServNamesSet = new Set(dentalServNames.map(d => d.name));
+    const allDentalServices: DentalServ[] = await this.dentalServService.getDentalServ();
+    const dentalServices = allDentalServices.filter((dentalServ) => dentalServNamesSet.has(dentalServ.name))
+    // for(const dentalServName of dentalServNames) {
+    //   const dentalServ: DentalServ = await this.dentalServService.getDentalServByName(dentalServName.name)[0];
+    //   if (!dentalServ) throw new BadRequestException('No existe un servicio dental con ese ID.');
+    //   dentalServices.push(dentalServ)
+    // }
     const dentist: Dentist = await this.dentistById(id);
     if (!dentist) throw new BadRequestException('No existe dentista con ese ID.');
-    const dentistWithDentalServ: Dentist = await this.dentistsRepository.addDentalServ(dentist, dentalServ);
+    const dentistWithDentalServ: Dentist = await this.dentistsRepository.addDentalServ(dentist, dentalServices);
     return dentistWithDentalServ;
   }
 }

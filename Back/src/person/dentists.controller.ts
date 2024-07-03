@@ -11,7 +11,8 @@ import { CreateDentistDto } from './dtos/createDentist.dto';
 import { PaginationDto } from 'src/common/dto/paginationDto';
 import { LimitApiQueries, PageApiQueries } from 'src/config/swagger-config';
 import { SpecialtyNameDto } from './dtos/dentSpecialty.dto';
-import { DentalServIdDto } from './dtos/dentDentalServ.dto';
+import { DentalServNameDto } from './dtos/dentDentalServ.dto';
+import { ArrayDentalServNameDto } from './dtos/dentDentalServArray.dto';
 
 @ApiTags('Dentists')
 @Controller('dentists')
@@ -59,8 +60,8 @@ export class DentistsController {
     description: 'Returns all dentists with the dental service name specified.',
   })
   @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
-  async dentistsByDentalServ(@Query() dentalServ: DentalServIdDto) {
-    return this.dentistsService.dentistsByDentalServ(dentalServ.dentalServId)
+  async dentistsByDentalServ(@Query() dentalServ: DentalServNameDto) {
+    return this.dentistsService.dentistsByDentalServ(dentalServ.name)
   }
 
   @Get('person/:id')
@@ -105,10 +106,10 @@ export class DentistsController {
   }
 
   @Patch('adddentalserv/:id')
-  @ApiOperation({ summary: 'Add a dental service to the dentist.'})
-  @ApiResponse({ status: 201, description: 'Returns the dentist with the dental service added.'})
+  @ApiOperation({ summary: 'Add dental services to the dentist.'})
+  @ApiResponse({ status: 201, description: 'Returns the dentist with the dental services added.'})
   @ApiBadRequestResponse({ status: 400, description: 'Bad request.'})
-  async addDentalServ(@Param('id', ParseUUIDPipe) id: string, @Body() dentalServ: DentalServIdDto) {
-    return this.dentistsService.addDentalServ(id, dentalServ.dentalServId);
+  async addDentalServ(@Param('id', ParseUUIDPipe) id: string, @Body() dentalServ: ArrayDentalServNameDto) {
+    return this.dentistsService.addDentalServ(id, dentalServ.names);
   }
 }
