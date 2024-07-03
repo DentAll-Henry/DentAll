@@ -4,7 +4,6 @@ import { PatientsService } from './patient.service';
 import { LimitApiQueries, PageApiQueries } from 'src/config/swagger-config';
 import { PaginationDto } from 'src/common/dto/paginationDto';
 import { Patient } from './entities/patient.entity';
-import { Person } from './entities/person.entity';
 
 @ApiTags('Patients')
 @Controller('patients')
@@ -16,7 +15,7 @@ export class PatientsController {
   @ApiResponse({ status: 200, description: 'Return an array with all patients.' })
   @ApiQuery(PageApiQueries)
   @ApiQuery(LimitApiQueries)
-  async getAllPeople(@Query() paginationDto: PaginationDto): Promise<Patient[]> {
+  async getAllPatients(@Query() paginationDto: PaginationDto): Promise<Patient[]> {
     return this.patientsService.getAllPatients(paginationDto);
   }
 
