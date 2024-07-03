@@ -34,28 +34,28 @@ export class AppointmentsService {
       createAppointmentDto.service,
     );
     if (!dentServ)
-      throw new BadRequestException('Service not found with id provided');
+      throw new BadRequestException('Servicio no encontrado con el id proporcionado');
 
     const patient: Patient = await this.patientsService.patientById(createAppointmentDto.patient)
     if (!patient)
-      throw new BadRequestException('Patient not found with id provided');
+      throw new BadRequestException('No se ha encontrado al paciente con el id proporcionado');
 
     const currentDate = new Date();
     if (new Date(createAppointmentDto.date_time) <= currentDate) {
-      throw new BadRequestException('Appointment date must be a future date');
+      throw new BadRequestException('La fecha de la cita debe ser una fecha futura');
     }
 
     const appointment_created: Appointment =
       await this.appointmentsRepository.postAppointment(createAppointmentDto);
 
-    if (!appointment_created) throw new BadRequestException('Appointment not created');
+    if (!appointment_created) throw new BadRequestException('No se ha podido crear la cita');
 
     const appointment = await this.appointmentsRepository.getAppointmentById(appointment_created.id)
 
     //send email
     await this.mailService.sendMail(
       patient.person['email'],
-      'New appointment at DentAll',
+      'Nueva cita en DentAll',
       'new_appointment',
       {
         first_name: patient.person['first_name'],
@@ -91,7 +91,7 @@ export class AppointmentsService {
     const appointment: Appointment =
       await this.appointmentsRepository.getAppointmentById(id);
     if (!appointment)
-      throw new BadRequestException('Appointment not found with id provided');
+      throw new BadRequestException('No se ha encontrado la cita');
 
     return appointment;
   }
@@ -100,32 +100,32 @@ export class AppointmentsService {
     const appointment: Appointment =
       await this.appointmentsRepository.getAppointmentById(id);
     if (!appointment)
-      throw new BadRequestException('Appointment not found with id provided');
+      throw new BadRequestException('No se ha encontrado la cita');
 
     if (updateAppointmentDto.service) {
       const dentServ = await this.dentalServService.getDentalServByID(
         updateAppointmentDto.service,
       );
       if (!dentServ)
-        throw new BadRequestException('Service not found with id provided');
+        throw new BadRequestException('Servicio no encontrado con el id proporcionado');
 
       //updateAppointmentDto.service = dentServ.id
     }
 
     if (updateAppointmentDto.patient) {
       const patient = await this.patientsService.patientById(updateAppointmentDto.patient)
-      if (!patient) throw new BadRequestException('Patient not found with id provided');
+      if (!patient) throw new BadRequestException('Paciente no encontrado con el id proporcionado');
     }
 
     if (updateAppointmentDto.dentist_id) {
       const dentist = await this.dentistService.dentistById(updateAppointmentDto.dentist_id)
-      if (!dentist) throw new BadRequestException('Dentist not found with id provided');
+      if (!dentist) throw new BadRequestException('Dentista no encontrado con el id proporcionado');
     }
 
     if (updateAppointmentDto.date_time) {
       const currentDate = new Date();
       if (new Date(updateAppointmentDto.date_time) <= currentDate) {
-        throw new BadRequestException('Appointment date must be a future date');
+        throw new BadRequestException('La fecha de la cita debe ser una fecha futura');
       }
     }
 
@@ -141,11 +141,11 @@ export class AppointmentsService {
 
     const currentDate = new Date();
     if (new Date(date) < currentDate) {
-      throw new BadRequestException('Date must be a future date');
+      throw new BadRequestException('La fecha debe ser una fecha futura');
     }
 
     const dentist = await this.dentistService.dentistById(dentist_id)
-    if (!dentist) throw new BadRequestException('Dentist not found with id provided');
+    if (!dentist) throw new BadRequestException('Dentista no encontrado con el id proporcionado');
 
     const slots = await this.getSlots(date)
 
@@ -165,7 +165,7 @@ export class AppointmentsService {
     const end_time = await this.systemConfigsService.findOne('close_time')
     const duration = await this.systemConfigsService.findOne('appointment_duration')
 
-    if (!start_time || !end_time || !duration) throw new BadRequestException("Couldn't process this request. System configs not found");
+    if (!start_time || !end_time || !duration) throw new BadRequestException("No se ha podido obtener los horarios. System configs not found");
 
     const start_datetime = new Date(date);
     const [start_hour, start_minute] = start_time.value.split(':');
@@ -189,7 +189,7 @@ export class AppointmentsService {
 
   async getPendingAppointmentsByPatient(patient_id: string) {
     const patient = await this.patientsService.patientById(patient_id);
-    if (!patient) throw new BadRequestException('Patient not found with id provided');
+    if (!patient) throw new BadRequestException('Paciente no encontrado con el id proporcionado');
 
     return this.appointmentsRepository.getPendingAppointmentsByPatient(patient_id)
   }
@@ -198,10 +198,10 @@ export class AppointmentsService {
     const { patient, service } = createPendingAppointmentDto
 
     const patientData = this.patientsService.patientById(patient)
-    if (!patientData) throw new BadRequestException('Patient not found with id provided');
+    if (!patientData) throw new BadRequestException('Paciente no encontrado con el id proporcionado');
 
     const serviceData = this.dentalServService.getDentalServByID(service)
-    if (!serviceData) throw new BadRequestException('Service not found with id provided');
+    if (!serviceData) throw new BadRequestException('Servicio no encontrado con el id proporcionado');
 
     return this.appointmentsRepository.createPendingAppointmentRequest(createPendingAppointmentDto)
   }
@@ -210,7 +210,7 @@ export class AppointmentsService {
     const appointment: Appointment =
       await this.appointmentsRepository.getAppointmentById(id);
     if (!appointment)
-      throw new BadRequestException('Appointment not found with id provided');
+      throw new BadRequestException('No se ha encontrado la cita con el id proporcionado');
 
     console.log()
 
