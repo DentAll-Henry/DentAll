@@ -19,8 +19,20 @@ export class DentistsService {
     return this.dentistsRepository.getAllDentists(paginationDto);
   }
 
+  async get4BestRateDentists() {
+    return this.dentistsRepository.get4BestRateDentists();
+  }
+
+  async dentistsBySpecialty(specialtyName: Specialty['name']) {
+    return this.dentistsRepository.dentistsBySpecialty(specialtyName);
+  }
+
   async dentistById(id: string) {
     return this.dentistsRepository.dentistById(id);
+  }
+
+  async dentistByPersonId(idperson: Person['id']) {
+    return this.dentistsRepository.dentistByPersonId(idperson);
   }
 
   async createDentist(dentistInfo: {
