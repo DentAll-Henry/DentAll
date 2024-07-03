@@ -2,13 +2,13 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Dentist } from './entities/dentist.entity';
 import { Repository } from 'typeorm';
-import { PeopleService } from './person.service';
+import { Specialty } from 'src/specialty/specialty.entity';
+import { Person } from './entities/person.entity';
 
 @Injectable()
 export class DentistsRepository {
   constructor(
     @InjectRepository(Dentist) private dentistsRepository: Repository<Dentist>,
-    private readonly peopleService: PeopleService,
   ) {}
 
   async getAllDentists(paginationDto: { page: number; limit: number }) {
@@ -17,11 +17,39 @@ export class DentistsRepository {
       .createQueryBuilder('dentists')
       .leftJoinAndSelect('dentists.specialty', 'specialty')
       .leftJoinAndSelect('dentists.person', 'people')
-      // .leftJoinAndSelect('dentists.appointments', 'appointments')
+      .leftJoinAndSelect('dentists.appointments', 'appointments')
+      .leftJoinAndSelect('appointments.patient', 'patient')
       .skip((page - 1) * limit)
       .take(limit);
 
     return await queryBuilder.getMany();
+  }
+
+  async get4BestRateDentists() {
+    const queryBuilder = this.dentistsRepository
+      .createQueryBuilder('dentists')
+      .leftJoinAndSelect('dentists.specialty', 'specialty')
+      .leftJoinAndSelect('dentists.person', 'people')
+      .orderBy('dentists.rate', 'DESC')
+      .take(4);
+
+    return await queryBuilder.getMany();
+  }
+
+  async dentistsBySpecialty(specialtyName: Specialty['name']): Promise<Dentist[]> {
+    const dentists: Dentist[] = await this.dentistsRepository.find({
+      where: {
+        specialty: {
+          name: specialtyName,
+        }
+      },
+      relations: {
+        person: true,
+      }
+    })
+    if (dentists.length === 0) throw new BadRequestException('No hay dentistas para la especialidad indicada.')
+
+    return dentists;
   }
 
   async dentistById(id: string) {
@@ -32,10 +60,27 @@ export class DentistsRepository {
       relations: {
         specialty: true,
         person: true,
-        // appointments: true,
+        appointments: true,
       },
     });
     if (!dentist) throw new BadRequestException('No existe un dentista con el ID especificado.')
+    return dentist;
+  }
+
+  async dentistByPersonId(idperson: Person['id']) {
+    const dentist: Dentist = await this.dentistsRepository.findOne({
+      where: {
+        person: {
+          id: idperson,
+        }
+      },
+      relations: {
+        specialty: true,
+        person: true,
+        appointments: true,
+      },
+    });
+    if (!dentist) throw new BadRequestException('No existe un dentista con el ID de usuario especificado.')
     return dentist;
   }
 
