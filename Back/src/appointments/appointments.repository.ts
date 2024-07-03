@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Appointment } from './entities/appointment.entity';
@@ -104,7 +104,7 @@ export class AppointmentsRepository {
       this.appointment.update({ id }, updateAppointmentDto);
       return await this.getAppointmentById(id);
     } catch (error) {
-      throw InternalServerErrorException
+      throw new BadRequestException(error);
     }
 
   }
@@ -132,7 +132,7 @@ export class AppointmentsRepository {
 
   async removePendingAppointment(id: string) {
     const response = await this.pendingAppointmentRepository.delete({ id });
-    return response.affected ? 'Pending appointment deleted' : 'Pending appointment not found';
+    return response.affected ? 'Cita eliminada de pendientes' : 'Error al eliminar la cita de pendientes';
   }
 
   async removeAppointment(id: string) {
