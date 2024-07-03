@@ -32,7 +32,7 @@ export class Dentist {
   @JoinColumn({ name: 'person_id', referencedColumnName: 'id' })
   person: Person | Person['id'];
 
-  @OneToMany(() => Appointment, (appointment) => appointment.id)
+  @OneToMany(() => Appointment, (appointment) => appointment.dentist_id)
   appointments?: Appointment[];
 
   @Column({
