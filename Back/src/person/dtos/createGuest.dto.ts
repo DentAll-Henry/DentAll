@@ -6,7 +6,7 @@ import {
   Length,
 } from 'class-validator';
 
-export class CreatePersonDto {
+export class CreateGuestDto {
   @Length(2, 20, {
     message: 'First name length must be between 2 and 20 characters',
   })
@@ -36,15 +36,6 @@ export class CreatePersonDto {
     example: '123456789',
   })
   dni: string;
-
-  @Length(2, 50, {
-    message: 'Address length must be between 2 and 20 characters',
-  })
-  @ApiProperty({
-    description: 'Address length must be between 2 and 20 characters',
-    example: 'Avenida Alvarez Jonte 1234, CABA, Buenos Aires',
-  })
-  address: string;
 
   @IsDateString(
     {},

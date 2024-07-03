@@ -4,6 +4,7 @@ import { Dentist } from './entities/dentist.entity';
 import { Repository } from 'typeorm';
 import { Specialty } from 'src/specialty/specialty.entity';
 import { Person } from './entities/person.entity';
+import { DentalServ } from 'src/dentalServ/entities/dentalServ.entity';
 
 @Injectable()
 export class DentistsRepository {
@@ -17,6 +18,7 @@ export class DentistsRepository {
       .createQueryBuilder('dentists')
       .leftJoinAndSelect('dentists.specialty', 'specialty')
       .leftJoinAndSelect('dentists.person', 'people')
+      .leftJoinAndSelect('dentists.dental_services', 'dental_services')
       .leftJoinAndSelect('dentists.appointments', 'appointments')
       .leftJoinAndSelect('appointments.patient', 'patient')
       .skip((page - 1) * limit)
@@ -52,19 +54,20 @@ export class DentistsRepository {
     return dentists;
   }
 
-  async dentistById(id: string) {
-    const dentist: Dentist = await this.dentistsRepository.findOne({
+  async dentistsByDentalServ(dentalServId: Specialty['id']): Promise<Dentist[]> {
+    const dentists: Dentist[] = await this.dentistsRepository.find({
       where: {
-        id,
+        dental_services: {
+          id: dentalServId,
+        }
       },
       relations: {
-        specialty: true,
         person: true,
-        appointments: true,
-      },
-    });
-    if (!dentist) throw new BadRequestException('No existe un dentista con el ID especificado.')
-    return dentist;
+      }
+    })
+    if (dentists.length === 0) throw new BadRequestException('No hay dentistas para la especialidad indicada.')
+
+    return dentists;
   }
 
   async dentistByPersonId(idperson: Person['id']) {
@@ -84,6 +87,22 @@ export class DentistsRepository {
     return dentist;
   }
 
+  async dentistById(id: string) {
+    const dentist: Dentist = await this.dentistsRepository.findOne({
+      where: {
+        id,
+      },
+      relations: {
+        specialty: true,
+        person: true,
+        appointments: true,
+        dental_services: true,
+      },
+    });
+    if (!dentist) throw new BadRequestException('No existe un dentista con el ID especificado.')
+    return dentist;
+  }
+
   async createDentist(dentistInfo: Partial<Dentist>) {
     return await this.dentistsRepository.save(dentistInfo);
   }
@@ -95,5 +114,11 @@ export class DentistsRepository {
     }
     else dentist.is_active = true;
     return await this.dentistsRepository.save(dentist);
+  }
+
+  async addDentalServ(dentist: Dentist, dentalServ: DentalServ) {
+    dentist.dental_services.push(dentalServ);
+    const dentistWithDentalServ: Dentist = await this.dentistsRepository.save(dentist);
+    return dentistWithDentalServ;
   }
 }
