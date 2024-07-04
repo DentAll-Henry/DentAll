@@ -1,19 +1,26 @@
 "use client";
 import EditProfile from "@/components/EditProfile/EditProfile";
-import NavDash from "@/components/NavBar/navDash";
-import { userSession } from "@/types";
+
+import { RegisterProps} from "@/types";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const Account = () => {
-  const [userData, setUserData] = useState<userSession>();
+ const pathname = usePathname();
+ const [userData, setUserData] = useState<RegisterProps | any>(null);
 
-  useEffect(() => {
-    if (typeof window !== "undefined" && window.localStorage) {
-      const userData = localStorage.getItem("userSession");
-      setUserData(JSON.parse(userData!));
-    }
-  }, []);
+ useEffect(() => {
+   if (typeof window !== "undefined" && window.localStorage) {
+     const storedUserData = localStorage.getItem("userSession");
+     console.log("Stored User Data:", storedUserData);
+     if (storedUserData) {
+       const parsedUserData = JSON.parse(storedUserData);
+       console.log("Parsed User Data:", parsedUserData);
+       setUserData(parsedUserData); // Asegúrate de actualizar el estado correctamente
+     }
+   }
+ }, [pathname]);
 
   return (
     <div >
@@ -23,7 +30,7 @@ const Account = () => {
         <div className="flex justify-center items-center gap-4">
           <Image src="/images/user.svg" width={150} height={100} alt="" />
           <div className="">
-            <h2 className="text-3xl ">Jhon Doe {userData?.userData?.name}</h2>
+            <h2 className="text-3xl ">{userData?.userData?.name}</h2>
             <p>Paciente</p>
             <div className="flex mt-4">
               <Image src="/images/phone.svg" width={24} height={24} alt="" />
