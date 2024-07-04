@@ -1,8 +1,8 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsNotEmpty } from "class-validator";
-import { Roles } from "src/role/enums/roles.enum";
+import { Roles } from "../../role/enums/roles.enum";
 
-export class ChangeRoleDto {
+export class AddOrDelRoleDto {
     @IsNotEmpty()
     @ApiProperty({
         description: 'The name of a valid role.',
