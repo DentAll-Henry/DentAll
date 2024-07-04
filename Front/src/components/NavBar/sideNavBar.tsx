@@ -1,7 +1,6 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
 const SideNav = () => {
@@ -34,7 +33,7 @@ const SideNav = () => {
       <nav className="mt-5">
         <ul>
           <li className="py-2 px-4 m-4 rounded-xl hover:bg-zinc-600 group">
-            <Link className="flex gap-4" href="/page/dashboard_patients">
+            <Link className="flex gap-4" href="/page/patients">
               <Image
                 className="group-hover:fill-current text-white"
                 src="/images/home.svg"
@@ -48,7 +47,7 @@ const SideNav = () => {
           <li className="py-2 px-4 m-4 rounded-xl hover:bg-zinc-600 group">
             <Link
               className="flex gap-4"
-              href="/page/dashboard_patients/appointments"
+              href="/page/patients/appointments"
             >
               <Image
                 className="group-hover:fill-current text-white"

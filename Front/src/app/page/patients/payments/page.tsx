@@ -1,7 +1,5 @@
-import SearchBar from "@/components/SearchBar/SearchBar";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
 import NavDash from "@/components/NavBar/navDash";
 
 const page = () => {

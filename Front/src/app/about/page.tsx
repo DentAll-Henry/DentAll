@@ -1,5 +1,4 @@
-"use client";
-import React from "react";
+
 import MapComponent from "@/components/Maps/maps";
 import Image from "next/image";
 
