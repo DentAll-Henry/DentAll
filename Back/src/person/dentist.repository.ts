@@ -17,7 +17,8 @@ export class DentistsRepository {
     const queryBuilder = this.dentistsRepository
       .createQueryBuilder('dentists')
       .leftJoinAndSelect('dentists.specialty', 'specialty')
-      .leftJoinAndSelect('dentists.person', 'people')
+      .leftJoinAndSelect('dentists.person', 'person')
+      .leftJoinAndSelect('person.roles', 'roles')
       .leftJoinAndSelect('dentists.dental_services', 'dental_services')
       .leftJoinAndSelect('dentists.appointments', 'appointments')
       .leftJoinAndSelect('appointments.patient', 'patient')
@@ -59,7 +60,8 @@ export class DentistsRepository {
       where: {
         dental_services: {
           name: dentalServName,
-        }
+        },
+        is_active: true,
       },
       relations: {
         person: true,
@@ -99,6 +101,7 @@ export class DentistsRepository {
         dental_services: true,
       },
     });
+
     if (!dentist) throw new BadRequestException('No existe un dentista con el ID especificado.')
     return dentist;
   }
@@ -108,16 +111,16 @@ export class DentistsRepository {
   }
 
   async changeDentistStatus (dentist: Dentist) {
-    if (dentist.is_active === true) {
+    if (dentist.is_active) {
       dentist.is_active = false;
-
+    } else {
+      dentist.is_active = true;
     }
-    else dentist.is_active = true;
     return await this.dentistsRepository.save(dentist);
   }
 
   async addDentalServ(dentist: Dentist, dentalServices: DentalServ[]) {
-    dentist.dental_services.push(...dentalServices);
+    dentist.dental_services = [...dentalServices];
     const dentistWithDentalServ: Dentist = await this.dentistsRepository.save(dentist);
     return dentistWithDentalServ;
   }

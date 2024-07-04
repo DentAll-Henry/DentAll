@@ -175,11 +175,13 @@ export class MockAutoLoadService {
       let s = 1;
       while (s < 4) {
         const service = services[Math.floor(Math.random() * services.length)];
-        // const relation =await this.dentistService.addDentalServ(dent.id, service.id)
 
-        s++;
+        const relation = await this.dentistService.addDentalServ(dent.id, [{ name: service.name }])
+        s++
       }
     }
+
+    console.log('populated services for dentists');
   }
 
   async seedAppointments() {

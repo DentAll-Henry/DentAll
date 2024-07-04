@@ -70,7 +70,6 @@ export class DentistsController {
   })
   @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
   async dentistsByDentalServ(@Query() dentalServ: DentalServNameDto) {
-    console.log(dentalServ);
     return this.dentistsService.dentistsByDentalServ(dentalServ.name);
   }
 
