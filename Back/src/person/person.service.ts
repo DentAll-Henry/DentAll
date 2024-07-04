@@ -51,8 +51,8 @@ export class PeopleService {
     return person;
   }
 
-  async peopleByRole(roleName: Role['name']): Promise<Person[]> {
-    const people: Person[] = await this.peopleRepository.peopleByRole(roleName);
+  async peopleByRole(roleName: Role['name'], paginationDto: { page: number; limit: number }): Promise<Person[]> {
+    const people: Person[] = await this.peopleRepository.peopleByRole(roleName, paginationDto);
     return people;
   }
 
