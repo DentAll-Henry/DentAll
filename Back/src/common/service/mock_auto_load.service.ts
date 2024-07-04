@@ -50,6 +50,7 @@ export class MockAutoLoadService {
     await this.seedPersons();
     await this.seedHeadquarters();
     await this.seedAppointments();
+    await this.seedServicesForDentist(); 
   }
 
   async seedDentalServices() {
@@ -159,6 +160,25 @@ export class MockAutoLoadService {
       }
     } catch (error) {
       console.log('Error populating Headquarter', error);
+    }
+  }
+
+  async seedServicesForDentist() {
+    const dentists = await this.dentistService.getAllDentists({
+      page: 1,
+      limit: 20,
+    })
+
+    const services = await this.dentalservRepository.find();
+
+    for (const dent of dentists) {
+      let s = 1
+      while (s < 4) {
+        const service = services[Math.floor(Math.random() * services.length)];
+        const relation =await this.dentistService.addDentalServ(dent.id, service.id)
+        
+        s++
+      }
     }
   }
 
