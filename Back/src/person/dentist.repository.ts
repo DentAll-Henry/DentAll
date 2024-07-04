@@ -54,11 +54,11 @@ export class DentistsRepository {
     return dentists;
   }
 
-  async dentistsByDentalServ(dentalServId: Specialty['id']): Promise<Dentist[]> {
+  async dentistsByDentalServ(dentalServName: DentalServ['name']): Promise<Dentist[]> {
     const dentists: Dentist[] = await this.dentistsRepository.find({
       where: {
         dental_services: {
-          id: dentalServId,
+          name: dentalServName,
         }
       },
       relations: {
@@ -116,8 +116,8 @@ export class DentistsRepository {
     return await this.dentistsRepository.save(dentist);
   }
 
-  async addDentalServ(dentist: Dentist, dentalServ: DentalServ) {
-    dentist.dental_services.push(dentalServ);
+  async addDentalServ(dentist: Dentist, dentalServices: DentalServ[]) {
+    dentist.dental_services.push(...dentalServices);
     const dentistWithDentalServ: Dentist = await this.dentistsRepository.save(dentist);
     return dentistWithDentalServ;
   }

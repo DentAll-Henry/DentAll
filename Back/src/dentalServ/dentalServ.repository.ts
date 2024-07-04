@@ -101,4 +101,23 @@ export class DentalServRepository {
       throw new InternalServerErrorException();
     }
   }
+
+  async getDentalServByName(name: string) {
+    try {
+      const query = this.dentalServ.createQueryBuilder('dentalServ');
+      query.andWhere('dentalServ.name LIKE :name', { name: `%${name}%` });
+      const service = await query.getMany();
+      if (!service) {
+        throw new BadRequestException(
+          'No se encontro un servicio que coincida con el nombre: ' + name,
+        );
+      }
+      return service;
+    } catch (error) {
+      if (error instanceof BadRequestException) {
+        throw error;
+      }
+      throw new InternalServerErrorException('Error interno del servidor');
+    }
+  }
 }

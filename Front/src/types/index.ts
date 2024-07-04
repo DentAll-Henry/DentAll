@@ -62,15 +62,6 @@ export interface NewServiceErrorProps {
   img?: string;
 }
 
-export interface Service {
-  id: string;
-  name: string;
-  price: string;
-  description: string;
-  img: string;
-  isActive: boolean;
-}
-
 export type Appointment = {
   id: string;
   date_time: string;
@@ -85,3 +76,12 @@ export type Appointment = {
     price: string;
   };
 };
+
+export interface Service {
+  id: string;
+  name: string;
+  price: string;
+  description: string;
+  img: string;
+  isActive: boolean;
+}

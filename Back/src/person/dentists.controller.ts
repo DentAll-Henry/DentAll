@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, ParseUUIDPipe, Patch, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseUUIDPipe,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiOperation,
@@ -11,7 +20,8 @@ import { CreateDentistDto } from './dtos/createDentist.dto';
 import { PaginationDto } from 'src/common/dto/paginationDto';
 import { LimitApiQueries, PageApiQueries } from 'src/config/swagger-config';
 import { SpecialtyNameDto } from './dtos/dentSpecialty.dto';
-import { DentalServIdDto } from './dtos/dentDentalServ.dto';
+import { DentalServNameDto } from './dtos/dentDentalServ.dto';
+import { ArrayDentalServNameDto } from './dtos/dentDentalServArray.dto';
 
 @ApiTags('Dentists')
 @Controller('dentists')
@@ -27,7 +37,7 @@ export class DentistsController {
   @ApiQuery(PageApiQueries)
   @ApiQuery(LimitApiQueries)
   async getAllDentists(@Query() paginationDto: PaginationDto) {
-    return this.dentistsService.getAllDentists(paginationDto)
+    return this.dentistsService.getAllDentists(paginationDto);
   }
 
   @Get('best4')
@@ -49,7 +59,7 @@ export class DentistsController {
   })
   @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
   async dentistsBySpecialty(@Query() specialtyDto: SpecialtyNameDto) {
-    return this.dentistsService.dentistsBySpecialty(specialtyDto.specialtyName)
+    return this.dentistsService.dentistsBySpecialty(specialtyDto.specialtyName);
   }
 
   @Get('bydentalserv')
@@ -59,8 +69,9 @@ export class DentistsController {
     description: 'Returns all dentists with the dental service name specified.',
   })
   @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
-  async dentistsByDentalServ(@Query() dentalServ: DentalServIdDto) {
-    return this.dentistsService.dentistsByDentalServ(dentalServ.dentalServId)
+  async dentistsByDentalServ(@Query() dentalServ: DentalServNameDto) {
+    console.log(dentalServ);
+    return this.dentistsService.dentistsByDentalServ(dentalServ.name);
   }
 
   @Get('person/:id')
@@ -97,18 +108,27 @@ export class DentistsController {
   }
 
   @Patch('changestatus/:id')
-  @ApiOperation({ summary: 'Enable o disable a dentist with the specific ID.'})
-  @ApiResponse({ status: 201, description: 'Returns the dentist with the status changed.'})
-  @ApiBadRequestResponse({ status: 400, description: 'Bad request.'})
+  @ApiOperation({ summary: 'Enable o disable a dentist with the specific ID.' })
+  @ApiResponse({
+    status: 201,
+    description: 'Returns the dentist with the status changed.',
+  })
+  @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
   async changeDentistStatus(@Param('id', ParseUUIDPipe) id: string) {
     return this.dentistsService.changeDentistStatus(id);
   }
 
   @Patch('adddentalserv/:id')
-  @ApiOperation({ summary: 'Add a dental service to the dentist.'})
-  @ApiResponse({ status: 201, description: 'Returns the dentist with the dental service added.'})
-  @ApiBadRequestResponse({ status: 400, description: 'Bad request.'})
-  async addDentalServ(@Param('id', ParseUUIDPipe) id: string, @Body() dentalServ: DentalServIdDto) {
-    return this.dentistsService.addDentalServ(id, dentalServ.dentalServId);
+  @ApiOperation({ summary: 'Add dental services to the dentist.' })
+  @ApiResponse({
+    status: 201,
+    description: 'Returns the dentist with the dental services added.',
+  })
+  @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
+  async addDentalServ(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() dentalServ: ArrayDentalServNameDto,
+  ) {
+    return this.dentistsService.addDentalServ(id, dentalServ.names);
   }
 }

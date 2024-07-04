@@ -12,6 +12,7 @@ import { Deseases } from './deseases.entity';
 import { Patient } from 'src/person/entities/patient.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { ToothInfo } from './toothInfo.entity';
+import { Treatments } from './treatments.entity';
 
 @Entity({ name: 'dental_record' })
 export class DentalRecord {
@@ -55,7 +56,7 @@ export class DentalRecord {
     type: Array,
     example: 'Diabetes, Cardiac, Hypertension',
   })
-  deseases: Deseases | Deseases[];
+  deseases: Deseases[];
 
   @Column({ type: 'varchar', length: 50, nullable: true })
   @ApiProperty({
@@ -67,9 +68,19 @@ export class DentalRecord {
   })
   medication: string;
 
-  @OneToMany(() => DentalServ, (dentalServ) => dentalServ.id)
+  @Column({ type: 'boolean', default: false })
   @ApiProperty({
-    description: 'Dental Services',
+    type: Boolean,
+    example: true,
+    description: 'Is signed by the patient',
+    required: false,
+    default: false,
   })
-  services: DentalServ | DentalServ[];
+  isSigned: boolean;
+
+  @OneToMany(() => Treatments, (treatment) => treatment.record)
+  @ApiProperty({
+    description: 'Array of Treatments',
+  })
+  treatments: Treatments[];
 }

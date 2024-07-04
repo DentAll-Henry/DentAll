@@ -6,8 +6,8 @@ import {
   IsString,
   MaxLength,
 } from 'class-validator';
-import { ToothNumber } from '../entities/toothNumber.enum';
-import { Paint } from '../entities/paint.enum';
+import { ToothNumber } from '../enum/toothNumber.enum';
+import { Paint } from '../enum/paint.enum';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class ToothInfoDto {
@@ -25,9 +25,9 @@ export class ToothInfoDto {
   @IsNotEmpty()
   @IsEnum(ToothNumber)
   @ApiProperty({
-    type: ToothNumber,
+    type: Number,
     description: 'Tooth number',
-    example: '',
+    example: 15,
     required: true,
   })
   toothNumber: ToothNumber;
@@ -55,7 +55,7 @@ export class ToothInfoDto {
   @IsOptional()
   @IsEnum(Paint)
   @ApiProperty({
-    type: Paint,
+    type: String,
     description: 'Top diagram of the tooth',
     example: 'red',
     required: false,
@@ -65,7 +65,7 @@ export class ToothInfoDto {
   @IsOptional()
   @IsEnum(Paint)
   @ApiProperty({
-    type: Paint,
+    type: String,
     description: 'Bottom diagram of the tooth',
     example: 'red',
     required: false,
@@ -75,7 +75,7 @@ export class ToothInfoDto {
   @IsOptional()
   @IsEnum(Paint)
   @ApiProperty({
-    type: Paint,
+    type: String,
     description: 'Left diagram of the tooth',
     example: 'red',
     required: false,
@@ -85,7 +85,7 @@ export class ToothInfoDto {
   @IsOptional()
   @IsEnum(Paint)
   @ApiProperty({
-    type: Paint,
+    type: String,
     description: 'Right diagram of the tooth',
     example: 'red',
     required: false,
@@ -95,7 +95,7 @@ export class ToothInfoDto {
   @IsOptional()
   @IsEnum(Paint)
   @ApiProperty({
-    type: Paint,
+    type: String,
     description: 'Center diagram of the tooth',
     example: 'red',
     required: false,
