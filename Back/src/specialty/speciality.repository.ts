@@ -25,20 +25,28 @@ export class SpecialtyRepository {
       });
     } catch (error) {
       throw new InternalServerErrorException(
-        "There're not specialty with that id",
+        `No hay especialidad con el id ${id}`,
       );
     }
   }
 
   async getSpecialityByName(name: string) {
-    return await this.specialtyRepository.findOne({ where: { name } });
+    try {
+      return await this.specialtyRepository.findOne({ where: { name } });
+    } catch (error) {
+      throw new InternalServerErrorException(
+        `No hay especialidad con el nombre ${name}`,
+      );
+    }
   }
 
   async removeSpecialty(id: string) {
     try {
       return await this.specialtyRepository.delete({ id });
     } catch (error) {
-      throw new InternalServerErrorException("Can't delete specialty");
+      throw new InternalServerErrorException(
+        'No se pudo borrar la especialidad',
+      );
     }
   }
 
@@ -48,7 +56,9 @@ export class SpecialtyRepository {
       const saved = await this.specialtyRepository.save(newSpeciality);
       return this.getSpecialityById(saved.id);
     } catch (error) {
-      throw new InternalServerErrorException("Can't create specialty");
+      throw new InternalServerErrorException(
+        'No se pudo crear la especialidad',
+      );
     }
   }
 
@@ -57,10 +67,12 @@ export class SpecialtyRepository {
       const updated = await this.specialtyRepository.save(specialty);
       console.log(updated);
 
-      return 'Specialty updated successfully';
+      return 'Esecialidad actualizada correctamente';
     } catch (error) {
       console.log(error);
-      throw new InternalServerErrorException("Can't update specialty");
+      throw new InternalServerErrorException(
+        'No se pudo actualizar la especialidad',
+      );
     }
   }
 }
