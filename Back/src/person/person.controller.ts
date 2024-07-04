@@ -23,7 +23,7 @@ import {
 import { LimitApiQueries, PageApiQueries } from '../config/swagger-config';
 import { PaginationDto } from '../common/dto/paginationDto';
 import { Guest } from './entities/guest.entity';
-import { ChangeRoleDto } from './dtos/changeRoles.dto';
+import { AddOrDelRoleDto } from './dtos/addOrDelRole.dto';
 import { AuthByEmailDto } from '../auth/dtos/authByEmail.dto';
 import { EditPersonDto } from './dtos/editPerson.dto';
 import { DRoles } from '../decorators/roles.decorator';
@@ -166,7 +166,7 @@ export class PeopleController {
   @ApiBadRequestResponse({ status: 400, description: 'Role does not exist.' })
   async addRole(
     @Param('idperson', ParseUUIDPipe) idperson: string,
-    @Body() roleName: ChangeRoleDto,
+    @Body() roleName: AddOrDelRoleDto,
   ) {
     return await this.peopleService.addRole(idperson, roleName);
   }
@@ -180,7 +180,7 @@ export class PeopleController {
   @ApiBadRequestResponse({ status: 400, description: 'Role does not exist.' })
   async delRole(
     @Param('idperson', ParseUUIDPipe) idperson: string,
-    @Body() roleName: ChangeRoleDto,
+    @Body() roleName: AddOrDelRoleDto,
   ) {
     return await this.peopleService.delRole(idperson, roleName);
   }
