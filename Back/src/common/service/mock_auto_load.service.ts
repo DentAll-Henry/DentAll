@@ -177,7 +177,7 @@ export class MockAutoLoadService {
       while (s < 4) {
         const service = services[Math.floor(Math.random() * services.length)];
 
-        const relation = await this.dentistService.addDentalServ(dent.id, [{ name: service.name }])
+        const relation = await this.dentistService.addDentalServ(dent.id, [{ name: service.name }, { name: "Consulta de valoración" }])
         s++
       }
     }
