@@ -124,9 +124,8 @@ export class AppointmentsController {
   @ApiOperation({ summary: 'Get available slots for a given date and dentist' })
   @ApiResponse({ status: 200, description: 'Return an array with all available slots.' })
   @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
-  getAvailableSlots(@Body() getAvailableSlotsDto: GetAvailableSlotsDto) {
-    console.log(getAvailableSlotsDto)
-    return this.appointmentsService.getAvailableSlots(getAvailableSlotsDto);
+  async getAvailableSlots(@Body() getAvailableSlotsDto: GetAvailableSlotsDto) {
+    return await this.appointmentsService.getAvailableSlots(getAvailableSlotsDto);
   }
 
   @Delete(':appointment_id')

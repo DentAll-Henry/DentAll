@@ -137,26 +137,42 @@ export class AppointmentsService {
   }
 
   async getAvailableSlots(getAvailableSlotsDto: GetAvailableSlotsDto) {
-    const { date, dentist_id } = getAvailableSlotsDto
-
-    const currentDate = new Date();
-    if (new Date(date) < currentDate) {
-      throw new BadRequestException('La fecha debe ser una fecha futura');
-    }
+    const { start_date, end_date, dentist_id } = getAvailableSlotsDto
 
     const dentist = await this.dentistService.dentistById(dentist_id)
     if (!dentist) throw new BadRequestException('Dentista no encontrado con el id proporcionado');
 
-    const slots = await this.getSlots(date)
+    const currentDate = new Date()
 
-    const available = await Promise.all(slots.map(async slot => {
-      const appointment = await this.appointmentsRepository.getAppointmentsByDate(slot, dentist_id)
+    const dates = []
+    let startDate = new Date(start_date)
+    const endDate = new Date(end_date)
 
-      if (!appointment) return new Date(slot)
+    while (startDate <= endDate) {
+      const slotsEnFecha = {
+        date: new Date(startDate),
+        slots: await this.getSlots(startDate)
+      }
+      dates.push(slotsEnFecha)
+      startDate.setDate(startDate.getDate() + 1)
+    }
+    const available_slots = []
 
-    }))
+    for (const fecha of dates) {
+      const available_slots_day = await Promise.all(fecha.slots.map(async (slot: Date) => {
+        const appointment = await this.appointmentsRepository.getAppointmentsByDate(slot, dentist_id)
 
-    return available.filter(slot => slot !== undefined)
+        if (!appointment) {
+          return slot
+        }
+      }))
+
+      available_slots.push(available_slots_day)
+    }
+
+    return {
+      availabity: available_slots.map(slot_day => slot_day.filter((slot: Date) => slot !== undefined))
+    }
   }
 
   async getSlots(date: Date) {
