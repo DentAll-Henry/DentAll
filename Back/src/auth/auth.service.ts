@@ -7,6 +7,8 @@ import { ConfigService } from '@nestjs/config';
 import { PeopleService } from '../person/person.service';
 import { Person } from '../person/entities/person.entity';
 import { ComparePass } from '../utils/comparePass';
+import { Roles } from 'src/role/enums/roles.enum';
+import { Role } from 'src/role/entities/role.entity';
 
 @Injectable()
 export class AuthService {
@@ -67,7 +69,37 @@ export class AuthService {
     const userPayload = {
       id: person.id,
       email: credential.email,
-      roles: person.roles[0].name, //! Revisar cambio de rol
+      roles: person.roles[0].name,
+    };
+
+    const token = this.jwtService.sign(userPayload, {
+      secret: this.configService.get<string>('JWT_SECRET'),
+    });
+
+    return { succes: 'Authorized acces', token, userData: person };
+  }
+
+  async changeRole(changeRoleInfo: { id_person: string, new_role: Roles}) {
+    const { id_person, new_role } = changeRoleInfo;
+
+    const person: Person = await this.peopleService.personById(id_person);
+
+    if (!person) throw new BadRequestException('No se encuentra registro para la persona indicada.');
+
+    let hasRole: boolean = false;
+
+    for(const role of person.roles) {
+      if(role.name === new_role) {
+        hasRole = true;
+      }
+    }
+
+    if(!hasRole) throw new BadRequestException(`No tiene permiso para cambiar al rol ${new_role}`);
+
+    const userPayload = {
+      id: person.id,
+      email: person.email,
+      roles: new_role,
     };
 
     const token = this.jwtService.sign(userPayload, {
