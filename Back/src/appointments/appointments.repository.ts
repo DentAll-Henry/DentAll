@@ -43,7 +43,7 @@ export class AppointmentsRepository {
     const queryBuilder = this.appointment.createQueryBuilder('appointment')
       .leftJoinAndSelect('appointment.service', 'service')
       .leftJoinAndSelect('appointment.patient', 'patient')
-      .where('appointment.dentist = :dentist_id', { dentist_id })
+      .where('appointment.dentist_id = :dentist_id', { dentist_id })
       .skip((page - 1) * limit)
       .take(limit);
 
@@ -110,7 +110,7 @@ export class AppointmentsRepository {
   }
 
   async getAppointmentsByDate(date_time: Date, dentist_id: string) {
-    return await this.appointment.findOne({ where: { date_time, dentist_id } });
+    return await this.appointment.findOne({ where: { date_time, dentist_id: { id: dentist_id } } });
   }
 
   async getPendingAppointmentById(pending_appointment_id: string) {
