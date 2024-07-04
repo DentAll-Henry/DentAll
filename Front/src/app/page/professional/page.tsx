@@ -1,5 +1,4 @@
 import Image from "next/image";
-import React from "react";
 import SearchBar from "@/components/SearchBar/SearchBar";
 import Link from "next/link";
 

@@ -1,35 +1,15 @@
-"use client";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
-import SearchBar from "@/components/SearchBar/SearchBar";
+
 import Link from "next/link";
 import NavDash from "@/components/NavBar/navDash";
-import { usePathname } from "next/navigation";
-import { RegisterProps } from "@/types";
 
 const page = () => {
-  const pathname = usePathname();
-  const [userData, setUserData] = useState<RegisterProps | any>(null);
-
-  useEffect(() => {
-    if (typeof window !== "undefined" && window.localStorage) {
-      const storedUserData = localStorage.getItem("userSession");
-      console.log("Stored User Data:", storedUserData);
-      if (storedUserData) {
-        const parsedUserData = JSON.parse(storedUserData);
-        console.log("Parsed User Data:", parsedUserData);
-        setUserData(parsedUserData); // Asegúrate de actualizar el estado correctamente
-      }
-    }
-  }, [pathname]);
-  console.log(userData);
   return (
     <div className="w-[80%] h-screen text-white ml-[20%] relative">
       <NavDash />
       <div className="m-4 mt-24">
         <h2 className="text-[58px] text-center text-white font-bold leading-normal">
-          <span className="text-[#00CE90]">Bienvenido/a </span>{" "}
-          {/* {userData.userData.first_name} */}
+          <span className="text-[#00CE90]">Bienvenido/a </span>
         </h2>
       </div>
       <div className="ml-12 text-xl ">
@@ -74,7 +54,7 @@ const page = () => {
               <p>Historial Clinico</p>
             </div>
           </Link>
-          {/* <Link href="/page/dashboard_1/citas">
+          <Link href="/page/dashboard_1/citas">
             <div className="flex-col bg-amber-800 w-[200px] h-[150px] rounded-md border flex justify-center items-center hover:scale-105 transition-transform duration-300">
               <Image
                 className="group-hover:fill-current text-white"
@@ -109,7 +89,7 @@ const page = () => {
               />
               <p>Aun No Se Sabe</p>
             </div>
-          </Link> */}
+          </Link> 
         </div>
       </div>
       <div className="flex justify-end items-end w-full absolute bottom-0 z-[-1] ">
