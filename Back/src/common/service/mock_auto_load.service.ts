@@ -210,13 +210,13 @@ export class MockAutoLoadService {
 
       const randomTime = today.getTime() + Math.random() * (threeDaysFromNow.getTime() - today.getTime());
 
-      /* const appointment = await this.appointmentService.create({
+      const appointment = await this.appointmentService.create({
         dentist_id: dentista.id,
         patient: patient.id,
         service: serv.id,
         date_time: new Date(randomTime),
         description: 'test',
-      }) */
+      })
     });
 
   }
