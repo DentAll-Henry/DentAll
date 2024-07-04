@@ -16,8 +16,8 @@ const Account = () => {
   }, []);
 
   return (
-    <div className="w-[80%] h-screen text-white ml-[20%] relative">
-      <NavDash />
+    <div >
+      
 
       <div className="m-8 mt-24 bg-darkD-500 flex flex-row justify-between p-4">
         <div className="flex justify-center items-center gap-4">
