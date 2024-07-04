@@ -61,8 +61,8 @@ const RenderCitas = () => {
   }, [loggin, user]);
 
   return (
-    <div className="w-[80%] h-screen bg-darkD-600 text-white ml-[20%]">
-      <NavDash />
+    <div >
+      
       <div className="flex justify-between items-center m-8 mt-24">
         <h2 className="text-[58px] text-center text-white font-bold leading-normal">
           Mis <span className="text-[#00CE90]">citas</span>
