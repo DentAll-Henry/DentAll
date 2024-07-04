@@ -5,16 +5,13 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { QueryFailedError, Repository } from 'typeorm';
-import { DentalRecordDto } from './dtos/dentalRecord.dto';
 import { DentalRecord } from './entities/dentalRecord.entity';
 import { Deseases } from './entities/deseases.entity';
 import { deseases } from '../db/deseasesDB';
 import { Patient } from 'src/person/entities/patient.entity';
-import { ToothInfoDto } from './dtos/toothInfo.dto';
 import { ToothInfo } from './entities/toothInfo.entity';
 import { Treatments } from './entities/treatments.entity';
 import { DentalServ } from 'src/dentalServ/entities/dentalServ.entity';
-import { TreatmentDto } from './dtos/treatment.dto';
 import { ToothArray } from './dtos/toothArray.dto';
 
 @Injectable()
@@ -69,8 +66,6 @@ export class DentalRecordRepository {
       });
       return records;
     } catch (error) {
-      console.log(error);
-
       throw new InternalServerErrorException('Error interno del servidor');
     }
   }
@@ -163,7 +158,7 @@ export class DentalRecordRepository {
     } catch (error) {
       if (error instanceof QueryFailedError) {
         throw new BadRequestException(
-          'Error: el paciente ya posee un historial cargado',
+          'El paciente ya posee un historial cargado',
         );
       }
       if (error instanceof BadRequestException) {
@@ -226,7 +221,7 @@ export class DentalRecordRepository {
       });
       return record;
     } catch (error) {
-      throw new InternalServerErrorException();
+      throw new InternalServerErrorException('Error interno del servidor');
     }
   }
 
@@ -299,7 +294,10 @@ export class DentalRecordRepository {
       await this.dentalRecordRepository.save(updatedRecord);
       return { message: 'Se actualizo la informacion correctamente' };
     } catch (error) {
-      throw error;
+      if (error instanceof BadRequestException) {
+        throw error;
+      }
+      throw new InternalServerErrorException('Error interno del servidor');
     }
   }
 }

@@ -18,7 +18,7 @@ export class DentalServRepository {
     try {
       return await this.dentalServ.find();
     } catch (error) {
-      throw new InternalServerErrorException();
+      throw new InternalServerErrorException('Error interno del servidor');
     }
   }
 
@@ -26,14 +26,16 @@ export class DentalServRepository {
     try {
       const service = await this.dentalServ.findOne({ where: { id: id } });
       if (!service) {
-        throw new BadRequestException('Service not found for id: ' + id);
+        throw new BadRequestException(
+          'Servicio no encontrado para el id: ' + id,
+        );
       }
       return service;
     } catch (error) {
       if (error instanceof BadRequestException) {
         throw error;
       }
-      throw new InternalServerErrorException();
+      throw new InternalServerErrorException('Error interno del servidor');
     }
   }
 
@@ -52,7 +54,7 @@ export class DentalServRepository {
       if (error instanceof QueryFailedError) {
         throw new BadRequestException(error);
       }
-      throw new InternalServerErrorException();
+      throw new InternalServerErrorException('Error interno del servidor');
     }
   }
 
@@ -63,7 +65,7 @@ export class DentalServRepository {
       return result;
     } catch (error) {
       if (error instanceof QueryFailedError) {
-        throw new BadRequestException('Service already exists');
+        throw new BadRequestException('El servicio ya existe');
       }
       throw new InternalServerErrorException();
     }
@@ -82,7 +84,7 @@ export class DentalServRepository {
       if (error instanceof BadRequestException) {
         throw error;
       }
-      throw new InternalServerErrorException();
+      throw new InternalServerErrorException('Error interno del servidor');
     }
   }
 
@@ -95,10 +97,13 @@ export class DentalServRepository {
       const result = await this.dentalServ.save(updatedService);
       return result;
     } catch (error) {
+      if (error instanceof BadRequestException) {
+        throw error;
+      }
       if (error.response) {
         throw error;
       }
-      throw new InternalServerErrorException();
+      throw new InternalServerErrorException('Error interno del servidor');
     }
   }
 

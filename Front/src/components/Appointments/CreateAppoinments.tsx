@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
@@ -46,7 +45,7 @@ const CreateAppointment = () => {
     dentist: "",
   });
 
-  const getData = async () => {
+ const getData = async () => {
     if (user?.id) {
       const patient = await axios.get(
         `${enviroment.apiUrl}/patients/person/${user.id}`

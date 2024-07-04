@@ -115,6 +115,27 @@ export class PeopleController {
     return person;
   }
 
+  @Get('byrole/:role')
+  @ApiOperation({ summary: 'Get people by role, the searching includes deleted ones.' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns people with the specified role.',
+  })
+  @ApiBadRequestResponse({
+    status: 400,
+    description: 'Bad request.',
+  })
+  @ApiQuery(PageApiQueries)
+  @ApiQuery(LimitApiQueries)
+  async peopleByRole(@Param('role') role: Roles, @Query() paginationDto: PaginationDto) {
+    const people: Person[] = await this.peopleService.peopleByRole(role, paginationDto);
+    if (people.length === 0)
+      throw new BadRequestException(
+        `No existen usuarios con el rol ${role}.`,
+      );
+    return people;
+  }
+
   @Get(':idperson')
   @ApiOperation({
     summary: 'Get a person by ID, the searching includes deleted ones.',
