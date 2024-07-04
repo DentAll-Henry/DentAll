@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { enviroment } from "@/utils/config";
-
+import NavDash from "../NavBar/navDash"; // Asegúrate de que la ruta sea correcta
+import SideNavBar from "../NavBar/sideNavBar"; // Asegúrate de que la ruta sea correcta
 
 type User = {
   id: string;
@@ -116,9 +117,7 @@ const CreateAppointment = () => {
 
       if (response.status === 201) {
         alert("Cita creada con éxito");
-        router.push("/somewhere"); // Cambia "/somewhere" a la ruta adecuada
-      } else {
-        setErrorMessage("Error al crear la cita");
+        router.push("/somewhere");
       }
     } catch (error) {
       console.error("Error creating appointment:", error);
@@ -127,72 +126,80 @@ const CreateAppointment = () => {
   };
 
   return (
-    <div className="w-full h-screen flex justify-center items-center bg-darkD-600 text-white">
-      <form onSubmit={handleSubmit} className="bg-gray-700 p-8 rounded-md">
-        <h3 className="text-white font-bold mb-4">Crear Nueva Cita</h3>
-        {errorMessage && <p className="text-red-500 mb-4">{errorMessage}</p>}
-        <div className="mb-4">
-          <label className="text-white">Tipo de Consulta</label>
-          <select
-            value={consultationType}
-            onChange={handleServiceChange}
-            className="w-full p-2 rounded-md text-black"
-          >
-            <option value="" disabled hidden>
-              Selecciona una opción
-            </option>
-            <option value="Odontología general">Odontología general</option>
-            {pending.map((p) => (
-              <option key={p.service.id} value={p.service.name}>
-                {p.service.name}
-              </option>
-            ))}
-          </select>
+    <div className="flex">
+      <SideNavBar />
+      <div className="flex-1">
+        <NavDash />
+        <div className="w-full h-screen flex justify-center items-center bg-darkD-600 text-white ml-[100%]">
+          <form onSubmit={handleSubmit} className="bg-gray-700 p-8 rounded-md">
+            <h3 className="text-white font-bold mb-4">Crear Nueva Cita</h3>
+            {errorMessage && (
+              <p className="text-red-500 mb-4">{errorMessage}</p>
+            )}
+            <div className="mb-4">
+              <label className="text-white">Tipo de Consulta</label>
+              <select
+                value={consultationType}
+                onChange={handleServiceChange}
+                className="w-full p-2 rounded-md text-black"
+              >
+                <option value="" disabled hidden>
+                  Selecciona una opción
+                </option>
+                <option value="Odontología general">Odontología general</option>
+                {pending.map((p) => (
+                  <option key={p.service.id} value={p.service.name}>
+                    {p.service.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="mb-4">
+              <label className="text-white">Dentista</label>
+              <select
+                value={dentist}
+                onChange={handleDentistChange}
+                className="w-full p-2 rounded-md text-black"
+              >
+                <option value="" disabled hidden>
+                  Selecciona un profesional
+                </option>
+                {dentists.map((p) => (
+                  <option key={p.id} value={p.id}>
+                    {p.person.first_name} {p.person.last_name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="mb-4">
+              <label className="text-white">Fecha</label>
+              <input
+                type="date"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+                className="w-full p-2 rounded-md text-black"
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label className="text-white">Hora</label>
+              <input
+                type="time"
+                value={time}
+                onChange={(e) => setTime(e.target.value)}
+                className="w-full p-2 rounded-md text-black"
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              className="bg-green-500 text-white p-2 rounded-md w-full"
+            >
+              Crear Cita
+            </button>
+          </form>
         </div>
-        <div className="mb-4">
-          <label className="text-white">Dentista</label>
-          <select
-            value={dentist}
-            onChange={handleDentistChange}
-            className="w-full p-2 rounded-md text-black"
-          >
-            <option value="" disabled hidden>
-              Selecciona un profesional
-            </option>
-            {dentists.map((p) => (
-              <option key={p.id} value={p.id}>
-                {p.person.first_name} {p.person.last_name}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="mb-4">
-          <label className="text-white">Fecha</label>
-          <input
-            type="date"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-            className="w-full p-2 rounded-md text-black"
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label className="text-white">Hora</label>
-          <input
-            type="time"
-            value={time}
-            onChange={(e) => setTime(e.target.value)}
-            className="w-full p-2 rounded-md text-black"
-            required
-          />
-        </div>
-        <button
-          type="submit"
-          className="bg-green-500 text-white p-2 rounded-md w-full"
-        >
-          Crear Cita
-        </button>
-      </form>
+      </div>
     </div>
   );
 };
