@@ -41,8 +41,8 @@ export class MockAutoLoadService {
     private headquarterRepository: Repository<Headquarter>,
     @InjectRepository(Cords)
     private cordsRepository: Repository<Cords>,
-    private readonly specialityService: SpecialtyService
-  ) { }
+    private readonly specialityService: SpecialtyService,
+  ) {}
 
   async onModuleInit() {
     await this.seedDentalServices();
@@ -54,7 +54,6 @@ export class MockAutoLoadService {
   }
 
   async seedDentalServices() {
-
     const dental_services = dentalServicesDB;
 
     const especialidades = dental_services.reduce((acc, curr) => {
@@ -78,15 +77,15 @@ export class MockAutoLoadService {
     }
 
     for (const especialidad of Object.keys(especialidades)) {
-      const speciality = await this.specialityService.SpecialtyByName(especialidad);
-      if (speciality === "Specialty not found") {
+      const speciality =
+        await this.specialityService.SpecialtyByName(especialidad);
+      if (speciality === 'Specialty not found') {
         for (const speciality of specialitiesDB) {
           if (speciality.name === especialidad) {
-
             await this.specialityService.createSpecialty({
               name: especialidad,
               services: especialidades[especialidad],
-              description: speciality.description
+              description: speciality.description,
             });
             break;
           }
@@ -131,10 +130,11 @@ export class MockAutoLoadService {
           const p = await this.personService.personById(person.id);
           if (parseInt(p.phone) % 2 === 0) {
             //await this.personService.addRole(p.id, { roleName: Roles.DENTIST });
-            await this.dentistService.createDentist({ personId: p.id, rate: 4 })
-            console.log(
-              `<${p.first_name} ${p.last_name}> saved as dentist`,
-            );
+            await this.dentistService.createDentist({
+              personId: p.id,
+              rate: 4,
+            });
+            console.log(`<${p.first_name} ${p.last_name}> saved as dentist`);
           }
         });
       } catch (error) {
@@ -167,12 +167,12 @@ export class MockAutoLoadService {
     const dentists = await this.dentistService.getAllDentists({
       page: 1,
       limit: 20,
-    })
+    });
 
     const services = await this.dentalservRepository.find();
 
     for (const dent of dentists) {
-      let s = 1
+      let s = 1;
       while (s < 4) {
         const service = services[Math.floor(Math.random() * services.length)];
 
@@ -190,16 +190,16 @@ export class MockAutoLoadService {
       limit: 10,
     });
     const patients = await this.patientRepository.find();
-    const dentists = persons.filter(person => {
-
-      return parseInt(person.phone) % 2 === 0
+    const dentists = persons.filter((person) => {
+      return parseInt(person.phone) % 2 === 0;
     });
     const services = await this.dentalservRepository.find();
 
     patients.map(async (patient) => {
       const serv = services[Math.floor(Math.random() * services.length)];
       const dentist = dentists[Math.floor(Math.random() * dentists.length)];
-      const dentista = await this.dentistRepository.createQueryBuilder('dentist')
+      const dentista = await this.dentistRepository
+        .createQueryBuilder('dentist')
         .leftJoinAndSelect('dentist.person', 'person')
         .where('dentist.person = :person_id', { person_id: dentist.id })
         .getOne();
@@ -208,7 +208,9 @@ export class MockAutoLoadService {
       const threeDaysFromNow = new Date(today);
       threeDaysFromNow.setDate(today.getDate() + 3);
 
-      const randomTime = today.getTime() + Math.random() * (threeDaysFromNow.getTime() - today.getTime());
+      const randomTime =
+        today.getTime() +
+        Math.random() * (threeDaysFromNow.getTime() - today.getTime());
 
       /* const appointment = await this.appointmentService.create({
         dentist_id: dentista.id,
@@ -218,6 +220,5 @@ export class MockAutoLoadService {
         description: 'test',
       }) */
     });
-
   }
 }

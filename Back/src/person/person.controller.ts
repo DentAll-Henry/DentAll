@@ -77,7 +77,6 @@ export class PeopleController {
     status: 400,
     description: 'Bad request.',
   })
-
   async createGuest(@Body() infoGuest: CreateGuestDto) {} //! Ajustar
 
   //& --> people endpoints <--
@@ -85,7 +84,9 @@ export class PeopleController {
   @Get()
   // @DRoles(Roles.ADMIN)
   // @UseGuards(AuthGuard, RolesGuard)
-  @ApiOperation({ summary: 'Get all people, the searching includes deleted ones.' })
+  @ApiOperation({
+    summary: 'Get all people, the searching includes deleted ones.',
+  })
   @ApiResponse({ status: 200, description: 'Return an array with all people.' })
   @ApiQuery(PageApiQueries)
   @ApiQuery(LimitApiQueries)
@@ -94,7 +95,9 @@ export class PeopleController {
   }
 
   @Get('byemail')
-  @ApiOperation({ summary: 'Get a person by email, the searching includes deleted ones.' })
+  @ApiOperation({
+    summary: 'Get a person by email, the searching includes deleted ones.',
+  })
   @ApiResponse({
     status: 200,
     description: 'Returns to the person with the specified email.',
@@ -113,7 +116,9 @@ export class PeopleController {
   }
 
   @Get(':idperson')
-  @ApiOperation({ summary: 'Get a person by ID, the searching includes deleted ones.' })
+  @ApiOperation({
+    summary: 'Get a person by ID, the searching includes deleted ones.',
+  })
   @ApiResponse({
     status: 200,
     description: 'Returns to the person with the specified ID.',
@@ -127,7 +132,6 @@ export class PeopleController {
   ): Promise<Person> {
     const person: Person = await this.peopleService.personById(idperson);
     if (!person)
-
       throw new BadRequestException(`No existe usuario con el ID ${idperson}.`);
     return person;
   }
