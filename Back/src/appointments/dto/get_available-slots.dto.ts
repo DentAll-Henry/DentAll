@@ -13,12 +13,21 @@ export class GetAvailableSlotsDto {
     dentist_id: string;
 
     @ApiProperty({
-        example: '2026-06-16',
-        description: 'Date to check available slots',
+        example: '2026-06-01',
+        description: 'First date to start check available slots',
         format: 'YYYY-MM-DD',
     })
     @IsNotEmpty({ message: 'Date is required' })
     @IsDateString()
-    date: Date;
+    start_date: Date;
+
+    @ApiProperty({
+        example: '2026-06-30',
+        description: 'Last Date to check available slots',
+        format: 'YYYY-MM-DD',
+    })
+    @IsNotEmpty({ message: 'Date is required' })
+    @IsDateString()
+    end_date: Date;
 
 }
