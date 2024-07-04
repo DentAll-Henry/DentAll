@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PatientsRepository } from './patient.repository';
 import { Person } from './entities/person.entity';
 import { Patient } from './entities/patient.entity';
+import { Dentist } from './entities/dentist.entity';
 
 @Injectable()
 export class PatientsService {
@@ -13,15 +14,20 @@ export class PatientsService {
     return await this.patientsRepository.getAllPatients(paginationDto);
   }
 
-  async patientById(patientId: Patient['id']): Promise<Patient> {
-    const patient = await this.patientsRepository.patientById(patientId);
-    return patient;
-  }
-
   async patientByPersonId(personId: Person['id']): Promise<Patient> {
     const patient = await this.patientsRepository.patientByPersonId(personId);
     return patient;
   }
+
+  async patientByDentistId(dentistId: Dentist['id'], paginationDto: { page: number; limit: number }): Promise<Patient[]> {
+    const patients: Patient[] = await this.patientsRepository.patientByDentistId(dentistId, paginationDto);
+    return patients;
+  }
+
+  async patientById(patientId: Patient['id']): Promise<Patient> {
+    const patient = await this.patientsRepository.patientById(patientId);
+    return patient;
+  }  
 
   async createPatient(person: Person | Person['id']) {
     return await this.patientsRepository.createPatient(person);
