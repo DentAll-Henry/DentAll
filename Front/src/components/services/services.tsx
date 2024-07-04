@@ -79,7 +79,7 @@ const Services = () => {
       <section>
         <FormService addNewService={addNewService} />
       </section>
-      <FormService></FormService>
+      
     </div>
   );
 };
