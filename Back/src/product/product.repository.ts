@@ -31,17 +31,17 @@ export class ProductRepository {
       const producto = this.productRepo.create(product);
       return this.productRepo.save(producto);
     } catch (error) {
-      throw new InternalServerErrorException("Can't create product");
+      throw new InternalServerErrorException('No se pudo crear el producto');
     }
   }
 
   async editProduct(product: Product, data: Partial<ProductDto>) {
     try {
       return (await this.productRepo.update(product, data))
-        ? 'Product edited successfully'
-        : 'Product not found';
+        ? 'Produco editado correctamente'
+        : 'Producto no encontrado';
     } catch (error) {
-      throw new InternalServerErrorException("Can't edit product");
+      throw new InternalServerErrorException('No se pudo editar el producto');
     }
   }
 
@@ -52,9 +52,9 @@ export class ProductRepository {
   deleteProduct(id: string) {
     try {
       this.productRepo.delete({ id });
-      return 'Product deleted successfully';
+      return 'Producto eliminado correctamente';
     } catch (error) {
-      throw new InternalServerErrorException("Can't delete product");
+      throw new InternalServerErrorException('No se pudo borrar el producto');
     }
   }
 }
