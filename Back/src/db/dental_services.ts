@@ -137,5 +137,11 @@ export const dentalServicesDB = [
     description: "Reemplazo completo de todos los dientes con prótesis removibles.",
     price: 1200.00,
     speciality: "Prostodoncia"
+  },
+  {
+    name: "Consulta de valoración",
+    description: "Consulta general para valoración y determinar el tratamiento necesario.",
+    price: 200.00,
+    speciality: "Odontología General"
   }
 ]
