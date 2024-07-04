@@ -25,7 +25,7 @@ const page = () => {
                 src="/images/citas1.svg"
                 width={70}
                 height={70}
-                alt="Citas"
+                alt="Mis Citas"
               />
               <p>Mis citas</p>
             </div>
@@ -42,8 +42,32 @@ const page = () => {
               <p>Pagos</p>
             </div>
           </Link>
-          <Link href="/page/patients/appointments">
-            <div className="flex-col bg-[#DF291540] gap-1 w-[200px] h-[150px] rounded-md border flex justify-center items-center hover:scale-105 transition-transform duration-300">
+          <Link href="/page/patients/recommendations">
+            <div className="flex-col bg-[#DF291540] w-[200px] h-[150px] rounded-md border flex justify-center items-center hover:scale-105 transition-transform duration-300">
+              <Image
+                className="group-hover:fill-current text-white"
+                src="/images/Video.svg"
+                width={70}
+                height={70}
+                alt="Recomendaciones"
+              />
+              <p>Recomendaciones</p>
+            </div>
+          </Link>
+          <Link href="/page/dashboard_1/citas">
+            <div className="flex-col bg-[#FDC84040] w-[200px] h-[150px] rounded-md border flex justify-center items-center hover:scale-105 transition-transform duration-300">
+              <Image
+                className="group-hover:fill-current text-white"
+                src="/images/recetass.svg"
+                width={70}
+                height={70}
+                alt="Recetas Medicas"
+              />
+              <p>Recetas Medicas</p>
+            </div>
+          </Link>
+          <Link href="#">
+            <div className="flex-col bg-[#FF5B373D] gap-1 w-[200px] h-[150px] rounded-md border flex justify-center items-center hover:scale-105 transition-transform duration-300">
               <Image
                 className="group-hover:fill-current text-white"
                 src="/images/historial.svg"
@@ -55,41 +79,17 @@ const page = () => {
             </div>
           </Link>
           <Link href="/page/dashboard_1/citas">
-            <div className="flex-col bg-amber-800 w-[200px] h-[150px] rounded-md border flex justify-center items-center hover:scale-105 transition-transform duration-300">
+            <div className="flex-col bg-[#3772FF40]  w-[200px] h-[150px] rounded-md border flex justify-center items-center hover:scale-105 transition-transform duration-300">
               <Image
                 className="group-hover:fill-current text-white"
-                src="/images/pagos.svg"
-                width={35}
-                height={35}
-                alt="Pagos"
-              />
-              <p>Recetas Medicas</p>
-            </div>
-          </Link>
-          <Link href="/page/dashboard_1/citas">
-            <div className="flex-col bg-indigo-800 w-[200px] h-[150px] rounded-md border flex justify-center items-center hover:scale-105 transition-transform duration-300">
-              <Image
-                className="group-hover:fill-current text-white"
-                src="/images/pagos.svg"
-                width={35}
-                height={35}
-                alt="Pagos"
+                src="/images/preguntas.svg"
+                width={70}
+                height={70}
+                alt="Preguntas Frecuentes"
               />
               <p>Preguntas Frecuentes</p>
             </div>
           </Link>
-          <Link href="/page/dashboard_1/citas">
-            <div className="flex-col bg-orange-900 w-[200px] h-[150px] rounded-md border flex justify-center items-center hover:scale-105 transition-transform duration-300">
-              <Image
-                className="group-hover:fill-current text-white"
-                src="/images/pagos.svg"
-                width={35}
-                height={35}
-                alt="Pagos"
-              />
-              <p>Aun No Se Sabe</p>
-            </div>
-          </Link> 
         </div>
       </div>
       <div className="flex justify-end items-end w-full absolute bottom-0 z-[-1] ">
