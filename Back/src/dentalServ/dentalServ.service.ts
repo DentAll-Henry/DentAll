@@ -28,9 +28,7 @@ export class DentalServService {
         isActive,
       );
     }
-    throw new BadRequestException(
-      'You must provide name or isActive to filter',
-    );
+    throw new BadRequestException('Debes proveer nombre o estado para filtrar');
   }
 
   async editDentalServ(
@@ -40,7 +38,7 @@ export class DentalServService {
     const { name, price, description, img } = data;
     if (Object.keys(data).length === 0) {
       throw new BadRequestException(
-        'You must provide name, price, img or description to update',
+        'Debes enviar nombre, precio,descripción o imagen para editar',
       );
     }
     return await this.dentalServRepositiory.editDentalServ(id, {
