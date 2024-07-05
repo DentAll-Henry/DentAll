@@ -92,17 +92,6 @@ export class AppointmentsService {
         dentist: appointment.dentist_id['person']['first_name'],
       },
     ); */
-    /* await this.mailService.sendMail(
-      patient.person['email'],
-      'Nueva cita en DentAll',
-      'new_appointment',
-      {
-        first_name: patient.person['first_name'],
-        service: dentServ.name,
-        date_time: createAppointmentDto.date_time,
-        dentist: appointment.dentist_id['person']['first_name'],
-      },
-    ); */
 
     if (createAppointmentDto.pending_appointment_id) {
       const pending =
@@ -232,8 +221,7 @@ export class AppointmentsService {
   }
 
   async getAvailableSlots(getAvailableSlotsDto: GetAvailableSlotsDto) {
-    const { start_date, end_date, dentist_id } = getAvailableSlotsDto;
-
+    const { start_date, end_date, dentist_id, time_slots } = getAvailableSlotsDto
     const dentist = await this.dentistService.dentistById(dentist_id);
     if (!dentist)
       throw new BadRequestException(
@@ -267,26 +255,60 @@ export class AppointmentsService {
       dates.push(slotsEnFecha);
       startDate.setDate(startDate.getDate() + 1);
     }
-    const available_slots = [];
+    console.time("getSlots")
+    const available_slots = []
 
-    for (const fecha of dates) {
-      const available_slots_day = await Promise.all(
-        fecha.slots.map(async (slot: Date) => {
-          const appointment =
-            await this.appointmentsRepository.getAppointmentsByDate(
-              slot,
-              dentist_id,
-            );
+    if (time_slots) {
+      for (const fecha of dates) {
+
+        const available_slots_day = await Promise.all(fecha.slots.map(async (slot: Date) => {
+
+          const appointment = await this.appointmentsRepository.getAppointmentsByDate(slot, dentist_id)
 
           if (!appointment) {
-            return slot;
+            return slot
           }
-        }),
-      );
 
-      available_slots.push(available_slots_day);
+        }))
+
+        available_slots.push(available_slots_day)
+      }
+    } else {
+      const cantidad_slots = await this.getSlots(dates[0].date)
+
+      const available_slots_day = await Promise.all(dates.map(async (fecha) => {
+        const total = await this.appointmentsRepository.getWholeDayByDentist(dentist_id, fecha.date)
+        if (total.length < cantidad_slots.length) return [fecha.date]
+      }))
+
+      available_slots.push(available_slots_day)
+      /* for (const fecha of dates) {
+        const available_slots_day = [];
+
+       for (const slot of fecha.slots) {
+         if (available_slots_day.length > 0) break
+         const appointment = await this.appointmentsRepository.getAppointmentsByDate(slot, dentist_id);
+
+         if (!appointment) {
+           available_slots_day.push(slot);
+         }
+       } 
+        const available_slots_day = await Promise.all(fecha.slots.map(async (slot: Date) => {
+
+          const appointment = await this.appointmentsRepository.getAppointmentsByDate(slot, dentist_id)
+
+          if (!appointment) {
+            return slot
+          }
+
+        }))
+
+        available_slots.push(available_slots_day);
+
+      } */
     }
 
+    console.timeEnd("getSlots")
     return {
       availabity: available_slots.map((slot_day) =>
         slot_day.filter((slot: Date) => slot !== undefined),
