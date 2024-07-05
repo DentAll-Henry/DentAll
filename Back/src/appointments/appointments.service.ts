@@ -177,6 +177,7 @@ export class AppointmentsService {
       }
     } else {
       const cantidad_slots = await this.getSlots(dates[0].date)
+
       const available_slots_day = await Promise.all(dates.map(async (fecha) => {
         const total = await this.appointmentsRepository.getWholeDayByDentist(dentist_id, fecha.date)
         if (total.length < cantidad_slots.length) return [fecha.date]
