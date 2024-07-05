@@ -94,3 +94,50 @@ export interface VideoPlayerProps {
   loop?: boolean;
   muted?: boolean;
 }
+
+
+export interface personAppointments {
+  id: string;
+  date_time: string;
+  description: string;
+ 
+}
+
+export interface Patients{
+  id:string;
+  person:{
+    id:string;
+    first_name:string;
+    last_name:string;
+    birthdate:Date;
+    dni:string;
+    phone:string;
+    email:string;
+    address:string;
+    location:string;
+    nationality:string;
+    is_auth0: boolean;
+    photo:string;
+    deleteDate:null
+  };
+  appointments:personAppointments[];
+  dentalRecord:null
+}
+
+
+
+// export interface Person{
+//   id:string;
+//   first_name:string;
+//   last_name:string;
+//   birthdate:Date;
+//   dni:string;
+//   phone:string;
+//   email:string;
+//   address:string;
+//   location:string;
+//   nationality:string;
+//   is_auth0: boolean
+//   photo:string;
+//   deleteDate:null
+// }
