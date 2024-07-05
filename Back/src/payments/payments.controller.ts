@@ -23,7 +23,7 @@ export class PaymentsController {
   @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
   @ApiInternalServerErrorResponse({ status: 500, description: 'Server error.' })
   async createDentalServ(@Body() data: PaymentDto, @Res() res: Response) {
-    const preferenceID = await this.paymentsService.createPreference(data);
-    res.status(201).json({ preferenceID });
+    const preferenceId = await this.paymentsService.createPreference(data);
+    res.status(201).json(preferenceId);
   }
 }
