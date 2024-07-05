@@ -9,7 +9,7 @@ const AboutPage = () => {
         <h2 className="text-[58px] text-center  text-white font-bold leading-normal">
           SOBRE <span className="text-[#00CE90]">NOSOTROS</span>
         </h2>
-        <div className="gap-12 w-[80%]">
+        <div className="gap-12 w-[80%] m-auto">
           <p>
             DentAll es una clínica dental moderna y vanguardista, dedicada a
             proporcionar atención odontológica de alta calidad mediante el uso
@@ -83,8 +83,10 @@ const AboutPage = () => {
         </div>
       </div>
 
-      <div className="w-[50%] p-4">
-        <MapComponent />
+      <div className="flex flex-row text-white">
+        <div className="w-[150%] p-12">
+          <MapComponent />
+        </div>
       </div>
 
       <div className="m-12">
