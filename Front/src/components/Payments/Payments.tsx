@@ -7,9 +7,9 @@ import { handlePayment } from "@/helpers/handlePayment";
 
 export default function Payments() {
   const [patientID, setPatientID] = useState(
-    "3bf2e0c7-3225-4541-84b3-fc4c8b628976"
+    "6ee89d13-c596-483e-bef5-18be0dc11800"
   ); // Reemplaza con un ID válido
-  const [dentalServID, setDentalServID] = useState("925a0c03-f4e9-424d-a964-f75fda984c6b"); // Reemplaza con un ID válido
+  const [dentalServID, setDentalServID] = useState("7e718a1a-d611-4145-a76a-066986d32a8c"); // Reemplaza con un ID válido
   const [preferenceId, setPreferenceId] = useState<string | null>(null);
 
   useEffect(() => {

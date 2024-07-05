@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import NavDash from "@/components/NavBar/navDash";
+import Payments from "@/components/Payments/Payments";
 
 const page = () => {
   return (
@@ -11,6 +12,7 @@ const page = () => {
         <div>
           <p className="font-bold">Nombres:</p>
           <p className="font-bold">Metodo de pago:</p>
+          <Payments />
         </div>
       </div>
 
