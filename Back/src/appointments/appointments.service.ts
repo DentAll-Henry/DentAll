@@ -53,7 +53,7 @@ export class AppointmentsService {
     const appointment = await this.appointmentsRepository.getAppointmentById(appointment_created.id)
 
     //send email
-    await this.mailService.sendMail(
+    /* await this.mailService.sendMail(
       patient.person['email'],
       'Nueva cita en DentAll',
       'new_appointment',
@@ -63,7 +63,7 @@ export class AppointmentsService {
         date_time: createAppointmentDto.date_time,
         dentist: appointment.dentist_id['person']['first_name'],
       },
-    );
+    ); */
 
     if (createAppointmentDto.pending_appointment_id) {
       const pending = await this.appointmentsRepository.getPendingAppointmentById(createAppointmentDto.pending_appointment_id)
