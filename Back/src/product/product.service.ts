@@ -9,13 +9,17 @@ export class ProductService {
 
   async getProducts() {
     const products = await this.productRepository.getProducts();
-    if (products.length === 0) return "There aren't products in the database";
+    if (products.length === 0)
+      return 'Todavía no hay productos en la base de datos';
     return products;
   }
 
   async getProductById(id: string) {
     const product = await this.productRepository.getProductById(id);
-    if (!product) throw new BadRequestException('Product not found22');
+    if (!product)
+      throw new BadRequestException(
+        `No se encontro el producto con el id ${id}`,
+      );
     return product;
   }
 
@@ -25,7 +29,7 @@ export class ProductService {
     );
 
     if (existingProduct) {
-      throw new BadRequestException('Product already exists');
+      throw new BadRequestException(`El producto ${product.name} ya existe`);
     }
 
     return this.productRepository.postProcut(product);
@@ -34,7 +38,7 @@ export class ProductService {
   async editProduct(id: string, data: Partial<toUpdateProductDto>) {
     const existingProduct = await this.productRepository.getProductById(id);
     if (!existingProduct) {
-      throw new BadRequestException('Product not found');
+      throw new BadRequestException('No se encontro el producto');
     }
     return this.productRepository.editProduct(existingProduct, data);
   }
@@ -47,7 +51,7 @@ export class ProductService {
   async deleteProduct(id: string) {
     const existingProduct = await this.productRepository.getProductById(id);
     if (!existingProduct) {
-      throw new BadRequestException('Product not found');
+      throw new BadRequestException('Producto no encontrado');
     }
     return this.productRepository.deleteProduct(id);
   }
