@@ -21,7 +21,7 @@ export default function Payments() {
   const handleClick = async () => {
     try {
       const preference = await handlePayment(patientID, dentalServID);
-      setPreferenceId(preference.preferenceID);
+      setPreferenceId(preference.preferenceId);
     } catch (error: any) {
       console.error("Error handling click:", error.message);
     }
