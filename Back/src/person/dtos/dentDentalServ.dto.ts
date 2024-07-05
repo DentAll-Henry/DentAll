@@ -5,7 +5,7 @@ import { DentalServ } from 'src/dentalServ/entities/dentalServ.entity';
 export class DentalServNameDto {
   @IsNotEmpty()
   @ApiProperty({
-    description: 'The dental service ID.',
+    description: 'The dental service name.',
     example: 'Protector bucal personalizado',
   })
   name: DentalServ['name'];

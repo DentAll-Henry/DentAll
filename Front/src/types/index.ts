@@ -85,3 +85,12 @@ export interface Service {
   img: string;
   isActive: boolean;
 }
+
+export interface VideoPlayerProps {
+  src: string;
+  type: string;
+  controls?: boolean;
+  autoPlay?: boolean;
+  loop?: boolean;
+  muted?: boolean;
+}

@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { validateRegisterForm } from "@/helpers/formValidation";
 import { RegisterErrorProps, RegisterProps } from "@/types";

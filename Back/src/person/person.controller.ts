@@ -23,7 +23,7 @@ import {
 import { LimitApiQueries, PageApiQueries } from '../config/swagger-config';
 import { PaginationDto } from '../common/dto/paginationDto';
 import { Guest } from './entities/guest.entity';
-import { ChangeRoleDto } from './dtos/changeRoles.dto';
+import { AddOrDelRoleDto } from './dtos/addOrDelRole.dto';
 import { AuthByEmailDto } from '../auth/dtos/authByEmail.dto';
 import { EditPersonDto } from './dtos/editPerson.dto';
 import { DRoles } from '../decorators/roles.decorator';
@@ -77,7 +77,6 @@ export class PeopleController {
     status: 400,
     description: 'Bad request.',
   })
-
   async createGuest(@Body() infoGuest: CreateGuestDto) {} //! Ajustar
 
   //& --> people endpoints <--
@@ -85,7 +84,9 @@ export class PeopleController {
   @Get()
   // @DRoles(Roles.ADMIN)
   // @UseGuards(AuthGuard, RolesGuard)
-  @ApiOperation({ summary: 'Get all people, the searching includes deleted ones.' })
+  @ApiOperation({
+    summary: 'Get all people, the searching includes deleted ones.',
+  })
   @ApiResponse({ status: 200, description: 'Return an array with all people.' })
   @ApiQuery(PageApiQueries)
   @ApiQuery(LimitApiQueries)
@@ -94,7 +95,9 @@ export class PeopleController {
   }
 
   @Get('byemail')
-  @ApiOperation({ summary: 'Get a person by email, the searching includes deleted ones.' })
+  @ApiOperation({
+    summary: 'Get a person by email, the searching includes deleted ones.',
+  })
   @ApiResponse({
     status: 200,
     description: 'Returns to the person with the specified email.',
@@ -112,8 +115,31 @@ export class PeopleController {
     return person;
   }
 
+  @Get('byrole/:role')
+  @ApiOperation({ summary: 'Get people by role, the searching includes deleted ones.' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns people with the specified role.',
+  })
+  @ApiBadRequestResponse({
+    status: 400,
+    description: 'Bad request.',
+  })
+  @ApiQuery(PageApiQueries)
+  @ApiQuery(LimitApiQueries)
+  async peopleByRole(@Param('role') role: Roles, @Query() paginationDto: PaginationDto) {
+    const people: Person[] = await this.peopleService.peopleByRole(role, paginationDto);
+    if (people.length === 0)
+      throw new BadRequestException(
+        `No existen usuarios con el rol ${role}.`,
+      );
+    return people;
+  }
+
   @Get(':idperson')
-  @ApiOperation({ summary: 'Get a person by ID, the searching includes deleted ones.' })
+  @ApiOperation({
+    summary: 'Get a person by ID, the searching includes deleted ones.',
+  })
   @ApiResponse({
     status: 200,
     description: 'Returns to the person with the specified ID.',
@@ -127,7 +153,6 @@ export class PeopleController {
   ): Promise<Person> {
     const person: Person = await this.peopleService.personById(idperson);
     if (!person)
-
       throw new BadRequestException(`No existe usuario con el ID ${idperson}.`);
     return person;
   }
@@ -141,7 +166,7 @@ export class PeopleController {
   @ApiBadRequestResponse({ status: 400, description: 'Role does not exist.' })
   async addRole(
     @Param('idperson', ParseUUIDPipe) idperson: string,
-    @Body() roleName: ChangeRoleDto,
+    @Body() roleName: AddOrDelRoleDto,
   ) {
     return await this.peopleService.addRole(idperson, roleName);
   }
@@ -155,7 +180,7 @@ export class PeopleController {
   @ApiBadRequestResponse({ status: 400, description: 'Role does not exist.' })
   async delRole(
     @Param('idperson', ParseUUIDPipe) idperson: string,
-    @Body() roleName: ChangeRoleDto,
+    @Body() roleName: AddOrDelRoleDto,
   ) {
     return await this.peopleService.delRole(idperson, roleName);
   }

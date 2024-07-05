@@ -130,11 +130,14 @@ export class PeopleRepository {
     return person;
   }
 
-  async peopleByRole(roleName: Role['name']): Promise<Person[]> {
-    const people: Person[] = await this.peopleRepository
+  async peopleByRole(roleName: Role['name'], paginationDto: { page: number; limit: number }): Promise<Person[]> {
+    const { page, limit } = paginationDto;
+
+    const queryBuilder = this.peopleRepository
       .createQueryBuilder('person')
       .withDeleted()
-      .where('person.roles.name = :roleName', { roleName })
+      .leftJoinAndSelect('person.roles', 'roles')
+      .where('roles.name = :roleName', { roleName })
       .select([
         'person.id',
         'person.first_name',
@@ -149,8 +152,10 @@ export class PeopleRepository {
         'person.email',
         'person.deleteDate',
       ])
-      .leftJoinAndSelect('person.roles', 'roles')
-      .getMany();
+      .skip((page - 1) * limit)
+      .take(limit);
+      
+    const people: Person[] = await queryBuilder.getMany();
 
     if (!people) throw new BadRequestException('No existen usuarios con el rol especificado.');
     return people;
