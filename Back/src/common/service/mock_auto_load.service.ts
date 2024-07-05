@@ -1,5 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { randomInt } from 'crypto';
 import { AppointmentsService } from 'src/appointments/appointments.service';
 import { AuthService } from 'src/auth/auth.service';
 import { dentalServicesDB } from 'src/db/dental_services';
@@ -204,7 +205,9 @@ export class MockAutoLoadService {
         .where('dentist.person = :person_id', { person_id: dentist.id })
         .getOne();
 
+      if (!dentista) return;
       const today = new Date();
+      today.setHours(randomInt(8, 16), 30);
       const threeDaysFromNow = new Date(today);
       threeDaysFromNow.setDate(today.getDate() + 3);
 
@@ -216,7 +219,7 @@ export class MockAutoLoadService {
         dentist_id: dentista.id,
         patient: patient.id,
         service: serv.id,
-        date_time: new Date(randomTime),
+        date_time: new Date(today.setDate(today.getDate() + 2)),
         description: 'test',
       })
     });
