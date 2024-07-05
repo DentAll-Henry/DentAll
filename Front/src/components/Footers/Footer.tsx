@@ -5,6 +5,7 @@ import Link from "next/link";
 const Footer = () => {
   return (
     <div className="text-white">
+      <div className="w-full border-t border-gray-400 shadow-sm"></div>
       <div className="bg-[#1D1D1D] flex justify-between items-center p-12">
         <div>
           <Image
