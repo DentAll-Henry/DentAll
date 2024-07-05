@@ -110,12 +110,17 @@ export class AppointmentsRepository {
   }
 
   async getWholeDayByDentist(dentist_id: string, date: Date) {
-    const queryBuilder = this.appointment.createQueryBuilder('appointment')
-      .where('appointment.dentist_id = :dentist_id', { dentist_id })
-      .andWhere('appointment.date_time::date = :date', { date: date.toISOString().split('T')[0] })
-      .getMany()
+    try {
+      const queryBuilder = await this.appointment.createQueryBuilder('appointment')
+        .where('appointment.dentist_id = :dentist_id', { dentist_id })
+        .andWhere('DATE(appointment.date_time) = :date', { date })
+        .getMany()
 
-    return queryBuilder
+
+      return queryBuilder
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
   }
 
   async getAppointmentsByDate(date_time: Date, dentist_id: string) {
