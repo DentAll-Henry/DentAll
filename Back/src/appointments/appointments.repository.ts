@@ -65,6 +65,7 @@ export class AppointmentsRepository {
       .where('appointment.patient = :patient_id', { patient_id })
       .leftJoinAndSelect('appointment.dentist_id', 'dentist')
       .leftJoinAndSelect('dentist.person', 'person')
+      .orderBy('appointment.date_time', 'ASC')
       .skip((page - 1) * limit)
       .take(limit);
 
