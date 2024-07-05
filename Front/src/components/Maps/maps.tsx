@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 import { fetchMapData } from "@/helpers/maps.helper";
 
@@ -60,7 +60,7 @@ const MapComponent = () => {
           TE ESPERAMOS EN
         </h2>
         {mapData.map((map, index) => (
-          <div>
+          <div key={index}>
             <p>{map.address}</p>
             <p>{map.name}</p>
             {/* <img src={map.img} /> */}

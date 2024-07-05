@@ -1,7 +1,7 @@
 import { validateNewServiceForm } from "@/helpers/formValidation";
 import { createService } from "@/helpers/service.helper";
 import { NewServiceErrorProps, NewServiceProps, Service } from "@/types";
-import React, { useState } from "react";
+import { useState } from "react";
 import Swal from "sweetalert2";
 
 interface FormServiceProps {

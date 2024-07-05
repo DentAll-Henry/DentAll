@@ -1,13 +1,11 @@
-import SearchBar from "@/components/SearchBar/SearchBar";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
 import NavDash from "@/components/NavBar/navDash";
 
 const page = () => {
   return (
     <div className="w-[80%] h-screen  text-white ml-[20%] ">
-      <NavDash />
+    
       <div className="m-8 bg-darkD-500 p-4 mt-24">
         <h2 className="text-2xl font-bold">Datos de pago</h2>
         <p>Administra y busca tus pagos.</p>

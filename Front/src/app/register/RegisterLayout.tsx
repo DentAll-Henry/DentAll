@@ -1,5 +1,5 @@
 import "../globals.css";
-import SideNav from "@/components/NavBar/sideNavBar";
+
 
 export default function RegisterLayout({
   children,

@@ -8,6 +8,7 @@ import { AuthDto } from './dtos/auth.dto';
 import { UpdatePasswordDto } from './dtos/updatePassword.dto';
 import { UpdatePersonDto } from '../person/dtos/updatePerson.dto';
 import { AuthByEmailDto } from './dtos/authByEmail.dto';
+import { ChangeRoleDto } from '../auth/dtos/changeRole.dto';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -39,7 +40,15 @@ export class AuthController {
   @ApiBadRequestResponse({ status: 400, description: 'Invalid credentials.' })
   signIn(@Body() signInInfo: SignInDto) {
     return this.authService.signIn(signInInfo);
-  }  
+  }
+
+  @Post('changerole')
+  @ApiOperation({ summary: 'Validating role to change token.' })
+  @ApiResponse({ status: 201, description: 'Return the new token.', })
+  @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
+  changeRole(@Body() changeRoleInfo: ChangeRoleDto) {
+    return this.authService.changeRole(changeRoleInfo);
+  }
 
   @Delete('delete')
   @ApiOperation({ summary: 'Delete a person and its credentials. The request body must has confirmPass.' })

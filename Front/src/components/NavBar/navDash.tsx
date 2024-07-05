@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import SearchBar from "../SearchBar/SearchBar";
 import Image from "next/image";
 import Link from "next/link";
@@ -29,10 +29,8 @@ const NavDash = () => {
           <SearchBar />
         </div>
 
-        {userData?.token ? (
-          <div className="flex gap-3 items-center">
-            <div className="mr-10">
-              <Link href="/page/dashboard_patients/notifications">
+            <div className="mr-10 ml-20">
+              <Link href="/page/patients/notifications">
                 <Image
                   src="/images/notificacion.svg"
                   width={24}
@@ -41,6 +39,8 @@ const NavDash = () => {
                 />
               </Link>
             </div>
+        {userData?.token && (
+          <div className="flex gap-3 items-center">
             <Link
               href="/page/users/account"
               className="flex items-center gap-4"
@@ -56,24 +56,11 @@ const NavDash = () => {
               </p>
             </Link>
           </div>
-        ) : (
-          <div className="text-white bg-gray-700 rounded-lg flex flex-row p-4 justify-around ">
-            <Link href="/login">
-              <p className="flex justify-center rounded-lg p-1 hover:bg-red-600">
-                Iniciar sesión
-              </p>
-            </Link>
-            <p className="flex justify-center">O</p>
-            <Link href="/register">
-              <p className="flex justify-center rounded-lg p-1 hover:bg-red-600">
-                Registrarse
-              </p>
-            </Link>
-          </div>
         )}
       </div>
     </div>
   );
 };
+
 
 export default NavDash;

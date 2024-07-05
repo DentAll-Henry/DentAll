@@ -1,14 +1,9 @@
-'use client'
-import {
-  fetchService,
-  updateIsActiveService,
-  createService,
-} from "@/helpers/service.helper";
+"use client";
+import { fetchService, updateIsActiveService } from "@/helpers/service.helper";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import FormService from "./FormService";
 import { Service } from "@/types";
-import Swal from "sweetalert2";
 
 const Services = () => {
   const [serviceData, setServiceData] = useState<Service[]>([]);
@@ -79,7 +74,6 @@ const Services = () => {
       <section>
         <FormService addNewService={addNewService} />
       </section>
-      
     </div>
   );
 };
