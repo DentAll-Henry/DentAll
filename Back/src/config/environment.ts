@@ -24,4 +24,7 @@ export const environment = {
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET,
   },
+  mercadopago: {
+    accesstoken: process.env.MERCADOPAGO_ACCESS_TOKEN,
+  },
 };
