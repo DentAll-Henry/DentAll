@@ -162,28 +162,36 @@ export class AppointmentsService {
 
     if (time_slots) {
       for (const fecha of dates) {
+        const available_slots_day = await Promise.all(
+          fecha.slots.map(async (slot: Date) => {
+            const appointment =
+              await this.appointmentsRepository.getAppointmentsByDate(
+                slot,
+                dentist_id,
+              );
 
-        const available_slots_day = await Promise.all(fecha.slots.map(async (slot: Date) => {
+            if (!appointment) {
+              return slot;
+            }
+          }),
+        );
 
-          const appointment = await this.appointmentsRepository.getAppointmentsByDate(slot, dentist_id)
-
-          if (!appointment) {
-            return slot
-          }
-
-        }))
-
-        available_slots.push(available_slots_day)
+        available_slots.push(available_slots_day);
       }
     } else {
-      const cantidad_slots = await this.getSlots(dates[0].date)
+      const cantidad_slots = await this.getSlots(dates[0].date);
 
-      const available_slots_day = await Promise.all(dates.map(async (fecha) => {
-        const total = await this.appointmentsRepository.getWholeDayByDentist(dentist_id, fecha.date)
-        if (total.length < cantidad_slots.length) return [fecha.date]
-      }))
+      const available_slots_day = await Promise.all(
+        dates.map(async (fecha) => {
+          const total = await this.appointmentsRepository.getWholeDayByDentist(
+            dentist_id,
+            fecha.date,
+          );
+          if (total.length < cantidad_slots.length) return [fecha.date];
+        }),
+      );
 
-      available_slots.push(available_slots_day)
+      available_slots.push(available_slots_day);
       /* for (const fecha of dates) {
         const available_slots_day = [];
 
@@ -210,7 +218,7 @@ export class AppointmentsService {
       } */
     }
 
-    console.timeEnd("getSlots")
+    console.timeEnd('getSlots');
     return {
       availabity: available_slots.map(slot_day => slot_day.filter((slot: Date) => slot !== undefined))
     }
