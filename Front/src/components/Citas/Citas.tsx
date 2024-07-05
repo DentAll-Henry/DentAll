@@ -58,7 +58,7 @@ const Citas: React.FC<CitasProps> = ({
           <div className="justify-self-center bg-blue-500 p-2 rounded-md ml-[67%]">
             <Image
               className="h-6"
-              src="/images/NotePencil.svg"
+              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201297/NotePencil_k3pao8.svg"
               width={35}
               height={35}
               alt="Editar"
@@ -101,7 +101,7 @@ const Citas: React.FC<CitasProps> = ({
           <div className="justify-self-center bg-blue-500 p-2 rounded-md ml-[67%]">
             <Image
               className="h-6"
-              src="/images/NotePencil.svg"
+              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201297/NotePencil_k3pao8.svg"
               width={35}
               height={35}
               alt="Editar"

@@ -29,16 +29,16 @@ const NavDash = () => {
           <SearchBar />
         </div>
 
-            <div className="mr-10 ml-20">
-              <Link href="/page/patients/notifications">
-                <Image
-                  src="/images/notificacion.svg"
-                  width={24}
-                  height={24}
-                  alt="Notificaciones"
-                />
-              </Link>
-            </div>
+        <div className=" ml-[50%]">
+          <Link href="/page/patients/notifications">
+            <Image
+              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201299/notificacion_zwl4hp.svg"
+              width={24}
+              height={24}
+              alt="Notificaciones"
+            />
+          </Link>
+        </div>
         {userData?.token && (
           <div className="flex gap-3 items-center">
             <Link
@@ -46,7 +46,7 @@ const NavDash = () => {
               className="flex items-center gap-4"
             >
               <Image
-                src="/images/user.svg"
+                src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201221/user_bdisfr.svg"
                 width={40}
                 height={30}
                 alt="Usuario"

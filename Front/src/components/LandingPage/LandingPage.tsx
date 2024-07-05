@@ -17,7 +17,7 @@ const LandingPage = () => {
               <h2>CON NOSOTROS </h2>
             </div>
             <Image
-              src="/images/dental1.svg"
+              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720194390/dental1_tfvhzh.webp"
               alt="dental custum"
               width={500}
               height={500}
@@ -39,7 +39,7 @@ const LandingPage = () => {
               </button>
             </div>
             <Image
-              src="/images/dental2.svg"
+              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720194370/dental2_ndrajq.webp"
               alt="dental custum"
               width={700}
               height={700}
@@ -102,7 +102,7 @@ const LandingPage = () => {
             <div className="flex justify-center pr-16">
               <Image
                 className="text-center"
-                src="/images/dentalVeneer.png"
+                src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720202033/dentalVeneer_o1frhb.webp"
                 alt=""
                 width={150}
                 height={150}
@@ -121,7 +121,7 @@ const LandingPage = () => {
             <div className="flex justify-center pr-16">
               <Image
                 className="text-center"
-                src="/images/toothWhite.png"
+                src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720194372/toothWhite_sbnslv.webp"
                 alt=""
                 width={150}
                 height={150}
@@ -163,8 +163,8 @@ const LandingPage = () => {
           <div className=" w-1/4 flex flex-col  gap-6 justify-center items-center text-white border-[5px] border-greenD-500 rounded-[10px] p-6">
             <Image
               className="text-center"
-              src="/images/testimonio1.svg"
-              alt=""
+              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201351/testimonio1_mwe92r.svg"
+              alt="Paciente"
               width={150}
               height={150}
             />
@@ -176,8 +176,8 @@ const LandingPage = () => {
             </p>
             <Image
               className="text-center"
-              src="/images/starts.svg"
-              alt=""
+              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201348/starts_patmun.svg"
+              alt="Puntuación"
               width={150}
               height={150}
             />
@@ -185,8 +185,8 @@ const LandingPage = () => {
           <div className=" w-1/4 flex flex-col gap-6 justify-center items-center text-white border-[5px] border-greenD-500 rounded-[10px] p-6">
             <Image
               className="text-center"
-              src="/images/testimonio2.svg"
-              alt=""
+              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201358/testimonio2_ldacag.svg"
+              alt="Paciente"
               width={150}
               height={150}
             />
@@ -198,8 +198,8 @@ const LandingPage = () => {
             </p>
             <Image
               className="text-center"
-              src="/images/starts.svg"
-              alt=""
+              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201348/starts_patmun.svg"
+              alt="Puntuación"
               width={150}
               height={150}
             />
@@ -207,8 +207,8 @@ const LandingPage = () => {
           <div className="w-1/4 flex flex-col gap-6 justify-center items-center text-white border-[5px] border-greenD-500 rounded-[10px] p-6 ">
             <Image
               className="text-center"
-              src="/images/testimonio3.svg"
-              alt=""
+              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201367/testimonio3_fpesyu.svg"
+              alt="Paciente"
               width={150}
               height={150}
             />
@@ -220,8 +220,8 @@ const LandingPage = () => {
             </p>
             <Image
               className="text-center"
-              src="/images/starts.svg"
-              alt=""
+              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201348/starts_patmun.svg"
+              alt="Puntuación"
               width={150}
               height={150}
             />
@@ -229,8 +229,8 @@ const LandingPage = () => {
           <div className="w-1/4 flex flex-col gap-6 justify-center items-center text-white border-[5px] border-greenD-500 rounded-[10px] p-6 ">
             <Image
               className="text-center"
-              src="/images/testimonio4.svg"
-              alt=""
+              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201362/testimonio4_zy4fgd.svg"
+              alt="Paciente"
               width={150}
               height={150}
             />
@@ -243,8 +243,8 @@ const LandingPage = () => {
             </p>
             <Image
               className="text-center"
-              src="/images/starts.svg"
-              alt=""
+              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201348/starts_patmun.svg"
+              alt="Puntuación"
               width={150}
               height={150}
             />

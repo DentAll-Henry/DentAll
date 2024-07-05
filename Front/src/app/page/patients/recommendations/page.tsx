@@ -9,7 +9,7 @@ const page: React.FC = () => {
       <div className="w-[80%] bg- m-auto bg-darkD-500">
         <div className="p-8">
           <VideoPlayer
-            src="/images/video0.mp4"
+            src="https://res.cloudinary.com/ddpohfyur/video/upload/v1720191340/-c598-455d-af3c-ae7342691c4b_lntmww.mp4"
             type="video/mp4"
             controls
             autoPlay
@@ -24,7 +24,7 @@ const page: React.FC = () => {
           <div className=" ">
             {" "}
             <VideoPlayer
-              src="/images/video1.mp4"
+              src="https://res.cloudinary.com/ddpohfyur/video/upload/v1720190304/video_Recomendaciones_0_eb62cw.mp4"
               type="video/mp4"
               controls
               autoPlay
@@ -38,7 +38,7 @@ const page: React.FC = () => {
           <div className=" ">
             {" "}
             <VideoPlayer
-              src="/images/video1.mp4"
+              src="https://res.cloudinary.com/ddpohfyur/video/upload/v1720191340/-c598-455d-af3c-ae7342691c4b_lntmww.mp4"
               type="video/mp4"
               controls
               autoPlay
@@ -52,7 +52,7 @@ const page: React.FC = () => {
           <div className=" ">
             {" "}
             <VideoPlayer
-              src="/images/video1.mp4"
+              src="https://res.cloudinary.com/ddpohfyur/video/upload/v1720191575/-2760-4c41-a5d0-50059eb56156_qnljux.mp4"
               type="video/mp4"
               controls
               autoPlay
@@ -66,7 +66,7 @@ const page: React.FC = () => {
           <div className=" ">
             {" "}
             <VideoPlayer
-              src="/images/video1.mp4"
+              src="https://res.cloudinary.com/ddpohfyur/video/upload/v1720191340/-c598-455d-af3c-ae7342691c4b_lntmww.mp4"
               type="video/mp4"
               controls
               autoPlay
@@ -80,7 +80,7 @@ const page: React.FC = () => {
           <div className=" ">
             {" "}
             <VideoPlayer
-              src="/images/video1.mp4"
+              src="https://res.cloudinary.com/ddpohfyur/video/upload/v1720191575/-2760-4c41-a5d0-50059eb56156_qnljux.mp4"
               type="video/mp4"
               controls
               autoPlay
@@ -94,7 +94,7 @@ const page: React.FC = () => {
           <div className=" ">
             {" "}
             <VideoPlayer
-              src="/images/video1.mp4"
+              src="https://res.cloudinary.com/ddpohfyur/video/upload/v1720191340/-c598-455d-af3c-ae7342691c4b_lntmww.mp4"
               type="video/mp4"
               controls
               autoPlay
