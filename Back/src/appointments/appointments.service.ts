@@ -137,7 +137,7 @@ export class AppointmentsService {
   }
 
   async getAvailableSlots(getAvailableSlotsDto: GetAvailableSlotsDto) {
-    const { start_date, end_date, dentist_id } = getAvailableSlotsDto
+    const { start_date, end_date, dentist_id, time_slots } = getAvailableSlotsDto
 
     const dentist = await this.dentistService.dentistById(dentist_id)
     if (!dentist) throw new BadRequestException('Dentista no encontrado con el id proporcionado');
@@ -156,20 +156,44 @@ export class AppointmentsService {
       dates.push(slotsEnFecha)
       startDate.setDate(startDate.getDate() + 1)
     }
+
+    console.time("getSlots")
     const available_slots = []
 
-    for (const fecha of dates) {
-      const available_slots_day = await Promise.all(fecha.slots.map(async (slot: Date) => {
-        const appointment = await this.appointmentsRepository.getAppointmentsByDate(slot, dentist_id)
+    if (time_slots) {
+      for (const fecha of dates) {
 
-        if (!appointment) {
-          return slot
+        const available_slots_day = await Promise.all(fecha.slots.map(async (slot: Date) => {
+
+          const appointment = await this.appointmentsRepository.getAppointmentsByDate(slot, dentist_id)
+
+          if (!appointment) {
+            return slot
+          }
+
+        }))
+
+        available_slots.push(available_slots_day)
+      }
+    } else {
+      for (const fecha of dates) {
+        const available_slots_day = [];
+
+        for (const slot of fecha.slots) {
+          if (available_slots_day.length > 0) break
+          const appointment = await this.appointmentsRepository.getAppointmentsByDate(slot, dentist_id);
+
+          if (!appointment) {
+            available_slots_day.push(slot);
+          }
         }
-      }))
 
-      available_slots.push(available_slots_day)
+        available_slots.push(available_slots_day);
+
+      }
     }
 
+    console.timeEnd("getSlots")
     return {
       availabity: available_slots.map(slot_day => slot_day.filter((slot: Date) => slot !== undefined))
     }
