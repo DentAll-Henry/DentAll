@@ -30,4 +30,12 @@ export class GetAvailableSlotsDto {
     @IsDateString()
     end_date: Date;
 
+    @ApiProperty({
+        example: 'false',
+        description: 'Only the available dates',
+        type: 'boolean',
+    })
+    @IsNotEmpty()
+    time_slots: Boolean;
+
 }
