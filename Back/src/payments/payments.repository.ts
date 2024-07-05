@@ -61,7 +61,7 @@ export class PaymentsRepository {
         dentalServ: service,
       });
       await this.payment.insert(newPayment);
-      return { preferenceID: response.id };
+      return { preferenceId: response.id };
     } catch (error) {
       if (error instanceof BadRequestException) {
         throw error;
