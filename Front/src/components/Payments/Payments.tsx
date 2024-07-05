@@ -7,13 +7,13 @@ import { handlePayment } from "@/helpers/handlePayment";
 
 export default function Payments() {
   const [patientID, setPatientID] = useState(
-    "6ee89d13-c596-483e-bef5-18be0dc11800"
+    "18812647-2bd7-4a20-b8d1-4fd75c5e3b45"
   ); // Reemplaza con un ID válido
-  const [dentalServID, setDentalServID] = useState("7e718a1a-d611-4145-a76a-066986d32a8c"); // Reemplaza con un ID válido
+  const [dentalServID, setDentalServID] = useState("0acff16e-9fc3-4167-8c19-80d13a1c5549"); // Reemplaza con un ID válido
   const [preferenceId, setPreferenceId] = useState<string | null>(null);
 
   useEffect(() => {
-    initMercadoPago(enviroment.mercadopagoPublicKey, {
+    initMercadoPago("TEST-6df38fed-0d6c-471b-8f0e-038113243657", {
       locale: "es-AR",
     });
   }, []);
