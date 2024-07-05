@@ -37,8 +37,14 @@ export class FilesController {
     description: 'Image to upload(only files .jpg, .jpeg, .png, .gif)',
     type: fileUploadDto,
   })
-  @UsePipes(ValidationFile)
-  uploadFile(@UploadedFile() file: Express.Multer.File, path: string) {
-    return this.filesService.uploadFile(file, path);
+  uploadFile(
+    @UploadedFile(ValidationFile) file: Express.Multer.File,
+    @Body('path') path: string,
+  ) {
+    const fileInfo = {
+      file,
+      path,
+    };
+    return this.filesService.uploadFile(fileInfo);
   }
 }
