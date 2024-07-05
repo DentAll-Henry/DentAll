@@ -4,7 +4,6 @@ import Image from "next/image";
 import DoctorCard from "../DoctorCards/DoctorCard";
 import MapComponent from "@/components/Maps/maps";
 
-
 const LandingPage = () => {
   return (
     <div>
@@ -192,7 +191,7 @@ const LandingPage = () => {
             />
             <h4 className="text-[20px] font-semibold">Carlos Nuñez </h4>
             <p className="text-[16px] font-medium">
-              Dental ha cambiado completamente mi percepción de las visitas
+              DentAll ha cambiado completamente mi percepción de las visitas
               dentales. La atención personalizada y la tecnología de vanguardia
               hacen que cada cita sea rápida y sin dolor
             </p>
@@ -214,7 +213,7 @@ const LandingPage = () => {
             />
             <h4 className="text-[20px] font-semibold">Bianca Santillana</h4>
             <p className="text-[16px] font-medium">
-              Desde que empecé a ir a Dental, mis visitas al dentista han sido
+              Desde que empecé a ir a DentAll, mis visitas al dentista han sido
               una experiencia agradable. El personal es amable y atento, y las
               instalaciones son de primera. ¡Recomiendo Dental a todos!
             </p>
@@ -236,7 +235,7 @@ const LandingPage = () => {
             />
             <h4 className="text-[20px] font-semibold">Gustavo Garcia</h4>
             <p className="text-[16px] font-medium">
-              Mi experiencia en Dental ha sido excepcional. Desde la bienvenida
+              Mi experiencia en DentAll ha sido excepcional. Desde la bienvenida
               hasta el final del tratamiento, todo el equipo se ha mostrado
               profesional y dedicado. ¡Mi sonrisa nunca se ha visto mejor
               gracias a Dental!
