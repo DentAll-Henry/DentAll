@@ -28,7 +28,7 @@ export class AppointmentsService {
     private readonly dentistService: DentistsService,
     private readonly mailService: MailService,
     private readonly systemConfigsService: SystemConfigsService,
-  ) {}
+  ) { }
   async create(createAppointmentDto: CreateAppointmentDto) {
     const dentServ: DentalServ = await this.dentalServService.getDentalServByID(
       createAppointmentDto.service,
@@ -344,7 +344,6 @@ export class AppointmentsService {
     const res = await this.appointmentsRepository.removeAppointment(id);
     if (res.affected === 0)
       throw new BadRequestException('Error al intentar cancelar la cita');
-
     await this.mailService.sendMail(
       appointment.patient['person']['email'],
       'Confirmacion de cancelacion de su cita en DentAll',
