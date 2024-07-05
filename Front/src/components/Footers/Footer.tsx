@@ -9,7 +9,7 @@ const Footer = () => {
       <div className="bg-[#1D1D1D] flex justify-between items-center p-12">
         <div>
           <Image
-            src="/images/Logo.svg"
+            src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720194389/Logo-DentAll_qh1uqi.webp"
             alt="Logo.svg"
             width={200}
             height={50}
@@ -46,8 +46,8 @@ const Footer = () => {
         <div className="flex gap-4">
           <Link href="#">
             <Image
-              src="/images/WhatsApp.svg"
-              alt="Logo.svg"
+              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201233/WhatsApp_w3qogu.svg"
+              alt="Whatsapp"
               width={30}
               height={30}
               priority
@@ -56,8 +56,8 @@ const Footer = () => {
 
           <Link href="#">
             <Image
-              src="/images/facebook.svg"
-              alt="Logo.svg"
+              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201266/Facebook_hd5g54.svg"
+              alt="Facebook"
               width={30}
               height={30}
               priority
@@ -66,8 +66,8 @@ const Footer = () => {
 
           <Link href="#">
             <Image
-              src="/images/LinkedIn.svg"
-              alt="Logo.svg"
+              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201282/LinkedIn_i5rnli.svg"
+              alt="LinkedIn"
               width={30}
               height={30}
               priority
@@ -76,8 +76,8 @@ const Footer = () => {
 
           <Link href="#">
             <Image
-              src="/images/Instagram.svg"
-              alt="Logo.svg"
+              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201280/Instagram_qys7th.svg"
+              alt="Instagram"
               width={30}
               height={30}
               priority
@@ -87,7 +87,7 @@ const Footer = () => {
       </div>
 
       <div className="text-center  bg-[#404040] p-4">
-        &copy;DentAll 2024 Todos los derechos reservados
+        Copyright &copy; DentAll - 2024 - Todos los derechos reservados.
       </div>
     </div>
   );

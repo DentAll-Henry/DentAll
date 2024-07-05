@@ -316,8 +316,8 @@ const Register = () => {
               <div className="w-[44px] h-[44px] flex-shrink-0 relative">
                 <a href="#">
                   <Image
-                    src="/images/RS1.svg"
-                    alt="Register Image"
+                    src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201337/RS3_m7rfqd.svg"
+                    alt="Linkedin"
                     layout="fill"
                   />
                 </a>
@@ -325,8 +325,8 @@ const Register = () => {
               <div className="w-[44px] h-[44px] flex-shrink-0 relative">
                 <a href="#">
                   <Image
-                    src="/images/RS2.svg"
-                    alt="Register Image"
+                    src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201332/RS1_d4mepj.svg"
+                    alt="Google"
                     layout="fill"
                   />
                 </a>
@@ -334,8 +334,8 @@ const Register = () => {
               <div className="w-[44px] h-[44px] flex-shrink-0 relative">
                 <a href="#">
                   <Image
-                    src="/images/RS3.svg"
-                    alt="Register Image"
+                    src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201336/RS2_vh4fsg.svg"
+                    alt="Facebook"
                     layout="fill"
                   />
                 </a>
@@ -345,7 +345,7 @@ const Register = () => {
         </div>
         <div className="w-2/3 h-full relative">
           <Image
-            src="/images/ImgReg.svg"
+            src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720203080/Group_48095527_bgwmit.webp"
             alt="Register Image"
             layout="fill"
             priority

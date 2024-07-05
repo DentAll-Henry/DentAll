@@ -5,7 +5,6 @@ import NavDash from "@/components/NavBar/navDash";
 const page = () => {
   return (
     <div className="w-[80%] h-screen  text-white ml-[20%] ">
-    
       <div className="m-8 bg-darkD-500 p-4 mt-24">
         <h2 className="text-2xl font-bold">Datos de pago</h2>
         <p>Administra y busca tus pagos.</p>
@@ -26,7 +25,7 @@ const page = () => {
             <p className="text-[#60D66A]">$50</p>
             <Image
               className="group-hover:fill-current text-white"
-              src="/images/Vector.svg"
+              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201228/Vector_b9qqdm.svg"
               width={35}
               height={35}
               alt="Pagos"
@@ -40,7 +39,7 @@ const page = () => {
             <p className="text-[#60D66A]">$50</p>
             <Image
               className="group-hover:fill-current text-white"
-              src="/images/Vector.svg"
+              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201228/Vector_b9qqdm.svg"
               width={35}
               height={35}
               alt="Pagos"
@@ -54,7 +53,7 @@ const page = () => {
             <p className="text-[#60D66A]">$50</p>
             <Image
               className="group-hover:fill-current text-white"
-              src="/images/Vector.svg"
+              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201228/Vector_b9qqdm.svg"
               width={35}
               height={35}
               alt="Pagos"
@@ -68,7 +67,7 @@ const page = () => {
             <p className="text-[#60D66A]">$50</p>
             <Image
               className="group-hover:fill-current text-white"
-              src="/images/Vector.svg"
+              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201228/Vector_b9qqdm.svg"
               width={35}
               height={35}
               alt="Pagos"
