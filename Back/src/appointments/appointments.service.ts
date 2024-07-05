@@ -217,24 +217,42 @@ export class AppointmentsService {
         available_slots.push(available_slots_day);
       }
     } else {
-      for (const fecha of dates) {
+      const cantidad_slots = await this.getSlots(dates[0].date);
+      const available_slots_day = await Promise.all(
+        dates.map(async (fecha) => {
+          const total = await this.appointmentsRepository.getWholeDayByDentist(
+            dentist_id,
+            fecha.date,
+          );
+          if (total.length < cantidad_slots.length) return fecha.date;
+        }),
+      );
+
+      available_slots.push(available_slots_day);
+      /* for (const fecha of dates) {
         const available_slots_day = [];
 
-        for (const slot of fecha.slots) {
-          if (available_slots_day.length > 0) break;
-          const appointment =
-            await this.appointmentsRepository.getAppointmentsByDate(
-              slot,
-              dentist_id,
-            );
+       for (const slot of fecha.slots) {
+         if (available_slots_day.length > 0) break
+         const appointment = await this.appointmentsRepository.getAppointmentsByDate(slot, dentist_id);
+
+         if (!appointment) {
+           available_slots_day.push(slot);
+         }
+       } 
+        const available_slots_day = await Promise.all(fecha.slots.map(async (slot: Date) => {
+
+          const appointment = await this.appointmentsRepository.getAppointmentsByDate(slot, dentist_id)
 
           if (!appointment) {
-            available_slots_day.push(slot);
+            return slot
           }
-        }
+
+        }))
 
         available_slots.push(available_slots_day);
-      }
+
+      } */
     }
 
     console.timeEnd('getSlots');
