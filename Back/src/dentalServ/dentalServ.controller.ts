@@ -112,7 +112,6 @@ export class DentalServController {
 
   @Post()
   @ApiOperation({ summary: 'Create a new dental service' })
-  @ApiBody({ type: DentalServDto })
   @ApiResponse({ status: 201, description: 'Return created service' })
   @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
   @ApiInternalServerErrorResponse({ status: 500, description: 'Server error.' })

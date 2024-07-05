@@ -22,7 +22,6 @@ import { AuthRepository } from './auth/auth.repository';
 import { FilesController } from './files/files.controller';
 import { FilesService } from './files/files.service';
 import { FilesModule } from './files/files.module';
-
 import { SpecialtyModule } from './specialty/specialty.module';
 import { HeadquarterModule } from './headquarters/headquarter.module';
 import { Cords } from './headquarters/entities/cords.entity';
@@ -31,6 +30,7 @@ import { DentistsService } from './person/dentist.service';
 import { DentistsRepository } from './person/dentist.repository';
 import { MailerModule } from '@nestjs-modules/mailer';
 import nodemailerConfig from './config/nodemailer';
+import { PaymentsModule } from './payments/payments.module';
 
 @Module({
   imports: [
@@ -43,11 +43,9 @@ import nodemailerConfig from './config/nodemailer';
       useFactory: (configService: ConfigService) =>
         configService.get('typeorm'),
     }),
-    MailerModule.forRootAsync(
-      {
-        useFactory: () => nodemailerConfig,
-      }
-    ),
+    MailerModule.forRootAsync({
+      useFactory: () => nodemailerConfig,
+    }),
     DentalServModule,
     AuthModule,
     AppointmentsModule,
@@ -56,6 +54,7 @@ import nodemailerConfig from './config/nodemailer';
     ProductModule,
     DentalRecordModule,
     HeadquarterModule,
+    PaymentsModule,
 
     JwtModule.register({
       global: true,
@@ -69,11 +68,18 @@ import nodemailerConfig from './config/nodemailer';
     TypeOrmModule.forFeature([DentalServ, Cords, Headquarter]),
     TypeOrmModule.forFeature([Auth]),
     FilesModule,
-    SpecialtyModule
+    SpecialtyModule,
   ],
   controllers: [FilesController],
 
-  providers: [MockAutoLoadService, AuthService, AuthRepository, FilesService, DentistsService, DentistsRepository],
+  providers: [
+    MockAutoLoadService,
+    AuthService,
+    AuthRepository,
+    FilesService,
+    DentistsService,
+    DentistsRepository,
+  ],
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
