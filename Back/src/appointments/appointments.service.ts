@@ -224,7 +224,7 @@ export class AppointmentsService {
             dentist_id,
             fecha.date,
           );
-          if (total.length < cantidad_slots.length) return fecha.date;
+          if (total.length < cantidad_slots.length) return [fecha.date];
         }),
       );
 
