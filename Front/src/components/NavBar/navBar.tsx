@@ -6,10 +6,10 @@ import Link from "next/link";
 const Navbar = () => {
   return (
     <div className="text-white">
-      <div className="bg-[#1D1D1D] flex justify-between items-center p-4">
+      <div className="bg-[#1D1D1D] flex justify-between items-center p-4 px-8">
         <div>
           <Image
-            src="/images/Logo.svg"
+            src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720194389/Logo-DentAll_qh1uqi.webp"
             alt="Logo.svg"
             width={200}
             height={50}
