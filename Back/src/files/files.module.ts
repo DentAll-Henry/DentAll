@@ -8,5 +8,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
   imports: [],
   controllers: [FilesController],
   providers: [FilesService, cloudinaryConfig],
+  exports: [FilesService]
 })
 export class FilesModule {}
