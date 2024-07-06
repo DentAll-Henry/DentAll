@@ -18,7 +18,7 @@ export class ConfirmPassInterceptor implements NestInterceptor {
         req.body = userInfo;
         return next.handle();
     } else {
-        throw new BadRequestException('password and confirmPass are not equal.')
+        throw new BadRequestException('La contraseña y su confirmación no coinciden.')
     }
   }
 }
