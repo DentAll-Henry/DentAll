@@ -79,7 +79,7 @@ export class AppointmentsService {
     if (createAppointmentDto.pending_appointment_id) {
       const pending =
         await this.appointmentsRepository.getPendingAppointmentById(
-          createAppointmentDto.pending_appointment_id,
+          createAppointmentDto.pending_appointment_id
         );
       if (pending) {
         await this.appointmentsRepository.removePendingAppointment(pending.id);
@@ -136,7 +136,7 @@ export class AppointmentsService {
 
     if (updateAppointmentDto.patient) {
       const patient = await this.patientsService.patientById(
-        updateAppointmentDto.patient,
+        updateAppointmentDto.patient
       );
       if (!patient)
         throw new BadRequestException(
@@ -225,11 +225,12 @@ export class AppointmentsService {
             dentist_id,
             fecha.date,
           );
-          if (total.length < cantidad_slots.length) return [fecha.date];
+          if (total.length < cantidad_slots.length) return fecha.date;
         }),
       );
 
-      available_slots.push(available_slots_day);
+      return await available_slots_day.filter((slot) => slot !== undefined);
+      //available_slots.push(available_slots_day);
       /* for (const fecha of dates) {
         const available_slots_day = [];
 
