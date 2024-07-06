@@ -1,5 +1,5 @@
-import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, UseInterceptors } from '@nestjs/common';
-import { ApiBadRequestResponse, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Delete, Get, Patch, Post, Req, UseGuards, UseInterceptors } from '@nestjs/common';
+import { ApiBadRequestResponse, ApiOperation, ApiResponse, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { SignInDto } from './dtos/signIn.dto';
 import { CreatePersonDto } from '../person/dtos/createPerson.dto';
@@ -9,6 +9,11 @@ import { UpdatePasswordDto } from './dtos/updatePassword.dto';
 import { UpdatePersonDto } from '../person/dtos/updatePerson.dto';
 import { AuthByEmailDto } from './dtos/authByEmail.dto';
 import { ChangeRoleDto } from '../auth/dtos/changeRole.dto';
+import { Request } from 'express';
+import { RolesGuard } from 'src/role/guards/roles.guard';
+import { DRoles } from 'src/decorators/roles.decorator';
+import { Roles } from 'src/role/enums/roles.enum';
+import { AuthGuard } from './guards/auth.guard';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -76,11 +81,16 @@ export class AuthController {
     return this.authService.changePass(newPass);
   }
 
-  @Patch('updateperson/:idperson')
-  @ApiOperation({ summary: 'Update person information.' })
-  @ApiResponse({ status: 201, description: 'Onformation updated succesfully.' })
+  @ApiBearerAuth()
+  @Patch('updateperson')
+  @DRoles(Roles.PATIENT)
+  @UseGuards(AuthGuard, RolesGuard)
+  @ApiOperation({ summary: 'Update person information. The request body must has confirmPass.' })
+  @ApiResponse({ status: 201, description: 'Information updated succesfully.' })
   @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
-  async updatePerson(@Param('id', ParseUUIDPipe) personId: string, @Body() infoToUpdate: UpdatePersonDto) {
-    return this.authService.updatePerson(personId, infoToUpdate);
+  @UseInterceptors(ConfirmPassInterceptor)
+  async updatePerson(@Req() req: Request, @Body() infoToUpdate: UpdatePersonDto ) {
+    const role: Roles = (req as any).userRoles;
+    return this.authService.updatePerson(role, infoToUpdate);
   }
 }
