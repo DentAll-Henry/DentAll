@@ -170,3 +170,62 @@ export function validateNewServiceForm(values: NewServiceProps): NewServiceError
 
   return errors;
 }
+
+
+    //UPDATE//
+type UpdateErrorProps = {
+  phone?: string;
+  email?:string;
+  address?: string;
+  location?: string;
+  password?: string;
+  confirmPass?: string;
+}
+
+export function updateRegisterForm(
+  values: Partial<RegisterProps>
+): UpdateErrorProps {
+  let errors: UpdateErrorProps = {};
+
+  if (!values.email) {
+    errors.email = "Email is required";
+  } else if (!regexValidations.email.test(values.email)) {
+    errors.email = "Email is not valid";
+  }
+
+  if (!values.password) {
+    errors.password = "Password is required";
+  } else if (!regexValidations.contrasena.test(values.password)) {
+    errors.password =
+      "Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, a number, and a special character";
+  }
+  if (!values.confirmPass) {
+    errors.confirmPass = "Password is required";
+  } else if (!regexValidations.contrasena.test(values.confirmPass)) {
+    errors.confirmPass =
+      "Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, a number, and a special character";
+  }
+
+  if (!values.phone) {
+    errors.phone = "Phone is required";
+  } else if (!regexValidations.telefono.test(values.phone)) {
+    errors.phone =
+      "Phone number must be between 10 and 15 characters and can contain numbers, spaces, parentheses, and hyphens";
+  }
+
+  if (!values.address) {
+    errors.address = "Address is required";
+  } else if (!regexValidations.direccion.test(values.address)) {
+    errors.address =
+      "Address must be between 5 and 100 characters and can contain letters, numbers, and certain special characters (,.-)";
+  }
+
+  if (!values.location) {
+    errors.location = "City is required";
+  } else if (!regexValidations.localidad.test(values.location)) {
+    errors.location =
+      "City must be between 2 and 50 characters and only contain letters and spaces";
+  }
+
+  return errors;
+}
