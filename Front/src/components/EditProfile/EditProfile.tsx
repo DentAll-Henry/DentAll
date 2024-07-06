@@ -1,45 +1,82 @@
 "use client";
 import { useEffect, useState } from "react";
-
-import { validateRegisterForm } from "@/helpers/formValidation";
-import { RegisterErrorProps, RegisterProps } from "@/types";
-import { register } from "@/helpers/auth.helper";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
+import { updateRegisterForm } from "@/helpers/formValidation";
+import axiosInstance, { setAuthToken } from '@/utils/axiosInstance'
+
+type User = {
+  id: string;
+  first_name: string;
+  last_name: string;
+  birthdate: string;
+  dni: string;
+  phone: string;
+  email:string;
+  address: string;
+  location: string;
+  nationality: string;
+  [key: string]: any;
+};
+
+type DataUser = {
+  phone: string;
+  email:string;
+  address: string;
+  location: string;
+  password: string;
+  confirmPass: string;
+};
+
+type ErrorDataUser = {
+  phone?: string;
+  email?:string;
+  address?: string;
+  location?: string;
+  password?: string;
+  confirmPass?: string;
+};
 
 const EditProfile = () => {
   const router = useRouter();
-  const [dataUser, setDataUser] = useState<RegisterProps>({
-    first_name: "",
-    last_name: "",
-    birthdate: "",
-    dni: "",
+  
+  const [user, setUser] = useState<User>();
+  const [dataUser, setDataUser] = useState<DataUser>({
     phone: "",
     email: "",
     address: "",
     location: "",
-    nationality: "",
     password: "",
     confirmPass: "",
   });
-
-  const [errorUser, setErrorUser] = useState<RegisterErrorProps>({
-    first_name: "",
-    last_name: "",
-    birthdate: "",
-    dni: "",
+  const [errorUser, setErrorUser] = useState<ErrorDataUser>({
     phone: "",
     email: "",
     address: "",
     location: "",
-    nationality: "",
     password: "",
     confirmPass: "",
   });
 
   useEffect(() => {
-    console.log("Componente Register renderizado");
+    console.log("Componente EditProfile renderizado");
+    const userSession = localStorage.getItem("userSession");
+    if (userSession) {
+      const parsedUser = JSON.parse(userSession);
+      setUser(parsedUser.userData);
+      setDataUser({
+        phone: parsedUser.userData.phone,
+        email: parsedUser.userData.email,
+        address: parsedUser.userData.address,
+        location: parsedUser.userData.location,
+        password: "",
+        confirmPass: "",
+      })
+      setAuthToken(parsedUser.token);
+    } else {
+      router.push("/login");
+    }
   }, []);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,37 +85,43 @@ const EditProfile = () => {
       ...dataUser,
       [event.target.name]: event.target.value,
     });
-    console.log("Nuevo estado de dataUser:", {
-      ...dataUser,
-      [event.target.name]: event.target.value,
-    });
+    // console.log("Nuevo estado de dataUser:", {
+    //   ...dataUser,
+    //   [event.target.name]: event.target.value,
+    // });
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log("handleSubmit llamado");
-    const errors = validateRegisterForm(dataUser);
+    const errors = updateRegisterForm(dataUser);
     setErrorUser(errors);
 
     if (Object.keys(errors).length === 0) {
       try {
-        const response = await register(dataUser);
-        console.log("Este es el response", response);
-        Swal.fire({
-          title: "¡Excelente!",
-          text: "Cuenta creada correctamente.",
-          icon: "success",
-          confirmButtonText: "Aceptar",
-          customClass: {
-            confirmButton:
-              "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
-          },
-        });
-        router.push("/login");
+          const response = await axiosInstance.patch('/auth/updateperson',{
+            id: user?.id,
+            ...dataUser
+          });
+          localStorage.setItem(
+            "userSession",
+            JSON.stringify({ token: response.data.token , userData: response.data.userData })
+          );
+          Swal.fire({
+            title: "¡Excelente!",
+            text: "Información actualizada.",
+            icon: "success",
+            confirmButtonText: "Aceptar",
+            customClass: {
+              confirmButton:
+                "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
+            },
+          });
+          router.push("/page/patients/appointments");
       } catch (error: any) {
         Swal.fire({
           title: "Error",
-          text: "Hubo un problema al crear la cuenta. Por favor, intente de nuevo.",
+          text: error.response.data.message,
           icon: "error",
           confirmButtonText: "Aceptar",
         });
@@ -101,17 +144,14 @@ const EditProfile = () => {
               </label>
               <input
                 className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
-                placeholder="Nombre"
-                value={dataUser.first_name}
+                placeholder={user?.first_name}
                 type="text"
                 id="first_name"
                 name="first_name"
+                disabled={true}
                 required
                 onChange={handleChange}
               />
-              {errorUser.first_name && (
-                <p className="text-red-500">{errorUser.first_name}</p>
-              )}
             </div>
             <div className="w-full">
               <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
@@ -119,25 +159,22 @@ const EditProfile = () => {
               </label>
               <input
                 className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
-                placeholder="Apellido"
-                value={dataUser.last_name}
+                placeholder={user?.last_name}
                 type="text"
                 id="last_name"
                 name="last_name"
+                disabled={true}
                 required
                 onChange={handleChange}
               />
-              {errorUser.last_name && (
-                <p className="text-red-500">{errorUser.last_name}</p>
-              )}
             </div>
             <div className="w-full">
               <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
                 TELÉFONO
               </label>
               <input
-                className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
-                placeholder="Teléfono"
+                className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#FFF] w-full text-black"
+                placeholder={user?.phone}
                 value={dataUser.phone}
                 type="text"
                 id="phone"
@@ -154,18 +191,15 @@ const EditProfile = () => {
                 NACIONALIDAD
               </label>
               <input
-                className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
-                placeholder="Nacionalidad"
-                value={dataUser.nationality}
+                className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full text-black"
+                placeholder={user?.nationality}
                 type="text"
                 id="nationality"
                 name="nationality"
+                disabled={true}
                 required
                 onChange={handleChange}
               />
-              {errorUser.nationality && (
-                <p className="text-red-500">{errorUser.nationality}</p>
-              )}
             </div>
           </form>
 
@@ -180,17 +214,14 @@ const EditProfile = () => {
               </label>
               <input
                 className="flex h-[30px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
-                placeholder="Fecha de Nacimiento"
-                value={dataUser.birthdate}
-                type="date"
+                placeholder={user?.birthdate ? new Date(user.birthdate).toLocaleDateString([], { year: "numeric", month: "2-digit", day: "2-digit"}) : ""}
+                type="text"
                 id="birthdate"
                 name="birthdate"
+                disabled={true}
                 required
                 onChange={handleChange}
               />
-              {errorUser.birthdate && (
-                <p className="text-red-500">{errorUser.birthdate}</p>
-              )}
             </div>
             <div className="w-full">
               <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
@@ -198,23 +229,22 @@ const EditProfile = () => {
               </label>
               <input
                 className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
-                placeholder="DNI"
-                value={dataUser.dni}
+                placeholder={user?.dni}
                 type="text"
                 id="dni"
                 name="dni"
+                disabled={true}
                 required
                 onChange={handleChange}
               />
-              {errorUser.dni && <p className="text-red-500">{errorUser.dni}</p>}
             </div>
             <div className="w-full">
               <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
                 CORREO ELECTRÓNICO
               </label>
               <input
-                className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
-                placeholder="Correo Electrónico"
+                className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#FFF] w-full text-black"
+                placeholder={user?.email}
                 value={dataUser.email}
                 type="email"
                 id="email"
@@ -231,8 +261,8 @@ const EditProfile = () => {
                 DIRECCIÓN
               </label>
               <input
-                className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
-                placeholder="Dirección"
+                className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#FFF] w-full text-black"
+                placeholder={user?.address}
                 value={dataUser.address}
                 type="text"
                 id="address"
@@ -249,8 +279,8 @@ const EditProfile = () => {
                 LOCALIDAD
               </label>
               <input
-                className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
-                placeholder="Localidad"
+                className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#FFF] w-full text-black"
+                placeholder={user?.location}
                 value={dataUser.location}
                 type="text"
                 id="location"
@@ -268,7 +298,7 @@ const EditProfile = () => {
               </label>
               <input
                 type="password"
-                className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
+                className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#FFF] w-full text-black"
                 placeholder="Contraseña"
                 value={dataUser.password}
                 id="password"
@@ -286,7 +316,7 @@ const EditProfile = () => {
               </label>
               <input
                 type="password"
-                className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
+                className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#FFF] w-full text-black"
                 placeholder="Contraseña"
                 value={dataUser.confirmPass}
                 id="confirmPass"
