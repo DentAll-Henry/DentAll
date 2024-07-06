@@ -76,6 +76,8 @@ const page = () => {
             />
           </div>
         </Link>
+
+        <Payments/>
       </div>
     </div>
   );
