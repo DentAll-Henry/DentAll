@@ -143,18 +143,32 @@ export class AuthService {
     return await this.authRepository.changePass(authToUpdate);
   }
 
-  async updatePerson(personId: string, infoToUpdate: { phone?: string, email?: string, address?: string, location?: string, confirmPass: string }){
-    const person: Person = await this.peopleService.personById(personId);
+  async updatePerson(role: Roles, infoToUpdate: { id: string, phone?: string, email?: string, address?: string, location?: string, password: string }){
+    const { id, password, ...infoPersonToUpdate } = infoToUpdate;
+
+    const person: Person = await this.peopleService.personById(id);
+    if(!person) throw new BadRequestException('Error en la solicitud.')
     
-    const { confirmPass, ...infoPersonToUpdate } = infoToUpdate;
-    
-    const credentials: Auth = await this.credentialByEmail(person.email);
+    const credentials: Auth = person.auth as Auth;
     if(!credentials) throw new BadRequestException('Error en la solicitud.')
-    const isPassCorrect: boolean = await ComparePass(credentials.password, confirmPass);
+      
+    const isPassCorrect: boolean = await ComparePass(password, credentials.password);
     if (!isPassCorrect) throw new BadRequestException('No se puede proceder con la solicitud. Información incorrecta.');
 
     const personUpdated: Person = await this.peopleService.updatePerson(person.id, infoPersonToUpdate);
 
-    return personUpdated;
+    const { auth, ...personToReturn } = personUpdated
+
+    const userPayload = {
+      id: personUpdated.id,
+      email: personUpdated.email,
+      roles: role,
+    };
+
+    const token = this.jwtService.sign(userPayload, {
+      secret: this.configService.get<string>('JWT_SECRET'),
+    });
+
+    return { token, userData: personToReturn};
   }
 }

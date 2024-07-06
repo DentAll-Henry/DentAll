@@ -119,6 +119,8 @@ export class PeopleRepository {
         'person.photo',
       ])
       .leftJoinAndSelect('person.roles', 'roles')
+      .leftJoinAndSelect('person.auth', 'auth')
+      .addSelect('auth.password')
       .getOne();
 
     return person;

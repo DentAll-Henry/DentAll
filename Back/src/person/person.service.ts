@@ -130,7 +130,13 @@ export class PeopleService {
 
   async updatePerson(id: string, infoToUpdate: Partial<Person>) {
     const personToUpdate: Person = await this.personById(id);
-    return this.peopleRepository.updatePerson(personToUpdate, infoToUpdate);
+    if (!personToUpdate) throw new BadRequestException('No hay usuario con el ID especificado');
+
+    const personByEmail: Person = await this.personByEmail(infoToUpdate.email);
+    if((personByEmail && personByEmail.id === personToUpdate.id) || !personByEmail) {
+      return this.peopleRepository.updatePerson(personToUpdate, infoToUpdate);
+    }
+    throw new BadRequestException('El correo electrónico indicado no es válido para el registro.')
   }
 
   async deletePerson(email: string) {

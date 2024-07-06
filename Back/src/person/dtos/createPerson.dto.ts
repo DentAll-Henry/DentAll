@@ -58,8 +58,9 @@ export class CreatePersonDto {
       message: 'It must have only numbers',
     },
   )
+  @Length(10, 15)
   @ApiProperty({
-    description: 'It must have only numbers',
+    description: 'It must have only numbers and must be between 10 and 15 characters',
     example: '123456789',
   })
   phone: string;
