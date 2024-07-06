@@ -4,10 +4,19 @@ import {
   IsNotEmpty,
   IsNumberString,
   IsOptional,
+  IsUUID,
   Length,
 } from 'class-validator';
 
 export class UpdatePersonDto {
+  @IsNotEmpty()
+  @IsUUID()
+  @ApiProperty({
+    description: 'The person UUID.',
+    example: "3ffa3e35-7ddd-488c-90ea-86270576c14a",
+  })
+  id: string;
+
   @IsOptional()
   @IsNumberString(
     {},
@@ -15,11 +24,12 @@ export class UpdatePersonDto {
       message: 'It must have only numbers',
     },
   )
+  @Length(10, 15)
   @ApiProperty({
-    description: 'It must have only numbers',
+    description: 'It must have only numbers and must be between 10 and 15 characters',
     example: '123456789',
   })
-  phone?: string;
+  phone: string;
 
   @IsOptional()
   @IsEmail(
@@ -59,5 +69,5 @@ export class UpdatePersonDto {
     description: 'Confirm your current password',
     example: 'Pass*123',
   })
-  confirmPass: string;
+  password: string;
 }
