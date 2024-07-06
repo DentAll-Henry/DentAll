@@ -3,10 +3,29 @@ import Link from "next/link";
 import Image from "next/image";
 import Swal from "sweetalert2";
 
-const SideNav = () => {
+interface NavItem {
+  href: string;
+  src: string;
+  alt: string;
+  text: string;
+}
+
+interface SideNavProps {
+
+  navItems: NavItem[];
+  styles: {
+    container: string;
+    nav: string;
+    navItem: string;
+    navItemHover: string;
+    navItemText: string;
+    navItemTextHover: string;
+  };
+}
+
+const SideNav = ({ navItems, styles }: SideNavProps) => {
   const handleLogout = () => {
     localStorage.removeItem("userSession");
-    // window.location.reload();
     Swal.fire({
       title: "¡Excelente!",
       text: "Sesión cerrada correctamente.",
@@ -20,7 +39,7 @@ const SideNav = () => {
   };
 
   return (
-    <div className="h-screen w-[20%] bg-darkD-500 text-white fixed">
+    <div className={`h-screen w-[20%] ${styles.container} text-white fixed`}>
       <div className="py-4 ml-6 mt-3">
         <Image
           src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720194389/Logo-DentAll_qh1uqi.webp"
@@ -30,45 +49,32 @@ const SideNav = () => {
           priority
         />
       </div>
-      <nav className="mt-5">
+      <nav className={`mt-5 ${styles.nav}`}>
         <ul>
-          <li className="py-2 px-4 m-4 rounded-xl hover:bg-zinc-600 group">
-            <Link className="flex gap-4" href="/page/patients">
-              <Image
-                className="group-hover:fill-current text-white"
-                src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201273/home_gfeqo8.svg"
-                width={24}
-                height={24}
-                alt="Home"
-              />
-              <p className="group-hover:text-greenD-500">Inicio</p>
-            </Link>
-          </li>
-          <li className="py-2 px-4 m-4 rounded-xl hover:bg-zinc-600 group">
-            <Link className="flex gap-4" href="/page/patients/appointments">
-              <Image
-                className="group-hover:fill-current text-white"
-                src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201242/citas_bpks2p.svg"
-                width={24}
-                height={24}
-                alt="Citas"
-              />
-              <p className="group-hover:text-greenD-500">Mis citas</p>
-            </Link>
-          </li>
-          <li className="py-2 px-4 m-4 rounded-xl hover:bg-zinc-600 group">
-            <Link className="flex gap-4" href="#">
-              <Image
-                className="group-hover:fill-current text-white"
-                src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201324/recetas_oahfsd.svg"
-                width={24}
-                height={24}
-                alt="Recetas"
-              />
-              <p className="group-hover:text-greenD-500">Recetas médicas</p>
-            </Link>
-          </li>
-          <li className="py-2 px-4 m-4 rounded-xl hover:bg-zinc-600 group">
+          {navItems.map((item, index) => (
+            <li
+              key={index}
+              className={`py-2 px-4 m-4 rounded-xl ${styles.navItem} ${styles.navItemHover} group`}
+            >
+              <Link className="flex gap-4" href={item.href}>
+                <Image
+                  className="group-hover:fill-current text-white"
+                  src={item.src}
+                  width={24}
+                  height={24}
+                  alt={item.alt}
+                />
+                <p
+                  className={`${styles.navItemText} ${styles.navItemTextHover}`}
+                >
+                  {item.text}
+                </p>
+              </Link>
+            </li>
+          ))}
+          <li
+            className={`py-2 px-4 m-4 rounded-xl ${styles.navItem} ${styles.navItemHover} group`}
+          >
             <Link className="flex gap-4" href="/">
               <Image
                 className="group-hover:fill-current text-white"
@@ -79,7 +85,7 @@ const SideNav = () => {
               />
               <button
                 onClick={handleLogout}
-                className="group-hover:text-greenD-500"
+                className={`${styles.navItemText} ${styles.navItemTextHover}`}
               >
                 Cerrar sesión
               </button>
