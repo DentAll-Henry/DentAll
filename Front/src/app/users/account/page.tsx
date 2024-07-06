@@ -5,8 +5,8 @@ import Payments from '@/components/Payments/Payments';
 
 const page = () => {
   return (
-    <div className="w-[80%] h-screen text-white ml-[20%] relative">
-      <NavDash />
+    <div className=" h-screen text-white  relative">
+      {/* <NavDash /> */}
       <Account />
       <div className="m-8">
 

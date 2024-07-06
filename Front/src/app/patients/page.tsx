@@ -13,7 +13,7 @@ const page = () => {
 
       <div className="flex  absolute">
         <div className="grid grid-cols-3 gap-14 w-[80%] m-8 p-4">
-          <Link href="/page/patients/appointments">
+          <Link href="/patients/appointments">
             <div className="flex-col bg-[#3772FF40] gap-1 w-[200px] h-[150px] rounded-md border flex justify-center items-center hover:scale-105 transition-transform duration-300">
               <Image
                 className="group-hover:fill-current text-white"
@@ -25,7 +25,7 @@ const page = () => {
               <p>Mis citas</p>
             </div>
           </Link>
-          <Link href="/page/patients/payments">
+          <Link href="/patients/payments">
             <div className="flex-col bg-[#00000040] gap-1 w-[200px] h-[150px] rounded-md border flex justify-center items-center hover:scale-105 transition-transform duration-300">
               <Image
                 className="group-hover:fill-current text-white"
@@ -37,7 +37,7 @@ const page = () => {
               <p>Pagos</p>
             </div>
           </Link>
-          <Link href="/page/patients/recommendations">
+          <Link href="/patients/recommendations">
             <div className="flex-col bg-[#DF291540] w-[200px] h-[150px] rounded-md border flex justify-center items-center hover:scale-105 transition-transform duration-300">
               <Image
                 className="group-hover:fill-current text-white"
@@ -49,7 +49,7 @@ const page = () => {
               <p>Recomendaciones</p>
             </div>
           </Link>
-          <Link href="/page/dashboard_1/citas">
+          <Link href="/dashboard_1/citas">
             <div className="flex-col bg-[#FDC84040] w-[200px] h-[150px] rounded-md border flex justify-center items-center hover:scale-105 transition-transform duration-300">
               <Image
                 className="group-hover:fill-current text-white"
@@ -73,7 +73,7 @@ const page = () => {
               <p>Historial Clinico</p>
             </div>
           </Link>
-          <Link href="/page/dashboard_1/citas">
+          <Link href="/dashboard_1/citas">
             <div className="flex-col bg-[#3772FF40]  w-[200px] h-[150px] rounded-md border flex justify-center items-center hover:scale-105 transition-transform duration-300">
               <Image
                 className="group-hover:fill-current text-white"
