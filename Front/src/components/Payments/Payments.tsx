@@ -9,9 +9,7 @@ export default function Payments() {
   const [patientID, setPatientID] = useState(
     "18812647-2bd7-4a20-b8d1-4fd75c5e3b45"
   ); // Reemplaza con un ID válido
-  const [dentalServID, setDentalServID] = useState(
-    "0acff16e-9fc3-4167-8c19-80d13a1c5549"
-  ); // Reemplaza con un ID válido
+  const [dentalServID, setDentalServID] = useState("0acff16e-9fc3-4167-8c19-80d13a1c5549"); // Reemplaza con un ID válido
   const [preferenceId, setPreferenceId] = useState<string | null>(null);
 
   useEffect(() => {

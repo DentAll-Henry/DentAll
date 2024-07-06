@@ -5,7 +5,6 @@ import { Appointment } from './entities/appointment.entity';
 import { CreateAppointmentDto } from './dto/create-appointment.dto';
 import { UpdateAppointmentDto } from './dto/update-appointment.dto';
 import { AppointmentPaginationDto } from 'src/common/dto/paginationDto';
-import { GetAvailableSlotsDto } from './dto/get_available-slots.dto';
 import { PendingAppointment } from './entities/pending.appointments';
 import { Patient } from 'src/person/entities/patient.entity';
 import { CreatePendingAppointmentDto } from './dto/create_pending_appointment.dt';
@@ -153,5 +152,42 @@ export class AppointmentsRepository {
   async removeAppointment(id: string) {
 
     return await this.appointment.delete({ id });
+  }
+
+  async execute_querys(queryStoredProcedure: string) {
+    return await this.appointment.query(queryStoredProcedure)
+  }
+
+  async getDaysWithSlots(start_date: Date, end_date: Date, dentist_id: string, max_appointments: number) {
+    
+    const query = `
+            WITH RECURSIVE dates_list AS (
+                SELECT
+                    $1::"timestamp" AS fecha
+                UNION ALL
+                SELECT
+                    fecha + '1 day'::INTERVAL
+                FROM
+                    dates_list
+                WHERE
+                    fecha < $2::DATE
+            )
+            SELECT
+                DATE(dates_list.fecha) AS date_time,
+                COALESCE(COUNT(appointments.id), 0) AS total_registros
+            FROM
+                dates_list
+            LEFT JOIN
+                appointments ON DATE(dates_list.fecha) = DATE(appointments.date_time) AND appointments.dentist_id = $3
+            GROUP BY
+                DATE(dates_list.fecha)
+            HAVING COALESCE(COUNT(appointments.id), 0) < $4 
+            ORDER BY
+                DATE(dates_list.fecha);
+        `;
+
+    const results = await this.appointment.query(query, [start_date, end_date, dentist_id, max_appointments]);
+
+    return results.map((result: any) => result.date_time);
   }
 }

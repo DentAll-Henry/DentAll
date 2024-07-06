@@ -6,13 +6,15 @@ import { RolesService } from '../role/role.service';
 import { Roles } from '../role/enums/roles.enum';
 import { Guest } from './entities/guest.entity';
 import { PatientsService } from './patient.service';
+import { FilesService } from 'src/files/files.service';
 
 @Injectable()
 export class PeopleService {
   constructor(
     private readonly peopleRepository: PeopleRepository,
     private readonly rolesService: RolesService,
-    private readonly patientsService: PatientsService
+    private readonly patientsService: PatientsService,
+    private readonly filesService: FilesService,
   ) {}
 
   //& --> guests endpoints <--
@@ -29,10 +31,14 @@ export class PeopleService {
     const guest: Guest = await this.peopleRepository.createGuest(guestInfo);
     return guest;
   }
-  
+
   //& --> people endpoints <--
-  async getAllPeople(paginationDto: { page: number; limit: number }): Promise<Person[]> {
-    const people: Person[] = await this.peopleRepository.getAllPeople(paginationDto);
+  async getAllPeople(paginationDto: {
+    page: number;
+    limit: number;
+  }): Promise<Person[]> {
+    const people: Person[] =
+      await this.peopleRepository.getAllPeople(paginationDto);
     return people;
   }
 
@@ -51,8 +57,14 @@ export class PeopleService {
     return person;
   }
 
-  async peopleByRole(roleName: Role['name'], paginationDto: { page: number; limit: number }): Promise<Person[]> {
-    const people: Person[] = await this.peopleRepository.peopleByRole(roleName, paginationDto);
+  async peopleByRole(
+    roleName: Role['name'],
+    paginationDto: { page: number; limit: number },
+  ): Promise<Person[]> {
+    const people: Person[] = await this.peopleRepository.peopleByRole(
+      roleName,
+      paginationDto,
+    );
     return people;
   }
 
@@ -65,7 +77,8 @@ export class PeopleService {
     const personByDniExist: Person = await this.peopleRepository.personByDni(
       personInfo.dni,
     );
-    if (personByDniExist) throw new BadRequestException('Ya existe un registro con ese DNI.');
+    if (personByDniExist)
+      throw new BadRequestException('Ya existe un registro con ese DNI.');
 
     const role: Role = await this.rolesService.roleByName(Roles.PATIENT);
 
@@ -80,15 +93,39 @@ export class PeopleService {
   }
 
   async addRole(personId: string, roleName: { roleName: Roles }) {
-    const roleToAdd: Role = await this.rolesService.roleByName(roleName.roleName);
+    const roleToAdd: Role = await this.rolesService.roleByName(
+      roleName.roleName,
+    );
     const person: Person = await this.personById(personId);
     return this.peopleRepository.addRole(person, roleToAdd);
   }
 
   async delRole(personId: string, roleName: { roleName: Roles }) {
-    const roleToDel: Role = await this.rolesService.roleByName(roleName.roleName);
+    const roleToDel: Role = await this.rolesService.roleByName(
+      roleName.roleName,
+    );
     const person: Person = await this.personById(personId);
     return this.peopleRepository.delRole(person, roleToDel);
+  }
+
+  async editPhoto(idperson: string, file: Express.Multer.File) {
+    const person: Person = await this.peopleRepository.personById(idperson);
+    if (!person)
+      throw new BadRequestException('No existe usuario con el id especificado');
+    const personEmail: string = person.email;
+    let partPath = personEmail.split('');
+    const index1: number = partPath.indexOf('@');
+    partPath[index1] = '-';
+    partPath = partPath.map((c) => {
+      if (c === '.') return '-';
+      else return c
+    });
+    const partPath2 = partPath.join('');
+    const path: string = `DentAll/${partPath2}`
+    const cloudinary = await this.filesService.uploadFile({ path, file});
+    person.photo = cloudinary.secure_url;
+    const updatedPerson: Person = await this.updatePerson(idperson, person);
+    return updatedPerson;
   }
 
   async updatePerson(id: string, infoToUpdate: Partial<Person>) {
@@ -103,8 +140,12 @@ export class PeopleService {
 
   async restorePerson(email: string): Promise<Person> {
     const personDeleted: Person = await this.personByEmail(email);
-    if(!personDeleted.deleteDate) throw new BadRequestException('Usuario activo, no requiere restauración de cuenta.')
-    const personToRestore: Person = await this.peopleRepository.restorePerson(personDeleted);
+    if (!personDeleted.deleteDate)
+      throw new BadRequestException(
+        'Usuario activo, no requiere restauración de cuenta.',
+      );
+    const personToRestore: Person =
+      await this.peopleRepository.restorePerson(personDeleted);
     return personToRestore;
   }
 }
