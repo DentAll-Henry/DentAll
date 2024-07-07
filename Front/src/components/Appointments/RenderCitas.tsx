@@ -29,7 +29,7 @@ const RenderCitas = () => {
       setUser(parsedUser.userData);
       setLoggin(true);
     } else {
-      router.push("/register");
+      router.push("/login");
     }
   }, [router]);
 
