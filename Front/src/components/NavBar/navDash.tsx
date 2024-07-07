@@ -42,13 +42,14 @@ const NavDash = () => {
         {userData?.token && (
           <div className="flex gap-3 items-center">
             <Link
-              href="/page/users/account"
+              href="/users/account"
               className="flex items-center gap-4"
             >
               <Image
-                src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201221/user_bdisfr.svg"
+                src={userData.userData.photo || "https://res.cloudinary.com/ddpohfyur/image/upload/v1720201221/user_bdisfr.svg"}
                 width={40}
                 height={30}
+                style={{borderRadius: 50}}
                 alt="Usuario"
               />
               <p className="m-4">
