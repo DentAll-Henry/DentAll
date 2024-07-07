@@ -8,6 +8,7 @@ import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import { endOfMonth, format, startOfMonth } from "date-fns";
 import { toZonedTime } from "date-fns-tz";
+import './DatePickerStyles.css'; // Importa los estilos personalizados
 
 type User = {
   id: string;
@@ -231,166 +232,108 @@ const CreateAppointment = () => {
   };
 
   return (
-    <div className="flex">
-      <div className="flex-1">
-        <NavDash />
+    <div className="flex ">
+      <NavDash />
+      <div className="flex-1 mt-[5%]">
         <div className="w-full h-screen flex justify-center items-center bg-darkD-600 text-white">
-          <form onSubmit={handleSubmit} className="bg-gray-700 p-8 rounded-md">
-            <h3 className="text-white font-bold mb-4">Crear Nueva Cita</h3>
+          <form
+            onSubmit={handleSubmit}
+            className="border bg-darkD-500 p-8 rounded-md flex flex-wrap w-full max-w-4xl"
+          >
+            <h3 className="text-white font-bold mb-4 w-full text-center">
+              Crear Nueva Cita
+            </h3>
             {errorMessage && (
-              <p className="text-red-500 mb-4">{errorMessage}</p>
+              <p className="text-red-500 mb-4 w-full text-center">
+                {errorMessage}
+              </p>
             )}
-            <div className="mb-4">
-              <label className="text-white">Tipo de Consulta</label>
-              <select
-                name="service"
-                value={consultationType}
-                onChange={handleServiceChange}
-                className="w-full p-2 rounded-md text-black"
-              >
-                <option value="" disabled hidden>
-                  Selecciona una opción
-                </option>
-                <option value="Consulta de valoración">
-                  Consulta de valoración
-                </option>
-                {pending.map((p) => (
-                  <option key={p.service.id} value={p.service.name}>
-                    {p.service.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="mb-4">
-              <label className="text-white">Dentista</label>
-              <select
-                name="dentist_id"
-                value={dentist}
-                onChange={handleDentistChange}
-                className="w-full p-2 rounded-md text-black"
-              >
-                <option value="" disabled>
-                  Selecciona un profesional
-                </option>
-                {dentists.map((p) => (
-                  <option key={p.id} value={p.id}>
-                    {p.person.first_name} {p.person.last_name}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="mb-4">
-              {isLoading ? (<span>Cargando fechas disponibles</span>) : ""}
-              <div>
-                <DatePicker
-                  minDate={new Date()}
-                  onChange={(date: Date | null) => handleCalendarSelectedDate(date)}
-                  onMonthChange={handleCalendarMonthChange}
-                  selected={calendarDate}
-                  //selected={selectedDate}
-                  //onChange={date => setSelectedDate(date)}
-                  //filterDate={isDateBlocked}
-                  onSelect={(date: Date | null) => handleCalendarSelectDate(date)}
-                  includeDates={availableDates}
-                  showTimeSelect
-                  timeFormat="HH:mm"
-                  includeTimes={availableTimes}
-                  showMonthDropdown
-                  placeholderText="Selecciona una fecha"
-                  inline
-                />
+            <div className="flex w-full">
+              <div className="w-2/3 pr-4 text-center">
+                {isLoading ? (
+                  <span className="text-gray-600">
+                    Cargando fechas disponibles
+                  </span>
+                ) : (
+                  ""
+                )}
+                <div className="mt-2 bg-darkD-400 shadow-md rounded-lg">
+                  <DatePicker
+                    minDate={new Date()}
+                    onChange={(date) => handleCalendarSelectedDate(date)}
+                    onMonthChange={handleCalendarMonthChange}
+                    selected={calendarDate}
+                    onSelect={(date) => handleCalendarSelectDate(date)}
+                    includeDates={availableDates}
+                    showTimeSelect
+                    timeFormat="HH:mm"
+                    includeTimes={availableTimes}
+                    showMonthDropdown
+                    placeholderText="Selecciona una fecha"
+                    inline
+                    className="react-datepicker" // Agrega esta clase para aplicar los estilos
+                  />
+                </div>
+              </div>
+              <div className="w-1/3 pl-4">
+                <div className="mb-4">
+                  <label className="text-white">Tipo de Consulta</label>
+                  <select
+                    name="service"
+                    value={consultationType}
+                    onChange={handleServiceChange}
+                    className="w-full p-2 rounded-md text-black"
+                  >
+                    <option value="" disabled hidden>
+                      Selecciona una opción
+                    </option>
+                    <option value="Consulta de valoración">
+                      Consulta de valoración
+                    </option>
+                    {pending.map((p) => (
+                      <option key={p.service.id} value={p.service.name}>
+                        {p.service.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="mb-4">
+                  <label className="text-white">Dentista</label>
+                  <select
+                    name="dentist_id"
+                    value={dentist}
+                    onChange={handleDentistChange}
+                    className="w-full p-2 rounded-md text-black"
+                  >
+                    <option value="" disabled>
+                      Selecciona un profesional
+                    </option>
+                    {dentists.map((p) => (
+                      <option key={p.id} value={p.id}>
+                        {p.person.first_name} {p.person.last_name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="mb-4">
+                  <label className="text-white">Observaciones</label>
+                  <textarea
+                    value={observaciones}
+                    onChange={handleObservacionesChange}
+                    className="w-full p-2 rounded-md text-black"
+                    placeholder="Detalles que quiera compartir con el dentista..."
+                  ></textarea>
+                </div>
+                <div className="w-full">
+                  <button
+                    type="submit"
+                    className="bg-green-500 text-white p-2 rounded-md w-full"
+                  >
+                    Crear Cita
+                  </button>
+                </div>
               </div>
             </div>
-            <div className="mb-4">
-              <label className="text-white">Observaciones</label>
-              <textarea
-                value={observaciones}
-                onChange={handleObservacionesChange}
-                className="w-full p-2 rounded-md text-black"
-                placeholder="Detalles que quiera compartir con el dentista..."
-              >
-              </textarea>
-            </div>
-            {/* <div className="mb-4">
-              <label className="text-white">Año</label>
-              <select
-                value={year}
-                onChange={handleYearChange}
-                className="w-full p-2 rounded-md text-black"
-              >
-                <option value="" disabled hidden>
-                  Selecciona el año
-                </option>
-                <option value="2024">2024</option>
-                <option value="2025">2025</option>
-              </select>
-            </div>
-            <div className="mb-4">
-              <label className="text-white">Mes</label>
-              <select
-                value={month}
-                onChange={handleMonthChange}
-                className="w-full p-2 rounded-md text-black"
-              >
-                <option value="" disabled hidden>
-                  Selecciona el mes
-                </option>
-                <option value="01">Enero</option>
-                <option value="02">Febrero</option>
-                <option value="03">Marzo</option>
-                <option value="04">Abril</option>
-                <option value="05">Mayo</option>
-                <option value="06">Junio</option>
-                <option value="07">Julio</option>
-                <option value="08">Agosto</option>
-                <option value="09">Septiembre</option>
-                <option value="10">Octubre</option>
-                <option value="11">Noviembre</option>
-                <option value="12">Dicembre</option>
-              </select>
-            </div>
-
-            <div className="mb-4">
-              <label className="text-white">Día</label>
-              <select
-                value={selectedDay}
-                onChange={handleDaysChange}
-                className="w-full p-2 rounded-md text-black"
-              >
-                <option value="" disabled hidden>
-                  Selecciona el día
-                </option>
-                {days.map(
-                  (d, index) =>
-                    <option key={index} value={index.toString()}>
-                      {d}
-                    </option>
-                )}
-              </select>
-            </div>
-            <div className="mb-4">
-              <label className="text-white">Hora</label>
-              <select
-                value={selectedHour}
-                onChange={handleHoursChange}
-                className="w-full p-2 rounded-md text-black"
-              >
-                <option value="" disabled hidden>
-                  Selecciona la hora
-                </option>
-                {hours.map((h, index) => (
-                  <option key={index} value={h}>
-                    {h}
-                  </option>
-                ))}
-              </select>
-            </div> */}
-            <button
-              type="submit"
-              className="bg-green-500 text-white p-2 rounded-md w-full"
-            >
-              Crear Cita
-            </button>
           </form>
         </div>
       </div>
@@ -399,3 +342,78 @@ const CreateAppointment = () => {
 };
 
 export default CreateAppointment;
+
+{/* <div className="mb-4">
+  <label className="text-white">Año</label>
+  <select
+    value={year}
+    onChange={handleYearChange}
+    className="w-full p-2 rounded-md text-black"
+  >
+    <option value="" disabled hidden>
+      Selecciona el año
+    </option>
+    <option value="2024">2024</option>
+    <option value="2025">2025</option>
+  </select>
+</div>
+<div className="mb-4">
+  <label className="text-white">Mes</label>
+  <select
+    value={month}
+    onChange={handleMonthChange}
+    className="w-full p-2 rounded-md text-black"
+  >
+    <option value="" disabled hidden>
+      Selecciona el mes
+    </option>
+    <option value="01">Enero</option>
+    <option value="02">Febrero</option>
+    <option value="03">Marzo</option>
+    <option value="04">Abril</option>
+    <option value="05">Mayo</option>
+    <option value="06">Junio</option>
+    <option value="07">Julio</option>
+    <option value="08">Agosto</option>
+    <option value="09">Septiembre</option>
+    <option value="10">Octubre</option>
+    <option value="11">Noviembre</option>
+    <option value="12">Dicembre</option>
+  </select>
+</div>
+
+<div className="mb-4">
+  <label className="text-white">Día</label>
+  <select
+    value={selectedDay}
+    onChange={handleDaysChange}
+    className="w-full p-2 rounded-md text-black"
+  >
+    <option value="" disabled hidden>
+      Selecciona el día
+    </option>
+    {days.map(
+      (d, index) =>
+        <option key={index} value={index.toString()}>
+          {d}
+        </option>
+    )}
+  </select>
+</div>
+<div className="mb-4">
+  <label className="text-white">Hora</label>
+  <select
+    value={selectedHour}
+    onChange={handleHoursChange}
+    className="w-full p-2 rounded-md text-black"
+  >
+    <option value="" disabled hidden>
+      Selecciona la hora
+    </option>
+    {hours.map((h, index) => (
+      <option key={index} value={h}>
+        {h}
+      </option>
+    ))}
+  </select>
+</div> */}
