@@ -117,7 +117,7 @@ const EditProfile = () => {
                 "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
             },
           });
-          router.push("/page/patients/appointments");
+          router.push("/patients/appointments");
       } catch (error: any) {
         Swal.fire({
           title: "Error",

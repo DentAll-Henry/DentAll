@@ -24,7 +24,7 @@ const DashboardPage = () => {
             <p>Mi agenda</p>
           </div>
         </Link>
-        <Link href="/page/professional/patientsL">
+        <Link href="/professional/patientsL">
           <div className="flex-col bg-black w-[200px] h-[150px] rounded-md border flex justify-center items-center hover:scale-105 transition-transform duration-300">
             <Image
               className="group-hover:fill-current text-white"
