@@ -4,7 +4,7 @@ import Link from 'next/link'
 function CardPatient() {
   return (
     <div>
-        <Link href="/page/professional">
+        <Link href="/professional">
             <div className='w-full flex flex-row gap-5 '>
                 <div className='w-[31%] p-3 flex flex-row gap-4'>
                     <Image

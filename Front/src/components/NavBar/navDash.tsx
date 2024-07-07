@@ -30,7 +30,7 @@ const NavDash = () => {
         </div>
 
         <div className=" ml-[50%]">
-          <Link href="/page/patients/notifications">
+          <Link href="/patients/notifications">
             <Image
               src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201299/notificacion_zwl4hp.svg"
               width={24}
@@ -42,7 +42,7 @@ const NavDash = () => {
         {userData?.token && (
           <div className="flex gap-3 items-center">
             <Link
-              href="/page/users/account"
+              href="/users/account"
               className="flex items-center gap-4"
             >
               <Image

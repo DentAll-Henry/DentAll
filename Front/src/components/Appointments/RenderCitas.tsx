@@ -72,7 +72,7 @@ const RenderCitas = () => {
         <div>
           <h2 className="font-bold ml-8">PROXIMAS CITAS</h2>
         </div>
-        <Link href="/page/patients/create-appointment">
+        <Link href="/patients/create-appointment">
           <p className="bg-gray-500 p-1 mr-8 rounded-md cursor-pointer">
             + Agregar cita
           </p>

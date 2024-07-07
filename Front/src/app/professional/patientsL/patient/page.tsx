@@ -19,7 +19,7 @@ function page() {
                     alt="pill"
                 />
                 
-                <Link href="/page/professional/patientsL">
+                <Link href="/professional/patientsL">
                   <div className=' flex flex-row gap-2 p-2 justify-center items-center text-greenD-700 border border-greenD-700 border-[2px] rounded-md'>
                     <p >Elaborar recetas médicas</p>
                     <Image

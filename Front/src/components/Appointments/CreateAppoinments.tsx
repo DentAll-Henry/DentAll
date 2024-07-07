@@ -106,7 +106,7 @@ const CreateAppointment = () => {
       const parsedUser = JSON.parse(userSession);
       setUser(parsedUser.userData);
     } else {
-      router.push("/register");
+      router.push("/login");
     }
   }, [router]);
 
@@ -138,7 +138,7 @@ const CreateAppointment = () => {
 
       if (response.status === 201) {
         alert("Cita creada con éxito");
-        router.push("/page/patients/appointments"); // Cambia "/appointments" a la ruta adecuada
+        router.push("/patients/appointments"); // Cambia "/appointments" a la ruta adecuada
       }
     } catch (error) {
       console.error("Error creating appointment:", error);

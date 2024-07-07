@@ -20,7 +20,7 @@ const page = () => {
         <h2 className="font-bold">Historial de pagos</h2>
       </div>
       <div className="flex flex-wrap gap-8 w-[90%] m-auto mr-4">
-        <Link href="/page/dashboard_1/citas">
+        <Link href="#">
           <div className="flex-col bg-greenD-500 bg-opacity-5 w-[200px] h-[150px] rounded-md  flex justify-center items-center hover:scale-105 transition-transform duration-300">
             <p className="text-[#60D66A]">Consulta general</p>
             <p className="text-[#60D66A]">20/4/2024</p>
@@ -34,7 +34,7 @@ const page = () => {
             />
           </div>
         </Link>
-        <Link href="/page/dashboard_1/citas">
+        <Link href="#">
           <div className=" gap-1 flex-col bg-greenD-500 bg-opacity-5 w-[200px] h-[150px] rounded-md  flex justify-center items-center hover:scale-105 transition-transform duration-300">
             <p className="text-[#60D66A]">Consulta general</p>
             <p className="text-[#60D66A]">8/5/2024</p>
@@ -48,7 +48,7 @@ const page = () => {
             />
           </div>
         </Link>
-        <Link href="/page/dashboard_1/citas">
+        <Link href="#">
           <div className="flex-col bg-greenD-500 bg-opacity-5 w-[200px] h-[150px] rounded-md  flex justify-center items-center hover:scale-105 transition-transform duration-300">
             <p className="text-[#60D66A]">Consulta general</p>
             <p className="text-[#60D66A]">28/5/2024</p>
@@ -62,7 +62,7 @@ const page = () => {
             />
           </div>
         </Link>
-        <Link href="/page/dashboard_1/citas">
+        <Link href="#">
           <div className="flex-col bg-greenD-500 bg-opacity-5 w-[200px] h-[150px] rounded-md  flex justify-center items-center hover:scale-105 transition-transform duration-300">
             <p className="text-[#60D66A]">Consulta general</p>
             <p className="text-[#60D66A]">1/6/2024</p>

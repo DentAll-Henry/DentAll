@@ -25,7 +25,7 @@ const Login = () => {
     console.log("Componente Login renderizado");
     const userSession = localStorage.getItem("userSession");
     if (userSession) {
-      router.push("/page/patients");
+      router.push("/patients");
     }
   }, [router]);
 
@@ -60,7 +60,7 @@ const Login = () => {
               "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
           },
         });
-        router.push("/page/patients");
+        router.push("/patients");
       } catch (error: any) {
         console.log(error);
         Swal.fire({
