@@ -1,4 +1,5 @@
 import Account from '@/components/Account/Account'
+import EditProfile from '@/components/EditProfile/EditProfile';
 import NavDash from '@/components/NavBar/navDash';
 import Payments from '@/components/Payments/Payments';
 
@@ -8,10 +9,7 @@ const page = () => {
     <div className=" h-screen text-white  relative">
       {/* <NavDash /> */}
       <Account />
-      <div className="m-8">
-
-      
-      </div>
+      <EditProfile />
     </div>
   );
 }

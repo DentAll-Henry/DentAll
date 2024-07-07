@@ -43,7 +43,7 @@ const SideNav = ({ navItems, styles }: SideNavProps) => {
       <div className="py-4 ml-6 mt-3">
         <Image
           src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720194389/Logo-DentAll_qh1uqi.webp"
-          alt="Logo"
+          alt="Logo DentAll"
           width={200}
           height={50}
           priority
@@ -78,7 +78,7 @@ const SideNav = ({ navItems, styles }: SideNavProps) => {
             <Link className="flex gap-4" href="/">
               <Image
                 className="group-hover:fill-current text-white"
-                src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201221/user_bdisfr.svg"
+                src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720362437/Property_Power_bmot88.svg"
                 width={24}
                 height={24}
                 alt="Cerrar sesión"
