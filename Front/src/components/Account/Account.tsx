@@ -5,6 +5,7 @@ import { RegisterProps } from "@/types";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import axiosInstance from "@/utils/axiosInstance";
 
 const Account = () => {
   const router = useRouter();
@@ -23,29 +24,43 @@ const Account = () => {
         const parsedUserData = JSON.parse(storedUserData);
         console.log("Parsed User Data:", parsedUserData);
         setUserData(parsedUserData); // Asegúrate de actualizar el estado correctamente
-        if (parsedUserData.userData && parsedUserData.userData.profileImage) {
-          setProfileImage(parsedUserData.userData.profileImage);
+        if (parsedUserData.userData && parsedUserData.userData.photo) {
+          setProfileImage(parsedUserData.userData.photo);
         }
       }
     }
   }, [pathname]);
 
+  useEffect(()=> {
+    console.log('Imagen de usuario actualizada.')
+  }, [profileImage])
+
   const navigateBack = () => {
     router.back();
   };
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        // Aquí puedes realizar la lógica para subir la imagen a tu servicio de almacenamiento (por ejemplo, Cloudinary)
-        // Una vez subida, puedes actualizar el estado del usuario con la nueva URL de la imagen de perfil
-        const newProfileImageUrl = reader.result as string;
+      const formData = new FormData();
+      formData.append('file', file);
+      
+      try {
+        const response = await axiosInstance.patch(`/people/editphoto/${userData.userData.id}`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        setUserData({ token: userData.token, userData: response.data})
+        localStorage.setItem(
+          "userSession",
+          JSON.stringify({ token: userData.token, userData: response.data})
+        );
+        const newProfileImageUrl = response.data.photo;
         setProfileImage(newProfileImageUrl);
-        // También puedes guardar esta nueva URL en el estado global o en localStorage si lo deseas
-      };
-      reader.readAsDataURL(file);
+      } catch (error) {
+        console.error('Error uploading image', error);
+      }
     }
   };
 
@@ -61,6 +76,7 @@ const Account = () => {
             src={profileImage}
             width={150}
             height={100}
+            style={{borderRadius:100}}
             alt="Imagen de perfil"
           />
           {showEditIcon && (
@@ -92,7 +108,7 @@ const Account = () => {
             </label>
           )}
           <div className="">
-            <h2 className="text-3xl ">{userData?.userData?.name}</h2>
+            <h2 className="text-3xl ">{userData?.userData?.first_name} {userData?.userData?.last_name}</h2>
             <p>Paciente</p>
             <div className="flex mt-4">
               <Image
@@ -101,7 +117,7 @@ const Account = () => {
                 height={24}
                 alt=""
               />
-              <p>+1 (385) 880-7000 {userData?.userData?.phone} </p>
+              <p>{userData?.userData?.phone}</p>
             </div>
           </div>
         </div>
