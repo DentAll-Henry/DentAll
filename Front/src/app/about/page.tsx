@@ -1,86 +1,107 @@
-
 import MapComponent from "@/components/Maps/maps";
 import Image from "next/image";
 
 const AboutPage = () => {
   return (
     <div className="flex flex-col text-white m-8">
-      <div>
-        <h2 className="text-[58px] text-center  text-white font-bold leading-normal">
-          SOBRE <span className="text-[#00CE90]">NOSOTROS</span>
-        </h2>
-        <div className="gap-12 w-[80%] m-auto">
+      <div className="flex justify-between m-4">
+        <div className="rounded-2xl ">
+          <Image
+            className="rounded-2xl"
+            src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720382843/clinica_dd187m.jpg"
+            alt="Clinica"
+            width={500}
+            height={100}
+          />
+        </div>
+        <div className="w-[55%] flex flex-col text-start">
+          <h2 className=" text-[58px] text-white font-bold leading-normal">
+            SOBRE <span className="text-[#00CE90]">NOSOTROS</span>
+          </h2>
           <p>
-            DentAll es una clínica dental moderna y vanguardista, dedicada a
-            proporcionar atención odontológica de alta calidad mediante el uso
-            de tecnologías avanzadas y prácticas innovadoras. Con un enfoque
-            centrado en la comodidad y seguridad de sus pacientes, DentAll se
-            destaca por su plataforma eficaz e integrada que optimiza la
-            experiencia tanto para los usuarios como para los profesionales.
-          </p>
-          <h2>Características de DentAll</h2>
-          <ul>
-            <li className="text-2xl">Tecnologia de punta</li>
-            <p>
-              DentAll utiliza equipos de última generación, incluyendo
-              radiografías digitales de baja radiación, impresoras 3D para la
-              creación de prótesis y ortodoncia personalizada, y sistemas
-              CAD/CAM para una fabricación precisa y rápida de coronas y puentes
-              dentales.
-            </p>
-            <li className="text-2xl">Plataforma Digital Integrada</li>
-            <p>
-              La clínica cuenta con una plataforma digital que permite a los
-              pacientes gestionar sus citas, acceder a sus historiales médicos y
-              resultados de tratamientos, y comunicarse de manera segura con sus
-              dentistas. Esta plataforma también facilita a los profesionales la
-              organización y el seguimiento de casos clínicos, mejorando la
-              eficiencia en la atención.
-            </p>
-            <li className="text-2xl">Protocolos de Seguridad</li>
-            <p>
-              La seguridad es una prioridad en DentAll. Implementan rigurosos
-              protocolos de esterilización y desinfección, y utilizan equipos
-              desechables siempre que es posible para garantizar un entorno
-              libre de contaminaciones. Además, la clínica está equipada con
-              sistemas avanzados de purificación de aire.
-            </p>
-            <li className="text-2xl">Atención Personalizada</li>
-            <p>
-              Cada paciente recibe un plan de tratamiento personalizado,
-              diseñado después de una evaluación exhaustiva y una consulta
-              detallada. Los dentistas de DentAll trabajan estrechamente con
-              cada paciente para entender sus necesidades y expectativas,
-              asegurando una atención a medida.
-            </p>
-
-            <li className="text-2xl">Formación y Capacitación Continua</li>
-            <p>
-              El equipo de DentAll está compuesto por profesionales altamente
-              cualificados que participan regularmente en programas de formación
-              continua para estar al día con los últimos avances en odontología.
-              Esto garantiza que los pacientes reciban tratamientos basados en
-              las mejores prácticas y conocimientos actuales.
-            </p>
-
-            <li className="text-2xl">Comodidad y Bienestar del Paciente</li>
-            <p>
-              Las instalaciones de DentAll están diseñadas para ofrecer un
-              ambiente acogedor y relajante, minimizando la ansiedad que puede
-              acompañar a las visitas al dentista. Además, ofrecen opciones de
-              sedación consciente para procedimientos más invasivos, asegurando
-              que los pacientes se sientan cómodos y tranquilos en todo momento.
-            </p>
-          </ul>
-          <p>
-            En resumen, DentAll es una clínica dental que combina tecnología
-            avanzada, seguridad rigurosa y atención personalizada para
-            proporcionar una experiencia dental superior. Su plataforma
-            integrada facilita la gestión eficiente de tratamientos, mejorando
-            tanto la experiencia del paciente como la del profesional, y
-            posicionándola como líder en el sector odontológico.
+            DentAll es una clínica dental innovadora que pone a sus pacientes en
+            el centro de la experiencia de atención. Con un enfoque en la
+            comodidad y la eficiencia, DentAll ha desarrollado una plataforma en
+            línea avanzada que transforma la manera en que los pacientes
+            interactúan con su cuidado dental.
           </p>
         </div>
+      </div>
+
+      <div className=" flex flex-col gap-8 w-[50%] m-auto ">
+        <div>
+          <li className="text-2xl">Plataforma Centrada en el Usuario</li>
+          <p>
+            DentAll se distingue por su plataforma digital fácil de usar,
+            diseñada para mejorar la experiencia del paciente en cada paso del
+            proceso de atención dental.
+          </p>
+        </div>
+
+        <div>
+          <li className="text-2xl">Inicio de Sesión y Agenda de Citas</li>
+          <p>
+            Los pacientes pueden iniciar sesión en su cuenta personal desde
+            cualquier dispositivo con acceso a internet. Una vez dentro, tienen
+            la posibilidad de agendar sus citas de manera rápida y sencilla a
+            través de un calendario interactivo. Esta función permite
+            seleccionar fechas y horas disponibles según su conveniencia,
+            eliminando la necesidad de llamadas telefónicas y largas esperas.
+          </p>
+        </div>
+
+        <div>
+          <li className="text-2xl">Historial Clínico</li>
+          <p>
+            La plataforma también ofrece acceso completo al historial clínico
+            del paciente. Aquí, los usuarios pueden revisar su historial de
+            tratamientos, diagnósticos anteriores y planes de cuidado
+            recomendados por su dentista. Esto no solo ayuda a los pacientes a
+            mantenerse informados sobre su salud dental, sino que también
+            facilita una comunicación más efectiva con el equipo médico.
+          </p>
+        </div>
+
+        <div>
+          <li className="text-2xl">Recetas Médicas</li>
+          <p>
+            DentAll proporciona una sección específica donde los pacientes
+            pueden ver sus recetas médicas electrónicas. Esta función asegura
+            que los pacientes tengan acceso rápido a sus prescripciones y pueden
+            solicitar renovaciones cuando sea necesario, todo desde la comodidad
+            de su hogar.
+          </p>
+        </div>
+
+        <div>
+          <li className="text-2xl">Chat Personalizado</li>
+          <p>
+            Para una atención más personalizada, la plataforma incluye un
+            sistema de chat en vivo. Los pacientes pueden comunicarse
+            directamente con su dentista o con el personal de la clínica para
+            resolver dudas, recibir asesoramiento inmediato o solicitar
+            información adicional sobre sus tratamientos y citas.
+          </p>
+        </div>
+
+<div>
+
+        <li className="text-2xl">Compromiso con la Innovación y el Cuidado</li>
+        <p>
+          En DentAll, estamos comprometidos con la innovación y el uso de
+          tecnología avanzada para mejorar la salud dental de nuestros
+          pacientes. Nuestra plataforma digital no solo hace que la gestión del
+          cuidado dental sea más eficiente, sino que también crea una
+          experiencia más fluida y personalizada para cada paciente.
+        </p>
+</div>
+
+        <p>
+          DentAll es la elección ideal para quienes buscan un servicio dental de
+          calidad que combine tecnología de vanguardia con una atención al
+          paciente excepcional. ¡Únase a nosotros y descubra una nueva manera de
+          cuidar su salud dental!
+        </p>
       </div>
 
       <div className="flex flex-row text-white">
@@ -115,7 +136,7 @@ const AboutPage = () => {
               width={120}
               height={120}
             />
-            <h4 className="text-[15px] text-center font-semibold">
+            <h4 className="text-[16px] text-center font-semibold">
               Rafael Garcia
             </h4>
             <p className="text-sm text-center">Front-end</p>
@@ -128,7 +149,7 @@ const AboutPage = () => {
               width={120}
               height={120}
             />
-            <h4 className="text-[15px] text-center font-semibold">
+            <h4 className="text-[16px] text-center font-semibold">
               Carlos Tunjano
             </h4>
             <p className="text-sm text-center">Back-end</p>
@@ -139,9 +160,9 @@ const AboutPage = () => {
               src="/images/testimonio4.svg"
               alt=""
               width={120}
-              height={100}
+              height={120}
             />
-            <h4 className="text-[15px] text-center font-semibold">
+            <h4 className="text-[16px] text-center font-semibold">
               Mauricio Arce
             </h4>
             <p className="text-sm text-center">Back-end</p>
@@ -152,9 +173,9 @@ const AboutPage = () => {
               src="/images/testimonio4.svg"
               alt=""
               width={120}
-              height={100}
+              height={120}
             />
-            <h4 className="text-[15px] text-center font-semibold">
+            <h4 className="text-[16px] text-center font-semibold">
               Jorge Bello
             </h4>
             <p className="text-sm text-center">Back-end</p>
@@ -165,9 +186,9 @@ const AboutPage = () => {
               src="/images/testimonio4.svg"
               alt=""
               width={120}
-              height={100}
+              height={120}
             />
-            <h4 className="text-[15px] text-center font-semibold">
+            <h4 className="text-[16px] text-center font-semibold">
               Sebastian Villagra
             </h4>
             <p className="text-sm text-center">Back-end</p>
@@ -178,9 +199,9 @@ const AboutPage = () => {
               src="/images/testimonio4.svg"
               alt=""
               width={120}
-              height={100}
+              height={120}
             />
-            <h4 className="text-[15px] text-center font-semibold">
+            <h4 className="text-[16px] text-center font-semibold">
               Matias Videla
             </h4>
             <p className="text-sm text-center">Front-end</p>
