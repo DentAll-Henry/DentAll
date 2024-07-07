@@ -14,6 +14,12 @@ const PatientsLayout = ({ children }: { children: React.ReactNode }) => {
       alt: "Citas",
       text: "Mis citas",
     },
+    {
+      href: "/patients/appointments",
+      src: "https://res.cloudinary.com/ddpohfyur/image/upload/v1720201326/recetass_si2se4.svg",
+      alt: "Recetas médicas",
+      text: "Recetas médicas",
+    },
     // más items...
   ];
 

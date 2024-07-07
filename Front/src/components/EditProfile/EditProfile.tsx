@@ -213,8 +213,16 @@ const EditProfile = () => {
                 FECHA DE NACIMIENTO
               </label>
               <input
-                className="flex h-[30px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
-                placeholder={user?.birthdate ? new Date(user.birthdate).toLocaleDateString([], { year: "numeric", month: "2-digit", day: "2-digit"}) : ""}
+                className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
+                placeholder={
+                  user?.birthdate
+                    ? new Date(user.birthdate).toLocaleDateString([], {
+                        year: "numeric",
+                        month: "2-digit",
+                        day: "2-digit",
+                      })
+                    : ""
+                }
                 type="text"
                 id="birthdate"
                 name="birthdate"

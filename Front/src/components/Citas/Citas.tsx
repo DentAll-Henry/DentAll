@@ -35,13 +35,13 @@ const Citas: React.FC<CitasProps> = ({
         <p className="text-white text-center">Hora</p>
         <p className="text-white text-center">Tipo de consulta</p>
         <p className="text-white text-center">Estado</p>
-        <p className="text-white text-center">Editar</p>
+        <p className="text-white text-center ml-[75%]">Editar</p>
         <p className="text-white text-center">Acción</p>
       </div>
       {futureAppointments.map((appointment) => (
         <div
           key={appointment.id}
-          className="grid grid-cols-6 gap-4 rounded-md mt-4 items-center"
+          className="grid grid-cols-6 gap-4  rounded-md mt-4 items-center"
         >
           <p className="bg-gray-500 text-white p-2 rounded-md text-center">
             {appointment.date_time.split('T')[0]}
@@ -76,7 +76,7 @@ const Citas: React.FC<CitasProps> = ({
         <p className="text-white text-center">Hora</p>
         <p className="text-white text-center">Tipo de consulta</p>
         <p className="text-white text-center">Estado</p>
-        <p className="text-white text-center">Editar</p>
+        <p className="text-white text-center ml-[75%]">Editar</p>
         <p className="text-white text-center">Acción</p>
       </div>
       {pastAppointments.map((appointment) => (

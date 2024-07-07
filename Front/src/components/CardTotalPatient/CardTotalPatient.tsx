@@ -69,7 +69,7 @@ function CardTotalPatient() {
               height={24}
               alt="foto de perfil"
             />
-            <Link href="/page/admin">
+            <Link href="/admin">
               <p>{patient.person.first_name} {patient.person.last_name}</p>
             </Link>
           </div>

@@ -106,7 +106,7 @@ const CreateAppointment = () => {
       const parsedUser = JSON.parse(userSession);
       setUser(parsedUser.userData);
     } else {
-      router.push("/register");
+      router.push("/login");
     }
   }, [router]);
 
