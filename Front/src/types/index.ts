@@ -125,19 +125,45 @@ export interface Patients{
 }
 
 
-
-// export interface Person{
-//   id:string;
-//   first_name:string;
-//   last_name:string;
-//   birthdate:Date;
-//   dni:string;
-//   phone:string;
-//   email:string;
-//   address:string;
-//   location:string;
-//   nationality:string;
-//   is_auth0: boolean
-//   photo:string;
-//   deleteDate:null
-// }
+export interface Dentist {
+  id: string;
+  rate: string;
+  is_active: boolean;
+  specialty: string | null;
+  person: {
+    id: string;
+    first_name: string;
+    last_name: string;
+    birthdate: string; // ISO 8601 date string
+    dni: string;
+    phone: string;
+    email: string;
+    address: string;
+    location: string;
+    nationality: string;
+    is_auth0: boolean;
+    photo: string;
+    deleteDate: string | null;
+    roles: {
+      id: string;
+      name: string;
+      description: string;
+    }[];
+  };
+  dental_services: {
+    id: string;
+    name: string;
+    price: string;
+    description: string;
+    img: string | null;
+    isActive: boolean;
+  }[];
+  appointments: {
+    id: string;
+    date_time: string; // ISO 8601 date string
+    description: string;
+    patient: {
+      id: string;
+    };
+  }[];
+}
