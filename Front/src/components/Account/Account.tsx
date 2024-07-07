@@ -70,30 +70,31 @@ const Account = () => {
         </button>
       </div>
       <div className="m-8 bg-darkD-600 flex flex-row gap-4 p-4">
-        <div
-          className="flex justify-center items-center gap-4 relative ml-8 cursor-pointer"
-          onMouseEnter={() => setShowEditIcon(true)}
-          onMouseLeave={() => setShowEditIcon(false)}
-        >
-          <Image
-            src={profileImage}
-            width={150}
-            height={100}
-            alt="Imagen de perfil"
-          />
-          {showEditIcon && (
-            <label
-              htmlFor="profileImage"
-              className="absolute bottom-0 right-0 bg-darkD-500 p-2  rounded-full cursor-pointer"
-            >
-              <Image
-                src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201305/PencilSimple_ugfifd.svg"
-                width={30}
-                height={30}
-                alt="Imagen de perfil"
-              />
-            </label>
-          )}
+        <div className="flex justify-center items-center gap-4 relative ml-8 cursor-pointer">
+          <div
+            onMouseEnter={() => setShowEditIcon(true)}
+            onMouseLeave={() => setShowEditIcon(false)}
+          >
+            <Image
+              src={profileImage}
+              width={150}
+              height={100}
+              alt="Imagen de perfil"
+            />
+            {showEditIcon && (
+              <label
+                htmlFor="profileImage"
+               className="absolute bottom-0 right-0 bg-darkD-500 p-2 rounded-full cursor-pointer" style={{ backgroundColor: 'rgba(47, 47, 47, 0.8)' }}
+              >
+                <Image
+                  src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201305/PencilSimple_ugfifd.svg"
+                  width={150}
+                  height={100}
+                  alt="Imagen de perfil"
+                />
+              </label>
+            )}
+          </div>
         </div>
         <div className="m-4">
           <h2 className="text-3xl ">
