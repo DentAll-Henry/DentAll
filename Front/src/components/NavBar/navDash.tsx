@@ -9,6 +9,9 @@ import { RegisterProps } from "@/types";
 const NavDash = () => {
   const pathname = usePathname();
   const [userData, setUserData] = useState<RegisterProps | any>(null);
+  const [profileImage, setProfileImage] = useState<string>(
+    "https://res.cloudinary.com/ddpohfyur/image/upload/v1720201362/testimonio4_zy4fgd.svg"
+  ); // URL de la imagen de perfil por defecto
 
   useEffect(() => {
     if (typeof window !== "undefined" && window.localStorage) {
@@ -18,6 +21,9 @@ const NavDash = () => {
         const parsedUserData = JSON.parse(storedUserData);
         console.log("Parsed User Data:", parsedUserData);
         setUserData(parsedUserData); // Asegúrate de actualizar el estado correctamente
+        if (parsedUserData.userData && parsedUserData.userData.profileImage) {
+          setProfileImage(parsedUserData.userData.profileImage);
+        }
       }
     }
   }, [pathname]);
@@ -29,7 +35,7 @@ const NavDash = () => {
           <SearchBar />
         </div>
 
-        <div className=" ml-[50%]">
+        <div className=" mr-[48%]">
           <Link href="/patients/notifications">
             <Image
               src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201299/notificacion_zwl4hp.svg"
@@ -40,18 +46,10 @@ const NavDash = () => {
           </Link>
         </div>
         {userData?.token && (
-          <div className="flex gap-3 items-center">
-            <Link
-              href="/users/account"
-              className="flex items-center gap-4"
-            >
-              <Image
-                src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201221/user_bdisfr.svg"
-                width={40}
-                height={30}
-                alt="Usuario"
-              />
-              <p className="m-4">
+          <div className="flex  items-center">
+            <Link href="/users/account" className="flex items-center">
+              <Image src={profileImage} width={40} height={30} alt="Usuario" />
+              <p className="m-4 text-xl font-bold">
                 {userData.userData.first_name} {userData.userData.last_name}
               </p>
             </Link>

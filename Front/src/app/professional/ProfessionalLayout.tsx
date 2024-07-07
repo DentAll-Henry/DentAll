@@ -3,28 +3,28 @@ import SideNav from "@/components/NavBar/sideNavBar";
 const ProfessionalLayout = ({ children }: { children: React.ReactNode }) => {
   const navItems = [
     {
-      href: "/dashboard3/home",
+      href: "/professional",
       src: "https://res.cloudinary.com/ddpohfyur/image/upload/v1720201273/home_gfeqo8.svg",
       alt: "Home",
       text: "Inicio",
     },
     {
-      href: "/dashboard3/appointments",
-      src: "https://res.cloudinary.com/ddpohfyur/image/upload/v1720201221/user_bdisfr.svg",
-      alt: "Citas",
-      text: "Mis citas",
+      href: "/professional",
+      src: "https://res.cloudinary.com/ddpohfyur/image/upload/v1720201242/citas_bpks2p.svg",
+      alt: "Pacientes",
+      text: "Pacientes",
     },
     {
-      href: "/dashboard3/appointments",
-      src: "https://res.cloudinary.com/ddpohfyur/image/upload/v1720201221/user_bdisfr.svg",
-      alt: "Citas",
-      text: "Mis citas",
+      href: "/professional",
+      src: "https://res.cloudinary.com/ddpohfyur/image/upload/v1720362622/Property_Simple_Type_circle-information_oofcv6.svg",
+      alt: "Contenido",
+      text: "Contenido",
     },
     {
-      href: "/dashboard3/appointments",
+      href: "/professional",
       src: "https://res.cloudinary.com/ddpohfyur/image/upload/v1720201221/user_bdisfr.svg",
       alt: "Citas",
-      text: "Mis citas",
+      text: "Recetas médicas",
     },
     // más items...
   ];

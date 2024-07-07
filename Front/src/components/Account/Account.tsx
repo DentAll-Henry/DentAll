@@ -1,17 +1,17 @@
-'use client'
+"use client";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { useRouter } from "next/navigation";
-import EditProfile from "@/components/EditProfile/EditProfile";
+import { usePathname } from "next/navigation";
 import { RegisterProps } from "@/types";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
 
 const Account = () => {
   const router = useRouter();
   const pathname = usePathname();
   const [userData, setUserData] = useState<RegisterProps | any>(null);
   const [profileImage, setProfileImage] = useState<string>(
-    "https://res.cloudinary.com/ddpohfyur/image/upload/v1720201221/user_bdisfr.svg"
+    "https://res.cloudinary.com/ddpohfyur/image/upload/v1720201362/testimonio4_zy4fgd.svg"
   ); // URL de la imagen de perfil por defecto
   const [showEditIcon, setShowEditIcon] = useState(false);
 
@@ -34,26 +34,44 @@ const Account = () => {
     router.back();
   };
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        // Aquí puedes realizar la lógica para subir la imagen a tu servicio de almacenamiento (por ejemplo, Cloudinary)
-        // Una vez subida, puedes actualizar el estado del usuario con la nueva URL de la imagen de perfil
-        const newProfileImageUrl = reader.result as string;
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "tu_upload_preset"); // Reemplaza con tu upload_preset de Cloudinary
+
+      try {
+        const response = await axios.post(
+          `https://api.cloudinary.com/v1_1/tu_cloud_name/image/upload`, // Reemplaza con tu cloud_name de Cloudinary
+          formData
+        );
+
+        const newProfileImageUrl = response.data.secure_url;
         setProfileImage(newProfileImageUrl);
-        // También puedes guardar esta nueva URL en el estado global o en localStorage si lo deseas
-      };
-      reader.readAsDataURL(file);
+
+        // También puedes actualizar el estado global o en localStorage si lo deseas
+        const updatedUserData = {
+          ...userData,
+          userData: { ...userData.userData, profileImage: newProfileImageUrl },
+        };
+        setUserData(updatedUserData);
+        localStorage.setItem("userSession", JSON.stringify(updatedUserData));
+      } catch (error) {
+        console.error("Error uploading image to Cloudinary", error);
+      }
     }
   };
-
   return (
     <div>
-      <div className="m-8 mt-24 bg-darkD-600 flex flex-row justify-between p-4">
+      <div className="flex justify-end m-4 mr-8">
+        <button className="bg-greenD-500 p-2" onClick={navigateBack}>
+          Volver
+        </button>
+      </div>
+      <div className="m-8 bg-darkD-600 flex flex-row gap-4 p-4">
         <div
-          className="flex justify-center items-center gap-4 relative"
+          className="flex justify-center items-center gap-4 relative ml-8 cursor-pointer"
           onMouseEnter={() => setShowEditIcon(true)}
           onMouseLeave={() => setShowEditIcon(false)}
         >
@@ -66,43 +84,30 @@ const Account = () => {
           {showEditIcon && (
             <label
               htmlFor="profileImage"
-              className="absolute bottom-0 right-0 bg-greenD-500 p-2 cursor-pointer rounded-full"
-              style={{ transform: "translate(50%, 50%)" }}
+              className="absolute bottom-0 right-0 bg-darkD-500 p-2  rounded-full cursor-pointer"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 text-white"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                />
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M19 21a2 2 0 01-2 2H7a2 2 0 01-2-2v-4a2 2 0 012-2h2M15 7a2 2 0 012 2m0 0a2 2 0 01-2 2m0-2v2m0 0v2m0-2h2m-2 0h2"
-                />
-              </svg>
+              <Image
+                src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201305/PencilSimple_ugfifd.svg"
+                width={30}
+                height={30}
+                alt="Imagen de perfil"
+              />
             </label>
           )}
-          <div className="">
-            <h2 className="text-3xl ">{userData?.userData?.name}</h2>
-            <p>Paciente</p>
-            <div className="flex mt-4">
-              <Image
-                src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201309/phone_bds9ty.svg"
-                width={24}
-                height={24}
-                alt=""
-              />
-              <p>+1 (385) 880-7000 {userData?.userData?.phone} </p>
-            </div>
+        </div>
+        <div className="m-4">
+          <h2 className="text-3xl ">
+            {userData?.userData?.first_name} {userData?.userData?.last_name}
+          </h2>
+          <p>{userData?.userData?.role}</p>
+          <div className="flex mt-4 gap-2">
+            <Image
+              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201309/phone_bds9ty.svg"
+              width={24}
+              height={24}
+              alt=""
+            />
+            <p>{userData?.userData?.phone} </p>
           </div>
         </div>
         <input
@@ -113,13 +118,6 @@ const Account = () => {
           className="hidden"
           onChange={handleImageUpload}
         />
-        <button className="bg-greenD-500 p-2 ml-2" onClick={navigateBack}>
-          Volver
-        </button>
-      </div>
-
-      <div>
-        <EditProfile />
       </div>
     </div>
   );

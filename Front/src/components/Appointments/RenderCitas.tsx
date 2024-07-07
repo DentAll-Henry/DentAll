@@ -68,10 +68,7 @@ const RenderCitas = () => {
           Mis <span className="text-[#00CE90]">citas</span>
         </h2>
       </div>
-      <div className="flex justify-between">
-        <div>
-          <h2 className="font-bold ml-8">PROXIMAS CITAS</h2>
-        </div>
+      <div className="flex justify-end">
         <Link href="/patients/create-appointment">
           <p className="bg-gray-500 p-1 mr-8 rounded-md cursor-pointer">
             + Agregar cita
