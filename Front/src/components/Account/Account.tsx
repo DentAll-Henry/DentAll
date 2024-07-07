@@ -1,10 +1,10 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import { RegisterProps } from "@/types";
 import Image from "next/image";
+import axiosInstance from "@/utils/axiosInstance";
 
 const Account = () => {
   const router = useRouter();
@@ -23,12 +23,16 @@ const Account = () => {
         const parsedUserData = JSON.parse(storedUserData);
         console.log("Parsed User Data:", parsedUserData);
         setUserData(parsedUserData); // Asegúrate de actualizar el estado correctamente
-        if (parsedUserData.userData && parsedUserData.userData.profileImage) {
-          setProfileImage(parsedUserData.userData.profileImage);
+        if (parsedUserData.userData && parsedUserData.userData.photo) {
+          setProfileImage(parsedUserData.userData.photo);
         }
       }
     }
   }, [pathname]);
+
+  useEffect(()=> {
+    console.log('Imagen de usuario actualizada.')
+  }, [profileImage])
 
   const navigateBack = () => {
     router.back();
@@ -38,27 +42,23 @@ const Account = () => {
     const file = e.target.files?.[0];
     if (file) {
       const formData = new FormData();
-      formData.append("file", file);
-      formData.append("upload_preset", "tu_upload_preset"); // Reemplaza con tu upload_preset de Cloudinary
-
+      formData.append('file', file);
+      
       try {
-        const response = await axios.post(
-          `https://api.cloudinary.com/v1_1/tu_cloud_name/image/upload`, // Reemplaza con tu cloud_name de Cloudinary
-          formData
+        const response = await axiosInstance.patch(`/people/editphoto/${userData.userData.id}`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        setUserData({ token: userData.token, userData: response.data})
+        localStorage.setItem(
+          "userSession",
+          JSON.stringify({ token: userData.token, userData: response.data})
         );
-
-        const newProfileImageUrl = response.data.secure_url;
+        const newProfileImageUrl = response.data.photo;
         setProfileImage(newProfileImageUrl);
-
-        // También puedes actualizar el estado global o en localStorage si lo deseas
-        const updatedUserData = {
-          ...userData,
-          userData: { ...userData.userData, profileImage: newProfileImageUrl },
-        };
-        setUserData(updatedUserData);
-        localStorage.setItem("userSession", JSON.stringify(updatedUserData));
       } catch (error) {
-        console.error("Error uploading image to Cloudinary", error);
+        console.error('Error uploading image', error);
       }
     }
   };
@@ -79,6 +79,7 @@ const Account = () => {
               src={profileImage}
               width={150}
               height={100}
+              style={{borderRadius:100}}
               alt="Imagen de perfil"
             />
             {showEditIcon && (

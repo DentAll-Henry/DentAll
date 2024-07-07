@@ -44,10 +44,10 @@ const Citas: React.FC<CitasProps> = ({
           className="grid grid-cols-6 gap-4  rounded-md mt-4 items-center"
         >
           <p className="bg-gray-500 text-white p-2 rounded-md text-center">
-            {new Date(appointment.date_time).toLocaleDateString()}
+            {appointment.date_time.split('T')[0]}
           </p>
           <p className="bg-gray-500 text-white p-2 rounded-md text-center">
-            {new Date(appointment.date_time).toLocaleTimeString()}
+            {appointment.date_time.split('T')[1].split('.')[0]}
           </p>
           <p className="bg-gray-500 text-white p-2 rounded-md text-center">
             {appointment.service.name}
