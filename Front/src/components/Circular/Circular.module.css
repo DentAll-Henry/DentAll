@@ -1,0 +1,17 @@
+/* components/Circular.module.css */
+.circular {
+    width: 641px;
+    height: 304px;
+    flex-shrink: 0;
+    border-radius: 641px;
+    background: radial-gradient(
+      2762.36% 537.65% at -49.5% -250%,
+      rgba(157, 44, 175, 0.64) 17.55%,
+      rgba(40, 167, 52, 0.64) 27.56%,
+      rgba(44, 103, 171, 0.64) 49.89%,
+      rgba(39, 71, 155, 0.64) 56.53%,
+      rgba(31, 44, 160, 0.64) 65.69%
+    );
+    filter: blur(200px);
+  }
+  
