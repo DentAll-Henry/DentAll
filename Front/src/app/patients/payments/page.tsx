@@ -2,6 +2,7 @@ import Image from "next/image"
 import Link from "next/link"
 import NavDash from "@/components/NavBar/navDash"
 import Payments from "@/components/Payments/Payments"
+import { ServicesForPatient } from "@/components/services/ServicesForPatient"
 
 const page = () => {
   return (
@@ -12,7 +13,7 @@ const page = () => {
         <div>
           <p className="font-bold">Nombres:</p>
           <p className="font-bold">Metodo de pago:</p>
-          <Payments />
+
         </div>
       </div>
 
@@ -20,7 +21,7 @@ const page = () => {
         <h2 className="font-bold">Historial de pagos</h2>
       </div>
       <div className="flex flex-wrap gap-8 w-[90%] m-auto mr-4">
-        <Link href="#">
+        {/* <Link href="#">
           <div className="flex-col bg-greenD-500 bg-opacity-5 w-[200px] h-[150px] rounded-md  flex justify-center items-center hover:scale-105 transition-transform duration-300">
             <p className="text-[#60D66A]">Consulta general</p>
             <p className="text-[#60D66A]">20/4/2024</p>
@@ -75,9 +76,9 @@ const page = () => {
               alt="Pagos"
             />
           </div>
-        </Link>
+        </Link> */}
 
-        <Payments />
+        <ServicesForPatient />
       </div>
     </div>
   )

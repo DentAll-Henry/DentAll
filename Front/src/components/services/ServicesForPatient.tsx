@@ -72,6 +72,7 @@ export const ServicesForPatient = () => {
 
   return (
     <div>
+      {preferenceId && <Wallet initialization={{ preferenceId }} />}
       {serviceData.map((service, index) => (
         <div key={index} onClick={() => handleClick(service.id)}>
           <div className="flex-col bg-greenD-500 bg-opacity-5 w-[200px] h-[150px] rounded-md  flex justify-center items-center hover:scale-105 transition-transform duration-300">
@@ -94,9 +95,10 @@ export const ServicesForPatient = () => {
               alt="Pagos"
             />
           </div>
-          {preferenceId && <Wallet initialization={{ preferenceId }} />}
+
         </div>
       ))}
+
     </div>
   )
 }
