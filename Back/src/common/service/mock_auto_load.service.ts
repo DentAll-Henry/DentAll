@@ -144,7 +144,7 @@ export class MockAutoLoadService {
 
     console.log('populated persons and credentials as patients and dentists');
   }
-  
+
   async seedHeadquarters() {
     try {
       const count = await this.cordsRepository.count();
@@ -215,13 +215,13 @@ export class MockAutoLoadService {
         today.getTime() +
         Math.random() * (threeDaysFromNow.getTime() - today.getTime());
 
-      const appointment = await this.appointmentService.create({
+      /* const appointment = await this.appointmentService.create({
         dentist_id: dentista.id,
         patient: patient.id,
         service: serv.id,
         date_time: new Date(today.setDate(today.getDate() + 2)),
         description: 'test',
-      })
+      }) */
     });
   }
 }

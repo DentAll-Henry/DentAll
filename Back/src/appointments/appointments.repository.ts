@@ -8,23 +8,35 @@ import { AppointmentPaginationDto } from 'src/common/dto/paginationDto';
 import { PendingAppointment } from './entities/pending.appointments';
 import { Patient } from 'src/person/entities/patient.entity';
 import { CreatePendingAppointmentDto } from './dto/create_pending_appointment.dt';
+import { SystemConfigsService } from 'src/system_configs/system_configs.service';
+import { start } from 'repl';
 
 @Injectable()
 export class AppointmentsRepository {
   constructor(
     @InjectRepository(Appointment) private appointment: Repository<Appointment>,
     @InjectRepository(PendingAppointment) private pendingAppointmentRepository: Repository<PendingAppointment>,
+    private readonly systemConfigsService: SystemConfigsService
   ) { }
   async getAppointments(paginationDto: AppointmentPaginationDto): Promise<Appointment[]> {
-    const { page, limit, only_future, only_past } = paginationDto;
+    const { page, limit, only_future, only_past, start, end, dentists } = paginationDto;
+
+    const dentists_arr = dentists.length > 0 ? dentists.split(',') : ['a7d57f3d-46ec-437a-966e-3c7f45180f12'];
+
+    const duration_minutes = await this.systemConfigsService.findOne(
+      'appointment_duration',
+    );
+    const duration = parseInt(duration_minutes.value);
+
     const queryBuilder = this.appointment.createQueryBuilder('appointment')
       .leftJoinAndSelect('appointment.service', 'service')
       .leftJoinAndSelect('appointment.patient', 'patient')
       .leftJoinAndSelect('patient.person', 'person_')
       .leftJoinAndSelect('appointment.dentist_id', 'dentist')
       .leftJoinAndSelect('dentist.person', 'person')
-      .skip((page - 1) * limit)
-      .take(limit);
+      .andWhere('DATE(appointment.date_time) >= :start', { start })
+      .andWhere('DATE(appointment.date_time) <= :end', { end })
+      .andWhere('appointment.dentist_id IN (:...dentists)', { dentists: dentists_arr })
 
     if (only_future) {
       queryBuilder.andWhere('appointment.date_time > :now', { now: new Date() });
@@ -34,7 +46,27 @@ export class AppointmentsRepository {
       queryBuilder.andWhere('appointment.date_time < :now', { now: new Date() });
     }
 
-    return await queryBuilder.getMany();
+    const data = await queryBuilder.getMany();
+
+    const events = []
+    data.map(cita => {
+      const event = {
+        title: `${cita.patient['person']['first_name']} ${cita.patient['person']['last_name']}`,
+        start: new Date(cita.date_time),
+        end: new Date(cita.date_time).setMinutes(new Date(cita.date_time).getMinutes() + duration),
+        extendedProps: {
+          dentist: cita.dentist_id['person']['first_name'],
+          service: cita.service['name']
+        },
+        color: `#${cita.dentist_id['id'].replace(/-/g, '').slice(0, 6)}`,
+        groupId: cita.dentist_id['id'],
+        description: cita.description,
+        id: cita.id
+      }
+      events.push(event)
+    })
+
+    return events
   }
 
   async getAppointmentByDentist(dentist_id: string, paginationDto: AppointmentPaginationDto): Promise<Appointment[]> {
@@ -159,7 +191,7 @@ export class AppointmentsRepository {
   }
 
   async getDaysWithSlots(start_date: Date, end_date: Date, dentist_id: string, max_appointments: number) {
-    
+
     const query = `
             WITH RECURSIVE dates_list AS (
                 SELECT
