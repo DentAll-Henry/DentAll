@@ -75,7 +75,7 @@ const page = () => {
               alt="Pagos"
             />
           </div>
-        </Link>
+        </Link> */}
 
       </div> */}
         <ServicesForPatient />

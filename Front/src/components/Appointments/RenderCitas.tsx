@@ -36,7 +36,7 @@ const RenderCitas = () => {
   }, [router]);
 
   const fetchAppointments = async (page: number = 1) => {
-    if(page === 1) setFutureAppointments([]);
+    if (page === 1) setFutureAppointments([]);
     if (loggin && user && user.id) {
       try {
         const patient = await axios.get(

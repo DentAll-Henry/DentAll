@@ -54,12 +54,7 @@ export class PaymentsRepository {
         auto_return: 'approved',
       };
       const response = await preference.create({ body });
-      const newPayment = await this.payment.create({
-        preference_id: response.id,
-        patient: patient,
-        dentalServ: service,
-      });
-      await this.payment.insert(newPayment);
+      
       return { preferenceId: response.id };
     } catch (error) {
       if (error instanceof BadRequestException) {
