@@ -19,7 +19,7 @@ export class PaymentsRepository {
     @InjectRepository(DentalServ) private dentalServ: Repository<DentalServ>,
   ) {}
 
-  async createPreference(data: PaymentDto) {
+  async createPreference(data: PaymentDto, baseUrl: string) {
     try {
       const patient = await this.patient.findOne({
         where: { id: data.patient_id },
@@ -39,6 +39,7 @@ export class PaymentsRepository {
         items: [
           {
             id: service.id,
+            currency_id: 'ARS', // moked for the moment
             title: service.name,
             quantity: data.quantity || 1,
             unit_price: Number(service.price),
@@ -60,6 +61,38 @@ export class PaymentsRepository {
       });
       await this.payment.insert(newPayment);
       return { preferenceId: response.id };
+    } catch (error) {
+      if (error instanceof BadRequestException) {
+        throw error;
+      }
+      throw new InternalServerErrorException('Error interno del servidor');
+    }
+  }
+
+  async success(data) {
+    try {
+      const payment = await this.payment.findOne({
+        where: { preference_id: data.preference_id },
+      });
+      if (!payment) throw new BadRequestException('No se encontro el pago');
+      await this.payment.update({ id: payment.id }, data);
+      return payment;
+    } catch (error) {
+      if (error instanceof BadRequestException) {
+        throw error;
+      }
+      throw new InternalServerErrorException('Error interno del servidor');
+    }
+  }
+
+  async failure(data) {
+    try {
+      const payment = await this.payment.findOne({
+        where: { preference_id: data.preference_id },
+      });
+      if (!payment) throw new BadRequestException('No se encontro el pago');
+      await this.payment.update({ id: payment.id }, data);
+      return;
     } catch (error) {
       if (error instanceof BadRequestException) {
         throw error;

@@ -34,8 +34,12 @@ export class DentalServController {
   @ApiInternalServerErrorResponse({ status: 500, description: 'Server error.' })
   @ApiQuery(LimitApiQueries)
   @ApiQuery(PageApiQueries)
-  async getDentalServ(@Res() res: Response) {
-    const services = await this.dentalServService.getDentalServ();
+  async getDentalServ(
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 5,
+    @Res() res: Response,
+  ) {
+    const services = await this.dentalServService.getDentalServ(page, limit);
     res.status(200).json(services);
   }
 

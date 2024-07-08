@@ -7,8 +7,8 @@ import { DentalServ } from './entities/dentalServ.entity';
 export class DentalServService {
   constructor(private readonly dentalServRepositiory: DentalServRepository) {}
 
-  async getDentalServ(): Promise<DentalServ[]> {
-    return await this.dentalServRepositiory.getDentalServ();
+  async getDentalServ(page: number, limit: number): Promise<DentalServ[]> {
+    return await this.dentalServRepositiory.getDentalServ(page, limit);
   }
 
   async createDentalServ(data: DentalServDto): Promise<DentalServ> {

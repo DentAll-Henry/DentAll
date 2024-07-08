@@ -6,3 +6,4 @@ export const enviroment = {
   apiUrl: process.env.NEXT_PUBLIC_API_URL,
   mercadopagoPublicKey: process.env.NEXT_PUBLIC_MERCADO_PAGO_PUBLIC_KEY || "",
 }
+

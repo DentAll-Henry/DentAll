@@ -1,13 +1,23 @@
-import { Body, Controller, Get, Post, Res } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  Req,
+  Res,
+} from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiBody,
   ApiInternalServerErrorResponse,
   ApiOperation,
+  ApiParam,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { Response } from 'express';
+import { Response, Request } from 'express';
 import { PaymentsService } from './payments.service';
 import { PaymentDto } from './dto/payment.dto';
 
@@ -22,8 +32,90 @@ export class PaymentsController {
   @ApiResponse({ status: 201, description: 'Return preference id' })
   @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
   @ApiInternalServerErrorResponse({ status: 500, description: 'Server error.' })
-  async createDentalServ(@Body() data: PaymentDto, @Res() res: Response) {
-    const preferenceId = await this.paymentsService.createPreference(data);
+  async createDentalServ(
+    @Body() data: PaymentDto,
+    @Req() req: Request,
+    @Res() res: Response,
+  ) {
+    const baseUrl = `${req.protocol}://${req.get('host')}`;
+    const preferenceId = await this.paymentsService.createPreference(
+      data,
+      baseUrl,
+    );
     res.status(201).json(preferenceId);
+  }
+
+  @Get('/success/')
+  @ApiOperation({ summary: 'Indicate payment success' })
+  @ApiParam({ name: 'id', type: String, description: 'Preference id' })
+  @ApiResponse({ status: 200, description: 'Return success' })
+  @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
+  @ApiInternalServerErrorResponse({ status: 500, description: 'Server error.' })
+  async success(
+    @Query('collection_id') collection_id: string,
+    @Query('collection_status') collection_status: string,
+    @Query('payment_id') payment_id: string,
+    @Query('status') status: string,
+    @Query('external_reference') external_reference: string,
+    @Query('payment_type') payment_type: string,
+    @Query('merchant_order_id') merchant_order_id: string,
+    @Query('preference_id') preference_id: string,
+    @Query('site_id') site_id: string,
+    @Query('processing_mode') processing_mode: string,
+    @Query('merchant_account_id') merchant_account_id: string,
+    @Res() res: Response,
+  ) {
+    const data = {
+      collection_id,
+      collection_status,
+      payment_id,
+      status,
+      external_reference,
+      payment_type,
+      merchant_order_id,
+      preference_id,
+      site_id,
+      processing_mode,
+      merchant_account_id,
+    };
+    await this.paymentsService.success(data);
+    res.send('Success');
+  }
+
+  @Get('/failure/:id')
+  @ApiOperation({ summary: 'Indicate payment failure' })
+  @ApiParam({ name: 'id', type: String, description: 'Preference id' })
+  @ApiResponse({ status: 200, description: 'Return failure' })
+  @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
+  @ApiInternalServerErrorResponse({ status: 500, description: 'Server error.' })
+  async failure(
+    @Query('collection_id') collection_id: string,
+    @Query('collection_status') collection_status: string,
+    @Query('payment_id') payment_id: string,
+    @Query('status') status: string,
+    @Query('external_reference') external_reference: string,
+    @Query('payment_type') payment_type: string,
+    @Query('merchant_order_id') merchant_order_id: string,
+    @Query('preference_id') preference_id: string,
+    @Query('site_id') site_id: string,
+    @Query('processing_mode') processing_mode: string,
+    @Query('merchant_account_id') merchant_account_id: string,
+    @Res() res: Response,
+  ) {
+    const data = {
+      collection_id,
+      collection_status,
+      payment_id,
+      status,
+      external_reference,
+      payment_type,
+      merchant_order_id,
+      preference_id,
+      site_id,
+      processing_mode,
+      merchant_account_id,
+    };
+    await this.paymentsService.failure(data);
+    res.send('Failure');
   }
 }
