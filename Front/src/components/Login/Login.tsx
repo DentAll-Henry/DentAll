@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 import PasswordInput from "../PasswordImput";
+import { decodeJWT } from '../../helpers/decodeJwt'
 
 const Login = () => {
   const router = useRouter();
@@ -25,7 +26,7 @@ const Login = () => {
     console.log("Componente Login renderizado");
     const userSession = localStorage.getItem("userSession");
     if (userSession) {
-      router.push("/page/patients");
+      router.push("/patients");
     }
   }, [router]);
 
@@ -60,7 +61,19 @@ const Login = () => {
               "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
           },
         });
-        router.push("/page/patients");
+        const decodedToken: {id: string, email: string, exp: Date, iat: Date, roles: string} = decodeJWT(token);
+        console.log(decodedToken);
+        if(decodedToken?.roles === 'patient') {
+          router.push("/patients");
+        } else if (decodedToken?.roles === 'dentist') {
+          router.push("/professional");
+        } else if (decodedToken?.roles === 'administrative') {
+          router.push("/administrative");
+        } else if (decodedToken?.roles === 'admin') {
+          router.push("/admin");
+        } else {
+          router.push("/");
+        }
       } catch (error: any) {
         console.log(error);
         Swal.fire({

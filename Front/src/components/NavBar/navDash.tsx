@@ -29,8 +29,8 @@ const NavDash = () => {
           <SearchBar />
         </div>
 
-        <div className=" ml-[50%]">
-          <Link href="/page/patients/notifications">
+        <div className=" mr-[48%]">
+          <Link href="/patients/notifications">
             <Image
               src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201299/notificacion_zwl4hp.svg"
               width={24}
@@ -40,18 +40,16 @@ const NavDash = () => {
           </Link>
         </div>
         {userData?.token && (
-          <div className="flex gap-3 items-center">
-            <Link
-              href="/page/users/account"
-              className="flex items-center gap-4"
-            >
+          <div className="flex  items-center">
+            <Link href="/users/account" className="flex items-center">
               <Image
-                src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201221/user_bdisfr.svg"
+                src={userData.userData.photo || "https://res.cloudinary.com/ddpohfyur/image/upload/v1720201221/user_bdisfr.svg"}
                 width={40}
                 height={30}
+                style={{borderRadius: 50}}
                 alt="Usuario"
               />
-              <p className="m-4">
+              <p className="m-4 text-xl font-bold">
                 {userData.userData.first_name} {userData.userData.last_name}
               </p>
             </Link>

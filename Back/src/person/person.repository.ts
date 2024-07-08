@@ -61,6 +61,7 @@ export class PeopleRepository {
         'people.nationality',
         'people.is_auth0',
         'people.deleteDate',
+        'people.photo',
       ])
       .leftJoinAndSelect('people.roles', 'roles')
       .skip((page - 1) * limit)
@@ -88,6 +89,7 @@ export class PeopleRepository {
         'person.is_auth0',
         'person.email',
         'person.deleteDate',
+        'person.photo',
       ])
       .leftJoinAndSelect('person.roles', 'roles')
       .getOne();
@@ -114,8 +116,11 @@ export class PeopleRepository {
         'person.is_auth0',
         'person.email',
         'person.deleteDate',
+        'person.photo',
       ])
       .leftJoinAndSelect('person.roles', 'roles')
+      .leftJoinAndSelect('person.auth', 'auth')
+      .addSelect('auth.password')
       .getOne();
 
     return person;
@@ -151,6 +156,7 @@ export class PeopleRepository {
         'person.is_auth0',
         'person.email',
         'person.deleteDate',
+        'person.photo',
       ])
       .skip((page - 1) * limit)
       .take(limit);

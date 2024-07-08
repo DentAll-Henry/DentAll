@@ -1,5 +1,5 @@
 'use client'
-import{ useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import NavDash from "@/components/NavBar/navDash";
 import Link from "next/link";
 import Citas from "@/components/Citas/Citas";
@@ -21,6 +21,8 @@ const RenderCitas = () => {
   const [user, setUser] = useState<User | null>(null);
   const [loggin, setLoggin] = useState(false);
   const router = useRouter();
+  const [page, setPage] = useState(1);
+  const [loadMoreButton, setLoadMoreButton] = useState(true);
 
   useEffect(() => {
     const userSession = localStorage.getItem("userSession");
@@ -29,21 +31,22 @@ const RenderCitas = () => {
       setUser(parsedUser.userData);
       setLoggin(true);
     } else {
-      router.push("/register");
+      router.push("/login");
     }
   }, [router]);
 
-  const fetchAppointments = async () => {
+  const fetchAppointments = async (page: number = 1) => {
+    if(page === 1) setFutureAppointments([]);
     if (loggin && user && user.id) {
       try {
         const patient = await axios.get(
           `${enviroment.apiUrl}/patients/person/${user.id}`
         );
         const futureResponse = await axios.get(
-          `${enviroment.apiUrl}/appointments/patient/${patient.data.id}?only_future=true`
+          `${enviroment.apiUrl}/appointments/patient/${patient.data.id}?only_future=true&page=${page}`
         );
-        console.log(futureResponse.data);
-        setFutureAppointments(futureResponse.data);
+        if (futureResponse.data.length < 10) setLoadMoreButton(false)
+        setFutureAppointments(prev => [...prev, ...futureResponse.data]);
 
         const pastResponse = await axios.get(
           `${enviroment.apiUrl}/appointments/patient/${patient.data.id}?only_past=true`
@@ -60,19 +63,21 @@ const RenderCitas = () => {
     fetchAppointments();
   }, [loggin, user]);
 
+  const loadMoreAppointments = () => {
+    setPage(prevPage => prevPage + 1);
+    fetchAppointments(page + 1);
+  };
+
   return (
     <div >
-      
+
       <div className="flex justify-between items-center m-8 mt-24">
         <h2 className="text-[58px] text-center text-white font-bold leading-normal">
           Mis <span className="text-[#00CE90]">citas</span>
         </h2>
       </div>
-      <div className="flex justify-between">
-        <div>
-          <h2 className="font-bold ml-8">PROXIMAS CITAS</h2>
-        </div>
-        <Link href="/page/patients/create-appointment">
+      <div className="flex justify-end">
+        <Link href="/patients/create-appointment">
           <p className="bg-gray-500 p-1 mr-8 rounded-md cursor-pointer">
             + Agregar cita
           </p>
@@ -82,6 +87,9 @@ const RenderCitas = () => {
         <Citas
           futureAppointments={futureAppointments}
           pastAppointments={pastAppointments}
+          fetchAppointments={fetchAppointments}
+          loadMoreAppointments={loadMoreAppointments}
+          loadMoreButton={loadMoreButton}
         />
       </div>
     </div>

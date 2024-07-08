@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsBoolean, IsInt } from "class-validator";
+import { IsArray, IsBoolean, IsDateString, IsInt, IsOptional, IsString } from "class-validator";
 
 export class PaginationDto {
     @IsInt()
@@ -19,4 +19,16 @@ export class AppointmentPaginationDto extends PaginationDto {
     @IsBoolean()
     @Type(() => Boolean)
     only_past: boolean = false;
+
+    @IsOptional()
+    @IsDateString()
+    start: string;
+
+    @IsOptional()
+    @IsDateString()
+    end: string;
+
+    @IsOptional()
+    @IsString()
+    dentists: string;
 }

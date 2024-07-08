@@ -29,6 +29,58 @@ export class AppointmentsService {
     private readonly mailService: MailService,
     private readonly systemConfigsService: SystemConfigsService,
   ) { }
+
+  async ensureStoredProcedureExists() {
+    const checkIfExistsQuery = `
+      SELECT EXISTS (
+        SELECT 1
+        FROM information_schema.routines
+        WHERE routine_name = 'get_days_with_slots'
+        AND routine_type = 'FUNCTION'
+      );
+    `;
+
+    const result = await this.appointmentsRepository.execute_querys(checkIfExistsQuery);
+    const exists = result[0].exists;
+
+    if (!exists) {
+      const createProcedureQuery = `
+        CREATE OR REPLACE FUNCTION get_days_with_slots (start_date DATE, end_date DATE, dentist_id_param UUID, max_appointments INT) 
+            RETURNS TABLE (
+                date_time_col DATE
+        ) AS $$
+        DECLARE 
+            fecha_actual DATE := start_date;
+            appointment_count INT;
+        BEGIN
+            WHILE fecha_actual <= end_date 
+            
+            LOOP
+                SELECT COUNT(*)
+                INTO appointment_count
+                FROM appointments
+                WHERE DATE(date_time) = fecha_actual
+                  AND dentist_id = dentist_id_param;
+              
+                IF appointment_count < max_appointments THEN
+                    date_time_col := fecha_actual;
+                    RETURN NEXT;
+                END IF;
+
+                fecha_actual := fecha_actual + INTERVAL '1 day';
+
+            END LOOP;
+
+            RETURN;
+        END; 
+        $$ LANGUAGE 'plpgsql';
+      `;
+
+      await this.appointmentsRepository.execute_querys(createProcedureQuery);
+    }
+  }
+
+
   async create(createAppointmentDto: CreateAppointmentDto) {
     const dentServ: DentalServ = await this.dentalServService.getDentalServByID(
       createAppointmentDto.service,
@@ -79,7 +131,7 @@ export class AppointmentsService {
     if (createAppointmentDto.pending_appointment_id) {
       const pending =
         await this.appointmentsRepository.getPendingAppointmentById(
-          createAppointmentDto.pending_appointment_id,
+          createAppointmentDto.pending_appointment_id
         );
       if (pending) {
         await this.appointmentsRepository.removePendingAppointment(pending.id);
@@ -136,7 +188,7 @@ export class AppointmentsService {
 
     if (updateAppointmentDto.patient) {
       const patient = await this.patientsService.patientById(
-        updateAppointmentDto.patient,
+        updateAppointmentDto.patient
       );
       if (!patient)
         throw new BadRequestException(
@@ -183,19 +235,18 @@ export class AppointmentsService {
     const currentDate = new Date();
 
     const dates = [];
-    let startDate = new Date(start_date);
+    let startDateLet = new Date(start_date);
     const endDate = new Date(end_date);
 
-    while (startDate <= endDate) {
+    while (startDateLet <= endDate) {
       const slotsEnFecha = {
-        date: new Date(startDate),
-        slots: await this.getSlots(startDate),
+        date: new Date(startDateLet),
+        slots: await this.getSlots(startDateLet),
       };
       dates.push(slotsEnFecha);
-      startDate.setDate(startDate.getDate() + 1);
+      startDateLet.setDate(startDateLet.getDate() + 1);
     }
 
-    console.time('getSlots');
     const available_slots = [];
 
     if (time_slots) {
@@ -217,7 +268,10 @@ export class AppointmentsService {
         available_slots.push(available_slots_day);
       }
     } else {
-      const cantidad_slots = await this.getSlots(dates[0].date);
+      const cantidad_slots = (await this.getSlots(dates[0].date)).length;
+      return await this.appointmentsRepository.getDaysWithSlots(start_date, end_date, dentist_id, cantidad_slots);
+
+      /*  
 
       const available_slots_day = await Promise.all(
         dates.map(async (fecha) => {
@@ -225,11 +279,12 @@ export class AppointmentsService {
             dentist_id,
             fecha.date,
           );
-          if (total.length < cantidad_slots.length) return [fecha.date];
+          if (total.length < cantidad_slots.length) return fecha.date;
         }),
       );
 
-      available_slots.push(available_slots_day);
+      return await available_slots_day.filter((slot) => slot !== undefined); */
+      //available_slots.push(available_slots_day);
       /* for (const fecha of dates) {
         const available_slots_day = [];
 
@@ -256,7 +311,6 @@ export class AppointmentsService {
       } */
     }
 
-    console.timeEnd('getSlots');
     return {
       availabity: available_slots.map((slot_day) =>
         slot_day.filter((slot: Date) => slot !== undefined),

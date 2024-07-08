@@ -8,6 +8,7 @@ const LandingPage = () => {
   return (
     <div>
       <section className="flex flex-row bg-[#1D1D1D] ">
+        
         <div className="w-1/2 flex flex-col items-center">
           <div className="flex flex-col p-7 gap-[50px]">
             <div className=" text-white flex flex-col gap-0 text-[58px] font-bold leading-normal ">
@@ -45,6 +46,7 @@ const LandingPage = () => {
             />
           </div>
         </div>
+        
       </section>
 
       <section className="flex flex-row bg-[#1D1D1D]">

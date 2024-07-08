@@ -61,63 +61,80 @@ function CardTotalPatient() {
   return (
     <div>
       {patients.map((patient) => (
-        <div className='w-full flex flex-row gap-5' key={patient.person.id}>
-          <div className='w-[31%] p-3 flex flex-row gap-4'>
+        <div className="w-full flex flex-row gap-5" key={patient.person.id}>
+          <div className="w-[31%] p-3 flex flex-row gap-4">
             <Image
               src="/images/profile.png"
               width={24}
               height={24}
               alt="foto de perfil"
             />
-            <Link href="/page/admin">
-              <p>{patient.person.first_name} {patient.person.last_name}</p>
+            <Link href="/admin">
+              <p>
+                {patient.person.first_name} {patient.person.last_name}
+              </p>
             </Link>
           </div>
-          <div className='w-[18%] p-3'>
+          <div className="w-[18%] p-3">
             <p>{patient.person.phone}</p>
           </div>
-          <div className='w-[23%] p-3'>
+          <div className="w-[23%] p-3">
             <p>{patient.person.email}</p>
           </div>
-          <div className='w-[14%] p-3'>
+          <div className="w-[14%] p-3">
             <p>{patient.person.dni}</p>
           </div>
-          <div className='w-[14%] p-3 flex flex-row gap-8'>
-            <Image 
+          <div className="w-[14%] p-3 flex flex-row gap-8">
+            <Image
               onClick={() => openModal(patient)}
-              src="/images/PencilSimple.svg"
+              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201305/PencilSimple_ugfifd.svg"
               width={24}
               height={24}
               alt="editar"
-              className="cursor-pointer" 
+              className="cursor-pointer"
             />
             <Image
-              src="/images/Trash.svg"
+              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201219/Trash_e3pep7.svg"
               width={24}
               height={24}
               alt="eliminar"
-              className="cursor-pointer" 
+              className="cursor-pointer"
             />
           </div>
         </div>
       ))}
       {selectedPatient && (
         <Modal isOpen={isModalOpen} onClose={closeModal}>
-          <div className='bg-white p-6 rounded-lg shadow-lg max-w-lg mx-auto'> 
-            <div className='flex justify-between items-center mb-4'>
+          <div className="bg-white p-6 rounded-lg shadow-lg max-w-lg mx-auto">
+            <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-bold text-black">Editar usuario</h2>
-              <span className='cursor-pointer text-black font-bold' onClick={closeModal}>X</span>
+              <span
+                className="cursor-pointer text-black font-bold"
+                onClick={closeModal}
+              >
+                X
+              </span>
             </div>
-            <h3 className="text-lg mb-4 text-black">Cambiar Rol a <span className='text-red-700'>{selectedPatient.person.first_name} {selectedPatient.person.last_name}</span></h3>
+            <h3 className="text-lg mb-4 text-black">
+              Cambiar Rol a{" "}
+              <span className="text-red-700">
+                {selectedPatient.person.first_name}{" "}
+                {selectedPatient.person.last_name}
+              </span>
+            </h3>
             <form>
               <label className="block mb-2 text-black font-bold">Rol:</label>
-              <select 
+              <select
                 className=" text-black font-medium block w-full p-2 border rounded mb-4"
                 value={selectedRole}
                 onChange={handleRoleChange}
               >
-                <option className="text-black" value="Paciente">Paciente</option>
-                <option className="text-black" value="Profesional">Profesional</option>
+                <option className="text-black" value="Paciente">
+                  Paciente
+                </option>
+                <option className="text-black" value="Profesional">
+                  Profesional
+                </option>
               </select>
               <button
                 type="button"

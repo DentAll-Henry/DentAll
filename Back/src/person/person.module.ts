@@ -11,14 +11,15 @@ import { Dentist } from './entities/dentist.entity';
 import { DentistsService } from './dentist.service';
 import { DentistsRepository } from './dentist.repository';
 import { DentistsController } from './dentists.controller';
-import { SpecialtyModule } from 'src/specialty/specialty.module';
+import { SpecialtyModule } from '../specialty/specialty.module';
 import { PatientsController } from './patient.controller';
 import { PatientsService } from './patient.service';
 import { PatientsRepository } from './patient.repository';
-import { DentalServModule } from 'src/dentalServ/dentalServ.module';
+import { DentalServModule } from '../dentalServ/dentalServ.module';
+import { FilesModule } from '../files/files.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Person, Patient, Guest, Dentist]), RolesModule, SpecialtyModule, DentalServModule],
+  imports: [TypeOrmModule.forFeature([Person, Patient, Guest, Dentist]), RolesModule, SpecialtyModule, DentalServModule, FilesModule],
   controllers: [PeopleController, DentistsController, PatientsController],
   providers: [PeopleService, PeopleRepository, DentistsService, DentistsRepository, PatientsService, PatientsRepository],
   exports: [PeopleService, TypeOrmModule, PatientsService, DentistsService],

@@ -8,13 +8,17 @@ import {
   Patch,
   Post,
   Query,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { PeopleService } from './person.service';
 import { Person } from './entities/person.entity';
 import {
   ApiBadRequestResponse,
   ApiBearerAuth,
+  ApiBody,
+  ApiConsumes,
   ApiOperation,
   ApiQuery,
   ApiResponse,
@@ -31,6 +35,9 @@ import { Roles } from '../role/enums/roles.enum';
 import { AuthGuard } from '../auth/guards/auth.guard';
 import { RolesGuard } from '../role/guards/roles.guard';
 import { CreateGuestDto } from './dtos/createGuest.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { ValidationFile } from 'src/files/Pipes/ValidationFile.pipe';
+import { NewPhotoDto } from './dtos/newPhoto.dto';
 
 @ApiTags('People')
 @Controller('people')
@@ -183,6 +190,26 @@ export class PeopleController {
     @Body() roleName: AddOrDelRoleDto,
   ) {
     return await this.peopleService.delRole(idperson, roleName);
+  }
+
+  @Patch('editphoto/:idperson')
+  @ApiOperation({ summary: 'Change de profile photo.' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns to the person without the new photo url.',
+  })
+  @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(FileInterceptor('file'))
+  @ApiBody({
+    description: 'Image to upload(only files .jpg, .jpeg, .png, .gif)',
+    type: NewPhotoDto,
+  })
+  async editPhoto(
+    @UploadedFile(ValidationFile) file: Express.Multer.File,
+    @Param('idperson', ParseUUIDPipe) idperson: string,
+  ) {
+    return await this.peopleService.editPhoto(idperson, file);
   }
 
   @Patch('update/:id')

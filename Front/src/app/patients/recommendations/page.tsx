@@ -5,7 +5,7 @@ const page: React.FC = () => {
   return (
     <div className="w-[80%] h-screen  text-white ml-[20%]">
       <NavDash />
-      <h1 className="mt-24">Mi reproductor de video</h1>
+      <h2 className="text-[58px] text-center mt-[10%] text-[#00CE90] font-bold leading-normal">Recomendaciones</h2>
       <div className="w-[80%] bg- m-auto bg-darkD-500">
         <div className="p-8">
           <VideoPlayer
