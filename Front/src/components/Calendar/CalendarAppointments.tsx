@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
-import interactionPlugin from '@fullcalendar/interaction'
+import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import esLocale from '@fullcalendar/core/locales/es';
 import axios from 'axios'
@@ -48,6 +48,7 @@ const CalendarAppointments = () => {
     }, [selectedDentistsIds, firstVisibleDate, lastVisibleDate]);
 
     const goNext = async () => {
+        console.log(typeof calendarRef.current);
         const calendarApi = calendarRef.current.getApi()
         const currentRange = calendarApi.currentData.dateProfile.currentRange
         const start = format(currentRange.start, 'yyyy-MM-dd')
@@ -90,6 +91,28 @@ const CalendarAppointments = () => {
         }
     };
 
+    const addAppointment = async (e: DateClickArg) => {
+        try {
+            
+            const paciente = prompt("paciente");
+            const fecha = e.dateStr
+            const hora = prompt("hora");
+            const dentista = prompt("dentista");
+            const event = {
+                id: Math.random().toString(16),
+                title: paciente,
+                start: fecha + ' ' + hora,
+                color: 'green'
+            };
+            setEvents((prevEvents) => [...prevEvents, event]);
+            
+            //const response = await axios.post(`${enviroment.apiUrl}/appointments`, event);
+            //console.log(response.data);
+        } catch (error) {
+            console.error('Error al crear el evento:', error);
+        }
+    };
+
 
     return (
         <>
@@ -129,6 +152,7 @@ const CalendarAppointments = () => {
                 eventClick={handleEventClick}
                 timeZone='UTC'
                 locale={esLocale}
+                dateClick={e => addAppointment(e)}
             />
         </>
     )
