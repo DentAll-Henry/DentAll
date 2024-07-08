@@ -20,12 +20,15 @@ export class AppointmentPaginationDto extends PaginationDto {
     @Type(() => Boolean)
     only_past: boolean = false;
 
+    @IsOptional()
     @IsDateString()
     start: string;
 
+    @IsOptional()
     @IsDateString()
     end: string;
 
+    @IsOptional()
     @IsString()
     dentists: string;
 }
