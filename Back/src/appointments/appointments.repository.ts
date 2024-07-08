@@ -145,7 +145,7 @@ export class AppointmentsRepository {
   }
 
   async removePendingAppointment(id: string) {
-    const response = await this.pendingAppointmentRepository.delete({ id });
+    const response = await this.pendingAppointmentRepository.delete(id);
     return response.affected ? 'Cita eliminada de pendientes' : 'Error al eliminar la cita de pendientes';
   }
 
