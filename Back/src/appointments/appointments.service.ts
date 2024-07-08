@@ -271,7 +271,7 @@ export class AppointmentsService {
       const cantidad_slots = (await this.getSlots(dates[0].date)).length;
       return await this.appointmentsRepository.getDaysWithSlots(start_date, end_date, dentist_id, cantidad_slots);
 
-      /* const cantidad_slots = await this.getSlots(dates[0].date);
+      /*  
 
       const available_slots_day = await Promise.all(
         dates.map(async (fecha) => {
