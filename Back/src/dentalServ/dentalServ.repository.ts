@@ -14,9 +14,13 @@ export class DentalServRepository {
     @InjectRepository(DentalServ) private dentalServ: Repository<DentalServ>,
   ) {}
 
-  async getDentalServ(): Promise<DentalServ[]> {
+  async getDentalServ(page: number, limit: number): Promise<DentalServ[]> {
     try {
-      return await this.dentalServ.find();
+      const [services, total] = await this.dentalServ.findAndCount({
+        skip: (page - 1) * limit,
+        take: limit,
+      });
+      return services;
     } catch (error) {
       throw new InternalServerErrorException('Error interno del servidor');
     }

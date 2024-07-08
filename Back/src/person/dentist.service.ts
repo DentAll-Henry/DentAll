@@ -37,7 +37,7 @@ export class DentistsService {
   async dentistByPersonId(idperson: Person['id']) {
     return this.dentistsRepository.dentistByPersonId(idperson);
   }
-  
+
   async dentistById(id: string) {
     return this.dentistsRepository.dentistById(id);
   }
@@ -48,10 +48,9 @@ export class DentistsService {
     personId: string;
   }) {
     const { specialtyName, rate, personId } = dentistInfo;
-    const person: Person = await this.peopleService.addRole(
-      personId,
-      { roleName: Roles.DENTIST },
-    );
+    const person: Person = await this.peopleService.addRole(personId, {
+      roleName: Roles.DENTIST,
+    });
     let dentistToCreate: Partial<Dentist>;
     if (specialtyName) {
       const specialty =
@@ -79,25 +78,37 @@ export class DentistsService {
 
   async changeDentistStatus(id: string) {
     const dentist: Dentist = await this.dentistById(id);
-    const dentistPerson: Person = dentist.person as Person
-    if(dentist.is_active) {
-      await this.peopleService.delRole(dentistPerson.id, { roleName: Roles.DENTIST})
+    const dentistPerson: Person = dentist.person as Person;
+    if (dentist.is_active) {
+      await this.peopleService.delRole(dentistPerson.id, {
+        roleName: Roles.DENTIST,
+      });
     } else {
-      await this.peopleService.addRole(dentistPerson.id, { roleName: Roles.DENTIST})
+      await this.peopleService.addRole(dentistPerson.id, {
+        roleName: Roles.DENTIST,
+      });
     }
     return this.dentistsRepository.changeDentistStatus(dentist);
   }
 
-  async addDentalServ(id: string, dentalServNames: { name: DentalServ['name']}[]) {    
-    const dentalServNamesSet = new Set(dentalServNames.map(d => d.name));
-  
-    const allDentalServices: DentalServ[] = await this.dentalServService.getDentalServ();
-    const dentalServices = allDentalServices.filter((dentalServ) => dentalServNamesSet.has(dentalServ.name));
+  async addDentalServ(
+    id: string,
+    dentalServNames: { name: DentalServ['name'] }[],
+  ) {
+    const dentalServNamesSet = new Set(dentalServNames.map((d) => d.name));
+
+    const allDentalServices: DentalServ[] =
+      await this.dentalServService.getDentalServ(1, 150);
+    const dentalServices = allDentalServices.filter((dentalServ) =>
+      dentalServNamesSet.has(dentalServ.name),
+    );
 
     const dentist: Dentist = await this.dentistById(id);
-    if (!dentist) throw new BadRequestException('No existe dentista con ese ID.');
+    if (!dentist)
+      throw new BadRequestException('No existe dentista con ese ID.');
 
-    const dentistWithDentalServ: Dentist = await this.dentistsRepository.addDentalServ(dentist, dentalServices);
+    const dentistWithDentalServ: Dentist =
+      await this.dentistsRepository.addDentalServ(dentist, dentalServices);
     return dentistWithDentalServ;
   }
 }

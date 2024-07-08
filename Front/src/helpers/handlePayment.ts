@@ -7,15 +7,17 @@ export const handlePayment = async (
 ) => {
   try {
     const response = await axios.post(
-      `${enviroment.apiUrl}payments/new-preference`,
+      `${enviroment.apiUrl}/payments/new-preference`,
       {
         patient_id,
         dentalServ_id,
       }
     )
+
     return response.data
   } catch (error) {
     console.error(error)
     throw error
   }
 }
+

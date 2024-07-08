@@ -1,7 +1,7 @@
-import Image from "next/image";
-import Link from "next/link";
-import NavDash from "@/components/NavBar/navDash";
-import Payments from "@/components/Payments/Payments";
+import Image from "next/image"
+import Link from "next/link"
+import NavDash from "@/components/NavBar/navDash"
+import Payments from "@/components/Payments/Payments"
 
 const page = () => {
   return (
@@ -77,10 +77,10 @@ const page = () => {
           </div>
         </Link>
 
-        <Payments/>
+        <Payments />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default page;
+export default page
