@@ -16,6 +16,7 @@ type User = {
 };
 
 type PendingAppointment = {
+  id: string;
   service: {
     id: string;
     name: string;
@@ -51,7 +52,6 @@ const CreateAppointment = () => {
     service: "",
     date_time: "",
     description: "",
-    pending_appointment_id: "",
   });
 
   const getData = async () => {
@@ -122,24 +122,17 @@ const CreateAppointment = () => {
 
     //TODO: hacer validaciones para el objeto appointment
     try {
-      pending.map(async p => {
-        if (p.service.id === appointment.service) {
-          console.log(p.service.id, appointment.service)
-          setAppointment({ ...appointment, pending_appointment_id: p.service.id });
-        }
-      })
-      let data
-      if (appointment.pending_appointment_id === "") {
-        const { pending_appointment_id, ...res } = appointment
-        data = res
-      } else {
-        data = appointment
-      }
+      const pending_id = pending.find(p => p.service.id === appointment.service)?.id || "";
+
+      const data = pending_id !== ""
+        ? { ...appointment, pending_appointment_id: pending_id }
+        : appointment;
+
       const response = await axios.post(`${enviroment.apiUrl}/appointments`, data);
 
       if (response.status === 201) {
         alert("Cita creada con éxito");
-        router.push("/patients/appointments"); // Cambia "/appointments" a la ruta adecuada
+        router.push("/patients/appointments");
       }
     } catch (error) {
       console.error("Error creating appointment:", error);
@@ -165,7 +158,6 @@ const CreateAppointment = () => {
 
     if (res.status === 200) {
       const times: Date[] = res.data.availabity[0].map((time: Date) => toZonedTime(time, 'UTC'))
-      console.log('Times:', times);
       setAvailableTimes(times)
       return res.data
     }
@@ -191,7 +183,7 @@ const CreateAppointment = () => {
   }, [dentist, consultationType]);
 
   const handleCalendarMonthChange = async (date: Date) => {
-    console.log(availableDates);
+
     const start_date = format(startOfMonth(date), 'yyyy-MM-dd')
     const end_date = format(endOfMonth(date), 'yyyy-MM-dd')
 
@@ -220,6 +212,7 @@ const CreateAppointment = () => {
   }
 
   const handleCalendarSelectedDate = async (date: Date | null) => {
+
     if (date) {
       setCalendarDate(date)
       setAppointment({ ...appointment, date_time: format(date, 'yyyy-MM-dd HH:mm') });

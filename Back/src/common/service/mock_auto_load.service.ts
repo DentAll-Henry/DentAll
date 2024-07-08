@@ -144,7 +144,7 @@ export class MockAutoLoadService {
 
     console.log('populated persons and credentials as patients and dentists');
   }
-
+  
   async seedHeadquarters() {
     try {
       const count = await this.cordsRepository.count();
