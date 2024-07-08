@@ -83,7 +83,7 @@ export class AuthController {
 
   @ApiBearerAuth()
   @Patch('updateperson')
-  @DRoles(Roles.PATIENT)
+  @DRoles(Roles.PATIENT, Roles.DENTIST, Roles.ADMINISTRATIVE, Roles.ADMIN)
   @UseGuards(AuthGuard, RolesGuard)
   @ApiOperation({ summary: 'Update person information. The request body must has confirmPass.' })
   @ApiResponse({ status: 201, description: 'Information updated succesfully.' })
