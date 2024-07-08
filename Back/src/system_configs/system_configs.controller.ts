@@ -35,5 +35,5 @@ export class SystemConfigsController {
   update(@Body() updateSystemConfigDto: UpdateSystemConfigDto[]) {
     return this.systemConfigsService.update(updateSystemConfigDto);
   }
-
+  
 }
