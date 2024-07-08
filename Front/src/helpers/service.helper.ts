@@ -4,6 +4,7 @@ import axios from "axios"
 
 export async function fetchService(): Promise<Service[]> {
   try {
+    console.log(`${enviroment.apiUrl}/dental-serv/`);
     const response = await axios.get(`${enviroment.apiUrl}/dental-serv/`)
     return response.data
   } catch (error) {

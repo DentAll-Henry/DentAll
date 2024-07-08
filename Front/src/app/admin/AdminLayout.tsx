@@ -30,12 +30,12 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   ];
 
   const styles = {
-    container: "bg-greenD-700",
+    container: "bg-darkD-500",
     nav: "",
     navItem: "",
-    navItemHover: "hover:bg-greenD-500",
+    navItemHover: "hover:bg-zinc-600",
     navItemText: "",
-    navItemTextHover: "group-hover:text-black",
+    navItemTextHover: "group-hover:text-greenD-500",
   };
 
   return (
