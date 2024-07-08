@@ -10,6 +10,7 @@ import { initMercadoPago, Wallet } from "@mercadopago/sdk-react"
 import { handlePayment } from "@/helpers/handlePayment"
 import { enviroment } from "@/utils/config"
 import { useRouter } from "next/navigation"
+import axios from "axios"
 
 type User = {
   id: string
@@ -20,13 +21,6 @@ export const ServicesForPatient = () => {
   const router = useRouter()
 
   const [serviceData, setServiceData] = useState<Service[]>([])
-
-  const [patientID, setPatientID] = useState(
-    "bd39b676-fb15-44e8-b9bf-13accd9d1b57"
-  ) // Reemplaza con un ID válido
-  // const [dentalServID, setDentalServID] = useState(
-  //   "01292a46-e409-4874-a6ad-618928e64c61"
-  // ) // Reemplaza con un ID válido
   const [preferenceId, setPreferenceId] = useState<string | null>(null)
 
   const [user, setUser] = useState<User | null>(null)
@@ -58,8 +52,13 @@ export const ServicesForPatient = () => {
 
   const handleClick = async (dentalServID: string) => {
     try {
-      const preference = await handlePayment(patientID, dentalServID)
-      setPreferenceId(preference.preferenceId)
+      if (user) {
+        const patient = await axios.get(
+          `${enviroment.apiUrl}/patients/person/${user.id}`
+        )
+        const preference = await handlePayment(patient.data.id, dentalServID)
+        setPreferenceId(preference.preferenceId)
+      }
     } catch (error: any) {
       console.error("Error handling click:", error.message)
     }
@@ -67,7 +66,7 @@ export const ServicesForPatient = () => {
 
   useEffect(() => {
     initMercadoPago(enviroment.mercadopagoPublicKey, {
-      locale: "es-AR",
+      locale: "en-US",
     })
   }, [])
 
