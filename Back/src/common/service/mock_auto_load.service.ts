@@ -43,7 +43,7 @@ export class MockAutoLoadService {
     @InjectRepository(Cords)
     private cordsRepository: Repository<Cords>,
     private readonly specialityService: SpecialtyService,
-  ) {}
+  ) { }
 
   async onModuleInit() {
     await this.seedDentalServices();
@@ -52,6 +52,7 @@ export class MockAutoLoadService {
     await this.seedHeadquarters();
     await this.seedAppointments();
     await this.seedServicesForDentist();
+    await this.seedSpecialUsers();
   }
 
   async seedDentalServices() {
@@ -224,4 +225,54 @@ export class MockAutoLoadService {
       }) */
     });
   }
+
+  async seedSpecialUsers() {
+    const admin = {
+      first_name: 'Sr. Admin',
+      last_name: 'General',
+      dni: '1234567800',
+      email: 'admin@me.com',
+      phone: "2345671189",
+      address: 'Calle 123',
+      location: 'CABA',
+      nationality: 'Argentino',
+      birthdate: new Date("1990-01-01"),
+    }
+    const administrativo = {
+      first_name: 'Sr. Administrativo',
+      last_name: 'General',
+      dni: '1234567100',
+      email: 'administrativo@me.com',
+      phone: "2345671189",
+      address: 'Calle 123',
+      location: 'CABA',
+      nationality: 'Argentino',
+      birthdate: new Date("1990-01-01"),
+    }
+
+    const exists_admin = await this.personService.personByEmail(admin.email);
+    if (!exists_admin) {
+      const saved_admin = await this.authService.signUp(admin, {
+        email: admin.email,
+        password: 'Pass*123',
+      });
+      await this.personService.addRole(saved_admin.id, { roleName: Roles.ADMIN })
+      await this.personService.delRole(saved_admin.id, { roleName: Roles.PATIENT })
+
+      console.log('created a superadmin');
+    }
+
+    const exists_administrativo = await this.personService.personByEmail(administrativo.email);
+    if (!exists_administrativo) {
+      const saved_administrativo = await this.authService.signUp(administrativo, {
+        email: administrativo.email,
+        password: 'Pass*123',
+      });
+      await this.personService.addRole(saved_administrativo.id, { roleName: Roles.ADMINISTRATIVE })
+      await this.personService.delRole(saved_administrativo.id, { roleName: Roles.PATIENT })
+
+      console.log('created an administrative');
+    }
+  }
+
 }

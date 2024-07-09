@@ -51,4 +51,12 @@ export class Appointment {
     cascade: true,
   })
   service: DentalServ | DentalServ['id'];
+
+  /** 
+   * 
+   */
+  @Column({
+    nullable: true
+  })
+  expiration_date: Date
 }
