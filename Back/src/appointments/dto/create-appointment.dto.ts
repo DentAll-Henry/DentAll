@@ -1,5 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty, IsUUID, IsString, IsOptional } from "class-validator";
+import { IsNotEmpty, IsUUID, IsString, IsOptional, IsEmpty } from "class-validator";
+import { IsNull } from "typeorm";
 
 export class CreateAppointmentDto {
 
@@ -54,4 +55,7 @@ export class CreateAppointmentDto {
     @IsOptional()
     @IsUUID()
     pending_appointment_id?: string;
+
+    @IsEmpty()
+    expiration_date: Date;
 }
