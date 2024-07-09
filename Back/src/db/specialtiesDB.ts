@@ -1,6 +1,6 @@
 import { specialtyDto } from "src/specialty/specialty.dto";
 
-export const specialitiesDB = [
+export const specialtiesDB = [
     {
         name: "Odontología general",
         description: "La odontología general se centra en el cuidado dental integral, abarcando desde exámenes regulares y limpiezas hasta tratamientos restaurativos como empastes y coronas.",

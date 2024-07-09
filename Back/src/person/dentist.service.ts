@@ -46,8 +46,9 @@ export class DentistsService {
     specialtyName?: string;
     rate?: number;
     personId: string;
+    description?: string;
   }) {
-    const { specialtyName, rate, personId } = dentistInfo;
+    const { specialtyName, rate, personId, description } = dentistInfo;
     const person: Person = await this.peopleService.addRole(personId, {
       roleName: Roles.DENTIST,
     });
@@ -60,11 +61,13 @@ export class DentistsService {
           specialty,
           rate,
           person,
+          description,
         };
       } else {
         dentistToCreate = {
           rate,
           person,
+          description,
         };
       }
       return await this.dentistsRepository.createDentist(dentistToCreate);
@@ -72,6 +75,7 @@ export class DentistsService {
     dentistToCreate = {
       rate,
       person,
+      description
     };
     return await this.dentistsRepository.createDentist(dentistToCreate);
   }
