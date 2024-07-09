@@ -1,22 +1,21 @@
 import SideNav from "@/components/NavBar/sideNavBar";
 
-const AdminLayout = ({ children }: { children: React.ReactNode }) => {
-  
+const AdministrativeLayout = ({ children }: { children: React.ReactNode }) => {
   const navItems = [
     {
-      href: "/admin",
+      href: "/administrative",
       src: "https://res.cloudinary.com/ddpohfyur/image/upload/v1720201273/home_gfeqo8.svg",
       alt: "Home",
       text: "Inicio",
     },
     {
-      href: "/admin",
+      href: "/administrative",
       src: "https://res.cloudinary.com/ddpohfyur/image/upload/v1720201242/citas_bpks2p.svg",
       alt: "Pacientes",
       text: "Pacientes",
     },
     {
-      href: "/admin",
+      href: "/administrative",
       src: "https://res.cloudinary.com/ddpohfyur/image/upload/v1720362622/Property_Simple_Type_circle-information_oofcv6.svg",
       alt: "Contenido",
       text: "Contenido",
@@ -44,11 +43,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
     <html lang="en">
       <body className="bg-darkD-600">
         <div className="flex ">
-          <SideNav
-            navItems={navItems}
-            styles={styles}
-            headerText="SuperAdmin"
-          />
+          <SideNav navItems={navItems} styles={styles} headerText="Administrativo" />
           {children}
         </div>
       </body>
@@ -56,4 +51,4 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default AdminLayout;
+export default AdministrativeLayout;

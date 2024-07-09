@@ -3,7 +3,7 @@ import SearchBar from "@/components/SearchBar/SearchBar";
 import Link from "next/link";
 import NavDash from "@/components/NavBar/navDash";
 
-const DashboardPage = () => {
+const page = () => {
   return (
     <div className="w-[80%] h-screen bg-darkD-600 text-white ml-[20%]">
       <NavDash />
@@ -61,10 +61,8 @@ const DashboardPage = () => {
           </div>
         </Link>
       </div>
-
-      <div className="flex justify-end mr-4">bots</div>
     </div>
   );
 };
 
-export default DashboardPage;
+export default page;

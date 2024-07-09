@@ -30,13 +30,14 @@ const PatientsLayout = ({ children }: { children: React.ReactNode }) => {
     navItemHover: "hover:bg-zinc-600",
     navItemText: "",
     navItemTextHover: "group-hover:text-greenD-500",
+    headerText: "text-red-500 text-start ml-8",
   };
 
   return (
     <html lang="en">
       <body className="bg-darkD-600">
         <div className="flex ">
-          <SideNav navItems={navItems} styles={styles} />
+          <SideNav navItems={navItems} styles={styles} headerText="Paciente" />
           {children}
         </div>
       </body>
