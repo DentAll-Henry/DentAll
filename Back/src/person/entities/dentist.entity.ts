@@ -48,4 +48,10 @@ export class Dentist {
     name: 'dentists_dentalservices'
   })
   dental_services: DentalServ[]
+
+  @Column({
+    default: "",
+    nullable: true,
+  })
+  description: string;
 }
