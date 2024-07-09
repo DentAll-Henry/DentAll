@@ -13,7 +13,6 @@ export const handlePayment = async (
         dentalServ_id,
       }
     )
-
     return response.data
   } catch (error) {
     console.error(error)

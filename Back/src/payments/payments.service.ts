@@ -14,7 +14,7 @@ export class PaymentsService {
     return await this.paymentsRepository.success(data);
   }
 
-  async failure(data) {
-    return await this.paymentsRepository.failure(data);
-  }
+  // async failure(data) {
+  //   return await this.paymentsRepository.failure(data);
+  // }
 }

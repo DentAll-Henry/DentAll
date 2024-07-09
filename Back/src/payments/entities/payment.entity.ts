@@ -1,3 +1,4 @@
+import { Appointment } from 'src/appointments/entities/appointment.entity';
 import { DentalServ } from 'src/dentalServ/entities/dentalServ.entity';
 import { Patient } from 'src/person/entities/patient.entity';
 import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
@@ -10,42 +11,21 @@ export class Payment {
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   date: Date;
 
-  @Column({ nullable: true, default: null, type: 'varchar', length: 150 })
-  collection_id: string;
+  @Column({ nullable: true, default: null, type: 'int' })
+  payment_id: number;
 
-  @Column({ nullable: true, default: null, type: 'varchar', length: 150 })
-  collection_status: string;
-
-  @Column({ nullable: true, default: null, type: 'varchar', length: 150 })
-  payment_id: string;
-
-  @Column({ nullable: true, default: null, type: 'varchar', length: 150 })
-  status: string;
-
-  @Column({ nullable: true, default: null, type: 'varchar', length: 150 })
-  external_reference: string;
-
-  @Column({ nullable: true, default: null, type: 'varchar', length: 150 })
-  payment_type: string;
-
-  @Column({ nullable: true, default: null, type: 'varchar', length: 150 })
-  merchant_order_id: string;
-
-  @Column({ nullable: true, default: null, type: 'varchar', length: 150 })
+  @Column({ nullable: true, default: null, type: 'varchar', length: 50 })
   preference_id: string;
 
-  @Column({ nullable: true, default: null, type: 'varchar', length: 150 })
-  site_id: string;
-
-  @Column({ nullable: true, default: null, type: 'varchar', length: 150 })
-  processing_mode: string;
-
-  @Column({ nullable: true, default: null, type: 'varchar', length: 150 })
-  merchant_account_id: string;
+  @Column({ nullable: true, default: null, type: 'varchar', length: 20 })
+  payment_status: string;
 
   @OneToOne(() => Patient)
-  patient: Patient;
+  patient: Patient['id'];
 
   @OneToOne(() => DentalServ)
-  dentalServ: DentalServ;
+  dentalServ: DentalServ['id'];
+
+  @OneToOne(() => Appointment)
+  appointment: Appointment['id'];
 }
