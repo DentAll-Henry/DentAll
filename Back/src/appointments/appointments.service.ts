@@ -28,7 +28,7 @@ export class AppointmentsService {
     private readonly dentistService: DentistsService,
     private readonly mailService: MailService,
     private readonly systemConfigsService: SystemConfigsService,
-  ) { }
+  ) {}
 
   async ensureStoredProcedureExists() {
     const checkIfExistsQuery = `
@@ -40,7 +40,8 @@ export class AppointmentsService {
       );
     `;
 
-    const result = await this.appointmentsRepository.execute_querys(checkIfExistsQuery);
+    const result =
+      await this.appointmentsRepository.execute_querys(checkIfExistsQuery);
     const exists = result[0].exists;
 
     if (!exists) {
@@ -80,7 +81,6 @@ export class AppointmentsService {
     }
   }
 
-
   async create(createAppointmentDto: CreateAppointmentDto) {
     const dentServ: DentalServ = await this.dentalServService.getDentalServByID(
       createAppointmentDto.service,
@@ -107,7 +107,7 @@ export class AppointmentsService {
 
     let now = new Date();
     now.setMinutes(now.getMinutes() + 15);
-    createAppointmentDto.expiration_date = now
+    createAppointmentDto.expiration_date = now;
 
     const appointment_created: Appointment =
       await this.appointmentsRepository.postAppointment(createAppointmentDto);
@@ -139,7 +139,7 @@ export class AppointmentsService {
     if (createAppointmentDto.pending_appointment_id) {
       const pending =
         await this.appointmentsRepository.getPendingAppointmentById(
-          createAppointmentDto.pending_appointment_id
+          createAppointmentDto.pending_appointment_id,
         );
       if (pending) {
         await this.appointmentsRepository.removePendingAppointment(pending.id);
@@ -196,7 +196,7 @@ export class AppointmentsService {
 
     if (updateAppointmentDto.patient) {
       const patient = await this.patientsService.patientById(
-        updateAppointmentDto.patient
+        updateAppointmentDto.patient,
       );
       if (!patient)
         throw new BadRequestException(
@@ -277,7 +277,12 @@ export class AppointmentsService {
       }
     } else {
       const cantidad_slots = (await this.getSlots(dates[0].date)).length;
-      return await this.appointmentsRepository.getDaysWithSlots(start_date, end_date, dentist_id, cantidad_slots);
+      return await this.appointmentsRepository.getDaysWithSlots(
+        start_date,
+        end_date,
+        dentist_id,
+        cantidad_slots,
+      );
 
       /*  
 
