@@ -1,0 +1,9 @@
+.googleLoginButton {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 240px; /* Ajusta el ancho según sea necesario */
+}
