@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import { config as dotenvConfig } from 'dotenv';
 
-dotenvConfig({ path: ['./.env.development', './.env'] });
+dotenvConfig({ path: ['./.env.environment', './.env'] });
 
 export const environment = {
   port: process.env.PORT || 3000,
@@ -27,4 +27,5 @@ export const environment = {
   mercadopago: {
     accesstoken: process.env.MERCADOPAGO_ACCESS_TOKEN,
   },
+  fronturl: process.env.FRONT_URL || 'http://localhost:3000',
 };

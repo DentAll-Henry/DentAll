@@ -11,6 +11,7 @@ import { Payment } from './entities/payment.entity';
 import { DentalServ } from 'src/dentalServ/entities/dentalServ.entity';
 import { payment, preference } from 'src/config/mercadopago';
 import { Appointment } from 'src/appointments/entities/appointment.entity';
+import { environment } from 'src/config/environment';
 
 @Injectable()
 export class PaymentsRepository {
@@ -56,9 +57,9 @@ export class PaymentsRepository {
         ],
         back_urls: {
           // Auto redirect links
-          success: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-          failure: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-          pending: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+          success: environment.fronturl + 'patients/appointments',
+          failure: environment.fronturl + 'patients/appointments',
+          // pending: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
         },
         notification_url: `https://98a3-2803-9800-9441-ad39-c466-158e-cf16-4cee.ngrok-free.app/payments/success/?patient_id=${patient.id}&dentalServ_id=${service.id}&appointment_id=${appointment.id}`,
         auto_return: 'approved',
@@ -75,7 +76,6 @@ export class PaymentsRepository {
 
   async success(data) {
     try {
-      console.log(data);
       if (!data.id2) {
         throw new BadRequestException('No se encontro el pago');
       }
