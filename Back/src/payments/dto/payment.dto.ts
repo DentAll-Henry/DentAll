@@ -16,10 +16,10 @@ export class PaymentDto {
   @IsNotEmpty()
   @IsString()
   @IsUUID()
-  dentalServ_id: string;
+  appointment_id: string;
 
-  @IsOptional()
-  @IsNumber()
-  @Min(1)
-  quantity: number;
+  // @IsOptional()
+  // @IsNumber()
+  // @Min(1)
+  // quantity: number;
 }

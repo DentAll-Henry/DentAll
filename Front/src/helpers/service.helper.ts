@@ -4,7 +4,6 @@ import axios from "axios"
 
 export async function fetchService(): Promise<Service[]> {
   try {
-    console.log(`${enviroment.apiUrl}/dental-serv/`);
     const response = await axios.get(`${enviroment.apiUrl}/dental-serv/`)
     return response.data
   } catch (error) {
@@ -15,7 +14,6 @@ export async function fetchService(): Promise<Service[]> {
 export async function createService(newServiceData: any) {
   try {
     newServiceData.price = parseFloat(newServiceData.price)
-    console.log(newServiceData)
     const response = await axios.post(
       `${enviroment.apiUrl}/dental-serv/`,
       newServiceData

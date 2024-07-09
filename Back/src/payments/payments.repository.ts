@@ -9,7 +9,8 @@ import { Patient } from 'src/person/entities/patient.entity';
 import { Repository } from 'typeorm';
 import { Payment } from './entities/payment.entity';
 import { DentalServ } from 'src/dentalServ/entities/dentalServ.entity';
-import { preference } from 'src/config/mercadopago';
+import { payment, preference } from 'src/config/mercadopago';
+import { Appointment } from 'src/appointments/entities/appointment.entity';
 
 @Injectable()
 export class PaymentsRepository {
@@ -17,6 +18,7 @@ export class PaymentsRepository {
     @InjectRepository(Patient) private patient: Repository<Patient>,
     @InjectRepository(Payment) private payment: Repository<Payment>,
     @InjectRepository(DentalServ) private dentalServ: Repository<DentalServ>,
+    @InjectRepository(Appointment) private appointment: Repository<Appointment>,
   ) {}
 
   async createPreference(data: PaymentDto, baseUrl: string) {
@@ -29,11 +31,18 @@ export class PaymentsRepository {
           'No se encontró un paciente para la id: ' + data.patient_id,
         );
       const service = await this.dentalServ.findOne({
-        where: { id: data.dentalServ_id },
+        where: { name: 'Consulta de valoración' },
       });
       if (!service)
         throw new BadRequestException(
-          'No se encontró un servicio para el id: ' + data.dentalServ_id,
+          'No se encontró un servicio para de Consulta de valoracion ',
+        );
+      const appointment = await this.appointment.findOne({
+        where: { id: data.appointment_id },
+      });
+      if (!appointment)
+        throw new BadRequestException(
+          'No se encontró una cita para la id: ' + data.appointment_id,
         );
       const body = {
         items: [
@@ -41,7 +50,7 @@ export class PaymentsRepository {
             id: service.id,
             currency_id: 'ARS', // moked for the moment
             title: service.name,
-            quantity: data.quantity || 1,
+            quantity: 0.5,
             unit_price: Number(service.price),
           },
         ],
@@ -51,10 +60,10 @@ export class PaymentsRepository {
           failure: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
           pending: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
         },
+        notification_url: `https://98a3-2803-9800-9441-ad39-c466-158e-cf16-4cee.ngrok-free.app/payments/success/?patient_id=${patient.id}&dentalServ_id=${service.id}&appointment_id=${appointment.id}`,
         auto_return: 'approved',
       };
       const response = await preference.create({ body });
-      
       return { preferenceId: response.id };
     } catch (error) {
       if (error instanceof BadRequestException) {
@@ -66,33 +75,53 @@ export class PaymentsRepository {
 
   async success(data) {
     try {
-      const payment = await this.payment.findOne({
-        where: { preference_id: data.preference_id },
+      console.log(data);
+      if (!data.id2) {
+        throw new BadRequestException('No se encontro el pago');
+      }
+      const paymentData = await payment.get({
+        id: data.id2,
       });
-      if (!payment) throw new BadRequestException('No se encontro el pago');
-      await this.payment.update({ id: payment.id }, data);
-      return payment;
+      if (paymentData.status_detail == 'accredited') {
+        const newPayment = await this.payment.create({
+          date: new Date(),
+          payment_id: paymentData.id,
+          payment_status: paymentData.status_detail,
+          preference_id: data.id,
+          patient: data.patient_id,
+          dentalServ: data.dentalServ_id,
+          appointment: data.appointment_id,
+        });
+        await this.payment.save(newPayment);
+        return 'Pago exitoso';
+      }
+      return 'Error al pagar';
     } catch (error) {
       if (error instanceof BadRequestException) {
         throw error;
       }
+      if (error?.error == 'resource not found') {
+        throw new BadRequestException('No se encontro el pago');
+      }
+      console.log(error);
+
       throw new InternalServerErrorException('Error interno del servidor');
     }
   }
 
-  async failure(data) {
-    try {
-      const payment = await this.payment.findOne({
-        where: { preference_id: data.preference_id },
-      });
-      if (!payment) throw new BadRequestException('No se encontro el pago');
-      await this.payment.update({ id: payment.id }, data);
-      return;
-    } catch (error) {
-      if (error instanceof BadRequestException) {
-        throw error;
-      }
-      throw new InternalServerErrorException('Error interno del servidor');
-    }
-  }
+  // async failure(data) {
+  //   try {
+  //     const payment = await this.payment.findOne({
+  //       where: { preference_id: data.preference_id },
+  //     });
+  //     if (!payment) throw new BadRequestException('No se encontro el pago');
+  //     await this.payment.update({ id: payment.id }, data);
+  //     return;
+  //   } catch (error) {
+  //     if (error instanceof BadRequestException) {
+  //       throw error;
+  //     }
+  //     throw new InternalServerErrorException('Error interno del servidor');
+  //   }
+  // }
 }

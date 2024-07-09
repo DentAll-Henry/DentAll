@@ -31,6 +31,10 @@ import { DentistsRepository } from './person/dentist.repository';
 import { MailerModule } from '@nestjs-modules/mailer';
 import nodemailerConfig from './config/nodemailer';
 import { PaymentsModule } from './payments/payments.module';
+import { ScheduleModule } from '@nestjs/schedule';
+import { AppService } from './app.service';
+import { AppointmentsRepository } from './appointments/appointments.repository';
+import { Appointment } from './appointments/entities/appointment.entity';
 
 @Module({
   imports: [
@@ -46,6 +50,7 @@ import { PaymentsModule } from './payments/payments.module';
     MailerModule.forRootAsync({
       useFactory: () => nodemailerConfig,
     }),
+    ScheduleModule.forRoot(),
     DentalServModule,
     AuthModule,
     AppointmentsModule,
@@ -65,20 +70,21 @@ import { PaymentsModule } from './payments/payments.module';
     }),
     MailModule,
     SystemConfigsModule,
-    TypeOrmModule.forFeature([DentalServ, Cords, Headquarter]),
+    TypeOrmModule.forFeature([DentalServ, Cords, Headquarter, Appointment]),
     TypeOrmModule.forFeature([Auth]),
     FilesModule,
-    SpecialtyModule,
+    SpecialtyModule
   ],
   controllers: [FilesController],
 
   providers: [
+    AppService,
     MockAutoLoadService,
     AuthService,
     AuthRepository,
     FilesService,
     DentistsService,
-    DentistsRepository,
+    DentistsRepository
   ],
 })
 export class AppModule {

@@ -39,11 +39,11 @@ export class AppointmentsRepository {
       .andWhere('appointment.dentist_id IN (:...dentists)', { dentists: dentists_arr })
 
     if (only_future) {
-      queryBuilder.andWhere('appointment.date_time > :now', { now: new Date() });
+      queryBuilder.andWhere('appointment.date_time > NOW()');
     }
 
     if (only_past) {
-      queryBuilder.andWhere('appointment.date_time < :now', { now: new Date() });
+      queryBuilder.andWhere('appointment.date_time < NOW()');
     }
 
     const data = await queryBuilder.getMany();
@@ -79,11 +79,11 @@ export class AppointmentsRepository {
       .take(limit);
 
     if (only_future) {
-      queryBuilder.andWhere('appointment.date_time > :now', { now: new Date() });
+      queryBuilder.andWhere('appointment.date_time > NOW()');
     }
 
     if (only_past)
-      queryBuilder.andWhere('appointment.date_time < :now', { now: new Date() });
+      queryBuilder.andWhere('appointment.date_time < NOW()');
 
     return await queryBuilder.getMany();
   }
@@ -101,11 +101,11 @@ export class AppointmentsRepository {
       .take(limit);
 
     if (only_future) {
-      queryBuilder.andWhere('appointment.date_time > :now', { now: new Date() });
+      queryBuilder.andWhere('appointment.date_time > NOW()');
     }
 
     if (only_past)
-      queryBuilder.andWhere('appointment.date_time < :now', { now: new Date() });
+      queryBuilder.andWhere('appointment.date_time < NOW()');
 
     return await queryBuilder.getMany();
   }
