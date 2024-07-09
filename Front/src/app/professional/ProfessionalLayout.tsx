@@ -30,19 +30,24 @@ const ProfessionalLayout = ({ children }: { children: React.ReactNode }) => {
   ];
 
   const styles = {
-    container: "bg-blue-400",
+    container: "bg-darkD-500",
     nav: "",
     navItem: "",
-    navItemHover: "hover:bg-blue-500",
+    navItemHover: "hover:bg-zinc-600",
     navItemText: "",
-    navItemTextHover: "group-hover:text-black",
+    navItemTextHover: "group-hover:text-greenD-500",
+    headerText: "text-red-500 text-start ml-8",
   };
 
   return (
     <html lang="en">
-      <body >
+      <body className="bg-darkD-600">
         <div className="flex ">
-          <SideNav navItems={navItems} styles={styles} />
+          <SideNav
+            navItems={navItems}
+            styles={styles}
+            headerText="Profesional"
+          />
           {children}
         </div>
       </body>

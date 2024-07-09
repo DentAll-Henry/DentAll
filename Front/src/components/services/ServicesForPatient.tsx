@@ -1,74 +1,74 @@
-"use client"
+"use client";
 
-import { fetchService } from "@/helpers/service.helper"
-import { Service } from "@/types"
-import Image from "next/image"
-import Link from "next/link"
-import { useEffect, useState } from "react"
-import Payments from "../Payments/Payments"
-import { initMercadoPago, Wallet } from "@mercadopago/sdk-react"
-import { handlePayment } from "@/helpers/handlePayment"
-import { enviroment } from "@/utils/config"
-import { useRouter } from "next/navigation"
-import axios from "axios"
+import { fetchService } from "@/helpers/service.helper";
+import { Service } from "@/types";
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import Payments from "../Payments/Payments";
+import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
+import { handlePayment } from "@/helpers/handlePayment";
+import { enviroment } from "@/utils/config";
+import { useRouter } from "next/navigation";
+import axios from "axios";
 
 type User = {
-  id: string
-  [key: string]: any
-}
+  id: string;
+  [key: string]: any;
+};
 
 export const ServicesForPatient = () => {
-  const router = useRouter()
+  const router = useRouter();
 
-  const [serviceData, setServiceData] = useState<Service[]>([])
-  const [preferenceId, setPreferenceId] = useState<string | null>(null)
+  const [serviceData, setServiceData] = useState<Service[]>([]);
+  const [preferenceId, setPreferenceId] = useState<string | null>(null);
 
-  const [user, setUser] = useState<User | null>(null)
-  const [loggin, setLoggin] = useState(false)
+  const [user, setUser] = useState<User | null>(null);
+  const [loggin, setLoggin] = useState(false);
 
   useEffect(() => {
-    const userSession = localStorage.getItem("userSession")
+    const userSession = localStorage.getItem("userSession");
     if (userSession) {
-      const parsedUser = JSON.parse(userSession)
-      setUser(parsedUser.userData)
-      setLoggin(true)
+      const parsedUser = JSON.parse(userSession);
+      setUser(parsedUser.userData);
+      setLoggin(true);
     } else {
-      router.push("/register")
+      router.push("/register");
     }
-  }, [router])
+  }, [router]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await fetchService()
-        setServiceData(data)
+        const data = await fetchService();
+        setServiceData(data);
       } catch (error) {
-        console.error("Error fetching service data:", error)
+        console.error("Error fetching service data:", error);
       }
-    }
+    };
 
-    fetchData()
-  }, [])
+    fetchData();
+  }, []);
 
   const handleClick = async (dentalServID: string) => {
     try {
       if (user) {
         const patient = await axios.get(
           `${enviroment.apiUrl}/patients/person/${user.id}`
-        )
-        const preference = await handlePayment(patient.data.id, dentalServID)
-        setPreferenceId(preference.preferenceId)
+        );
+        const preference = await handlePayment(patient.data.id, dentalServID);
+        setPreferenceId(preference.preferenceId);
       }
     } catch (error: any) {
-      console.error("Error handling click:", error.message)
+      console.error("Error handling click:", error.message);
     }
-  }
+  };
 
   useEffect(() => {
     initMercadoPago(enviroment.mercadopagoPublicKey, {
       locale: "en-US",
-    })
-  }, [])
+    });
+  }, []);
 
   return (
     <div>
@@ -95,11 +95,8 @@ export const ServicesForPatient = () => {
               alt="Pagos"
             />
           </div>
-
         </div>
       ))}
-
     </div>
-  )
-}
-
+  );
+};
