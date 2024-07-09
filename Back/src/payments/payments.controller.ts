@@ -45,77 +45,67 @@ export class PaymentsController {
     res.status(201).json(preferenceId);
   }
 
-  @Get('/success/')
+  @Post('/success/')
   @ApiOperation({ summary: 'Indicate payment success' })
   @ApiParam({ name: 'id', type: String, description: 'Preference id' })
   @ApiResponse({ status: 200, description: 'Return success' })
   @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
   @ApiInternalServerErrorResponse({ status: 500, description: 'Server error.' })
   async success(
-    @Query('collection_id') collection_id: string,
-    @Query('collection_status') collection_status: string,
-    @Query('payment_id') payment_id: string,
-    @Query('status') status: string,
-    @Query('external_reference') external_reference: string,
-    @Query('payment_type') payment_type: string,
-    @Query('merchant_order_id') merchant_order_id: string,
-    @Query('preference_id') preference_id: string,
-    @Query('site_id') site_id: string,
-    @Query('processing_mode') processing_mode: string,
-    @Query('merchant_account_id') merchant_account_id: string,
+    @Query('id') id: string,
+    @Query('data.id') id2: string,
+    @Query('patient_id') patient_id: string,
+    @Query('dentalServ_id') dentalServ_id: string,
+    @Query('appointment_id') appointment_id: string,
+    @Body() data: any,
     @Res() res: Response,
   ) {
-    const data = {
-      collection_id,
-      collection_status,
-      payment_id,
-      status,
-      external_reference,
-      payment_type,
-      merchant_order_id,
-      preference_id,
-      site_id,
-      processing_mode,
-      merchant_account_id,
+    const body = {
+      id,
+      id2,
+      data,
+      patient_id,
+      dentalServ_id,
+      appointment_id,
     };
-    await this.paymentsService.success(data);
-    res.send('Success');
+    const dsad = await this.paymentsService.success(body);
+    res.send(dsad);
   }
 
-  @Get('/failure/:id')
-  @ApiOperation({ summary: 'Indicate payment failure' })
-  @ApiParam({ name: 'id', type: String, description: 'Preference id' })
-  @ApiResponse({ status: 200, description: 'Return failure' })
-  @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
-  @ApiInternalServerErrorResponse({ status: 500, description: 'Server error.' })
-  async failure(
-    @Query('collection_id') collection_id: string,
-    @Query('collection_status') collection_status: string,
-    @Query('payment_id') payment_id: string,
-    @Query('status') status: string,
-    @Query('external_reference') external_reference: string,
-    @Query('payment_type') payment_type: string,
-    @Query('merchant_order_id') merchant_order_id: string,
-    @Query('preference_id') preference_id: string,
-    @Query('site_id') site_id: string,
-    @Query('processing_mode') processing_mode: string,
-    @Query('merchant_account_id') merchant_account_id: string,
-    @Res() res: Response,
-  ) {
-    const data = {
-      collection_id,
-      collection_status,
-      payment_id,
-      status,
-      external_reference,
-      payment_type,
-      merchant_order_id,
-      preference_id,
-      site_id,
-      processing_mode,
-      merchant_account_id,
-    };
-    await this.paymentsService.failure(data);
-    res.send('Failure');
-  }
+  // @Get('/failure/:id')
+  // @ApiOperation({ summary: 'Indicate payment failure' })
+  // @ApiParam({ name: 'id', type: String, description: 'Preference id' })
+  // @ApiResponse({ status: 200, description: 'Return failure' })
+  // @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
+  // @ApiInternalServerErrorResponse({ status: 500, description: 'Server error.' })
+  // async failure(
+  //   @Query('collection_id') collection_id: string,
+  //   @Query('collection_status') collection_status: string,
+  //   @Query('payment_id') payment_id: string,
+  //   @Query('status') status: string,
+  //   @Query('external_reference') external_reference: string,
+  //   @Query('payment_type') payment_type: string,
+  //   @Query('merchant_order_id') merchant_order_id: string,
+  //   @Query('preference_id') preference_id: string,
+  //   @Query('site_id') site_id: string,
+  //   @Query('processing_mode') processing_mode: string,
+  //   @Query('merchant_account_id') merchant_account_id: string,
+  //   @Res() res: Response,
+  // ) {
+  //   const data = {
+  //     collection_id,
+  //     collection_status,
+  //     payment_id,
+  //     status,
+  //     external_reference,
+  //     payment_type,
+  //     merchant_order_id,
+  //     preference_id,
+  //     site_id,
+  //     processing_mode,
+  //     merchant_account_id,
+  //   };
+  //   await this.paymentsService.failure(data);
+  //   res.send('Failure');
+  // }
 }

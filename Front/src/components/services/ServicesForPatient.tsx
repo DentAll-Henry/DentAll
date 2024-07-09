@@ -1,16 +1,14 @@
 "use client";
 
-import { fetchService } from "@/helpers/service.helper";
-import { Service } from "@/types";
-import Image from "next/image";
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import Payments from "../Payments/Payments";
-import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
-import { handlePayment } from "@/helpers/handlePayment";
-import { enviroment } from "@/utils/config";
-import { useRouter } from "next/navigation";
-import axios from "axios";
+import { fetchService } from "@/helpers/service.helper"
+import { Service } from "@/types"
+import Image from "next/image"
+import { useEffect, useState } from "react"
+import { initMercadoPago, Wallet } from "@mercadopago/sdk-react"
+import { handlePayment } from "@/helpers/handlePayment"
+import { enviroment } from "@/utils/config"
+import { useRouter } from "next/navigation"
+import axios from "axios"
 
 type User = {
   id: string;
@@ -20,11 +18,12 @@ type User = {
 export const ServicesForPatient = () => {
   const router = useRouter();
 
-  const [serviceData, setServiceData] = useState<Service[]>([]);
-  const [preferenceId, setPreferenceId] = useState<string | null>(null);
-
-  const [user, setUser] = useState<User | null>(null);
-  const [loggin, setLoggin] = useState(false);
+  const [serviceData, setServiceData] = useState<Service[]>([])
+  const [preferenceIds, setPreferenceIds] = useState<{
+    [key: string]: string | null
+  }>({})
+  const [user, setUser] = useState<User | null>(null)
+  const [loggin, setLoggin] = useState(false)
 
   useEffect(() => {
     const userSession = localStorage.getItem("userSession");
@@ -55,9 +54,12 @@ export const ServicesForPatient = () => {
       if (user) {
         const patient = await axios.get(
           `${enviroment.apiUrl}/patients/person/${user.id}`
-        );
-        const preference = await handlePayment(patient.data.id, dentalServID);
-        setPreferenceId(preference.preferenceId);
+        )
+        const preference = await handlePayment(patient.data.id, dentalServID)
+        setPreferenceIds((prev) => ({
+          ...prev,
+          [dentalServID]: preference.preferenceId,
+        }))
       }
     } catch (error: any) {
       console.error("Error handling click:", error.message);
@@ -71,8 +73,7 @@ export const ServicesForPatient = () => {
   }, []);
 
   return (
-    <div>
-      {preferenceId && <Wallet initialization={{ preferenceId }} />}
+    <div className="flex">
       {serviceData.map((service, index) => (
         <div key={index} onClick={() => handleClick(service.id)}>
           <div className="flex-col bg-greenD-500 bg-opacity-5 w-[200px] h-[150px] rounded-md  flex justify-center items-center hover:scale-105 transition-transform duration-300">
@@ -94,6 +95,11 @@ export const ServicesForPatient = () => {
               height={35}
               alt="Pagos"
             />
+            {preferenceIds[service.id] && (
+              <Wallet
+                initialization={{ preferenceId: preferenceIds[service.id]! }}
+              />
+            )}
           </div>
         </div>
       ))}
