@@ -361,6 +361,7 @@ const CreateAppointment = () => {
                   ></textarea>
                 </div>
                 <div className="w-full">
+
                   {!condirmPay && (
                     <button
                       type="submit"
@@ -369,6 +370,7 @@ const CreateAppointment = () => {
                       Crear Cita
                     </button>
                   )}
+
                 </div>
                 {condirmPay && (
                   <div>

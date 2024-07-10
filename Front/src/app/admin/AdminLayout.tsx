@@ -10,10 +10,16 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
       text: "Inicio",
     },
     {
-      href: "/admin",
+      href: "/admin/patients",
       src: "https://res.cloudinary.com/ddpohfyur/image/upload/v1720201242/citas_bpks2p.svg",
       alt: "Pacientes",
       text: "Pacientes",
+    },
+    {
+      href: "/admin/dentist",
+      src: "https://res.cloudinary.com/ddpohfyur/image/upload/v1720201242/citas_bpks2p.svg",
+      alt: "Dentistas",
+      text: "Dentistas",
     },
     {
       href: "/admin",

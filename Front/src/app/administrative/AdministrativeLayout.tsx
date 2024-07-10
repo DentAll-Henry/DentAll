@@ -9,7 +9,7 @@ const AdministrativeLayout = ({ children }: { children: React.ReactNode }) => {
       text: "Inicio",
     },
     {
-      href: "/administrative",
+      href: "/administrative/patients",
       src: "https://res.cloudinary.com/ddpohfyur/image/upload/v1720201242/citas_bpks2p.svg",
       alt: "Pacientes",
       text: "Pacientes",

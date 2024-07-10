@@ -1,3 +1,4 @@
+
 "use client";
 import { useEffect, useState } from "react";
 import CardPatient from "../CardPatient/CardPatient";
@@ -32,6 +33,7 @@ type Dentist = {
   rate: number;
   description: string;
 };
+
 
 const PatientsList = () => {
   const [dentist, setDentist] = useState<Dentist>();
@@ -84,6 +86,7 @@ const PatientsList = () => {
           <p>Nombre y apellidos</p>
         </div>
 
+
         <div className="w-[18%] p-3">
           <p>Teléfono</p>
         </div>
@@ -97,11 +100,13 @@ const PatientsList = () => {
         </div>
 
         <div className="w-[14%] p-3">
+
           <p>Acciones</p>
         </div>
       </div>
 
       <div className="flex flex-col gap-2">
+
         {patients?.map((p) => {
           return <CardPatient key={p.id}
             id={p.id}
@@ -112,6 +117,7 @@ const PatientsList = () => {
             photo={p.photo}
           />
         })}
+
       </div>
     </div>
   );
