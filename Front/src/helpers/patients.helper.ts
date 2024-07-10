@@ -1,5 +1,6 @@
 import axios from "axios";
 import { enviroment } from "@/utils/config";
+import { PatientId } from "@/types";
 
 export async function allPatients() {
   try {
@@ -12,14 +13,16 @@ export async function allPatients() {
   }
 }
 
-export async function getPatientId(id:string) {
+export async function getPatientId(id: string){
   try {
-      const patients = await allPatients()
-      const patient = patients.find((patient:any) => patient.id.toString() === id)
-      if(!patient) throw new Error("Paciente no encontrado")
-      return patient
-  } catch (error:any) {
-      console.log(error)
+    console.log("Soy el ID ", id);
+    const response = await axios.get(`${enviroment.apiUrl}/patients/${id}`);
+    console.log(response);
+    return response.data;
+  } catch (error: any) {
+    console.log(error);
+    
   }
-
 }
+
+
