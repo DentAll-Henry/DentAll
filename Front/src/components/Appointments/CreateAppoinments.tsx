@@ -318,11 +318,12 @@ const CreateAppointment = () => {
                   ></textarea>
                 </div>
                 <div className="w-full">
+
                   <button
                     type="submit"
                     className="bg-green-500 text-white p-2 rounded-md w-full"
                   >
-                    Crear Cita
+                    Reservar ahora
                   </button>
                 </div>
               </div>
