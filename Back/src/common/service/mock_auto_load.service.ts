@@ -69,7 +69,7 @@ export class MockAutoLoadService {
       const ds = await this.dentalservRepository.findOne({
         where: { name: dental_service.name },
       });
-
+     
       if (!ds) {
         const created = await this.dentalservRepository.save(dental_service);
         especialidades[dental_service.specialty].push({ id: created.id });
@@ -81,7 +81,8 @@ export class MockAutoLoadService {
     for (const especialidad of Object.keys(especialidades)) {
       const specialty =
         await this.specialtyService.SpecialtyByName(especialidad);
-      if (specialty === 'Specialty not found') {
+      
+      if (specialty === `No se encontro la especialidad con el nombre ${especialidad}`) {
         for (const specialty of specialtiesDB) {
           if (specialty.name === especialidad) {
             await this.specialtyService.createSpecialty({
@@ -135,12 +136,12 @@ export class MockAutoLoadService {
             let rate: number;
             let description: string;
             let photo: string;
-            if(p.first_name === "Sandra") {
+            if (p.first_name === "Sandra") {
               rate = 4.5;
               description = "Experta en corrección de maloclusiones. Utiliza las últimas tecnologías para proporcionar sonrisas hermosas y saludables.";
               photo = "https://res.cloudinary.com/ddpohfyur/image/upload/v1720551424/sandra_alunhu.png";
             }
-            if(p.first_name === "Lucas") {
+            if (p.first_name === "Lucas") {
               rate = 4.2;
               description = "Cirujano dental especializado en extracciones complejas e implantes. Con más de 10 años de experiencia, asegura el bienestar de sus pacientes.";
               photo = "https://res.cloudinary.com/ddpohfyur/image/upload/v1720551424/lucas_enoado.png";
@@ -188,15 +189,19 @@ export class MockAutoLoadService {
 
     const services = await this.dentalservRepository.find();
 
+
     for (const dent of dentists) {
       let s = 1;
+      const servicesToAdd = [{ name: "Consulta de valoración" }]
       while (s < 4) {
         const service = services[Math.floor(Math.random() * services.length)];
+        servicesToAdd.push({ name: service.name })
 
-        const relation = await this.dentistService.addDentalServ(dent.id, [{ name: service.name }, { name: "Consulta de valoración" }])
         s++
       }
+      const relation = await this.dentistService.addDentalServ(dent.id, servicesToAdd)
     }
+
 
     console.log('populated services for dentists');
   }
