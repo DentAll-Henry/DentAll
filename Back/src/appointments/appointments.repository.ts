@@ -7,9 +7,10 @@ import { UpdateAppointmentDto } from './dto/update-appointment.dto';
 import { AppointmentPaginationDto } from 'src/common/dto/paginationDto';
 import { PendingAppointment } from './entities/pending.appointments';
 import { Patient } from 'src/person/entities/patient.entity';
-import { CreatePendingAppointmentDto } from './dto/create_pending_appointment.dt';
+import { CreatePendingAppointmentDto } from './dto/create_pending_appointment.dto';
 import { SystemConfigsService } from 'src/system_configs/system_configs.service';
 import { start } from 'repl';
+import { GetLastAppointmentDateDto } from './dto/get-last-appointment-date.dto';
 
 @Injectable()
 export class AppointmentsRepository {
@@ -222,5 +223,19 @@ export class AppointmentsRepository {
     const results = await this.appointment.query(query, [start_date, end_date, dentist_id, max_appointments]);
 
     return results.map((result: any) => result.date_time);
+  }
+
+
+  async getLastAppointment(getLastAppointmentDate: GetLastAppointmentDateDto) {
+    const {dentist_id, patient_id} = getLastAppointmentDate
+    return await this.appointment
+      .createQueryBuilder('appointment')
+      .select('appointment.date_time')
+      .leftJoin('appointment.patient', 'patient')
+      .where('appointment.dentist_id = :dentist_id', { dentist_id })
+      .andWhere('appointment.patient = :patient_id', { patient_id })
+      .andWhere('appointment.date_time < NOW()')
+      .orderBy('appointment.date_time', 'DESC')
+      .getOne();
   }
 }
