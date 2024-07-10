@@ -4,26 +4,43 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Appointment } from './appointments/entities/appointment.entity';
 import { Repository } from 'typeorm';
 import { MailService } from './mail/mail.service';
+import { Payment } from './payments/entities/payment.entity';
 
 @Injectable()
 export class AppService {
 
     constructor(
         @InjectRepository(Appointment) private appointmentRepository: Repository<Appointment>,
+        @InjectRepository(Payment) private paymentRepository: Repository<Payment>,
         private readonly mailService: MailService
     ) { }
 
-    @Cron(CronExpression.EVERY_MINUTE)
+    @Cron(CronExpression.EVERY_10_SECONDS)
     async deleteUnpaidAppointments() {
-        const appointmentsFuturos = await this.appointmentRepository.createQueryBuilder('appointment')
-            .where('appointment.date_time > NOW()')
-            .andWhere('appointment.expiration_date < NOW()')
-            .getMany();
+        try {
+            const appointmentsFuturos = await this.appointmentRepository
+                .createQueryBuilder('appointment')
+                .where('appointment.date_time > NOW()')
+                .andWhere('appointment.expiration_date < NOW()')
+                .getMany();
 
-        //verificar si alguno ya esta pagado y luego eliminarlos. Tal vez informar que se elimino por falta de pago a traves de email
-        //await this.appointmentRepository.remove(appointments_futuros);
-        // console.log(appointmentsFuturos)
+            for (const cita of appointmentsFuturos) {
+                const pagado = await this.paymentRepository.createQueryBuilder('payment')
+                    .where('payment.appointment = :id', { id: cita.id })
+                    .getOne();
+
+                if (!pagado) {
+                    await this.appointmentRepository.delete(cita);
+                } else {
+                    await this.appointmentRepository.update(cita.id, { expiration_date: null });
+                }
+            }
+        } catch (error) {
+            console.error('Error al eliminar citas no pagadas:', error.message);
+            throw error;
+        }
     }
+
 
     @Cron(CronExpression.EVERY_DAY_AT_8AM)
     async notifySevenDaysBefore() {
