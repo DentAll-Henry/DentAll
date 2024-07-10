@@ -30,7 +30,12 @@ type RequestEventsFilter = {
     end: string,
     dentists: string[]
 }
-const CalendarAppointments = () => {
+
+type CalendarProps = {
+    dentist_id?: string
+}
+
+const CalendarAppointments: React.FC<CalendarProps> = ({ dentist_id }) => {
     const calendarRef = useRef(null);
     const [events, setEvents] = useState([])
     const [dentists, setDentists] = useState<Dentist[]>([])
@@ -40,7 +45,15 @@ const CalendarAppointments = () => {
 
     useEffect(() => {
         goNext()
-        fetchDentists()
+        const initializeDentistIds = async () => {
+            if (dentist_id) {
+                setSelectedDentistsIds([dentist_id]);
+            } else {
+                await fetchDentists();
+            }
+        };
+
+        initializeDentistIds();
     }, []);
 
     useEffect(() => {
@@ -48,13 +61,13 @@ const CalendarAppointments = () => {
     }, [selectedDentistsIds, firstVisibleDate, lastVisibleDate]);
 
     const goNext = async () => {
-        console.log(typeof calendarRef.current);
         const calendarApi = calendarRef.current.getApi()
         const currentRange = calendarApi.currentData.dateProfile.currentRange
         const start = format(currentRange.start, 'yyyy-MM-dd')
         const end = format(currentRange.end, 'yyyy-MM-dd')
         setFirstVisibleDate(start)
         setLastVisibleDate(end)
+
         await fetchEvents({ start, end, dentists: selectedDentistsIds })
     }
 
@@ -85,78 +98,80 @@ const CalendarAppointments = () => {
         const { start, end } = filters
         try {
             const response = await axios.get(`${enviroment.apiUrl}/appointments?start=${start}&end=${end}&dentists=${filters.dentists.join(',')}`);
-            setEvents(response.data);
-        } catch (error) {
-            console.error('Error al cargar eventos:', error);
-        }
-    };
+            if (response.data.length > 0) {
+                setEvents(response.data);
+            }
+            } catch (error) {
+                console.error('Error al cargar eventos:', error);
+            }
+        };
 
-    const addAppointment = async (e: DateClickArg) => {
-        try {
-            
-            const paciente = prompt("paciente");
-            const fecha = e.dateStr
-            const hora = prompt("hora");
-            const dentista = prompt("dentista");
-            const event = {
-                id: Math.random().toString(16),
-                title: paciente,
-                start: fecha + ' ' + hora,
-                color: 'green'
-            };
-            setEvents((prevEvents) => [...prevEvents, event]);
-            
-            //const response = await axios.post(`${enviroment.apiUrl}/appointments`, event);
-            //console.log(response.data);
-        } catch (error) {
-            console.error('Error al crear el evento:', error);
-        }
-    };
+        const addAppointment = async (e: DateClickArg) => {
+            try {
+
+                const paciente = prompt("paciente");
+                const fecha = e.dateStr
+                const hora = prompt("hora");
+                const dentista = prompt("dentista");
+                const event = {
+                    id: Math.random().toString(16),
+                    title: paciente,
+                    start: fecha + ' ' + hora,
+                    color: 'green'
+                };
+                setEvents((prevEvents) => [...prevEvents, event]);
+
+                //const response = await axios.post(`${enviroment.apiUrl}/appointments`, event);
+                //console.log(response.data);
+            } catch (error) {
+                console.error('Error al crear el evento:', error);
+            }
+        };
 
 
-    return (
-        <>
-            <div>
-                <div>
-                    <h2>Dentistas</h2>
-                </div>
-                <div>
-                    {dentists.map((dentist: Dentist) => (
+        return (
+            <>
+                {!dentist_id && (<div>
+                    <div>
+                        <h2>Dentistas</h2>
+                    </div>
+                    <div>
+                        {dentists.map((dentist: Dentist) => (
 
-                        <div key={dentist.id}>
-                            <label>
-                                <input
-                                    type="checkbox"
-                                    value={dentist.id}
-                                    checked={selectedDentistsIds.includes(dentist.id)}
-                                    onChange={handleCheckboxChange}
-                                />
-                                <span style={{ backgroundColor: `#${dentist.id.replace(/-/g, '').slice(0, 6)}` }}>&nbsp;&nbsp;&nbsp;&nbsp;</span> {dentist.person.first_name} {dentist.person.last_name}
-                            </label>
-                        </div>
-                    ))}
-                </div>
-            </div>
-            <FullCalendar
-                ref={calendarRef}
-                plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-                headerToolbar={{
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
-                }}
-                initialView="dayGridMonth"
-                events={events}
-                dayMaxEvents={5}
-                datesSet={goNext}
-                eventClick={handleEventClick}
-                timeZone='UTC'
-                locale={esLocale}
-                dateClick={e => addAppointment(e)}
-            />
-        </>
-    )
+                            <div key={dentist.id}>
+                                <label>
+                                    <input
+                                        type="checkbox"
+                                        value={dentist.id}
+                                        checked={selectedDentistsIds.includes(dentist.id)}
+                                        onChange={handleCheckboxChange}
+                                    />
+                                    <span style={{ backgroundColor: `#${dentist.id.replace(/-/g, '').slice(0, 6)}` }}>&nbsp;&nbsp;&nbsp;&nbsp;</span> {dentist.person.first_name} {dentist.person.last_name}
+                                </label>
+                            </div>
+                        ))}
+                    </div>
+                </div>)}
+                <FullCalendar
+                    ref={calendarRef}
+                    plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+                    headerToolbar={{
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                    }}
+                    initialView="dayGridMonth"
+                    events={events}
+                    dayMaxEvents={5}
+                    datesSet={goNext}
+                    eventClick={handleEventClick}
+                    timeZone='UTC'
+                    locale={esLocale}
+                    dateClick={e => addAppointment(e)}
+                />
+            </>
+        )
 
-}
+    }
 
-export default CalendarAppointments
+    export default CalendarAppointments
