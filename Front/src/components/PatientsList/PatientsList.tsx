@@ -61,22 +61,24 @@ const PatientsList = () => {
   }, []);
 
   useEffect(() => {
-    const getPatients = async() => {
-      const response = await axiosInstance.get(`/patients/dentist/${dentist?.id}`)
-      const patientsArray = response.data.map((p: any) => {
-        return ({
-          id: `${p.id}`,
-          name: `${p.person.first_name} ${p.person.last_name}`,
-          phone: `${p.person.phone}`,
-          email: `${p.person.email}`,
-          last_appointment: '',
-          photo: `${p.person.photo}`
-        })
-      });
-      setPatients(patientsArray);
+    if(dentist) {
+      const getPatients = async() => {
+        const response = await axiosInstance.get(`/patients/dentist/${dentist?.id}`)
+        const patientsArray = response.data.map((p: any) => {
+          return ({
+            id: `${p.id}`,
+            name: `${p.person.first_name} ${p.person.last_name}`,
+            phone: `${p.person.phone}`,
+            email: `${p.person.email}`,
+            last_appointment: '',
+            photo: `${p.person.photo}`
+          })
+        });
+        setPatients(patientsArray);
+      }
+  
+      getPatients();
     }
-
-    getPatients();
   }, [dentist])
 
   return (
