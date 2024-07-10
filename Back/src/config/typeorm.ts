@@ -12,7 +12,7 @@ const config = {
   // dropSchema: true,
   // synchronize: true,
   // logging: true,
-  ssl: true,
+  // ssl: true,
   autoLoadEntities: true,
   timezone: 'localtime',
   entities: ['dist/**/*.entity{.ts,.js}'],
