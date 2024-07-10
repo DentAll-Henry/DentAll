@@ -49,7 +49,7 @@ const page = () => {
               <p>Recomendaciones</p>
             </div>
           </Link>
-          <Link href="/dashboard_1/citas">
+          {/* <Link href="/dashboard_1/citas">
             <div className="flex-col bg-[#FDC84040] w-[200px] h-[150px] rounded-md border flex justify-center items-center hover:scale-105 transition-transform duration-300">
               <Image
                 className="group-hover:fill-current text-white"
@@ -84,7 +84,7 @@ const page = () => {
               />
               <p>Preguntas Frecuentes</p>
             </div>
-          </Link>
+          </Link> */}
         </div>
       </div>
       <div className="flex justify-end items-end w-full absolute bottom-0 z-[-1] ">

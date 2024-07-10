@@ -60,7 +60,7 @@ const page = () => {
               <p>Recetas Medicas</p>
             </div>
           </Link>
-          <Link href="#">
+          {/* <Link href="#">
             <div className="flex-col bg-[#FF5B373D] gap-1 w-[200px] h-[150px] rounded-md border flex justify-center items-center hover:scale-105 transition-transform duration-300">
               <Image
                 className="group-hover:fill-current text-white"
@@ -83,7 +83,7 @@ const page = () => {
               />
               <p>Preguntas Frecuentes</p>
             </div>
-          </Link>
+          </Link> */}
         </div>
       </div>
       <div className="flex justify-end items-end w-full absolute  z-[-1] ">
