@@ -20,7 +20,7 @@ export class PaymentsRepository {
     @InjectRepository(Payment) private payment: Repository<Payment>,
     @InjectRepository(DentalServ) private dentalServ: Repository<DentalServ>,
     @InjectRepository(Appointment) private appointment: Repository<Appointment>,
-  ) {}
+  ) { }
 
   async createPreference(data: PaymentDto, baseUrl: string) {
     try {
@@ -57,11 +57,11 @@ export class PaymentsRepository {
         ],
         back_urls: {
           // Auto redirect links
-          success: environment.fronturl + 'patients/appointments',
-          failure: environment.fronturl + 'patients/appointments',
+          success: environment.fronturl + '/patients/appointments',
+          failure: environment.fronturl + '/patients/appointments',
           // pending: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
         },
-        notification_url: `https://98a3-2803-9800-9441-ad39-c466-158e-cf16-4cee.ngrok-free.app/payments/success/?patient_id=${patient.id}&dentalServ_id=${service.id}&appointment_id=${appointment.id}`,
+        notification_url: `https://kxqj9tp9-3000.use2.devtunnels.ms/payments/success/?patient_id=${patient.id}&dentalServ_id=${service.id}&appointment_id=${appointment.id}`,
         auto_return: 'approved',
       };
       const response = await preference.create({ body });

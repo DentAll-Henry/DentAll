@@ -7,6 +7,7 @@ import { Roles } from '../role/enums/roles.enum';
 import { Guest } from './entities/guest.entity';
 import { PatientsService } from './patient.service';
 import { FilesService } from 'src/files/files.service';
+import { MailService } from 'src/mail/mail.service';
 
 @Injectable()
 export class PeopleService {
@@ -15,7 +16,8 @@ export class PeopleService {
     private readonly rolesService: RolesService,
     private readonly patientsService: PatientsService,
     private readonly filesService: FilesService,
-  ) {}
+    private readonly mailService: MailService,
+  ) { }
 
   //& --> guests endpoints <--
   async getAllGuests(paginationDto: { page: number; limit: number }) {
@@ -89,6 +91,17 @@ export class PeopleService {
 
     await this.patientsService.createPatient(newPerson);
 
+    await this.mailService.sendMail(
+
+      newPerson.email,
+      'Registro exitoso en DentAll',
+      'signup',
+      {
+        first_name: newPerson.first_name,
+        email: newPerson.email,
+      }
+    );
+
     return newPerson;
   }
 
@@ -122,7 +135,7 @@ export class PeopleService {
     });
     const partPath2 = partPath.join('');
     const path: string = `DentAll/${partPath2}`
-    const cloudinary = await this.filesService.uploadFile({ path, file});
+    const cloudinary = await this.filesService.uploadFile({ path, file });
     person.photo = cloudinary.secure_url;
     const updatedPerson: Person = await this.updatePerson(idperson, person);
     return updatedPerson;
@@ -133,7 +146,7 @@ export class PeopleService {
     if (!personToUpdate) throw new BadRequestException('No hay usuario con el ID especificado');
 
     const personByEmail: Person = await this.personByEmail(infoToUpdate.email);
-    if((personByEmail && personByEmail.id === personToUpdate.id) || !personByEmail) {
+    if ((personByEmail && personByEmail.id === personToUpdate.id) || !personByEmail) {
       return this.peopleRepository.updatePerson(personToUpdate, infoToUpdate);
     }
     throw new BadRequestException('El correo electrónico indicado no es válido para el registro.')

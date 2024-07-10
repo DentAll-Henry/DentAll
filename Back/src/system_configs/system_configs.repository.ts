@@ -29,13 +29,14 @@ export class SystemConfigsRepository {
     async seedSystemConfigsSeeder() {
         try {
             const default_config = system_default_configs
-            default_config.map(async (config) => {
+            for (const config of default_config) {
                 const param = await this.findOne(config.slug_name)
                 if (!param)
                     await this.systemConfig.save(config)
-            })
+            }
+            
         } catch (error) {
-            return error
+            throw error
         }
 
         return "System config created/updated successfully"

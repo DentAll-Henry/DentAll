@@ -35,6 +35,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { AppService } from './app.service';
 import { AppointmentsRepository } from './appointments/appointments.repository';
 import { Appointment } from './appointments/entities/appointment.entity';
+import { Payment } from './payments/entities/payment.entity';
 
 @Module({
   imports: [
@@ -70,7 +71,7 @@ import { Appointment } from './appointments/entities/appointment.entity';
     }),
     MailModule,
     SystemConfigsModule,
-    TypeOrmModule.forFeature([DentalServ, Cords, Headquarter, Appointment]),
+    TypeOrmModule.forFeature([DentalServ, Cords, Headquarter, Appointment, Payment]),
     TypeOrmModule.forFeature([Auth]),
     FilesModule,
     SpecialtyModule
