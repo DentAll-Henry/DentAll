@@ -10,6 +10,7 @@ import { enviroment } from "@/utils/config"
 import { useRouter } from "next/navigation"
 import axios from "axios"
 
+
 type User = {
   id: string;
   [key: string]: any;
@@ -18,12 +19,14 @@ type User = {
 export const ServicesForPatient = () => {
   const router = useRouter();
 
+
   const [serviceData, setServiceData] = useState<Service[]>([])
   const [preferenceIds, setPreferenceIds] = useState<{
     [key: string]: string | null
   }>({})
   const [user, setUser] = useState<User | null>(null)
   const [loggin, setLoggin] = useState(false)
+
 
   useEffect(() => {
     const userSession = localStorage.getItem("userSession");
@@ -54,12 +57,14 @@ export const ServicesForPatient = () => {
       if (user) {
         const patient = await axios.get(
           `${enviroment.apiUrl}/patients/person/${user.id}`
+
         )
         const preference = await handlePayment(patient.data.id, dentalServID)
         setPreferenceIds((prev) => ({
           ...prev,
           [dentalServID]: preference.preferenceId,
         }))
+
       }
     } catch (error: any) {
       console.error("Error handling click:", error.message);
