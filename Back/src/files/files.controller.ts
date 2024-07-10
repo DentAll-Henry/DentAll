@@ -14,6 +14,7 @@ import {
 } from '@nestjs/common';
 import { FilesService } from './files.service';
 import {
+  ApiBadRequestResponse,
   ApiBody,
   ApiConsumes,
   ApiOperation,
@@ -49,7 +50,25 @@ export class FilesController {
     return this.filesService.uploadFile(fileInfo);
   }
 
-  @Get('images')
+  @Post('images')
+  @ApiOperation({ summary: 'Get images from Cloudinary' })
+  @ApiResponse({
+    status: 200,
+    description: 'Return the secure url of the image',
+  })
+  @ApiBadRequestResponse({ description: 'Cloudinary response' })
+  @ApiBody({
+    description: 'Folder path',
+    schema: {
+      type: 'object',
+      properties: {
+        folder: {
+          type: 'string',
+          example: 'DentAll/admin-me-com',
+        },
+      },
+    },
+  })
   getImages(@Body('folder') folder: string) {
     return this.filesService.getImages(folder);
   }

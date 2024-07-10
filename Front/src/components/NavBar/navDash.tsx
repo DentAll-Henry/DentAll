@@ -30,8 +30,11 @@ const NavDash = () => {
         </div>
 
         {userData?.token && (
-          <div className="flex  items-center ml-[50%]">
-            <Link href="/users/account" className="flex items-center">
+          <div className="flex flex-row items-center ml-[45%] ">
+            <Link
+              href="/users/account"
+              className="flex items-center transition-all  hover:scale-105"
+            >
               <Image
                 src={
                   userData.userData.photo ||
@@ -42,13 +45,13 @@ const NavDash = () => {
                 style={{ borderRadius: 50 }}
                 alt="Usuario"
               />
-              <p className="m-4 text-xl font-bold">
-                {userData.userData.first_name} {userData.userData.last_name}
-              </p>
             </Link>
+            <p className="m-4 text-xl font-bold ">
+              {userData.userData.first_name} {userData.userData.last_name}
+            </p>
           </div>
         )}
-        <div >
+        <div className="transition-all  hover:scale-110">
           <Link href="/patients/notifications">
             <Image
               src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201299/notificacion_zwl4hp.svg"

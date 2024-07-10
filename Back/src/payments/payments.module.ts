@@ -7,12 +7,14 @@ import { PaymentsController } from './payments.controller';
 import { PaymentsRepository } from './payments.repository';
 import { PaymentsService } from './payments.service';
 import { Appointment } from 'src/appointments/entities/appointment.entity';
+import { PatientsService } from 'src/person/patient.service';
+import { PatientsRepository } from 'src/person/patient.repository';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Payment, Patient, DentalServ, Appointment]),
   ],
   controllers: [PaymentsController],
-  providers: [PaymentsRepository, PaymentsService],
+  providers: [PaymentsRepository, PaymentsService, PatientsService, PatientsRepository],
 })
 export class PaymentsModule {}

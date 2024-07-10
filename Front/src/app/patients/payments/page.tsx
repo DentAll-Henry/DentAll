@@ -1,4 +1,4 @@
-import { ServicesForPatient } from "@/components/services/ServicesForPatient";
+import PaymentsHistory from "@/components/Payments/PaymentsHistory";
 
 const page = () => {
   return (
@@ -16,7 +16,7 @@ const page = () => {
         <h2 className="font-bold">Historial de pagos</h2>
       </div>
 
-      <ServicesForPatient />
+      <PaymentsHistory />
     </div>
   );
 };

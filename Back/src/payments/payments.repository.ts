@@ -12,6 +12,7 @@ import { DentalServ } from 'src/dentalServ/entities/dentalServ.entity';
 import { payment, preference } from 'src/config/mercadopago';
 import { Appointment } from 'src/appointments/entities/appointment.entity';
 import { environment } from 'src/config/environment';
+import * as moment from 'moment-timezone';
 
 @Injectable()
 export class PaymentsRepository {
@@ -20,7 +21,7 @@ export class PaymentsRepository {
     @InjectRepository(Payment) private payment: Repository<Payment>,
     @InjectRepository(DentalServ) private dentalServ: Repository<DentalServ>,
     @InjectRepository(Appointment) private appointment: Repository<Appointment>,
-  ) { }
+  ) {}
 
   async createPreference(data: PaymentDto, baseUrl: string) {
     try {
@@ -45,7 +46,12 @@ export class PaymentsRepository {
         throw new BadRequestException(
           'No se encontró una cita para la id: ' + data.appointment_id,
         );
+      const date_of_expiration = moment
+        .tz('America/Caracas')
+        .add(10, 'minutes')
+        .format();
       const body = {
+        date_of_expiration,
         items: [
           {
             id: service.id,
@@ -56,12 +62,10 @@ export class PaymentsRepository {
           },
         ],
         back_urls: {
-          // Auto redirect links
-          success: environment.fronturl + '/patients/appointments',
-          failure: environment.fronturl + '/patients/appointments',
-          // pending: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+          success: environment.fronturl + 'patients/appointments',
+          failure: environment.fronturl + 'patients/appointments',
         },
-        notification_url: `https://kxqj9tp9-3000.use2.devtunnels.ms/payments/success/?patient_id=${patient.id}&dentalServ_id=${service.id}&appointment_id=${appointment.id}`,
+        notification_url: `${environment.backUrl}payments/success/?patient_id=${patient.id}&dentalServ_id=${service.id}&appointment_id=${appointment.id}`,
         auto_return: 'approved',
       };
       const response = await preference.create({ body });
@@ -87,7 +91,6 @@ export class PaymentsRepository {
           date: new Date(),
           payment_id: paymentData.id,
           payment_status: paymentData.status_detail,
-          preference_id: data.id,
           patient: data.patient_id,
           dentalServ: data.dentalServ_id,
           appointment: data.appointment_id,
@@ -107,6 +110,29 @@ export class PaymentsRepository {
 
       throw new InternalServerErrorException('Error interno del servidor');
     }
+  }
+
+  async getPaymentsByPatient(patient_id: string) {
+    const queryBuilder = this.payment
+      .createQueryBuilder('payments')
+      .leftJoin('payments.patient', 'patients')
+      .leftJoinAndSelect('payments.dentalServ', 'dentalServ')
+      .leftJoinAndSelect('payments.appointment', 'appointment')
+      .where('payments.patient = :patient_id', { patient_id })
+      .orderBy('payments.date', 'DESC')
+      .getMany();
+    return await queryBuilder;
+  }
+
+  async getPaymentById(payment_id: string) {
+    const queryBuilder = this.payment
+      .createQueryBuilder('payments')
+      .leftJoin('payments.patient', 'patients')
+      .leftJoinAndSelect('payments.dentalServ', 'dentalServ')
+      .leftJoinAndSelect('payments.appointment', 'appointment')
+      .where('payments.id = :payment_id', { payment_id })
+      .getOne();
+    return await queryBuilder;
   }
 
   // async failure(data) {
