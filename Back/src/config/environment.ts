@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import { config as dotenvConfig } from 'dotenv';
 
-dotenvConfig({ path: ['./.env.environment', './.env'] });
+dotenvConfig({ path: ['./.env.development', './.env'] });
 
 export const environment = {
   port: process.env.PORT || 3000,

@@ -12,6 +12,7 @@ import { DentalServ } from 'src/dentalServ/entities/dentalServ.entity';
 import { payment, preference } from 'src/config/mercadopago';
 import { Appointment } from 'src/appointments/entities/appointment.entity';
 import { environment } from 'src/config/environment';
+import * as moment from 'moment-timezone';
 
 @Injectable()
 export class PaymentsRepository {
@@ -45,7 +46,12 @@ export class PaymentsRepository {
         throw new BadRequestException(
           'No se encontró una cita para la id: ' + data.appointment_id,
         );
+      const date_of_expiration = moment
+        .tz('America/Caracas')
+        .add(10, 'minutes')
+        .format();
       const body = {
+        date_of_expiration,
         items: [
           {
             id: service.id,
@@ -56,10 +62,8 @@ export class PaymentsRepository {
           },
         ],
         back_urls: {
-          // Auto redirect links
           success: environment.fronturl + 'patients/appointments',
           failure: environment.fronturl + 'patients/appointments',
-          // pending: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
         },
         notification_url: `https://98a3-2803-9800-9441-ad39-c466-158e-cf16-4cee.ngrok-free.app/payments/success/?patient_id=${patient.id}&dentalServ_id=${service.id}&appointment_id=${appointment.id}`,
         auto_return: 'approved',
