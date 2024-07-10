@@ -65,7 +65,7 @@ export class PaymentsRepository {
           success: environment.fronturl + 'patients/appointments',
           failure: environment.fronturl + 'patients/appointments',
         },
-        notification_url: `https://kxqj9tp9-3000.use2.devtunnels.ms/payments/success/?patient_id=${patient.id}&dentalServ_id=${service.id}&appointment_id=${appointment.id}`,
+        notification_url: `${environment.backUrl}payments/success/?patient_id=${patient.id}&dentalServ_id=${service.id}&appointment_id=${appointment.id}`,
         auto_return: 'approved',
       };
       const response = await preference.create({ body });
@@ -91,7 +91,6 @@ export class PaymentsRepository {
           date: new Date(),
           payment_id: paymentData.id,
           payment_status: paymentData.status_detail,
-          preference_id: data.id,
           patient: data.patient_id,
           dentalServ: data.dentalServ_id,
           appointment: data.appointment_id,

@@ -1,7 +1,13 @@
 import { Appointment } from 'src/appointments/entities/appointment.entity';
 import { DentalServ } from 'src/dentalServ/entities/dentalServ.entity';
 import { Patient } from 'src/person/entities/patient.entity';
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity({ name: 'payments' })
 export class Payment {
@@ -13,9 +19,6 @@ export class Payment {
 
   @Column({ nullable: true, default: null, type: 'int' })
   payment_id: number;
-
-  @Column({ nullable: true, default: null, type: 'varchar', length: 50 })
-  preference_id: string;
 
   @Column({ nullable: true, default: null, type: 'varchar', length: 20 })
   payment_status: string;
