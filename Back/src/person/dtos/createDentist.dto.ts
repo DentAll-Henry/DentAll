@@ -1,16 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsNotEmpty,
-  IsNumber,
-  IsOptional,
-  Max,
-  Min,
-} from 'class-validator';
+import { IsNotEmpty, IsNumber, IsOptional, Max, Min } from 'class-validator';
 
 export class CreateDentistDto {
   @IsOptional()
   @ApiProperty({
-    description: 'The speciality name.',
+    description: 'The specialty name.',
     example: 'Endodontics',
   })
   specialtyName?: string;
@@ -27,15 +21,24 @@ export class CreateDentistDto {
   @Min(0)
   @Max(5)
   @ApiProperty({
-    description: 'Dentist rating, between 0 an 5, with only one decimal places.',
-    example: 4.5
+    description:
+      'Dentist rating, between 0 an 5, with only one decimal places.',
+    example: 4.5,
   })
   rate?: number;
 
   @IsNotEmpty()
   @ApiProperty({
     description: 'The UUID of the person who will have the dentist role.',
-    example: '3bdd292f-8570-4507-be25-01b5ecfc79d3'
+    example: '3bdd292f-8570-4507-be25-01b5ecfc79d3',
   })
   personId: string;
+
+  @IsOptional()
+  @ApiProperty({
+    description: 'Dentist description',
+    example:
+      'Cirujano dental especializado en extracciones complejas e implantes. Con más de 10 años de experiencia, asegura el bienestar de sus pacientes.',
+  })
+  description: string;
 }

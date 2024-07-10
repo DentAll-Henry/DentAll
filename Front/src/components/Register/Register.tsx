@@ -316,26 +316,8 @@ const Register = () => {
               <div className="w-[44px] h-[44px] flex-shrink-0 relative">
                 <a href="#">
                   <Image
-                    src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201337/RS3_m7rfqd.svg"
-                    alt="Linkedin"
-                    layout="fill"
-                  />
-                </a>
-              </div>
-              <div className="w-[44px] h-[44px] flex-shrink-0 relative">
-                <a href="#">
-                  <Image
                     src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201332/RS1_d4mepj.svg"
                     alt="Google"
-                    layout="fill"
-                  />
-                </a>
-              </div>
-              <div className="w-[44px] h-[44px] flex-shrink-0 relative">
-                <a href="#">
-                  <Image
-                    src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201336/RS2_vh4fsg.svg"
-                    alt="Facebook"
                     layout="fill"
                   />
                 </a>

@@ -7,7 +7,7 @@ import { dentalServicesDB } from 'src/db/dental_services';
 import { headquartersDB } from 'src/db/headquartersDB';
 import { personsDB } from 'src/db/persons';
 import { rolesDB } from 'src/db/rolesDB';
-import { specialitiesDB } from 'src/db/specialitiesDB';
+import { specialtiesDB } from 'src/db/specialtiesDB';
 import { DentalServDto } from 'src/dentalServ/dtos/dentalServ.dto';
 import { DentalServ } from 'src/dentalServ/entities/dentalServ.entity';
 import { Cords } from 'src/headquarters/entities/cords.entity';
@@ -42,7 +42,7 @@ export class MockAutoLoadService {
     private headquarterRepository: Repository<Headquarter>,
     @InjectRepository(Cords)
     private cordsRepository: Repository<Cords>,
-    private readonly specialityService: SpecialtyService,
+    private readonly specialtyService: SpecialtyService,
   ) { }
 
   async onModuleInit() {
@@ -59,8 +59,8 @@ export class MockAutoLoadService {
     const dental_services = dentalServicesDB;
 
     const especialidades = dental_services.reduce((acc, curr) => {
-      if (!acc[curr.speciality]) {
-        acc[curr.speciality] = [];
+      if (!acc[curr.specialty]) {
+        acc[curr.specialty] = [];
       }
       return acc;
     }, {});
@@ -72,22 +72,22 @@ export class MockAutoLoadService {
 
       if (!ds) {
         const created = await this.dentalservRepository.save(dental_service);
-        especialidades[dental_service.speciality].push({ id: created.id });
+        especialidades[dental_service.specialty].push({ id: created.id });
       } else {
-        especialidades[dental_service.speciality].push({ id: ds.id });
+        especialidades[dental_service.specialty].push({ id: ds.id });
       }
     }
 
     for (const especialidad of Object.keys(especialidades)) {
-      const speciality =
-        await this.specialityService.SpecialtyByName(especialidad);
-      if (speciality === 'Specialty not found') {
-        for (const speciality of specialitiesDB) {
-          if (speciality.name === especialidad) {
-            await this.specialityService.createSpecialty({
+      const specialty =
+        await this.specialtyService.SpecialtyByName(especialidad);
+      if (specialty === 'Specialty not found') {
+        for (const specialty of specialtiesDB) {
+          if (specialty.name === especialidad) {
+            await this.specialtyService.createSpecialty({
               name: especialidad,
               services: especialidades[especialidad],
-              description: speciality.description,
+              description: specialty.description,
             });
             break;
           }
@@ -95,7 +95,7 @@ export class MockAutoLoadService {
       }
     }
 
-    console.log('populated dental services with speciality');
+    console.log('populated dental services with specialty');
   }
 
   async seedRoles() {
@@ -132,10 +132,25 @@ export class MockAutoLoadService {
           const p = await this.personService.personById(person.id);
           if (parseInt(p.phone) % 2 === 0) {
             //await this.personService.addRole(p.id, { roleName: Roles.DENTIST });
+            let rate: number;
+            let description: string;
+            let photo: string;
+            if(p.first_name === "Sandra") {
+              rate = 4.5;
+              description = "Experta en corrección de maloclusiones. Utiliza las últimas tecnologías para proporcionar sonrisas hermosas y saludables.";
+              photo = "https://res.cloudinary.com/ddpohfyur/image/upload/v1720551424/sandra_alunhu.png";
+            }
+            if(p.first_name === "Lucas") {
+              rate = 4.2;
+              description = "Cirujano dental especializado en extracciones complejas e implantes. Con más de 10 años de experiencia, asegura el bienestar de sus pacientes.";
+              photo = "https://res.cloudinary.com/ddpohfyur/image/upload/v1720551424/lucas_enoado.png";
+            }
             await this.dentistService.createDentist({
               personId: p.id,
-              rate: 4,
+              rate,
+              description,
             });
+            await this.personService.updatePerson(p.id, { photo })
             console.log(`<${p.first_name} ${p.last_name}> saved as dentist`);
           }
         });

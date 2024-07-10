@@ -22,7 +22,7 @@ export class Dentist {
   id: string = uuid();
 
   @OneToOne(() => Specialty)
-  @JoinColumn({ name: 'speciality_id' })
+  @JoinColumn({ name: 'specialty_id' })
   specialty?: Specialty | Specialty['id'] | Specialty['name'];
 
   @Column('decimal', {
@@ -43,9 +43,15 @@ export class Dentist {
   })
   is_active: boolean;
 
-  @ManyToMany(()=> DentalServ)
+  @ManyToMany(() => DentalServ)
   @JoinTable({
-    name: 'dentists_dentalservices'
+    name: 'dentists_dentalservices',
   })
-  dental_services: DentalServ[]
+  dental_services: DentalServ[];
+
+  @Column({
+    default: '',
+    nullable: true,
+  })
+  description: string;
 }

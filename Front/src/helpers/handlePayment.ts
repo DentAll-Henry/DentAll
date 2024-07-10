@@ -3,14 +3,14 @@ import axios from "axios"
 
 export const handlePayment = async (
   patient_id: string,
-  dentalServ_id: string
+  appointment_id: string
 ) => {
   try {
     const response = await axios.post(
       `${enviroment.apiUrl}/payments/new-preference`,
       {
         patient_id,
-        dentalServ_id,
+        appointment_id,
       }
     )
     return response.data

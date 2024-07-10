@@ -27,4 +27,5 @@ export const environment = {
   mercadopago: {
     accesstoken: process.env.MERCADOPAGO_ACCESS_TOKEN,
   },
+  fronturl: process.env.FRONT_URL || 'http://localhost:3001',
 };

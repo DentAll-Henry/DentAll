@@ -1,12 +1,14 @@
+import { addMinutes } from 'date-fns';
 import { DentalServ } from 'src/dentalServ/entities/dentalServ.entity';
 import { Dentist } from 'src/person/entities/dentist.entity';
 import { Patient } from 'src/person/entities/patient.entity';
 // import { Person } from 'src/person/entities/person.entity';
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { AfterInsert, BeforeInsert, Column, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({
   name: 'appointments',
 })
+@Index(['date_time', 'dentist_id'], { unique: true })
 export class Appointment {
   /**
    * UUID generated automatically
@@ -56,7 +58,8 @@ export class Appointment {
    * 
    */
   @Column({
-    nullable: true
+    nullable: true,
+    default: () => 'NOW() + INTERVAL \'10 minutes\''
   })
   expiration_date: Date
 }

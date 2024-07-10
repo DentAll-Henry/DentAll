@@ -21,26 +21,26 @@ import {
 } from '@nestjs/swagger';
 
 @ApiTags('Specialty')
-@Controller('speciality')
+@Controller('specialty')
 export class SpecialtyController {
   constructor(private readonly specialtyService: SpecialtyService) {}
 
   @Get()
   @ApiOperation({
-    summary: 'Get all specialities',
+    summary: 'Get all specialties',
   })
   @ApiResponse({ status: 200, type: [Specialty] })
-  @ApiNotFoundResponse({ description: 'Specialities not found' })
-  getSpecialities() {
+  @ApiNotFoundResponse({ description: 'specialties not found' })
+  getspecialties() {
     return this.specialtyService.getSpecialties();
   }
 
   @Get(':id')
   @ApiOperation({
-    summary: 'Get speciality by id',
+    summary: 'Get specialty by id',
   })
   @ApiResponse({ status: 200, type: Specialty })
-  @ApiNotFoundResponse({ description: 'Speciality not found' })
+  @ApiNotFoundResponse({ description: 'specialty not found' })
   getSpecialtyById(@Param('id') id: string) {
     return this.specialtyService.getSpecialtyById(id);
   }

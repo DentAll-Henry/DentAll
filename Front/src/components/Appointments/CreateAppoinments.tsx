@@ -1,50 +1,55 @@
-"use client";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import axios from "axios";
-import { enviroment } from "@/utils/config";
-import NavDash from "../NavBar/navDash"; // Asegúrate de que la ruta sea correcta
-import DatePicker from 'react-datepicker';
-import "react-datepicker/dist/react-datepicker.css";
-import { endOfMonth, format, startOfMonth } from "date-fns";
-import { toZonedTime } from "date-fns-tz";
-import './DatePickerStyles.css'; // Importa los estilos personalizados
+"use client"
+import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
+import axios from "axios"
+import { enviroment } from "@/utils/config"
+import NavDash from "../NavBar/navDash" // Asegúrate de que la ruta sea correcta
+import DatePicker from "react-datepicker"
+import "react-datepicker/dist/react-datepicker.css"
+import { endOfMonth, format, startOfMonth } from "date-fns"
+import { toZonedTime } from "date-fns-tz"
+import "./DatePickerStyles.css" // Importa los estilos personalizados
+import { handlePayment } from "@/helpers/handlePayment"
+import { initMercadoPago, Wallet } from "@mercadopago/sdk-react"
+import Timer from "../Timer/Timer"
 
 type User = {
-  id: string;
-  [key: string]: any;
-};
+  id: string
+  [key: string]: any
+}
 
 type PendingAppointment = {
-  id: string;
+  id: string
   service: {
-    id: string;
-    name: string;
-  };
-};
+    id: string
+    name: string
+  }
+}
 
 type Dentist = {
-  id: string;
+  id: string
   person: {
-    first_name: string;
-    last_name: string;
-  };
-};
+    first_name: string
+    last_name: string
+  }
+}
 
 const CreateAppointment = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [availableDates, setAvailableDates] = useState<Date[]>([]);
-  const [availableTimes, setAvailableTimes] = useState<Date[]>([]);
-  const [calendarDate, setCalendarDate] = useState<Date>();
-  const [observaciones, setObservaciones] = useState("");
+  const [isLoading, setIsLoading] = useState(false)
+  const [availableDates, setAvailableDates] = useState<Date[]>([])
+  const [availableTimes, setAvailableTimes] = useState<Date[]>([])
+  const [calendarDate, setCalendarDate] = useState<Date>()
+  const [observaciones, setObservaciones] = useState("")
 
-  const [consultationType, setConsultationType] = useState("");
-  const [dentist, setDentist] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const [user, setUser] = useState<User | null>(null);
-  const router = useRouter();
-  const [pending, setPending] = useState<PendingAppointment[]>([]);
-  const [dentists, setDentists] = useState<Dentist[]>([]);
+  const [consultationType, setConsultationType] = useState("")
+  const [dentist, setDentist] = useState("")
+  const [errorMessage, setErrorMessage] = useState("")
+  const [user, setUser] = useState<User | null>(null)
+  const router = useRouter()
+  const [pending, setPending] = useState<PendingAppointment[]>([])
+  const [dentists, setDentists] = useState<Dentist[]>([])
+  const [condirmPay, setConfirmPay] = useState(false)
+  const [preferenceId, setPreferenceId] = useState("")
 
   const [appointment, setAppointment] = useState({
     dentist_id: "",
@@ -52,96 +57,113 @@ const CreateAppointment = () => {
     service: "",
     date_time: "",
     description: "",
-  });
+    id: "",
+  })
 
   const getData = async () => {
     if (user) {
       try {
         const patient = await axios.get(
           `${enviroment.apiUrl}/patients/person/${user.id}`
-        );
-        setAppointment({ ...appointment, patient: patient.data.id });
+        )
+        setAppointment({ ...appointment, patient: patient.data.id })
         const response = await axios.get(
           `${enviroment.apiUrl}/appointments/pending_appointments_by_patient/${patient.data.id}`
-        );
-        setPending(response.data);
+        )
+        setPending(response.data)
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching data:", error)
       }
     }
-  };
+  }
 
   const handleServiceChange = async (
     e: React.ChangeEvent<HTMLSelectElement>
   ) => {
-    const selectedServiceName = e.target.options[e.target.selectedIndex].text;
-    setConsultationType(e.target.value);
+    const selectedServiceName = e.target.options[e.target.selectedIndex].text
+    setConsultationType(e.target.value)
 
-    const encodedServiceName = encodeURIComponent(selectedServiceName);
+    const encodedServiceName = encodeURIComponent(selectedServiceName)
 
     try {
       const dentistResponse = await axios.get(
         `${enviroment.apiUrl}/dentists/bydentalserv?name=${encodedServiceName}`
-      );
+      )
       const serviceResponse = await axios.get(
         `${enviroment.apiUrl}/dental-serv/by-name?name=${encodedServiceName}`
-      );
-      setAppointment({ ...appointment, service: serviceResponse.data[0].id });
-      setDentists(dentistResponse.data);
+      )
+      setAppointment({ ...appointment, service: serviceResponse.data[0].id })
+      setDentists(dentistResponse.data)
     } catch (error) {
-      console.error("Error fetching dentist data:", error);
+      console.error("Error fetching dentist data:", error)
     }
-  };
+  }
 
   const handleDentistChange = async (
     e: React.ChangeEvent<HTMLSelectElement>
   ) => {
-    const selectedDentistId = e.target.value;
-    setDentist(e.target.value);
-    setAppointment({ ...appointment, dentist_id: selectedDentistId });
-  };
+    const selectedDentistId = e.target.value
+    setDentist(e.target.value)
+    setAppointment({ ...appointment, dentist_id: selectedDentistId })
+  }
 
   useEffect(() => {
-    const userSession = localStorage.getItem("userSession");
+    const userSession = localStorage.getItem("userSession")
     if (userSession) {
-      const parsedUser = JSON.parse(userSession);
-      setUser(parsedUser.userData);
+      const parsedUser = JSON.parse(userSession)
+      setUser(parsedUser.userData)
     } else {
-      router.push("/login");
+      router.push("/login")
     }
-  }, [router]);
+  }, [router])
 
   useEffect(() => {
     if (user) {
-      getData();
+      getData()
     }
-  }, [user]);
+  }, [user])
+
+  useEffect(() => {
+    if (appointment.id !== "") {
+      handleClick()
+    }
+  }, [appointment.id])
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    //TODO: hacer validaciones para el objeto appointment
+    // TODO: hacer validaciones para el objeto appointment
     try {
-      const pending_id = pending.find(p => p.service.id === appointment.service)?.id || "";
+      const pending_id =
+        pending.find((p) => p.service.id === appointment.service)?.id || ""
 
-      const data = pending_id !== ""
-        ? { ...appointment, pending_appointment_id: pending_id }
-        : appointment;
+      const data =
+        pending_id !== ""
+          ? { ...appointment, pending_appointment_id: pending_id }
+          : appointment
 
-      const response = await axios.post(`${enviroment.apiUrl}/appointments`, data);
-
+      const response = await axios.post(
+        `${enviroment.apiUrl}/appointments`,
+        data
+      )
       if (response.status === 201) {
-        alert("Cita creada con éxito");
-        router.push("/patients/appointments");
+        setAppointment((prevAppointment) => ({
+          ...prevAppointment,
+          id: response.data.id,
+        }))
+        setConfirmPay(true)
       }
     } catch (error) {
-      console.error("Error creating appointment:", error);
-      setErrorMessage("Error interno del servidor");
+      console.error("Error creating appointment:", error)
+      setErrorMessage("Error interno del servidor")
     }
-  };
+  }
 
-
-  const fetchDates = async (start_date: string, end_date: string, time_slots: boolean = false) => {
+  const fetchDates = async (
+    start_date: string,
+    end_date: string,
+    time_slots: boolean = false
+  ) => {
     return await axios.post(
       `${enviroment.apiUrl}/appointments/get_available_slots`,
       {
@@ -150,14 +172,16 @@ const CreateAppointment = () => {
         end_date,
         time_slots,
       }
-    );
+    )
   }
 
   const fetchTimes = async (date: string) => {
     const res = await fetchDates(date, date, true)
 
     if (res.status === 200) {
-      const times: Date[] = res.data.availabity[0].map((time: Date) => toZonedTime(time, 'UTC'))
+      const times: Date[] = res.data.availabity[0].map((time: Date) =>
+        toZonedTime(time, "UTC")
+      )
       setAvailableTimes(times)
       return res.data
     }
@@ -165,27 +189,26 @@ const CreateAppointment = () => {
 
   const checkRequiredFields = () => {
     if (!consultationType) {
-      alert('Debes seleccionar un tipo de consulta primero')
+      alert("Debes seleccionar un tipo de consulta primero")
       return false
     }
     if (!dentist) {
-      alert('Debes seleccionar un dentista primero')
+      alert("Debes seleccionar un dentista primero")
       return false
     }
 
     return true
-  };
+  }
 
   useEffect(() => {
     if (dentist && consultationType) {
-      handleCalendarMonthChange(new Date());
+      handleCalendarMonthChange(new Date())
     }
-  }, [dentist, consultationType]);
+  }, [dentist, consultationType])
 
   const handleCalendarMonthChange = async (date: Date) => {
-
-    const start_date = format(startOfMonth(date), 'yyyy-MM-dd')
-    const end_date = format(endOfMonth(date), 'yyyy-MM-dd')
+    const start_date = format(startOfMonth(date), "yyyy-MM-dd")
+    const end_date = format(endOfMonth(date), "yyyy-MM-dd")
 
     if (!checkRequiredFields()) return
     setIsLoading(true)
@@ -194,35 +217,55 @@ const CreateAppointment = () => {
     if (res.status === 200) {
       unlockAvailableDates(res.data)
     }
-
   }
 
   const unlockAvailableDates = async (dates: Date[]) => {
-
-    setAvailableDates(dates.map(date => toZonedTime(date, 'UTC')));
+    setAvailableDates(dates.map((date) => toZonedTime(date, "UTC")))
     setIsLoading(false)
   }
 
   const handleCalendarSelectDate = async (date: Date | null) => {
-
     setAvailableTimes([])
     if (!checkRequiredFields()) return
 
-    fetchTimes(format(date!, 'yyyy-MM-dd HH:mm'))
+    fetchTimes(format(date!, "yyyy-MM-dd HH:mm"))
   }
 
   const handleCalendarSelectedDate = async (date: Date | null) => {
-
     if (date) {
       setCalendarDate(date)
-      setAppointment({ ...appointment, date_time: format(date, 'yyyy-MM-dd HH:mm') });
+      setAppointment({
+        ...appointment,
+        date_time: format(date, "yyyy-MM-dd HH:mm"),
+      })
     }
   }
 
-  const handleObservacionesChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setObservaciones(e.target.value);
-    setAppointment({ ...appointment, description: e.target.value });
-  };
+  const handleObservacionesChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    setObservaciones(e.target.value)
+    setAppointment({ ...appointment, description: e.target.value })
+  }
+
+  useEffect(() => {
+    initMercadoPago(enviroment.mercadopagoPublicKey, {
+      locale: "en-US",
+    })
+  }, [])
+
+  const handleClick = async () => {
+    try {
+      console.log(appointment.id)
+      const preference = await handlePayment(
+        appointment.patient,
+        appointment.id
+      )
+      setPreferenceId(preference.preferenceId)
+    } catch (error: any) {
+      console.error("Error handling click:", error.message)
+    }
+  }
 
   return (
     <div className="flex ">
@@ -319,25 +362,39 @@ const CreateAppointment = () => {
                 </div>
                 <div className="w-full">
 
-                  <button
-                    type="submit"
-                    className="bg-green-500 text-white p-2 rounded-md w-full"
-                  >
-                    Reservar ahora
-                  </button>
+                  {!condirmPay && (
+                    <button
+                      type="submit"
+                      className="bg-green-500 text-white p-2 rounded-md w-full"
+                    >
+                      Crear Cita
+                    </button>
+                  )}
+
                 </div>
+                {condirmPay && (
+                  <div>
+                    <p>Por favor, realiza el pago para confirmar la cita</p>
+                    <Timer />
+
+                    {preferenceId && (
+                      <Wallet initialization={{ preferenceId: preferenceId }} />
+                    )}
+                  </div>
+                )}
               </div>
             </div>
           </form>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default CreateAppointment;
+export default CreateAppointment
 
-{/* <div className="mb-4">
+{
+  /* <div className="mb-4">
   <label className="text-white">Año</label>
   <select
     value={year}
@@ -410,4 +467,6 @@ export default CreateAppointment;
       </option>
     ))}
   </select>
-</div> */}
+</div> */
+}
+

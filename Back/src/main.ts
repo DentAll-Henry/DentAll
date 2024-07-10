@@ -6,10 +6,18 @@ import { ValidationPipe } from '@nestjs/common';
 import * as cors from 'cors';
 import { json } from 'express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { readFileSync } from 'fs';
 const version = require('../package.json').version;
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+
+  const httpsOptions = {
+    key: readFileSync('certs/server.key'),
+    cert: readFileSync('certs/server.cert'),
+  };
+
+
+  const app = await NestFactory.create(AppModule, {  });
   app.use(cors());
   app.use(json());
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
