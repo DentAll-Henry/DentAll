@@ -12,7 +12,7 @@ const page = () => {
         <h2 className="font-bold">MI ASISTENTE PERSONAL</h2>
       </div>
       <div className="flex flex-wrap gap-8 w-[70%] m-8">
-        <Link href="/dashboard_3/mi_agenda">
+        <Link href="/professional/appointments">
           <div className="flex-col bg-sky-900 w-[200px] h-[150px] rounded-md border flex justify-center items-center hover:scale-105 transition-transform duration-300">
             <Image
               className="group-hover:fill-current text-white"
