@@ -109,6 +109,29 @@ export class PaymentsRepository {
     }
   }
 
+  async getPaymentsByPatient(patient_id: string) {
+    const queryBuilder = this.payment
+      .createQueryBuilder('payments')
+      .leftJoin('payments.patient', 'patients')
+      .leftJoinAndSelect('payments.dentalServ', 'dentalServ')
+      .leftJoinAndSelect('payments.appointment', 'appointment')
+      .where('payments.patient = :patient_id', { patient_id })
+      .orderBy('payments.date', 'DESC')
+      .getMany();
+    return await queryBuilder;
+  }
+
+  async getPaymentById(payment_id: string) {
+    const queryBuilder = this.payment
+      .createQueryBuilder('payments')
+      .leftJoin('payments.patient', 'patients')
+      .leftJoinAndSelect('payments.dentalServ', 'dentalServ')
+      .leftJoinAndSelect('payments.appointment', 'appointment')
+      .where('payments.id = :payment_id', { payment_id })
+      .getOne();
+    return await queryBuilder;
+  }
+
   // async failure(data) {
   //   try {
   //     const payment = await this.payment.findOne({
