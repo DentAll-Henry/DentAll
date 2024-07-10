@@ -17,11 +17,15 @@ import { PatientsService } from './patient.service';
 import { PatientsRepository } from './patient.repository';
 import { DentalServModule } from '../dentalServ/dentalServ.module';
 import { FilesModule } from '../files/files.module';
+import { MailService } from 'src/mail/mail.service';
+import { SystemConfigsService } from 'src/system_configs/system_configs.service';
+import { SystemConfigsRepository } from 'src/system_configs/system_configs.repository';
+import { SystemConfig } from 'src/system_configs/entities/system_config.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Person, Patient, Guest, Dentist]), RolesModule, SpecialtyModule, DentalServModule, FilesModule],
+  imports: [TypeOrmModule.forFeature([Person, Patient, Guest, Dentist, SystemConfig]), RolesModule, SpecialtyModule, DentalServModule, FilesModule],
   controllers: [PeopleController, DentistsController, PatientsController],
-  providers: [PeopleService, PeopleRepository, DentistsService, DentistsRepository, PatientsService, PatientsRepository],
+  providers: [PeopleService, PeopleRepository, DentistsService, DentistsRepository, PatientsService, PatientsRepository, MailService, SystemConfigsService, SystemConfigsRepository],
   exports: [PeopleService, TypeOrmModule, PatientsService, DentistsService],
 })
 export class PeopleModule {}
