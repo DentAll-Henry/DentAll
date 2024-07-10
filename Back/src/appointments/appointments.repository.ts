@@ -118,6 +118,7 @@ export class AppointmentsRepository {
       dentist_id: createAppointmentDto.dentist_id,
       patient: createAppointmentDto.patient,
       service: createAppointmentDto.service,
+      //expiration_date: createAppointmentDto.expiration_date ? createAppointmentDto.expiration_date : null
     });
   }
 
