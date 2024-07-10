@@ -30,7 +30,7 @@ export class AppService {
                     .getOne();
 
                 if (!pagado) {
-                    await this.appointmentRepository.delete(cita);
+                    await this.appointmentRepository.delete(cita.id);
                 } else {
                     await this.appointmentRepository.update(cita.id, { expiration_date: null });
                 }
