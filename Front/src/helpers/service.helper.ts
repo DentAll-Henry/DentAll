@@ -4,7 +4,9 @@ import axios from "axios"
 
 export async function fetchService(): Promise<Service[]> {
   try {
-    const response = await axios.get(`${enviroment.apiUrl}/dental-serv/`)
+    const response = await axios.get(
+      `${enviroment.apiUrl}/dental-serv/?page=1&limit=20`
+    );
     return response.data
   } catch (error) {
     console.error(error)
@@ -18,7 +20,9 @@ export async function createService(newServiceData: any) {
       `${enviroment.apiUrl}/dental-serv/`,
       newServiceData
     )
+    console.log(response)
     return response.data
+
   } catch (error) {
     console.error(error)
     throw error

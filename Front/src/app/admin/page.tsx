@@ -1,6 +1,7 @@
 import NavDash from '@/components/NavBar/navDash'
 import React from 'react'
 import Image from 'next/image'
+import Link from 'next/link';
 function page() {
   return (
     <div className="w-[80%] h-screen bg-darkD-600 text-white ml-[20%] relative ">
@@ -61,6 +62,18 @@ function page() {
               <p className="text-sm">10 pacientes</p>
             </div>
           </div>
+          <Link href="/admin/services">
+            <div className="flex-col bg-[#DF291540] w-[200px] h-[150px] rounded-md border flex justify-center items-center hover:scale-105 transition-transform duration-300 mt-4">
+              <Image
+                className="group-hover:fill-current text-white"
+                src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201326/recetass_si2se4.svg"
+                width={70}
+                height={70}
+                alt="Editar servicios"
+              />
+              <p>Editar servicios</p>
+            </div>
+          </Link>
         </div>
       </div>
     </div>
