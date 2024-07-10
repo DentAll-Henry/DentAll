@@ -72,6 +72,26 @@ export class PaymentsController {
     res.send(dsad);
   }
 
+  @Get('payments_by_patient/:patient_id')
+  @ApiOperation({ summary: 'Get all payments by patient' })
+  @ApiParam({ name: 'patient_id', type: String, description: 'Patient id' })
+  @ApiResponse({ status: 200, description: 'Return payments' })
+  @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
+  @ApiInternalServerErrorResponse({ status: 500, description: 'Server error.' })
+  async getPaymentsByPatient(@Param('patient_id') patient_id: string) {
+    return await this.paymentsService.getPaymentsByPatient(patient_id);
+  }
+
+  @Get('by_id/:payment_id')
+  @ApiOperation({ summary: 'Get payment by id' })
+  @ApiParam({ name: 'payment_id', type: String, description: 'Payment id' })
+  @ApiResponse({ status: 200, description: 'Return payment data' })
+  @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
+  @ApiInternalServerErrorResponse({ status: 500, description: 'Server error.' })
+  async getPaymentById(@Param('payment_id') payment_id: string) {
+    return await this.paymentsService.getPaymentById(payment_id);
+  }
+
   // @Get('/failure/:id')
   // @ApiOperation({ summary: 'Indicate payment failure' })
   // @ApiParam({ name: 'id', type: String, description: 'Preference id' })
