@@ -30,19 +30,25 @@ const Account = () => {
           setProfileImage(parsedUserData.userData.photo);
         }
         if (parsedUserData.token) {
-          const token : {id: string, email: string, exp: Date, iat: Date, roles: string}= decodeJWT(parsedUserData.token)
-          if(token.roles === 'patient') setRole('Paciente');
-          if(token.roles === 'dentist') setRole('Dentista');
-          if(token.roles === 'administrative') setRole('Administrativo');
-          if(token.roles === 'admin') setRole('Administrador de plataforma');
+          const token: {
+            id: string;
+            email: string;
+            exp: Date;
+            iat: Date;
+            roles: string;
+          } = decodeJWT(parsedUserData.token);
+          if (token.roles === "patient") setRole("Paciente");
+          if (token.roles === "dentist") setRole("Dentista");
+          if (token.roles === "administrative") setRole("Administrativo");
+          if (token.roles === "admin") setRole("Administrador de plataforma");
         }
       }
     }
   }, [pathname]);
 
-  useEffect(()=> {
-    console.log('Imagen de usuario actualizada.')
-  }, [profileImage])
+  useEffect(() => {
+    console.log("Imagen de usuario actualizada.");
+  }, [profileImage]);
 
   const navigateBack = () => {
     router.back();
@@ -52,18 +58,22 @@ const Account = () => {
     const file = e.target.files?.[0];
     if (file) {
       const formData = new FormData();
-      formData.append('file', file);
-      
+      formData.append("file", file);
+
       try {
-        const response = await axiosInstance.patch(`/people/editphoto/${userData.userData.id}`, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
-        setUserData({ token: userData.token, userData: response.data})
+        const response = await axiosInstance.patch(
+          `/people/editphoto/${userData.userData.id}`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        setUserData({ token: userData.token, userData: response.data });
         localStorage.setItem(
           "userSession",
-          JSON.stringify({ token: userData.token, userData: response.data})
+          JSON.stringify({ token: userData.token, userData: response.data })
         );
         const newProfileImageUrl = response.data.photo;
         setProfileImage(newProfileImageUrl);
@@ -108,19 +118,20 @@ const Account = () => {
               src={profileImage}
               width={150}
               height={100}
-              style={{borderRadius:100}}
+              style={{ borderRadius: 100 }}
               alt="Imagen de perfil"
             />
             {showEditIcon && (
               <label
                 htmlFor="profileImage"
-               className="absolute bottom-0 right-0 bg-darkD-500 p-2 rounded-full cursor-pointer" style={{ backgroundColor: 'rgba(47, 47, 47, 0.8)' }}
+                className="absolute bottom-0 right-0 border border-green-500  bg-darkD-500 p-2 rounded-full cursor-pointer"
+                style={{ backgroundColor: "rgba(47, 47, 47, 0.5)" }}
               >
                 <Image
                   src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201305/PencilSimple_ugfifd.svg"
                   width={150}
                   height={100}
-                  alt="Imagen de perfil"
+                  alt="Editar imagen"
                 />
               </label>
             )}

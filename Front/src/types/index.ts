@@ -167,3 +167,66 @@ export interface Dentist {
     };
   }[];
 }
+
+
+export interface PatientId{
+  id: string;
+  person:{
+    id:string;
+    first_name:string;
+    last_name:string;
+    birthdate:Date;
+    dni:string;
+    phone:string;
+    email:string;
+    address:string;
+    location:string;
+    nationality:string;
+    is_auth0: boolean;
+    photo:string;
+    deleteDate:null
+  };
+
+}
+
+
+export interface AppointmentId{
+  id:string;
+  date_time:string;
+  description: string;
+  expiration_date:string;
+  service:{
+    id:string;
+    name:string;
+    price:string;
+    description: string;
+    img: string | null;
+    isActive: boolean;
+  };
+  patient:{
+    id:string;
+    
+  };
+  dentist_id:{
+    id:string;
+    rate:string;
+    is_active: boolean;
+    description:string;
+    person:{
+      id:string;
+      first_name:string;
+      last_name:string;
+      birthdate:Date;
+      dni:string;
+      phone:string;
+      email:string;
+      address:string;
+      location:string;
+      nationality:string;
+      is_auth0: boolean;
+      photo:string;
+      deleteDate:null;
+    }
+  }
+
+}

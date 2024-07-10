@@ -256,7 +256,6 @@ const CreateAppointment = () => {
 
   const handleClick = async () => {
     try {
-      console.log(appointment.id)
       const preference = await handlePayment(
         appointment.patient,
         appointment.id
@@ -361,7 +360,6 @@ const CreateAppointment = () => {
                   ></textarea>
                 </div>
                 <div className="w-full">
-
                   {!condirmPay && (
                     <button
                       type="submit"
@@ -370,21 +368,19 @@ const CreateAppointment = () => {
                       Crear Cita
                     </button>
                   )}
-
                 </div>
                 {condirmPay && (
                   <div>
                     <p>Por favor, realiza el pago para confirmar la cita</p>
                     <Timer />
-
-                    {preferenceId && (
-                      <Wallet initialization={{ preferenceId: preferenceId }} />
-                    )}
                   </div>
                 )}
               </div>
             </div>
           </form>
+          {preferenceId && (
+            <Wallet initialization={{ preferenceId: preferenceId }} />
+          )}
         </div>
       </div>
     </div>

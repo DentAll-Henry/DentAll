@@ -28,4 +28,5 @@ export const environment = {
     accesstoken: process.env.MERCADOPAGO_ACCESS_TOKEN,
   },
   fronturl: process.env.FRONT_URL || 'http://localhost:3001',
+  backUrl: process.env.BACK_URL || 'http://localhost:3000',
 };

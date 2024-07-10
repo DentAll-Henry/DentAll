@@ -28,7 +28,7 @@ const AboutPage = () => {
         </div>
       </div>
 
-      <div className=" flex flex-col gap-8 w-[50%] m-auto ">
+      <div className=" flex flex-col m-4 gap-8 w-[50%]  ">
         <div>
           <li className="text-2xl">Plataforma Centrada en el Usuario</li>
           <p>

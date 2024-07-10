@@ -44,7 +44,7 @@ const Footer = () => {
         </div>
 
         <div className="flex gap-4">
-          <Link href="#">
+          <Link href="#" className="transition-all  hover:scale-110">
             <Image
               src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201233/WhatsApp_w3qogu.svg"
               alt="Whatsapp"
@@ -54,7 +54,7 @@ const Footer = () => {
             />
           </Link>
 
-          <Link href="#">
+          <Link className="transition-all  hover:scale-110" href="#">
             <Image
               src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201266/Facebook_hd5g54.svg"
               alt="Facebook"
@@ -64,7 +64,7 @@ const Footer = () => {
             />
           </Link>
 
-          <Link href="#">
+          <Link href="#" className="transition-all  hover:scale-110">
             <Image
               src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201282/LinkedIn_i5rnli.svg"
               alt="LinkedIn"
@@ -74,7 +74,7 @@ const Footer = () => {
             />
           </Link>
 
-          <Link href="#">
+          <Link href="#" className="transition-all  hover:scale-110">
             <Image
               src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201280/Instagram_qys7th.svg"
               alt="Instagram"
