@@ -129,13 +129,16 @@ export class AppointmentsController {
     return await this.appointmentsService.getAvailableSlots(getAvailableSlotsDto);
   }
 
-  @Post('last_appointments_by_dentist')
+  @Get('last_appointment_date/:dentist_id/:patient_id')
   @ApiOperation({ summary: 'Find the last appointment date for a patient by dentist.' })
   @ApiResponse({ status: 201, description: 'Return the date and time of the last appointment.', })
   @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
-  @ApiBody({ type: GetLastAppointmentDateDto })
-  getLastAppointment(@Body() GetLastAppointmentDate: GetLastAppointmentDateDto) {
-    return this.appointmentsService.getLastAppointment(GetLastAppointmentDate);
+  getLastAppointment(
+    @Param('dentist_id', ParseUUIDPipe) dentist_id: string,
+    @Param('patient_id', ParseUUIDPipe) patient_id: string
+  ) {
+    const getLastAppointmentDate: GetLastAppointmentDateDto = { dentist_id, patient_id }
+    return this.appointmentsService.getLastAppointment(getLastAppointmentDate);
   }
 
   @Delete(':appointment_id')
