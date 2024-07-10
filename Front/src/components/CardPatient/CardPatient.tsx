@@ -1,31 +1,47 @@
-import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-function CardPatient() {
+
+interface PatientCardProps {
+  id: string;
+  name: string;
+  phone: string;
+  email: string;
+  last_appointment: Date;
+  photo: string;
+}
+
+const CardPatient: React.FC<PatientCardProps> = ({
+  id,
+  name,
+  phone,
+  email,
+  last_appointment,
+  photo,
+}) => {
   return (
     <div>
       <Link href="/professional">
         <div className="w-full flex flex-row gap-5 ">
           <div className="w-[31%] p-3 flex flex-row gap-4">
             <Image
-              src="/images/profile.png"
+              src={photo}
               width={24}
               height={24}
               alt="foto de perfil"
             />
-            <p>Manu Ochoa</p>
+            <p>{name}</p>
           </div>
 
           <div className="w-[18%] p-3">
-            <p>9120002131</p>
+            <p>{phone}</p>
           </div>
 
           <div className="w-[23%] p-3">
-            <p>manumuelita@gmail.com</p>
+            <p>{email}</p>
           </div>
 
           <div className="w-[14%] p-3">
-            <p>27/03/2024</p>
+            <p>{last_appointment.toString()}</p>
           </div>
 
           <div className="w-[14%] p-3 flex flex-row gap-8">

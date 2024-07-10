@@ -137,12 +137,12 @@ export class MockAutoLoadService {
             let photo: string;
             if(p.first_name === "Sandra") {
               rate = 4.5;
-              description = "Cirujano dental especializado en extracciones complejas e implantes. Con más de 10 años de experiencia, asegura el bienestar de sus pacientes.";
+              description = "Experta en corrección de maloclusiones. Utiliza las últimas tecnologías para proporcionar sonrisas hermosas y saludables.";
               photo = "https://res.cloudinary.com/ddpohfyur/image/upload/v1720551424/sandra_alunhu.png";
             }
             if(p.first_name === "Lucas") {
               rate = 4.2;
-              description = "Experta en corrección de maloclusiones. Utiliza las últimas tecnologías para proporcionar sonrisas hermosas y saludables.";
+              description = "Cirujano dental especializado en extracciones complejas e implantes. Con más de 10 años de experiencia, asegura el bienestar de sus pacientes.";
               photo = "https://res.cloudinary.com/ddpohfyur/image/upload/v1720551424/lucas_enoado.png";
             }
             await this.dentistService.createDentist({
