@@ -3,6 +3,7 @@ import {
   Controller,
   FileTypeValidator,
   FileValidator,
+  Get,
   MaxFileSizeValidator,
   ParseFilePipe,
   ParseFilePipeBuilder,
@@ -46,5 +47,10 @@ export class FilesController {
       path,
     };
     return this.filesService.uploadFile(fileInfo);
+  }
+
+  @Get('images')
+  getImages(@Body('folder') folder: string) {
+    return this.filesService.getImages(folder);
   }
 }

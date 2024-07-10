@@ -20,7 +20,7 @@ const CardPatient: React.FC<PatientCardProps> = ({
 }) => {
   return (
     <div>
-      <Link href="/professional">
+      <Link href="#">
         <div className="w-full flex flex-row gap-5 ">
           <div className="w-[31%] p-3 flex flex-row gap-4">
             <Image

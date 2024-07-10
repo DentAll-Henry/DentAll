@@ -1,3 +1,4 @@
+
 "use client";
 import { useEffect, useState } from "react";
 import CardPatient from "../CardPatient/CardPatient";
@@ -33,6 +34,7 @@ type Dentist = {
   description: string;
 };
 
+
 const PatientsList = () => {
   const [dentist, setDentist] = useState<Dentist>();
   const [patients, setPatients] = useState<Patient[]>();
@@ -59,22 +61,24 @@ const PatientsList = () => {
   }, []);
 
   useEffect(() => {
-    const getPatients = async() => {
-      const response = await axiosInstance.get(`/patients/dentist/${dentist?.id}`)
-      const patientsArray = response.data.map((p: any) => {
-        return ({
-          id: `${p.id}`,
-          name: `${p.person.first_name} ${p.person.last_name}`,
-          phone: `${p.person.phone}`,
-          email: `${p.person.email}`,
-          last_appointment: '',
-          photo: `${p.person.photo}`
-        })
-      });
-      setPatients(patientsArray);
+    if(dentist) {
+      const getPatients = async() => {
+        const response = await axiosInstance.get(`/patients/dentist/${dentist?.id}`)
+        const patientsArray = response.data.map((p: any) => {
+          return ({
+            id: `${p.id}`,
+            name: `${p.person.first_name} ${p.person.last_name}`,
+            phone: `${p.person.phone}`,
+            email: `${p.person.email}`,
+            last_appointment: '',
+            photo: `${p.person.photo}`
+          })
+        });
+        setPatients(patientsArray);
+      }
+  
+      getPatients();
     }
-
-    getPatients();
   }, [dentist])
 
   return (
@@ -83,6 +87,7 @@ const PatientsList = () => {
         <div className="w-[31%] p-3 ">
           <p>Nombre y apellidos</p>
         </div>
+
 
         <div className="w-[18%] p-3">
           <p>Teléfono</p>
@@ -97,11 +102,13 @@ const PatientsList = () => {
         </div>
 
         <div className="w-[14%] p-3">
+
           <p>Acciones</p>
         </div>
       </div>
 
       <div className="flex flex-col gap-2">
+
         {patients?.map((p) => {
           return <CardPatient key={p.id}
             id={p.id}
@@ -112,6 +119,7 @@ const PatientsList = () => {
             photo={p.photo}
           />
         })}
+
       </div>
     </div>
   );

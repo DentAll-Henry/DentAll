@@ -11,3 +11,15 @@ export async function allPatients() {
     throw error;
   }
 }
+
+export async function getPatientId(id:string) {
+  try {
+      const patients = await allPatients()
+      const patient = patients.find((patient:any) => patient.id.toString() === id)
+      if(!patient) throw new Error("Paciente no encontrado")
+      return patient
+  } catch (error:any) {
+      console.log(error)
+  }
+
+}
