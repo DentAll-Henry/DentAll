@@ -105,9 +105,9 @@ export class AppointmentsService {
       );
     }
 
-    let now = new Date();
+    /* let now = new Date();
     now.setMinutes(now.getMinutes() + 15);
-    createAppointmentDto.expiration_date = now;
+    createAppointmentDto.expiration_date = now; */
 
     const appointment_created: Appointment =
       await this.appointmentsRepository.postAppointment(createAppointmentDto);
@@ -121,7 +121,7 @@ export class AppointmentsService {
 
     //send email
 
-    await this.mailService.sendMail(
+    /* await this.mailService.sendMail(
 
       patient.person['email'],
       'Nueva cita en DentAll',
@@ -133,7 +133,7 @@ export class AppointmentsService {
         dentist: appointment.dentist_id['person']['first_name'],
       },
 
-    ); 
+    ); */ 
 
 
     if (createAppointmentDto.pending_appointment_id) {
