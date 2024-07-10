@@ -48,7 +48,7 @@ const page = () => {
               <p>Agregar recomendaciones</p>
             </div>
           </Link>
-          <Link href="/dashboard_1/citas">
+          {/* <Link href="/dashboard_1/citas">
             <div className="flex-col bg-[#FDC84040] w-[200px] h-[150px] rounded-md border flex justify-center items-center hover:scale-105 transition-transform duration-300">
               <Image
                 className="group-hover:fill-current text-white"
@@ -59,7 +59,20 @@ const page = () => {
               />
               <p>Recetas Medicas</p>
             </div>
+          </Link> */}
+          <Link href="administrative/services">
+            <div className="flex-col bg-[#FDC84040] w-[200px] h-[150px] rounded-md border flex justify-center items-center hover:scale-105 transition-transform duration-300">
+              <Image
+                className="group-hover:fill-current text-white"
+                src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201326/recetass_si2se4.svg"
+                width={70}
+                height={70}
+                alt="Editar servicios"
+              />
+              <p>Editar servicios</p>
+            </div>
           </Link>
+
           {/* <Link href="#">
             <div className="flex-col bg-[#FF5B373D] gap-1 w-[200px] h-[150px] rounded-md border flex justify-center items-center hover:scale-105 transition-transform duration-300">
               <Image

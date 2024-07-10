@@ -1,13 +1,11 @@
-
-import Services from '@/components/services/services'
-
+import ServicesUsers from "@/components/services/ServicesUsers";
 
 const page = () => {
   return (
     <div>
-      <Services/>
+      <ServicesUsers />
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default page;
