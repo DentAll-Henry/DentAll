@@ -36,4 +36,13 @@ export class FilesService {
       toStream(file.buffer).pipe(upload);
     });
   }
+
+  async getImages(folder: string) {
+    const cloudinary = await v2.search
+      .expression(`folder:${folder}/*`)
+      .execute();
+    return cloudinary.resources.map((file) => {
+      return file.secure_url;
+    });
+  }
 }

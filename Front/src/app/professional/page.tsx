@@ -3,7 +3,7 @@ import SearchBar from "@/components/SearchBar/SearchBar";
 import Link from "next/link";
 import NavDash from "@/components/NavBar/navDash";
 
-const DashboardPage = () => {
+const page = () => {
   return (
     <div className="w-[80%] h-screen bg-darkD-600 text-white ml-[20%]">
       <NavDash />
@@ -12,7 +12,7 @@ const DashboardPage = () => {
         <h2 className="font-bold">MI ASISTENTE PERSONAL</h2>
       </div>
       <div className="flex flex-wrap gap-8 w-[70%] m-8">
-        <Link href="/dashboard_3/mi_agenda">
+        <Link href="/professional/appointments">
           <div className="flex-col bg-sky-900 w-[200px] h-[150px] rounded-md border flex justify-center items-center hover:scale-105 transition-transform duration-300">
             <Image
               className="group-hover:fill-current text-white"
@@ -61,10 +61,8 @@ const DashboardPage = () => {
           </div>
         </Link>
       </div>
-
-      <div className="flex justify-end mr-4">bots</div>
     </div>
   );
 };
 
-export default DashboardPage;
+export default page;

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notificacion de creacion de cuenta</title>
+    <style>
+        /* Estilos CSS aquí */
+    </style>
+</head>
+
+<body>
+    <div>
+        <h1>Bienvenido/a {{ first_name }}!</h1>
+        <p>Tu cuenta en nuestro sitio ha sido creada exitosamente.</p>
+        <p>Detalles de la cuenta:</p>
+        <ul>
+            <li><strong>Usuario:</strong> {{ email }}</li>
+            <li><strong>Contrasena:</strong> La contrasena que has proporcionado</li>
+            <!-- Agrega más detalles según tus necesidades -->
+        </ul>
+        <p>¡Gracias por unirte a nosotros!</p>
+        <p>Atentamente,</p>
+        <p>El equipo de DentAll</p>
+    </div>
+</body>
+
+</html>

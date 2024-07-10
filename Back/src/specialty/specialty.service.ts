@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { SpecialtyRepository } from './speciality.repository';
+import { SpecialtyRepository } from './specialty.repository';
 import { Specialty } from './specialty.entity';
 import { specialtyDto, updateSpecialtyDto } from './specialty.dto';
 import { DentalServService } from 'src/dentalServ/dentalServ.service';
@@ -11,9 +11,9 @@ export class SpecialtyService {
     private readonly dentalServService: DentalServService,
   ) {}
   removeSpecialty(id: string) {
-    const speciality = this.specialtyRepository.getSpecialityById(id);
+    const specialty = this.specialtyRepository.getspecialtyById(id);
 
-    if (!speciality) {
+    if (!specialty) {
       throw new BadRequestException('Specialty not found');
     }
 
@@ -22,17 +22,17 @@ export class SpecialtyService {
       : 'No se pudo borrar la especialidad';
   }
   async updateSpecialty(id: string, data: updateSpecialtyDto) {
-    const speciality = await this.specialtyRepository.getSpecialityById(id);
-    if (!speciality) {
+    const specialty = await this.specialtyRepository.getspecialtyById(id);
+    if (!specialty) {
       throw new BadRequestException('Especialidad no encontrada');
     }
 
     if (data.name) {
-      speciality.name = data.name;
+      specialty.name = data.name;
     }
 
     if (data.description) {
-      speciality.description = data.description;
+      specialty.description = data.description;
     }
 
     if (data.services) {
@@ -47,17 +47,18 @@ export class SpecialtyService {
 
         dentalServs.push(existingDentallServ);
       }
-      speciality.services = dentalServs;
+      specialty.services = dentalServs;
     }
 
-    return await this.specialtyRepository.updateSpecialty(speciality);
+    return await this.specialtyRepository.updateSpecialty(specialty);
   }
   async createSpecialty(specialtyData: specialtyDto) {
     console.log('llega al servicio');
 
-    const existingSpeciality =
-      await this.specialtyRepository.getSpecialityByName(specialtyData.name);
-    console.log(existingSpeciality);
+    const existingspecialty = await this.specialtyRepository.getspecialtyByName(
+      specialtyData.name,
+    );
+    console.log(existingspecialty);
 
     const dentalServs = [];
     for (const service of specialtyData.services) {
@@ -71,17 +72,17 @@ export class SpecialtyService {
       dentalServs.push(existingDentallServ);
     }
 
-    if (existingSpeciality) {
+    if (existingspecialty) {
       throw new BadRequestException('Especialidad ya existente');
     }
     specialtyData.services = dentalServs;
     console.log(specialtyData);
 
-    return await this.specialtyRepository.createSpeciality(specialtyData);
+    return await this.specialtyRepository.createspecialty(specialtyData);
   }
   getSpecialtyById(id: string) {
-    const speciality = this.specialtyRepository.getSpecialityById(id);
-    return !speciality ? 'No hay especialidad con ese id' : speciality;
+    const specialty = this.specialtyRepository.getspecialtyById(id);
+    return !specialty ? 'No hay especialidad con ese id' : specialty;
   }
   async getSpecialties() {
     return (await this.specialtyRepository.getSpecialties()).length === 0
@@ -90,8 +91,8 @@ export class SpecialtyService {
   }
 
   async SpecialtyByName(name: string) {
-    return !(await this.specialtyRepository.getSpecialityByName(name))
+    return !(await this.specialtyRepository.getspecialtyByName(name))
       ? `No se encontro la especialidad con el nombre ${name}`
-      : await this.specialtyRepository.getSpecialityByName(name);
+      : await this.specialtyRepository.getspecialtyByName(name);
   }
 }

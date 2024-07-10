@@ -7,11 +7,10 @@ import RegisterLayout from "@/app/register/RegisterLayout"; // Corrige la import
 import LoginLayout from "./login/LoginLayout";
 import "@/app/globals.css";
 
-
-import Dashboard3 from "./professional/ProfessionalLayout";
 import PatientsLayout from "./patients/PatientsLayout";
 import AdminLayout from "./admin/AdminLayout";
 import ProfessionalLayout from "./professional/ProfessionalLayout";
+import AdministrativeLayout from "./administrative/AdministrativeLayout";
 
 export default function ClientRouteHandler({
   children,
@@ -25,10 +24,13 @@ export default function ClientRouteHandler({
   const isPatientsLayout = pathname?.startsWith("/patients");
   const isAdminLayout = pathname?.startsWith("/admin");
   const isProfessionalLayout = pathname?.startsWith("/professional");
+  const isAdministrativeLayout = pathname?.startsWith("/administrative");
 
-  
   if (isPatientsLayout) {
     return <PatientsLayout>{children}</PatientsLayout>;
+  }
+  if (isAdministrativeLayout) {
+    return <AdministrativeLayout>{children}</AdministrativeLayout>;
   }
   if (isAdminLayout) {
     return <AdminLayout>{children}</AdminLayout>;

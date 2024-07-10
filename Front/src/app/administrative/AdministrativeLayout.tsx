@@ -1,27 +1,27 @@
 import SideNav from "@/components/NavBar/sideNavBar";
 
-const ProfessionalLayout = ({ children }: { children: React.ReactNode }) => {
+const AdministrativeLayout = ({ children }: { children: React.ReactNode }) => {
   const navItems = [
     {
-      href: "/professional",
+      href: "/administrative",
       src: "https://res.cloudinary.com/ddpohfyur/image/upload/v1720201273/home_gfeqo8.svg",
       alt: "Home",
       text: "Inicio",
     },
     {
-      href: "/professional",
+      href: "/administrative/patients",
       src: "https://res.cloudinary.com/ddpohfyur/image/upload/v1720201242/citas_bpks2p.svg",
       alt: "Pacientes",
       text: "Pacientes",
     },
     {
-      href: "/professional",
+      href: "/administrative",
       src: "https://res.cloudinary.com/ddpohfyur/image/upload/v1720362622/Property_Simple_Type_circle-information_oofcv6.svg",
       alt: "Contenido",
       text: "Contenido",
     },
     {
-      href: "/professional",
+      href: "#",
       src: "https://res.cloudinary.com/ddpohfyur/image/upload/v1720201221/user_bdisfr.svg",
       alt: "Citas",
       text: "Recetas médicas",
@@ -43,11 +43,7 @@ const ProfessionalLayout = ({ children }: { children: React.ReactNode }) => {
     <html lang="en">
       <body className="bg-darkD-600">
         <div className="flex ">
-          <SideNav
-            navItems={navItems}
-            styles={styles}
-            headerText="Profesional"
-          />
+          <SideNav navItems={navItems} styles={styles} headerText="Administrativo" />
           {children}
         </div>
       </body>
@@ -55,4 +51,4 @@ const ProfessionalLayout = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default ProfessionalLayout;
+export default AdministrativeLayout;

@@ -5,6 +5,8 @@ import { usePathname } from "next/navigation";
 import { RegisterProps } from "@/types";
 import Image from "next/image";
 import axiosInstance from "@/utils/axiosInstance";
+import { decodeJWT } from "@/helpers/decodeJwt";
+import Swal from "sweetalert2";
 
 const Account = () => {
   const router = useRouter();
@@ -14,6 +16,7 @@ const Account = () => {
     "https://res.cloudinary.com/ddpohfyur/image/upload/v1720201362/testimonio4_zy4fgd.svg"
   ); // URL de la imagen de perfil por defecto
   const [showEditIcon, setShowEditIcon] = useState(false);
+  const [role, setRole] = useState("");
 
   useEffect(() => {
     if (typeof window !== "undefined" && window.localStorage) {
@@ -25,6 +28,13 @@ const Account = () => {
         setUserData(parsedUserData); // Asegúrate de actualizar el estado correctamente
         if (parsedUserData.userData && parsedUserData.userData.photo) {
           setProfileImage(parsedUserData.userData.photo);
+        }
+        if (parsedUserData.token) {
+          const token : {id: string, email: string, exp: Date, iat: Date, roles: string}= decodeJWT(parsedUserData.token)
+          if(token.roles === 'patient') setRole('Paciente');
+          if(token.roles === 'dentist') setRole('Dentista');
+          if(token.roles === 'administrative') setRole('Administrativo');
+          if(token.roles === 'admin') setRole('Administrador de plataforma');
         }
       }
     }
@@ -57,8 +67,27 @@ const Account = () => {
         );
         const newProfileImageUrl = response.data.photo;
         setProfileImage(newProfileImageUrl);
+        Swal.fire({
+          title: "¡Excelente!",
+          text: "Foto de perfil actualizada.",
+          icon: "success",
+          confirmButtonText: "Aceptar",
+          customClass: {
+            confirmButton:
+              "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
+          },
+        });
       } catch (error) {
-        console.error('Error uploading image', error);
+        Swal.fire({
+          title: "Error",
+          text: error?.response.data.message,
+          icon: "error",
+          confirmButtonText: "Aceptar",
+          customClass: {
+            confirmButton:
+              "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
+          },
+        });
       }
     }
   };
@@ -101,7 +130,7 @@ const Account = () => {
           <h2 className="text-3xl ">
             {userData?.userData?.first_name} {userData?.userData?.last_name}
           </h2>
-          <p>{userData?.userData?.role}</p>
+          <p>{role}</p>
           <div className="flex mt-4 gap-2">
             <Image
               src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201309/phone_bds9ty.svg"

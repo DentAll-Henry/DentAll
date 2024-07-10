@@ -17,7 +17,7 @@ export class SpecialtyRepository {
     });
   }
 
-  async getSpecialityById(id: string): Promise<Specialty> {
+  async getspecialtyById(id: string): Promise<Specialty> {
     try {
       return await this.specialtyRepository.findOne({
         where: { id },
@@ -30,7 +30,7 @@ export class SpecialtyRepository {
     }
   }
 
-  async getSpecialityByName(name: string) {
+  async getspecialtyByName(name: string) {
     try {
       return await this.specialtyRepository.findOne({ where: { name } });
     } catch (error) {
@@ -50,11 +50,11 @@ export class SpecialtyRepository {
     }
   }
 
-  async createSpeciality(data: specialtyDto) {
+  async createspecialty(data: specialtyDto) {
     try {
-      const newSpeciality = this.specialtyRepository.create(data);
-      const saved = await this.specialtyRepository.save(newSpeciality);
-      return this.getSpecialityById(saved.id);
+      const newspecialty = this.specialtyRepository.create(data);
+      const saved = await this.specialtyRepository.save(newspecialty);
+      return this.getspecialtyById(saved.id);
     } catch (error) {
       throw new InternalServerErrorException(
         'No se pudo crear la especialidad',

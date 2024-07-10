@@ -3,7 +3,7 @@ import React from 'react'
 import Image from 'next/image'
 function page() {
   return (
-    <div className="w-[80%] h-screen text-white ml-[20%] relative ">
+    <div className="w-[80%] h-screen bg-darkD-600 text-white ml-[20%] relative ">
       <NavDash />
       <div className="m-4 mt-24 ">
         <h3>Superadmin: Manu Ochoa</h3>

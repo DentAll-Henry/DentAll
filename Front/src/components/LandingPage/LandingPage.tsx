@@ -3,8 +3,40 @@ import Image from "next/image";
 
 import DoctorCard from "../DoctorCards/DoctorCard";
 import MapComponent from "@/components/Maps/maps";
+import { useEffect, useState } from "react";
+import axiosInstance from "@/utils/axiosInstance";
+
+type Dentist = {
+  name: string;
+  specialty: string;
+  description: string;
+  rate: string;
+  imageSrc: string;
+};
 
 const LandingPage = () => {
+  const [best4Dentist, setBest4Dentist] = useState<Dentist[]>()
+
+  useEffect(() => {
+    const getBest4Dentists = async () => {
+      const response = await axiosInstance.get('/dentists/best4');
+      const dentists = response.data;
+      const denstistsArray = dentists.map((d: any) => {
+        return ({
+          name: `Dr. ${d.person.first_name} ${d.person.last_name}`,
+          specialty: `${d.spacialty?.name}`,
+          description: `${d.description}`,
+          rate: `${d.rate}`,
+          imageSrc: `${d.person.photo}`
+        });
+      });
+      console.log('Estos son los dentistas Carlos')
+      setBest4Dentist(denstistsArray);
+    }
+
+    getBest4Dentists();
+  }, [])
+
   return (
     <div>
       <section className="flex flex-row bg-[#1D1D1D] ">
@@ -60,7 +92,17 @@ const LandingPage = () => {
 
       <section className="bg-[#1D1D1D] py-8">
         <div className="container mx-auto flex flex-wrap justify-center gap-4">
-          <DoctorCard
+          {
+            best4Dentist?.map((d) => {
+              return <DoctorCard
+              name={d.name}
+              specialty={d.specialty}
+              description={d.description}
+              imageSrc={d.imageSrc}
+            />
+            })
+          }
+          {/* <DoctorCard
             name="Dr. Jorge Calvo"
             specialty="Cirujano dental"
             description="Cirujano dental especializado en extracciones complejas e implantes. Con más de 10 años de experiencia, asegura el bienestar de sus pacientes."
@@ -83,7 +125,7 @@ const LandingPage = () => {
             specialty="Endodoncista"
             description="Experta en tratamientos de conducto. Con su experiencia, alivia el dolor dental y preserva la salud de los dientes."
             imageSrc="/images/dra2.png"
-          />
+          /> */}
         </div>
       </section>
 

@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
 
-export class specialityDentalServDto {
+export class specialtyDentalServDto {
   @IsNotEmpty()
   @IsUUID()
   @ApiProperty({
@@ -35,11 +35,11 @@ export class specialtyDto {
   @IsNotEmpty()
   @ApiProperty({
     description: 'Dental services of the specialty',
-    type: [specialityDentalServDto],
+    type: [specialtyDentalServDto],
     example: [{ id: 'a4b0b0c0-1b2c-3b4c-5b6c-7b8c9d0e1f2g' }],
     required: false,
   })
-  services?: specialityDentalServDto[];
+  services?: specialtyDentalServDto[];
 }
 
 export class updateSpecialtyDto {
@@ -67,9 +67,9 @@ export class updateSpecialtyDto {
   @IsOptional()
   @ApiProperty({
     description: 'Dental services of the specialty',
-    type: [specialityDentalServDto],
+    type: [specialtyDentalServDto],
     example: [{ id: 'a4b0b0c0-1b2c-3b4c-5b6c-7b8c9d0e1f2g' }],
     required: false,
   })
-  services?: specialityDentalServDto[];
+  services?: specialtyDentalServDto[];
 }

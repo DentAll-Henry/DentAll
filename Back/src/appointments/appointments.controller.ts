@@ -18,8 +18,9 @@ import { ApiBadRequestResponse, ApiBearerAuth, ApiBody, ApiOperation, ApiParam, 
 import { AppointmentPaginationDto } from 'src/common/dto/paginationDto';
 import { LimitApiQueries, OnlyFutureApiQueries, OnlyPastApiQueries, PageApiQueries } from 'src/config/swagger-config';
 import { GetAvailableSlotsDto } from './dto/get_available-slots.dto';
-import { CreatePendingAppointmentDto } from './dto/create_pending_appointment.dt';
+import { CreatePendingAppointmentDto } from './dto/create_pending_appointment.dto';
 import { Appointment } from './entities/appointment.entity';
+import { GetLastAppointmentDateDto } from './dto/get-last-appointment-date.dto';
 
 @ApiTags('Appointments')
 @Controller('appointments')
@@ -126,6 +127,18 @@ export class AppointmentsController {
   @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
   async getAvailableSlots(@Body() getAvailableSlotsDto: GetAvailableSlotsDto) {
     return await this.appointmentsService.getAvailableSlots(getAvailableSlotsDto);
+  }
+
+  @Get('last_appointment_date/:dentist_id/:patient_id')
+  @ApiOperation({ summary: 'Find the last appointment date for a patient by dentist.' })
+  @ApiResponse({ status: 201, description: 'Return the date and time of the last appointment.', })
+  @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
+  getLastAppointment(
+    @Param('dentist_id', ParseUUIDPipe) dentist_id: string,
+    @Param('patient_id', ParseUUIDPipe) patient_id: string
+  ) {
+    const getLastAppointmentDate: GetLastAppointmentDateDto = { dentist_id, patient_id }
+    return this.appointmentsService.getLastAppointment(getLastAppointmentDate);
   }
 
   @Delete(':appointment_id')

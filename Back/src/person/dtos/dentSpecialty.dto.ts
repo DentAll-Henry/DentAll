@@ -4,7 +4,7 @@ import { IsNotEmpty } from 'class-validator';
 export class SpecialtyNameDto {
   @IsNotEmpty()
   @ApiProperty({
-    description: 'The speciality name.',
+    description: 'The specialty name.',
     example: 'Endodoncia',
   })
   specialtyName: string;

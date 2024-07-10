@@ -11,7 +11,6 @@ interface NavItem {
 }
 
 interface SideNavProps {
-
   navItems: NavItem[];
   styles: {
     container: string;
@@ -20,10 +19,12 @@ interface SideNavProps {
     navItemHover: string;
     navItemText: string;
     navItemTextHover: string;
+    headerText: string; // Nueva clase de estilo para el texto del encabezado
   };
+  headerText: string; // Nueva propiedad para el texto del encabezado
 }
 
-const SideNav = ({ navItems, styles }: SideNavProps) => {
+const SideNav = ({ navItems, styles, headerText }: SideNavProps) => {
   const handleLogout = () => {
     localStorage.removeItem("userSession");
     Swal.fire({
@@ -48,6 +49,12 @@ const SideNav = ({ navItems, styles }: SideNavProps) => {
           height={50}
           priority
         />
+      </div>
+      {/* Añadir el texto dinámico aquí */}
+      <div
+        className={`text-center mt-4 text-lg font-bold ${styles.headerText}`}
+      >
+        {headerText}
       </div>
       <nav className={`mt-5 ${styles.nav}`}>
         <ul>

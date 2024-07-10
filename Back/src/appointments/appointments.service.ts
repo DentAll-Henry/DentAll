@@ -13,11 +13,12 @@ import { DentalServ } from 'src/dentalServ/entities/dentalServ.entity';
 import { AppointmentPaginationDto } from 'src/common/dto/paginationDto';
 import { GetAvailableSlotsDto } from './dto/get_available-slots.dto';
 import { SystemConfigsService } from 'src/system_configs/system_configs.service';
-import { CreatePendingAppointmentDto } from './dto/create_pending_appointment.dt';
+import { CreatePendingAppointmentDto } from './dto/create_pending_appointment.dto';
 import { Patient } from 'src/person/entities/patient.entity';
 import { PatientsService } from 'src/person/patient.service';
 import { Dentist } from 'src/person/entities/dentist.entity';
 import { DentistsService } from 'src/person/dentist.service';
+import { GetLastAppointmentDateDto } from './dto/get-last-appointment-date.dto';
 
 @Injectable()
 export class AppointmentsService {
@@ -28,7 +29,7 @@ export class AppointmentsService {
     private readonly dentistService: DentistsService,
     private readonly mailService: MailService,
     private readonly systemConfigsService: SystemConfigsService,
-  ) {}
+  ) { }
 
   async ensureStoredProcedureExists() {
     const checkIfExistsQuery = `
@@ -105,9 +106,9 @@ export class AppointmentsService {
       );
     }
 
-    let now = new Date();
+    /* let now = new Date();
     now.setMinutes(now.getMinutes() + 15);
-    createAppointmentDto.expiration_date = now;
+    createAppointmentDto.expiration_date = now; */
 
     const appointment_created: Appointment =
       await this.appointmentsRepository.postAppointment(createAppointmentDto);
@@ -120,7 +121,9 @@ export class AppointmentsService {
     );
 
     //send email
-    await this.mailService.sendMail(
+
+    /* await this.mailService.sendMail(
+
       patient.person['email'],
       'Nueva cita en DentAll',
       'new_appointment',
@@ -130,7 +133,9 @@ export class AppointmentsService {
         date_time: createAppointmentDto.date_time,
         dentist: appointment.dentist_id['person']['first_name'],
       },
-    );
+
+    ); */
+
 
     if (createAppointmentDto.pending_appointment_id) {
       const pending =
@@ -394,6 +399,21 @@ export class AppointmentsService {
     );
   }
 
+  async getLastAppointment(getLastAppointmentDate: GetLastAppointmentDateDto) {
+    const dentist = await this.dentistService.dentistById(getLastAppointmentDate.dentist_id);
+    if (!dentist) throw new BadRequestException('Dentista no encontrado con el id proporcionado');
+
+    const patient = await this.patientsService.patientById(getLastAppointmentDate.patient_id);
+    if (!patient) throw new BadRequestException('Paciente no encontrado con el id proporcionado');
+
+    const data = await this.appointmentsRepository.getLastAppointment(
+      getLastAppointmentDate,
+    );
+    if (!data) return { "date_time": null };
+
+    return data
+  }
+
   async remove(id: string) {
     const appointment: Appointment =
       await this.appointmentsRepository.getAppointmentById(id);
@@ -401,8 +421,6 @@ export class AppointmentsService {
       throw new BadRequestException(
         'No se ha encontrado la cita con el id proporcionado',
       );
-
-    console.log();
 
     const res = await this.appointmentsRepository.removeAppointment(id);
     if (res.affected === 0)
