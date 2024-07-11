@@ -1,4 +1,7 @@
+
 import Image from "next/image";
+import PaymentsHistory from "@/components/Payments/PaymentsHistory";
+
 
 const page = () => {
   return (
@@ -15,6 +18,7 @@ const page = () => {
       <div className=" mt-12 m-8 text-xl">
         <h2 className="font-bold">Historial de pagos</h2>
       </div>
+
 
       <div className="flex">
         <div className="p-8">
@@ -70,6 +74,7 @@ const page = () => {
           </div>
         </div>
       </div>
+
     </div>
   );
 };
