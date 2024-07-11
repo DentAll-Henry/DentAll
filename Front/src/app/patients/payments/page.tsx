@@ -1,4 +1,4 @@
-import { ServicesForPatient } from "@/components/services/ServicesForPatient";
+import Image from "next/image";
 
 const page = () => {
   return (
@@ -16,7 +16,60 @@ const page = () => {
         <h2 className="font-bold">Historial de pagos</h2>
       </div>
 
-      <ServicesForPatient />
+      <div className="flex">
+        <div className="p-8">
+          <div className="flex-col bg-greenD-500 bg-opacity-5 w-[200px] h-[150px] rounded-md  flex justify-center items-center hover:scale-105 transition-transform duration-300">
+            <p className="text-[#60D66A]">Implante dental</p>
+            <p className="text-[#60D66A]">$100</p>
+            <Image
+              className="group-hover:fill-current text-white"
+              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201228/Vector_b9qqdm.svg"
+              width={35}
+              height={35}
+              alt="Pagos"
+            />
+          </div>
+        </div>
+        <div className="p-8">
+          <div className="flex-col bg-greenD-500 bg-opacity-5 w-[200px] h-[150px] rounded-md  flex justify-center items-center hover:scale-105 transition-transform duration-300">
+            <p className="text-[#60D66A]">Implante dental</p>
+            <p className="text-[#60D66A]">$100</p>
+            <Image
+              className="group-hover:fill-current text-white"
+              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201228/Vector_b9qqdm.svg"
+              width={35}
+              height={35}
+              alt="Pagos"
+            />
+          </div>
+        </div>
+        <div className="p-8">
+          <div className="flex-col bg-greenD-500 bg-opacity-5 w-[200px] h-[150px] rounded-md  flex justify-center items-center hover:scale-105 transition-transform duration-300">
+            <p className="text-[#60D66A]">Implante dental</p>
+            <p className="text-[#60D66A]">$100</p>
+            <Image
+              className="group-hover:fill-current text-white"
+              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201228/Vector_b9qqdm.svg"
+              width={35}
+              height={35}
+              alt="Pagos"
+            />
+          </div>
+        </div>
+        <div className="p-8">
+          <div className="flex-col bg-greenD-500 bg-opacity-5 w-[200px] h-[150px] rounded-md  flex justify-center items-center hover:scale-105 transition-transform duration-300">
+            <p className="text-[#60D66A]">Implante dental</p>
+            <p className="text-[#60D66A]">$100</p>
+            <Image
+              className="group-hover:fill-current text-white"
+              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201228/Vector_b9qqdm.svg"
+              width={35}
+              height={35}
+              alt="Pagos"
+            />
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
