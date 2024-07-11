@@ -13,12 +13,15 @@ export class PatientsRepository {
 
   async getAllPatients(paginationDto: { page: number; limit: number }): Promise<Patient[]> {
     const { page, limit } = paginationDto;
+    const role = 'patient';
 
     const queryBuilder = this.patientsRepository
       .createQueryBuilder('patients')
       .leftJoinAndSelect('patients.person', 'person')
       .leftJoinAndSelect('patients.appointments', 'appointments')
       .leftJoinAndSelect('patients.dentalRecord', 'dentalRecord')
+      .leftJoinAndSelect('person.roles', 'roles')
+      .where('roles.name = :role', {role})
       .skip((page - 1) * limit)
       .take(limit);
 
