@@ -4,7 +4,7 @@ import Image from "next/image";
 const AboutPage = () => {
   return (
     <div className="flex flex-col text-white m-8">
-      <div className="flex justify-between m-4">
+      <div className="flex justify-between my-8 w-[90%] m-auto">
         <div className="rounded-2xl ">
           <Image
             className="rounded-2xl"
@@ -28,29 +28,52 @@ const AboutPage = () => {
         </div>
       </div>
 
-      <div className=" flex flex-col m-4 gap-8 w-[50%]  ">
+      <div className=" flex flex-col  gap-8 w-[90%] m-auto ">
         <div>
-          <li className="text-2xl">Plataforma Centrada en el Usuario</li>
-          <p>
-            DentAll se distingue por su plataforma digital fácil de usar,
-            diseñada para mejorar la experiencia del paciente en cada paso del
-            proceso de atención dental.
-          </p>
+          <div>
+            <Image
+              className="rounded-2xl"
+              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720382843/clinica_dd187m.jpg"
+              alt="Clinica"
+              width={500}
+              height={100}
+            />
+          </div>
+          <div className="bg-greenD-500 p-4 rounded text-black">
+            <li className="text-2xl">Plataforma Centrada en el Usuario</li>
+            <p>
+              DentAll se distingue por su plataforma digital fácil de usar,
+              diseñada para mejorar la experiencia del paciente en cada paso del
+              proceso de atención dental.
+            </p>
+          </div>
         </div>
 
-        <div>
-          <li className="text-2xl">Inicio de Sesión y Agenda de Citas</li>
-          <p>
-            Los pacientes pueden iniciar sesión en su cuenta personal desde
-            cualquier dispositivo con acceso a internet. Una vez dentro, tienen
-            la posibilidad de agendar sus citas de manera rápida y sencilla a
-            través de un calendario interactivo. Esta función permite
-            seleccionar fechas y horas disponibles según su conveniencia,
-            eliminando la necesidad de llamadas telefónicas y largas esperas.
-          </p>
+        <div className="flex">
+          <div className="m-auto">
+            <Image
+              className="rounded-2xl"
+              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720382843/clinica_dd187m.jpg"
+              alt="Clinica"
+              width={2000}
+              height={1000}
+            />
+          </div>
+          <div className=" bg-white p-4 rounded text-black ml-[50%]">
+            <li className="text-2xl">Inicio de Sesión y Agenda de Citas</li>
+            <p>
+              Los pacientes pueden iniciar sesión en su cuenta personal desde
+              cualquier dispositivo con acceso a internet. Una vez dentro,
+              tienen la posibilidad de agendar sus citas de manera rápida y
+              sencilla a través de un calendario interactivo. Esta función
+              permite seleccionar fechas y horas disponibles según su
+              conveniencia, eliminando la necesidad de llamadas telefónicas y
+              largas esperas.
+            </p>
+          </div>
         </div>
 
-        <div>
+        <div className="bg-greenD-500 p-4 rounded text-black">
           <li className="text-2xl">Historial Clínico</li>
           <p>
             La plataforma también ofrece acceso completo al historial clínico
@@ -62,7 +85,7 @@ const AboutPage = () => {
           </p>
         </div>
 
-        <div>
+        <div className="bg-white p-4 rounded text-black ml-[50%]">
           <li className="text-2xl">Recetas Médicas</li>
           <p>
             DentAll proporciona una sección específica donde los pacientes
@@ -73,7 +96,7 @@ const AboutPage = () => {
           </p>
         </div>
 
-        <div>
+        <div className="bg-greenD-500 p-4 rounded text-black">
           <li className="text-2xl">Chat Personalizado</li>
           <p>
             Para una atención más personalizada, la plataforma incluye un
@@ -84,17 +107,18 @@ const AboutPage = () => {
           </p>
         </div>
 
-<div>
-
-        <li className="text-2xl">Compromiso con la Innovación y el Cuidado</li>
-        <p>
-          En DentAll, estamos comprometidos con la innovación y el uso de
-          tecnología avanzada para mejorar la salud dental de nuestros
-          pacientes. Nuestra plataforma digital no solo hace que la gestión del
-          cuidado dental sea más eficiente, sino que también crea una
-          experiencia más fluida y personalizada para cada paciente.
-        </p>
-</div>
+        <div className="bg-white p-4 rounded text-black ml-[50%]">
+          <li className="text-2xl">
+            Compromiso con la Innovación y el Cuidado
+          </li>
+          <p>
+            En DentAll, estamos comprometidos con la innovación y el uso de
+            tecnología avanzada para mejorar la salud dental de nuestros
+            pacientes. Nuestra plataforma digital no solo hace que la gestión
+            del cuidado dental sea más eficiente, sino que también crea una
+            experiencia más fluida y personalizada para cada paciente.
+          </p>
+        </div>
 
         <p>
           DentAll es la elección ideal para quienes buscan un servicio dental de

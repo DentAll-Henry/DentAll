@@ -19,8 +19,11 @@ const Footer = () => {
 
         <div className="flex flex-col gap-4">
           <h1 className="text-2xl font-semibold">CONTACTO</h1>
-          <Link className="hover:text-greenD-500" href="#">
-            <p>dentall@gmail.com</p>
+          <Link
+            className="hover:text-greenD-500"
+            href="dentallabgotvv@gmail.com"
+          >
+            <p>dentallabgotvv@gmail.com</p>
           </Link>
           <Link className="hover:text-greenD-500" href="#">
             <p>+51 9128273890</p>
