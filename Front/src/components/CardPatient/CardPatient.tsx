@@ -6,7 +6,7 @@ interface PatientCardProps {
   name: string;
   phone: string;
   email: string;
-  last_appointment: Date;
+  last_appointment: string;
   photo: string;
 }
 
@@ -41,7 +41,7 @@ const CardPatient: React.FC<PatientCardProps> = ({
           </div>
 
           <div className="w-[14%] p-3">
-            <p>{last_appointment.toString()}</p>
+            <p>{last_appointment}</p>
           </div>
 
           <div className="w-[14%] p-3 flex flex-row gap-8">
