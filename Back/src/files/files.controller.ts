@@ -50,7 +50,7 @@ export class FilesController {
     return this.filesService.uploadFile(fileInfo);
   }
 
-  @Get('images')
+  @Post('images')
   @ApiOperation({ summary: 'Get images from Cloudinary' })
   @ApiResponse({
     status: 200,
