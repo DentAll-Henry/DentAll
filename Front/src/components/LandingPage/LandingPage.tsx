@@ -21,17 +21,16 @@ const LandingPage = () => {
     const getBest4Dentists = async () => {
       const response = await axiosInstance.get('/dentists/best4');
       const dentists = response.data;
-      const denstistsArray = dentists.map((d: any) => {
+      const dentistsArray = dentists.map((d: any) => {
         return ({
           name: `Dr. ${d.person.first_name} ${d.person.last_name}`,
-          specialty: `${d.spacialty?.name}`,
+          specialty: `${d.specialty.name}`,
           description: `${d.description}`,
           rate: `${d.rate}`,
           imageSrc: `${d.person.photo}`
         });
       });
-      console.log('Estos son los dentistas Carlos')
-      setBest4Dentist(denstistsArray);
+      setBest4Dentist(dentistsArray);
     }
 
     getBest4Dentists();
