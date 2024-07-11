@@ -156,25 +156,13 @@ const Login = () => {
             <p>O inicia sesión con:</p>
             <div className="flex space-x-4">
               <div className="w-[44px] h-[44px] flex-shrink-0 relative">
-                <Image
-                  src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201337/RS3_m7rfqd.svg"
-                  alt="Linkedin"
-                  layout="fill"
-                />
-              </div>
-              <div className="w-[44px] h-[44px] flex-shrink-0 relative">
+                <a href="/api/auth/login">
                 <Image
                   src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201332/RS1_d4mepj.svg"
                   alt="Google"
                   layout="fill"
                 />
-              </div>
-              <div className="w-[44px] h-[44px] flex-shrink-0 relative">
-                <Image
-                  src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201336/RS2_vh4fsg.svg"
-                  alt="Facebook"
-                  layout="fill"
-                />
+                </a>
               </div>
             </div>
           </div>
