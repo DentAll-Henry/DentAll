@@ -136,21 +136,26 @@ export class MockAutoLoadService {
             let rate: number;
             let description: string;
             let photo: string;
+            let specialtyName: string;
             if (p.first_name === "Sandra") {
               rate = 4.5;
               description = "Experta en corrección de maloclusiones. Utiliza las últimas tecnologías para proporcionar sonrisas hermosas y saludables.";
               photo = "https://res.cloudinary.com/ddpohfyur/image/upload/v1720551424/sandra_alunhu.png";
+              specialtyName = "Ortodoncista";
             }
             if (p.first_name === "Lucas") {
               rate = 4.2;
               description = "Cirujano dental especializado en extracciones complejas e implantes. Con más de 10 años de experiencia, asegura el bienestar de sus pacientes.";
               photo = "https://res.cloudinary.com/ddpohfyur/image/upload/v1720551424/lucas_enoado.png";
+              specialtyName = "Cirujano oral"
             }
             await this.dentistService.createDentist({
               personId: p.id,
               rate,
               description,
+              specialtyName,
             });
+            await this.personService.delRole(p.id, { roleName: Roles.PATIENT })
             await this.personService.updatePerson(p.id, { photo })
             console.log(`<${p.first_name} ${p.last_name}> saved as dentist`);
           }
