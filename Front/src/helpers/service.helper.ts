@@ -7,7 +7,7 @@ export async function fetchService(): Promise<Service[]> {
     const response = await axios.get(
       `${enviroment.apiUrl}/dental-serv/?page=1&limit=20`
     )
-    return response.data
+    return response.data.services
   } catch (error) {
     console.error(error)
     throw error
