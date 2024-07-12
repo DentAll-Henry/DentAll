@@ -55,19 +55,13 @@ const Citas: React.FC<CitasProps> = ({
     <div className="mx-8 mt-4 h-screen">
       <div>
         <h3 className="font-bold ml-8">PROXIMAS CITAS</h3>
-        <div className="bg-darkD-500 flex flex-row justify-between rounded-md p-4">
-          <div className="flex gap-12 ml-8">
-            <p className="text-white text-center">Fecha</p>
-            <p className="text-white text-center">Hora</p>
-          </div>
-          <div className="flex gap-16 ">
-            <p className="text-white bg-slate-500 text-center w[100%]">Especialista asignado</p>
-            <p className="text-white text-center ">Tipo de consulta</p>
-          </div>
-          <div className="flex gap-12 mr-8">
-            <p className="text-white text-center ">Pago</p>
-            <p className="text-white text-center ">Acciones</p>
-          </div>
+        <div className="flex flex-row bg-darkD-500 rounded-md gap-1">
+          <div className="w-[14%] px-4 py-2">Fecha</div>
+          <div className="w-[9%] px-4 py-2">Hora</div>
+          <div className="w-[20%] px-4 py-2">Especialista </div>
+          <div className="w-[30%] px-4 py-2">Tipo de consulta</div>
+          <div className="w-[10%] px-2 py-2">Pago</div>
+          <div className="w-[16%] px-4 py-2">Acciones</div>
         </div>
         {futureAppointments.map((appointment) => (
           <div
