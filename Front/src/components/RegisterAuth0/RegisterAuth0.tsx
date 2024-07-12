@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 import { useUser } from '@auth0/nextjs-auth0/client';
+import axiosInstance from "@/utils/axiosInstance";
 
 const RegisterAuth0 = () => {
   const { user, error, isLoading } = useUser();
@@ -55,6 +56,21 @@ const RegisterAuth0 = () => {
       [event.target.name]: event.target.value,
     });
   };
+
+  useEffect(() => {
+    const loadUser = async () => {
+      if (user) {
+        console.log("user", user);
+        const exist_email = await axiosInstance(`/people/byemail?email=${user.email}`);
+        if (exist_email.status === 200) {
+          console.log("email existente", exist_email.data.email);
+        } else  {
+          console.log("email no existente");
+        }
+      }
+    }
+    loadUser();
+  }, [user]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -202,7 +218,7 @@ const RegisterAuth0 = () => {
                 <input
                   className="flex h-[30px] px-[15px] items-center gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
                   placeholder="mail@mail.com"
-                  value={dataUser.email}
+                  value={user?.email}
                   type="email"
                   id="email"
                   name="email"
