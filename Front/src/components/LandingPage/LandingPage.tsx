@@ -12,6 +12,7 @@ type Dentist = {
   description: string;
   rate: string;
   imageSrc: string;
+  id: string;
 };
 
 const LandingPage = () => {
@@ -27,7 +28,8 @@ const LandingPage = () => {
           specialty: `${d.specialty.name}`,
           description: `${d.description}`,
           rate: `${d.rate}`,
-          imageSrc: `${d.person.photo}`
+          imageSrc: `${d.person.photo}`,
+          id: `${d.id}`
         });
       });
       setBest4Dentist(dentistsArray);
@@ -93,7 +95,7 @@ const LandingPage = () => {
         <div className="container mx-auto flex flex-wrap justify-center gap-4">
           {
             best4Dentist?.map((d) => {
-              return <DoctorCard
+              return <DoctorCard key={d.id}
               name={d.name}
               specialty={d.specialty}
               description={d.description}
@@ -101,30 +103,7 @@ const LandingPage = () => {
             />
             })
           }
-          {/* <DoctorCard
-            name="Dr. Jorge Calvo"
-            specialty="Cirujano dental"
-            description="Cirujano dental especializado en extracciones complejas e implantes. Con más de 10 años de experiencia, asegura el bienestar de sus pacientes."
-            imageSrc="/images/dr1.png"
-          />
-          <DoctorCard
-            name="Dra. Ana Perez"
-            specialty="Ortodoncista"
-            description="Experta en corrección de maloclusiones. Utiliza las últimas tecnologías para proporcionar sonrisas hermosas y saludables."
-            imageSrc="/images/dra1.png"
-          />
-          <DoctorCard
-            name="Dr. Juan López"
-            specialty="Periodoncista"
-            description="Especializado en enfermedades de las encías. Su enfoque se centra en el diagnóstico y tratamiento efectivo de problemas periodontales."
-            imageSrc="/images/dr2.png"
-          />
-          <DoctorCard
-            name="Dra. Sofia Castillo"
-            specialty="Endodoncista"
-            description="Experta en tratamientos de conducto. Con su experiencia, alivia el dolor dental y preserva la salud de los dientes."
-            imageSrc="/images/dra2.png"
-          /> */}
+        
         </div>
       </section>
 

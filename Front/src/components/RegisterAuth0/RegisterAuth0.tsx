@@ -63,10 +63,10 @@ const RegisterAuth0 = () => {
   useEffect(() => {
     setDataUser({
       ...dataUser,
-      first_name: user?.given_name,
-      last_name: user?.family_name,
-      email: user?.email,
-      photo: user?.picture,
+      first_name: user?.given_name + "",
+      last_name: user?.family_name + "",
+      email: user?.email || "",
+      photo: user?.picture || "",
       password: `${user?.sub}D`,
       confirmPass: `${user?.sub}D`,
       is_auth0: true,
@@ -131,7 +131,7 @@ const RegisterAuth0 = () => {
               router.push("/login");
             }
           }
-        } catch (error) {
+        } catch (error:any) {
           if (
             error?.response?.data?.message ===
             `No existe usuario con el email ${user.email}.`
@@ -175,7 +175,7 @@ const RegisterAuth0 = () => {
     if (Object.keys(errors).length === 0) {
       try {
         const responseSignUp = await register(dataUser);
-        const response = await axiosInstance.post("/auth/signin", {
+        const response:any = await axiosInstance.post("/auth/signin", {
           email: user?.email,
           password: `${user?.sub}D`,
         });
@@ -249,8 +249,8 @@ const RegisterAuth0 = () => {
                     </label>
                     <input
                       className="flex h-[30px] px-[15px] items-center gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
-                      placeholder={user?.given_name}
-                      value={user?.given_name}
+                      placeholder={user?.given_name+""}
+                      value={user?.given_name+""}
                       type="text"
                       id="first_name"
                       name="first_name"
@@ -263,8 +263,8 @@ const RegisterAuth0 = () => {
                     </label>
                     <input
                       className="flex h-[30px] px-[15px] items-center gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
-                      placeholder={user?.family_name}
-                      value={user?.family_name}
+                      placeholder={user?.family_name+""}
+                      value={user?.family_name+""}
                       type="text"
                       id="last_name"
                       name="last_name"
@@ -335,7 +335,7 @@ const RegisterAuth0 = () => {
                   <input
                     className="flex h-[30px] px-[15px] items-center gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
                     placeholder="mail@mail.com"
-                    value={user?.email}
+                    value={user?.email+""}
                     type="email"
                     id="email"
                     name="email"
