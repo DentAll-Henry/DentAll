@@ -75,7 +75,7 @@ export class DentistsService {
     dentistToCreate = {
       rate,
       person,
-      description
+      description,
     };
     return await this.dentistsRepository.createDentist(dentistToCreate);
   }
@@ -101,9 +101,11 @@ export class DentistsService {
   ) {
     const dentalServNamesSet = new Set(dentalServNames.map((d) => d.name));
 
-    const allDentalServices: DentalServ[] =
-      await this.dentalServService.getDentalServ(1, 150);
-    const dentalServices = allDentalServices.filter((dentalServ) =>
+    const allDentalServices = await this.dentalServService.getDentalServ(
+      1,
+      150,
+    );
+    const dentalServices = allDentalServices.services.filter((dentalServ) =>
       dentalServNamesSet.has(dentalServ.name),
     );
 
