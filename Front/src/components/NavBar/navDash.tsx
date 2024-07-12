@@ -24,10 +24,10 @@ const NavDash = () => {
 
   return (
     <div className="fixed z-50 w-[80%] bg-darkD-600 items-center">
-      <div className="border-b border-solid border-gray-300 shadow-top-white flex justify-between items-center w-full p-4 px-8">
-        <div>
+      <div className="border-b border-solid border-gray-300 shadow-top-white flex justify-end items-center w-full p-4 px-8 ">
+        {/* <div>
           <SearchBar />
-        </div>
+        </div> */}
 
         {userData?.token && (
           <div className="flex flex-row items-center ml-[45%] ">
@@ -51,7 +51,7 @@ const NavDash = () => {
             </p>
           </div>
         )}
-        <div className="transition-all  hover:scale-110">
+        {/* <div className="transition-all  hover:scale-110">
           <Link href="/patients/notifications">
             <Image
               src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201299/notificacion_zwl4hp.svg"
@@ -60,7 +60,7 @@ const NavDash = () => {
               alt="Notificaciones"
             />
           </Link>
-        </div>
+        </div> */}
       </div>
     </div>
   );

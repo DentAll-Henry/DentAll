@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { useEffect, useState } from "react";
 import NavDash from "@/components/NavBar/navDash";
 import Link from "next/link";
@@ -45,8 +45,8 @@ const RenderCitas = () => {
         const futureResponse = await axios.get(
           `${enviroment.apiUrl}/appointments/patient/${patient.data.id}?only_future=true&page=${page}`
         );
-        if (futureResponse.data.length < 10) setLoadMoreButton(false)
-        setFutureAppointments(prev => [...prev, ...futureResponse.data]);
+        if (futureResponse.data.length < 10) setLoadMoreButton(false);
+        setFutureAppointments((prev) => [...prev, ...futureResponse.data]);
 
         const pastResponse = await axios.get(
           `${enviroment.apiUrl}/appointments/patient/${patient.data.id}?only_past=true`
@@ -64,13 +64,12 @@ const RenderCitas = () => {
   }, [loggin, user]);
 
   const loadMoreAppointments = () => {
-    setPage(prevPage => prevPage + 1);
+    setPage((prevPage) => prevPage + 1);
     fetchAppointments(page + 1);
   };
 
   return (
-    <div >
-
+    <div>
       <div className="flex justify-between items-center m-8 mt-24">
         <h2 className="text-[58px] text-center text-white font-bold leading-normal">
           Mis <span className="text-[#00CE90]">citas</span>
