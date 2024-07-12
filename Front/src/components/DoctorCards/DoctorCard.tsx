@@ -1,4 +1,3 @@
-
 import Image from "next/image";
 
 interface DoctorCardProps {
@@ -16,10 +15,10 @@ const DoctorCard: React.FC<DoctorCardProps> = ({
 }) => {
   return (
     <div className="w-[280px] h-[400px] flex flex-col items-center rounded-lg shadow-lg text-center bg-[#00CE90]">
-      <div className="w-full flex flex-col items-center">
-        <Image src={imageSrc} alt={`${name} photo`} width={150} height={150} />
+      <div className="w-[210px] h-[240px] overflow-hidden">
+        <Image src={imageSrc} alt={`${name} photo`} width={200} height={200} />
       </div>
-      <div className="w-full h-[200px] flex flex-col items-center justify-center gap-4 p-4 bg-white rounded-b-lg">
+      <div className="w-full h-[240px] flex flex-col items-center justify-center gap-4 p-4 bg-white rounded-b-lg">
         <h3 className="text-xl font-bold text-black">{name}</h3>
         <p className="text-lg text-black">{specialty}</p>
         <p className="text-sm text-black">{description}</p>
