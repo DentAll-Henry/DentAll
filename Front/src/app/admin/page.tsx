@@ -1,7 +1,7 @@
-import NavDash from '@/components/NavBar/navDash'
-import React from 'react'
-import Image from 'next/image'
-import Link from 'next/link';
+import NavDash from "@/components/NavBar/navDash";
+import React from "react";
+import Image from "next/image";
+import Link from "next/link";
 function page() {
   return (
     <div className="w-[80%] h-screen bg-darkD-600 text-white ml-[20%] relative ">
@@ -80,4 +80,4 @@ function page() {
   );
 }
 
-export default page
+export default page;
