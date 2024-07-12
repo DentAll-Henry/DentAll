@@ -64,15 +64,21 @@ const Login = () => {
               "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
           },
         });
-        const decodedToken: { id: string, email: string, exp: Date, iat: Date, roles: string } = decodeJWT(token);
+        const decodedToken: {
+          id: string;
+          email: string;
+          exp: Date;
+          iat: Date;
+          roles: string;
+        } = decodeJWT(token);
         console.log(decodedToken);
-        if (decodedToken?.roles === 'patient') {
+        if (decodedToken?.roles === "patient") {
           router.push("/patients");
-        } else if (decodedToken?.roles === 'dentist') {
+        } else if (decodedToken?.roles === "dentist") {
           router.push("/professional");
-        } else if (decodedToken?.roles === 'administrative') {
+        } else if (decodedToken?.roles === "administrative") {
           router.push("/administrative");
-        } else if (decodedToken?.roles === 'admin') {
+        } else if (decodedToken?.roles === "admin") {
           router.push("/admin");
         } else {
           router.push("/");

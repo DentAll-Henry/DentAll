@@ -284,10 +284,10 @@ const CreateAppointment = () => {
               </p>
             )}
             <div className="flex w-full">
-              <div className="w-2/3 pr-4 text-center">
+              <div className="w-2/3 pr-4 text-center m-4">
                 {isLoading ? (
-                  <span className="text-gray-600">
-                    Cargando fechas disponibles
+                  <span className=" bg-red-700 text-white p-4 rounded mb-4">
+                    Cargando fechas disponibles...
                   </span>
                 ) : (
                   ""
@@ -363,7 +363,7 @@ const CreateAppointment = () => {
                   {!condirmPay && (
                     <button
                       type="submit"
-                      className="bg-green-500 text-white p-2 rounded-md w-full"
+                      className="bg-greenD-500 text-black p-2 rounded-md w-full"
                     >
                       Crear Cita
                     </button>
