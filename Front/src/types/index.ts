@@ -129,7 +129,11 @@ export interface Dentist {
   id: string;
   rate: string;
   is_active: boolean;
-  specialty: string | null;
+  specialty: {
+    description:string;
+    id: string;
+    name: string;
+  };
   person: {
     id: string;
     first_name: string;
@@ -262,3 +266,20 @@ export interface AppointmentId{
   }
 
 }
+
+export interface RegisterAuth0Props {
+  email: string;
+  password: string;
+  confirmPass: string;
+  first_name: string;
+  last_name: string;
+  birthdate: string;
+  dni: string;
+  phone: string;
+  address: string;
+  location: string;
+  nationality: string;
+  photo: string,
+  is_auth0: boolean,
+}
+

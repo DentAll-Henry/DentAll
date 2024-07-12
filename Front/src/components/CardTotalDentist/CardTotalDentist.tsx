@@ -80,19 +80,19 @@ function CardTotalDentist() {
             <p>{dentist.person.email}</p>
           </div>
           <div className='w-[14%] p-3  '>
-            <p className='bg-lime-500 rounded-sm px-1'>{dentist.rate}</p>
+            <p className='bg-blue-200 text-black rounded-sm px-1'>{dentist.specialty.name}</p>
           </div>
           <div className='w-[14%] p-3 flex flex-row gap-8'>
             <Image 
               onClick={() => openModal(dentist)}
-              src="/images/PencilSimple.svg"
+              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201305/PencilSimple_ugfifd.svg"
               width={24}
               height={24}
               alt="editar"
               className="cursor-pointer" 
             />
             <Image
-              src="/images/Trash.svg"
+              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201219/Trash_e3pep7.svg"
               width={24}
               height={24}
               alt="eliminar"

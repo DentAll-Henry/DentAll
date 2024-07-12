@@ -5,6 +5,8 @@ import { getPatientId } from '@/helpers/patients.helper';
 import { AppointmentId, PatientId, userSession } from '@/types';
 import { getAppointmentId } from '@/helpers/appointments.helper';
 import NavDash from '@/components/NavBar/navDash';
+import { format } from 'date-fns';
+import { toZonedTime } from 'date-fns-tz';
 
 const DetailsId = ({ params }: { params: { patientId: string } }) => {
   const router = useRouter();
@@ -37,6 +39,8 @@ const DetailsId = ({ params }: { params: { patientId: string } }) => {
     };
     fetchAppointment();
   }, [params.patientId]);
+
+  console.log("Appointment", appointment)
 
 
 
@@ -106,15 +110,21 @@ const DetailsId = ({ params }: { params: { patientId: string } }) => {
               <div className='w-[10%] px-2 py-2'>Pago</div>
               <div className='w-[16%] px-4 py-2'>Acciones</div>
             </div>
-            <div>
-              <div className='flex flex-row  rounded-md gap-1 bg-blue-600'>
-                <div className='w-[14%] px-4 py-2'>Fecha</div>
-                <div className='w-[9%] px-4 py-2'>Hora</div>
-                <div className='w-[20%] px-4 py-2'>Especialista </div>
-                <div className='w-[30%] px-4 py-2'>Tipo de consulta</div>
-                <div className='w-[10%] px-2 py-2 bg-[#00FB5E] rounded-md text-black font-medium text-center'>Realizado</div>
-                <div className='w-[16%] px-4 py-2  rounded-md bg-[#FF2F44] text-center'>Cancelar</div>
-              </div>
+            
+            <div className='flex flex-col gap-2'>
+                {appointment.map((i) => {
+                  return(
+                    <div key={i.id} className='flex flex-row  rounded-md gap-1 '>
+                      <div className='w-[14%] px-4 py-2'>{format(i.date_time,"dd-MM-yyyy")}</div>
+                      <div className='w-[9%] px-4 py-2'>{format(toZonedTime(i.date_time,"UTC"),"HH:mm")}</div>
+                      <div className='w-[20%] px-4 py-2'>Dr. {i.dentist_id.person.first_name} {i.dentist_id.person.last_name}</div>
+                      <div className='w-[30%] px-4 py-2'>{i.service.name}</div>
+                      <div className='w-[10%] px-2 py-2 bg-[#00FB5E] rounded-md text-black font-medium text-center'>Realizado</div>
+                      <div className='w-[16%] px-4 py-2  rounded-md bg-[#FF2F44] text-center'>Cancelar</div>
+                    </div>
+                  )
+                } )}
+              
             </div>
             
 
