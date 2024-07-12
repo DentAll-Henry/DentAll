@@ -8,24 +8,24 @@ const ProfessionalLayout = ({ children }: { children: React.ReactNode }) => {
       alt: "Home",
       text: "Inicio",
     },
-    {
-      href: "/professional",
-      src: "https://res.cloudinary.com/ddpohfyur/image/upload/v1720201242/citas_bpks2p.svg",
-      alt: "Pacientes",
-      text: "Pacientes",
-    },
-    {
-      href: "/professional",
-      src: "https://res.cloudinary.com/ddpohfyur/image/upload/v1720362622/Property_Simple_Type_circle-information_oofcv6.svg",
-      alt: "Contenido",
-      text: "Contenido",
-    },
-    {
-      href: "/professional",
-      src: "https://res.cloudinary.com/ddpohfyur/image/upload/v1720201221/user_bdisfr.svg",
-      alt: "Citas",
-      text: "Recetas médicas",
-    },
+    // {
+    //   href: "/professional",
+    //   src: "https://res.cloudinary.com/ddpohfyur/image/upload/v1720201242/citas_bpks2p.svg",
+    //   alt: "Pacientes",
+    //   text: "Pacientes",
+    // },
+    // {
+    //   href: "/professional",
+    //   src: "https://res.cloudinary.com/ddpohfyur/image/upload/v1720362622/Property_Simple_Type_circle-information_oofcv6.svg",
+    //   alt: "Contenido",
+    //   text: "Contenido",
+    // },
+    // {
+    //   href: "/professional",
+    //   src: "https://res.cloudinary.com/ddpohfyur/image/upload/v1720201221/user_bdisfr.svg",
+    //   alt: "Citas",
+    //   text: "Recetas médicas",
+    // },
     // más items...
   ];
 

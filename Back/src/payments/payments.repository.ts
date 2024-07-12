@@ -71,6 +71,7 @@ export class PaymentsRepository {
       const response = await preference.create({ body });
       return { preferenceId: response.id };
     } catch (error) {
+      console.log(error)
       if (error instanceof BadRequestException) {
         throw error;
       }

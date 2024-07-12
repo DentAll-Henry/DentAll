@@ -69,7 +69,7 @@ function CardTotalDentist() {
               height={24}
               alt="foto de perfil"
             />
-            <Link href={`/admin/dentist/${dentist.id}`}>
+            <Link href={`/admin/dentists/${dentist.id}`}>
               <p>Dr.{dentist.person.first_name} {dentist.person.last_name}</p>
             </Link>
           </div>
