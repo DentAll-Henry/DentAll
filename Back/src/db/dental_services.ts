@@ -2,6 +2,12 @@ import { DentalServDto } from 'src/dentalServ/dtos/dentalServ.dto';
 
 export const dentalServicesDB = [
   {
+    name: 'Ortodoncia',
+    description:
+      'Proceso de ortodoncia.',
+    price: 120.0,
+    specialty: 'Ortodoncista',
+  },{
     name: 'Examen dental',
     description:
       'Revisión completa de la salud bucal y detección de problemas dentales.',
