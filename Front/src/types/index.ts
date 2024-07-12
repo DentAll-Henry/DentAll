@@ -129,7 +129,11 @@ export interface Dentist {
   id: string;
   rate: string;
   is_active: boolean;
-  specialty: string | null;
+  specialty: {
+    description:string;
+    id: string;
+    name: string;
+  };
   person: {
     id: string;
     first_name: string;
