@@ -1,6 +1,11 @@
+import OdontVist from "@/components/Odontograma/OdontVist"
+
 const page = () => {
-  return <div></div>
+  return (
+    <div>
+      <OdontVist />
+    </div>
+  )
 }
 
 export default page
-
