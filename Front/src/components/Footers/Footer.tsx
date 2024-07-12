@@ -41,7 +41,7 @@ const Footer = () => {
           <Link className="hover:text-greenD-500" href="/about">
             <p>Sobre Nosotros</p>
           </Link>
-          <Link className="hover:text-greenD-500" href="#">
+          <Link className="hover:text-greenD-500" href="/services">
             <p>Nuestros Servicios</p>
           </Link>
         </div>

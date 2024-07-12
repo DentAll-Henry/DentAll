@@ -2,7 +2,7 @@
 
 /* Estilos generales del DatePicker */
 .react-datepicker {
-  background-color: #38a169; /* Cambia el fondo del calendario a verde */
+  background-color: #007776; /* Cambia el fondo del calendario a verde */
   width: 99%;
   font-size: 1.2rem;
   
@@ -10,14 +10,19 @@
 
 /* Estilos del encabezado del DatePicker */
 .react-datepicker__header {
-  background-color: #38a169; /* Cambia el fondo del encabezado del calendario a verde */
+  background-color: #007776; /* Cambia el fondo del encabezado del calendario a verde */
   display: flex;
   flex-direction: column;
 }
 
 /* Estilos de los días del DatePicker */
 .react-datepicker__day {
-  text-align: center; /* Centra el texto de los días */
+   /* Centra el texto de los días */
+  margin-left: 1.5em;
+  
+}
+.react-datepicker__day-name {
+   /* Centra el texto de los días */
   margin-left: 1.5em;
   
 }
@@ -25,25 +30,25 @@
 /* Estilos del día seleccionado en el DatePicker */
 .react-datepicker__day--selected,
 .react-datepicker__day--keyboard-selected {
-  background-color: #2f855a; /* Cambia el fondo del día seleccionado a un verde más oscuro */
+  background-color: #b60707; /* Cambia el fondo del día seleccionado a un verde más oscuro */
 }
 
 /* Estilos del contenedor de tiempo en el DatePicker */
 .react-datepicker__time-container .react-datepicker__time {
-  background-color: #38a169; /* Cambia el fondo del contenedor de tiempo a verde */
+  background-color: #007776; /* Cambia el fondo del contenedor de tiempo a verde */
 }
 
 /* Estilos de la caja de tiempo en el DatePicker */
 .react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box {
-  background-color: #38a169; /* Cambia el fondo de la caja de tiempo a verde */
+  background-color: #007776; /* Cambia el fondo de la caja de tiempo a verde */
 }
 
 /* Estilos de la lista de tiempos en el DatePicker */
 .react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list {
-  background-color: #38a169; /* Cambia el fondo de la lista de tiempos a verde */
+  background-color: #007776; /* Cambia el fondo de la lista de tiempos a verde */
 }
 
 /* Estilos de la hora seleccionada en la lista de tiempos del DatePicker */
 .react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list li.react-datepicker__time-list-item--selected {
-  background-color: #2f855a; /* Cambia el fondo de la hora seleccionada a un verde más oscuro */
+  background-color: #007776; /* Cambia el fondo de la hora seleccionada a un verde más oscuro */
 }
