@@ -1,9 +1,11 @@
-import OdontVist from "@/components/Odontograma/OdontVist";
+import FAQChatBot from "@/components/ChatBot/chatbot";
+
+
 
 const page = () => {
   return (
     <div>
-      <OdontVist />
+      <FAQChatBot />
     </div>
   );
 };
