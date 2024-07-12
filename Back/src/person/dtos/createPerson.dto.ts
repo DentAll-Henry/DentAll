@@ -5,6 +5,7 @@ import {
   IsEmail,
   IsNumberString,
   IsOptional,
+  IsString,
   IsStrongPassword,
   Length,
 } from 'class-validator';
@@ -111,6 +112,14 @@ export class CreatePersonDto {
     example: false,
   })
   is_auth0?: boolean;
+
+  @IsString()
+  @IsOptional()
+  @ApiProperty({
+    description: 'Image URL',
+    example: false,
+  })
+  photo?: string;
 
   @IsStrongPassword(
     {

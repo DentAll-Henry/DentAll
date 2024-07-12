@@ -8,7 +8,9 @@ import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 import PasswordInput from "../PasswordImput";
-import { decodeJWT } from "../../helpers/decodeJwt";
+import { decodeJWT } from '../../helpers/decodeJwt'
+import { useUser } from "@auth0/nextjs-auth0/client";
+import Link from "next/link";
 
 const Login = () => {
   const router = useRouter();
@@ -16,6 +18,7 @@ const Login = () => {
     email: "",
     password: "",
   });
+  const { user, error, isLoading } = useUser();
 
   const [errorUser, setErrorUser] = useState<LoginErrorProps>({
     email: "",
@@ -160,15 +163,19 @@ const Login = () => {
           </div>
           <div className="w-full max-w-[80%] text-[#00CE90] mt-8 flex flex-col items-center space-y-4">
             <p>O inicia sesión con:</p>
-            <div className="flex space-x-4">
-              <div className="w-[44px] h-[44px] flex-shrink-0 relative">
-                <Image
-                  src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201332/RS1_d4mepj.svg"
-                  alt="Google"
-                  layout="fill"
-                />
-              </div>
-            </div>
+            {(!user) ?
+              (<div className="flex space-x-4">
+                <div className="w-[44px] h-[44px] flex-shrink-0 relative">
+                  <a href="/api/auth/login">
+                    <Image
+                      src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201332/RS1_d4mepj.svg"
+                      alt="Google"
+                      layout="fill"
+                    />
+                  </a>
+                </div>
+              </div>) : (<div>Hello {user.name}, <Link href="/api/auth/logout">Logout</Link></div>)
+            }
           </div>
           <div className="w-full max-w-[80%] text-[#00CE90] mt-8 flex flex-row items-center justify-center gap-4">
             <p>No tienes cuenta?</p>
