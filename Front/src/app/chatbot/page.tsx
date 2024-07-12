@@ -1,4 +1,4 @@
-import FAQChatBot from "@/components/ChatBot/chatbot"
+import { FAQChatBot } from "@/components/ChatBot/FAQChatBot"
 
 const page = () => {
   return (

@@ -39,8 +39,11 @@ export class DentalServController {
     @Query('limit') limit: number = 5,
     @Res() res: Response,
   ) {
-    const services = await this.dentalServService.getDentalServ(page, limit);
-    res.status(200).json(services);
+    const { services, total } = await this.dentalServService.getDentalServ(
+      page,
+      limit,
+    );
+    res.status(200).json({ services, total });
   }
 
   @Get('/filter/')

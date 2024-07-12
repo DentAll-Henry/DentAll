@@ -2,6 +2,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import Swal from "sweetalert2";
+import { useRouter } from "next/navigation";
+import { enviroment } from "@/utils/config";
 
 interface NavItem {
   href: string;
@@ -25,8 +27,14 @@ interface SideNavProps {
 }
 
 const SideNav = ({ navItems, styles, headerText }: SideNavProps) => {
+  const router = useRouter();
   const handleLogout = () => {
     localStorage.removeItem("userSession");
+
+    const clientId = encodeURIComponent(enviroment.auth0.clientId+"");
+    const domain = encodeURIComponent(enviroment.auth0.domain+"");
+    const returnTo = encodeURIComponent(window.location.origin);
+    
     Swal.fire({
       title: "¡Excelente!",
       text: "Sesión cerrada correctamente.",
@@ -34,9 +42,14 @@ const SideNav = ({ navItems, styles, headerText }: SideNavProps) => {
       confirmButtonText: "Aceptar",
       customClass: {
         confirmButton:
-          "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded",
+        "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded",
       },
     });
+    // router.push("/api/auth/logout");
+    const url = `https://${domain}/v2/logout?client_id=${clientId}&returnTo=${returnTo}/api/auth/logout`
+    console.log(url)
+
+    router.push(url)
   };
 
   return (
@@ -82,7 +95,10 @@ const SideNav = ({ navItems, styles, headerText }: SideNavProps) => {
           <li
             className={`py-2 px-4 m-4 rounded-xl ${styles.navItem} ${styles.navItemHover} group`}
           >
-            <Link className="flex gap-4" href="/">
+              <button
+                onClick={handleLogout}
+                className={`${styles.navItemText} ${styles.navItemTextHover} flex gap-4`}
+              >
               <Image
                 className="group-hover:fill-current text-white"
                 src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720362437/Property_Power_bmot88.svg"
@@ -90,13 +106,8 @@ const SideNav = ({ navItems, styles, headerText }: SideNavProps) => {
                 height={24}
                 alt="Cerrar sesión"
               />
-              <button
-                onClick={handleLogout}
-                className={`${styles.navItemText} ${styles.navItemTextHover}`}
-              >
                 Cerrar sesión
               </button>
-            </Link>
           </li>
         </ul>
       </nav>
