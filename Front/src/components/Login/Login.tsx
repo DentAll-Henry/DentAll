@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 import PasswordInput from "../PasswordImput";
-import { decodeJWT } from '../../helpers/decodeJwt'
+import { decodeJWT } from "../../helpers/decodeJwt";
 
 const Login = () => {
   const router = useRouter();
@@ -61,15 +61,21 @@ const Login = () => {
               "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
           },
         });
-        const decodedToken: {id: string, email: string, exp: Date, iat: Date, roles: string} = decodeJWT(token);
+        const decodedToken: {
+          id: string;
+          email: string;
+          exp: Date;
+          iat: Date;
+          roles: string;
+        } = decodeJWT(token);
         console.log(decodedToken);
-        if(decodedToken?.roles === 'patient') {
+        if (decodedToken?.roles === "patient") {
           router.push("/patients");
-        } else if (decodedToken?.roles === 'dentist') {
+        } else if (decodedToken?.roles === "dentist") {
           router.push("/professional");
-        } else if (decodedToken?.roles === 'administrative') {
+        } else if (decodedToken?.roles === "administrative") {
           router.push("/administrative");
-        } else if (decodedToken?.roles === 'admin') {
+        } else if (decodedToken?.roles === "admin") {
           router.push("/admin");
         } else {
           router.push("/");
@@ -157,22 +163,8 @@ const Login = () => {
             <div className="flex space-x-4">
               <div className="w-[44px] h-[44px] flex-shrink-0 relative">
                 <Image
-                  src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201337/RS3_m7rfqd.svg"
-                  alt="Linkedin"
-                  layout="fill"
-                />
-              </div>
-              <div className="w-[44px] h-[44px] flex-shrink-0 relative">
-                <Image
                   src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201332/RS1_d4mepj.svg"
                   alt="Google"
-                  layout="fill"
-                />
-              </div>
-              <div className="w-[44px] h-[44px] flex-shrink-0 relative">
-                <Image
-                  src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201336/RS2_vh4fsg.svg"
-                  alt="Facebook"
                   layout="fill"
                 />
               </div>
