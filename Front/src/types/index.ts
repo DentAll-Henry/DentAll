@@ -189,6 +189,38 @@ export interface PatientId{
 
 }
 
+export interface DentistId{
+  id:string;
+  rate:string;
+  is_active: boolean;
+  description:string;
+  specialty: string | null;
+  person:{
+    id:string;
+    first_name:string;
+    last_name:string;
+    birthdate:Date;
+    dni:string;
+    phone:string;
+    email:string;
+    address:string;
+    location:string;
+    nationality:string;
+    is_auth0: boolean;
+    photo:string;
+    deleteDate:null
+  };
+  appointments:{
+    id:string;
+    date_time:string;
+    description: string;
+    expiration_date:string | null; 
+  } [] 
+}
+
+
+
+
 
 export interface AppointmentId{
   id:string;
