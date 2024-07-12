@@ -14,18 +14,24 @@
 //     }
 // })
 
-import { handleAuth, handleCallback } from '@auth0/nextjs-auth0';
-import { redirect } from 'next/navigation';
-
+import { handleAuth, handleLogin } from '@auth0/nextjs-auth0';
+/* 
 const afterCallback = (req, session, state) => {
-  if (!session.user) {
+  console.log("req", req)
+  console.log("session", session)
+  console.log("state", state)
+
+  if (session.user) {
+    headers.set('location', '/admin');
     return session;
   } else {
     console.log(session)
     redirect('/register-auth0');
   }
-};
+}; */
 
 export const GET = handleAuth({
-  callback: handleCallback({ afterCallback })
+  login: handleLogin({
+    returnTo: 'http://localhost:3001/register-auth0',
+  })
 });
