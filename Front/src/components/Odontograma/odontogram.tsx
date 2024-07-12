@@ -1,47 +1,48 @@
-import { useState } from "react";
-import Denture from "./denture";
+import { useState } from "react"
+import Denture from "./denture"
 
-function Odontogram(props) {
+function Odontogram(props: any) {
   return (
     <div id="root" className="odontogram-graph" style={{ padding: "2rem" }}>
       <Denture
         top_1
-        tooth={(labelT, zoneT, idT) => {
-          props.tooth(labelT, zoneT, idT);
+        tooth={(labelT: any, zoneT: any, idT: any) => {
+          props.tooth(labelT, zoneT, idT)
         }}
-        Rtooth={(id) => {
-          props.rtooth(id);
+        Rtooth={(id: any) => {
+          props.rtooth(id)
         }}
       />
       <Denture
         top_2
         tooth={(labelT, zoneT, idT) => {
-          props.tooth(labelT, zoneT, idT);
+          props.tooth(labelT, zoneT, idT)
         }}
         Rtooth={(id) => {
-          props.rtooth(id);
+          props.rtooth(id)
         }}
       />
       <Denture
         bottom_1
         tooth={(labelT, zoneT, idT) => {
-          props.tooth(labelT, zoneT, idT);
+          props.tooth(labelT, zoneT, idT)
         }}
         Rtooth={(id) => {
-          props.rtooth(id);
+          props.rtooth(id)
         }}
       />
       <Denture
         bottom_2
         tooth={(labelT, zoneT, idT) => {
-          props.tooth(labelT, zoneT, idT);
+          props.tooth(labelT, zoneT, idT)
         }}
         Rtooth={(id) => {
-          props.rtooth(id);
+          props.rtooth(id)
         }}
       />
     </div>
-  );
+  )
 }
 
-export default Odontogram;
+export default Odontogram
+

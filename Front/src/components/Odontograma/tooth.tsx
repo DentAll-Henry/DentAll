@@ -1,17 +1,17 @@
-import { useState } from "react";
+import { useState } from "react"
 
-function Tooth(props) {
-  const [top, setTop] = useState(props.top);
-  const [left, setLeft] = useState(props.left);
-  const [bottom, setBottom] = useState(props.bottom);
-  const [right, setRight] = useState(props.right);
-  const [center, setCenter] = useState(props.center);
+function Tooth(props: any) {
+  const [top, setTop] = useState(props.top)
+  const [left, setLeft] = useState(props.left)
+  const [bottom, setBottom] = useState(props.bottom)
+  const [right, setRight] = useState(props.right)
+  const [center, setCenter] = useState(props.center)
 
-  const [topClicked, setTopClicked] = useState(false);
-  const [leftClicked, setLeftClicked] = useState(false);
-  const [bottomClicked, setBottomClicked] = useState(false);
-  const [rightClicked, setRightClicked] = useState(false);
-  const [centerClicked, setCenterClicked] = useState(false);
+  const [topClicked, setTopClicked] = useState(false)
+  const [leftClicked, setLeftClicked] = useState(false)
+  const [bottomClicked, setBottomClicked] = useState(false)
+  const [rightClicked, setRightClicked] = useState(false)
+  const [centerClicked, setCenterClicked] = useState(false)
 
   const [colorClick, setColorClick] = useState("#ff6961")
 
@@ -32,11 +32,11 @@ function Tooth(props) {
           }}
           onClick={() => {
             if (!topClicked) {
-              setTopClicked(true);
-              props.vestibularC();
+              setTopClicked(true)
+              props.vestibularC()
             } else {
-              setTopClicked(false);
-              props.vestibularU();
+              setTopClicked(false)
+              props.vestibularU()
             }
           }}
         ></div>
@@ -55,11 +55,11 @@ function Tooth(props) {
           }}
           onClick={() => {
             if (!leftClicked) {
-              setLeftClicked(true);
-              props.distialC();
+              setLeftClicked(true)
+              props.distialC()
             } else {
-              setLeftClicked(false);
-              props.distialU();
+              setLeftClicked(false)
+              props.distialU()
             }
           }}
         ></div>
@@ -78,11 +78,11 @@ function Tooth(props) {
           }}
           onClick={() => {
             if (!bottomClicked) {
-              setBottomClicked(true);
-              props.palastinaC();
+              setBottomClicked(true)
+              props.palastinaC()
             } else {
-              setBottomClicked(false);
-              props.palastinaU();
+              setBottomClicked(false)
+              props.palastinaU()
             }
           }}
         ></div>
@@ -101,11 +101,11 @@ function Tooth(props) {
           }}
           onClick={() => {
             if (!rightClicked) {
-              setRightClicked(true);
-              props.mastialC();
+              setRightClicked(true)
+              props.mastialC()
             } else {
-              setRightClicked(false);
-              props.mastialU();
+              setRightClicked(false)
+              props.mastialU()
             }
           }}
         ></div>
@@ -124,11 +124,11 @@ function Tooth(props) {
           }}
           onClick={() => {
             if (!centerClicked) {
-              setCenterClicked(true);
-              props.oclusalC();
+              setCenterClicked(true)
+              props.oclusalC()
             } else {
-              setCenterClicked(false);
-              props.oclusalU();
+              setCenterClicked(false)
+              props.oclusalU()
             }
           }}
         ></div>
@@ -136,7 +136,8 @@ function Tooth(props) {
         <p>Selecciona un prop (top, left, bottom, right, center)</p>
       )}
     </>
-  );
+  )
 }
 
-export default Tooth;
+export default Tooth
+
