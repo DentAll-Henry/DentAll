@@ -6,13 +6,14 @@ const page = () => {
   return (
     <div className="w-[80%] text-white ml-[20%] relative">
       <NavDash />
+
       <div className="ml-12 text-xl mt-[10%]">
         <h2 className="font-bold">Selecciona un servicio</h2>
       </div>
 
       <div className="flex absolute">
         <div className="grid grid-cols-3 gap-14 w-[80%] m-8 p-4">
-          <Link href="/administrative/patients">
+          <Link href="/administrative/appointments">
             <div className="flex-col bg-[#3772FF40] gap-1 w-[200px] h-[150px] rounded-md border flex justify-center items-center hover:scale-105 transition-transform duration-300">
               <Image
                 className="group-hover:fill-current text-white"
@@ -22,6 +23,18 @@ const page = () => {
                 alt="Agendar citas"
               />
               <p>Agendar citas</p>
+            </div>
+          </Link>
+          <Link href="/professional/patients">
+            <div className="flex-col bg-black w-[200px] h-[150px] rounded-md border flex justify-center items-center hover:scale-105 transition-transform duration-300">
+              <Image
+                className="group-hover:fill-current text-white"
+                src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201242/citas_bpks2p.svg"
+                width={70}
+                height={70}
+                alt="Pacientes"
+              />
+              <p>Pacientes</p>
             </div>
           </Link>
           {/* <Link href="/patients/payments">
@@ -36,7 +49,7 @@ const page = () => {
               <p>Pagos</p>
             </div>
           </Link> */}
-          <Link href="/patients/recommendations">
+          {/* <Link href="/patients/recommendations">
             <div className="flex-col bg-[#DF291540] w-[200px] h-[150px] rounded-md border flex justify-center items-center hover:scale-105 transition-transform duration-300">
               <Image
                 className="group-hover:fill-current text-white"
@@ -47,7 +60,7 @@ const page = () => {
               />
               <p>Agregar recomendaciones</p>
             </div>
-          </Link>
+          </Link> */}
           {/* <Link href="/dashboard_1/citas">
             <div className="flex-col bg-[#FDC84040] w-[200px] h-[150px] rounded-md border flex justify-center items-center hover:scale-105 transition-transform duration-300">
               <Image

@@ -8,18 +8,18 @@ const PatientsLayout = ({ children }: { children: React.ReactNode }) => {
       alt: "Home",
       text: "Inicio",
     },
-    {
-      href: "/patients/appointments",
-      src: "https://res.cloudinary.com/ddpohfyur/image/upload/v1720201245/citas1_fhc7so.svg",
-      alt: "Citas",
-      text: "Mis citas",
-    },
-    {
-      href: "#",
-      src: "https://res.cloudinary.com/ddpohfyur/image/upload/v1720201326/recetass_si2se4.svg",
-      alt: "Recetas médicas",
-      text: "Recetas médicas",
-    },
+    // {
+    //   href: "/patients/appointments",
+    //   src: "https://res.cloudinary.com/ddpohfyur/image/upload/v1720201245/citas1_fhc7so.svg",
+    //   alt: "Citas",
+    //   text: "Mis citas",
+    // },
+    // {
+    //   href: "#",
+    //   src: "https://res.cloudinary.com/ddpohfyur/image/upload/v1720201326/recetass_si2se4.svg",
+    //   alt: "Recetas médicas",
+    //   text: "Recetas médicas",
+    // },
     // más items...
   ];
 

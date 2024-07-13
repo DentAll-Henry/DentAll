@@ -62,11 +62,19 @@ export interface NewServiceErrorProps {
   img?: string;
 }
 
-export type Appointment = {
+export interface Appointment {
   id: string;
   date_time: string;
   description: string;
   patient: string;
+  pagado: string;
+  dentist_id: {
+    id: string;
+    person: {
+      first_name: string;
+      last_name: string;
+    };
+  };
   service: {
     description: string;
     id: string;
@@ -76,6 +84,7 @@ export type Appointment = {
     price: string;
   };
 };
+
 
 export interface Service {
   id: string;
