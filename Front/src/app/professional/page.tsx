@@ -24,7 +24,7 @@ const page = () => {
             <p>Mi agenda</p>
           </div>
         </Link>
-        <Link href="/professional/patientsL">
+        <Link href="/professional/patients">
           <div className="flex-col bg-black w-[200px] h-[150px] rounded-md border flex justify-center items-center hover:scale-105 transition-transform duration-300">
             <Image
               className="group-hover:fill-current text-white"
@@ -36,7 +36,7 @@ const page = () => {
             <p>Pacientes</p>
           </div>
         </Link>
-        <Link href="/dashboard_3/recomendaciones_a_pacientes">
+        <Link href="#">
           <div className="flex-col bg-red-900 w-[200px] h-[150px] rounded-md border flex justify-center text-center items-center hover:scale-105 transition-transform duration-300">
             <Image
               className="group-hover:fill-current text-white"
@@ -48,7 +48,7 @@ const page = () => {
             <p>Recomendaciones a pacientes</p>
           </div>
         </Link>
-        <Link href="/dashboard_3/recetas_medicas">
+        {/* <Link href="#">
           <div className="flex-col bg-amber-800 w-[200px] h-[150px] rounded-md border flex justify-center items-center hover:scale-105 transition-transform duration-300">
             <Image
               className="group-hover:fill-current text-white"
@@ -59,7 +59,7 @@ const page = () => {
             />
             <p>Recetas Médicas</p>
           </div>
-        </Link>
+        </Link> */}
       </div>
     </div>
   );

@@ -8,6 +8,15 @@ import axiosInstance from "@/utils/axiosInstance";
 import { decodeJWT } from "@/helpers/decodeJwt";
 import Swal from "sweetalert2";
 
+// type errorMessage = {
+//   response:{
+//     data:{
+//       message:string;
+//     }
+//   }
+// }
+
+
 const Account = () => {
   const router = useRouter();
   const pathname = usePathname();
@@ -87,7 +96,7 @@ const Account = () => {
               "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
           },
         });
-      } catch (error) {
+      } catch (error:any) {
         Swal.fire({
           title: "Error",
           text: error?.response.data.message,

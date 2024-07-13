@@ -111,7 +111,7 @@ const SideNav = ({ navItems, styles, headerText }: SideNavProps) => {
           </li>
         </ul>
       </nav>
-      <div className="flex items-end justify-end mt-[90%] mr-4">
+      {/* <div className="flex items-end justify-end mt-[90%] mr-4">
         <Image
           className="group-hover:fill-current text-white"
           src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720203858/robot_dki1y5.webp"
@@ -119,7 +119,7 @@ const SideNav = ({ navItems, styles, headerText }: SideNavProps) => {
           height={50}
           alt="Chat bot"
         />
-      </div>
+      </div> */}
     </div>
   );
 };
