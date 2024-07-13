@@ -2,6 +2,7 @@ import NavDash from "@/components/NavBar/navDash";
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import BarChart from "@/components/BarChart/BarChart";
 function page() {
   return (
     <div className="w-[80%] h-screen bg-darkD-600 text-white ml-[20%] relative ">
@@ -10,8 +11,11 @@ function page() {
         <h3>Superadmin: Manu Ochoa</h3>
       </div>
       <div className="m-4 flex flex-col gap-4">
-        <p>Resumen Estadístico</p>
-        <div className=" grid grid-cols-3 gap-3">
+        {/* <p>Resumen Estadístico</p> */}
+        
+          
+
+          <div className=" grid grid-cols-3 gap-3">
           <div className="flex flex-row  ">
             <div className="flex justify-center bg-[#F69ACC] p-4 w-[20%] rounded-tl-[10px] rounded-tr-0 rounded-br-0 rounded-bl-[10px]">
               <Image
@@ -62,7 +66,7 @@ function page() {
               <p className="text-sm">10 pacientes</p>
             </div>
           </div>
-          <Link href="/admin/services">
+          {/* <Link href="/admin/services">
             <div className="flex-col bg-[#DF291540] w-[200px] h-[150px] rounded-md border flex justify-center items-center hover:scale-105 transition-transform duration-300 mt-4">
               <Image
                 className="group-hover:fill-current text-white"
@@ -73,8 +77,15 @@ function page() {
               />
               <p>Editar servicios</p>
             </div>
-          </Link>
+          </Link> */}
+
+          
+
         </div>
+        <div className=" flex justify-center m-6">
+                <BarChart/>
+          </div>
+
       </div>
     </div>
   );
