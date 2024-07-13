@@ -12,6 +12,9 @@ import "./DatePickerStyles.css" // Importa los estilos personalizados
 import { handlePayment } from "@/helpers/handlePayment"
 import { initMercadoPago, Wallet } from "@mercadopago/sdk-react"
 import Timer from "../Timer/Timer"
+import BlockUi from '@availity/block-ui';
+import '@availity/block-ui/src/BlockUi.css';
+import '@availity/block-ui/src/Loader.css';
 
 type User = {
   id: string
@@ -96,7 +99,7 @@ const CreateAppointment = () => {
       setDentists(dentistResponse.data)
     } catch (error) {
       console.error("Error fetching dentist data:", error)
-    }
+    } isLoading
   }
 
   const handleDentistChange = async (
@@ -252,6 +255,7 @@ const CreateAppointment = () => {
     initMercadoPago(enviroment.mercadopagoPublicKey, {
       locale: "en-US",
     })
+
   }, [])
 
   const handleClick = async () => {
@@ -267,121 +271,128 @@ const CreateAppointment = () => {
   }
 
   return (
+
     <div className="flex ">
       <NavDash />
       <div className="flex-1 mt-[5%]">
+
         <div className="w-full h-screen flex justify-center items-center bg-darkD-600 text-white">
-          <form
-            onSubmit={handleSubmit}
-            className="border bg-darkD-500 p-8 rounded-md flex flex-wrap w-full max-w-4xl"
-          >
-            <h3 className="text-white font-bold mb-4 w-full text-center">
-              Crear Nueva Cita
-            </h3>
-            {errorMessage && (
-              <p className="text-red-500 mb-4 w-full text-center">
-                {errorMessage}
-              </p>
-            )}
-            <div className="flex w-full">
-              <div className="w-2/3 pr-4 text-center m-4">
-                {isLoading ? (
-                  <span className=" bg-red-700 text-white p-4 rounded mb-4">
-                    Cargando fechas disponibles...
-                  </span>
-                ) : (
-                  ""
-                )}
-                <div className="mt-2 bg-darkD-400 shadow-md rounded-lg">
-                  <DatePicker
-                    minDate={new Date()}
-                    onChange={(date) => handleCalendarSelectedDate(date)}
-                    onMonthChange={handleCalendarMonthChange}
-                    selected={calendarDate}
-                    onSelect={(date) => handleCalendarSelectDate(date)}
-                    includeDates={availableDates}
-                    showTimeSelect
-                    timeFormat="HH:mm"
-                    includeTimes={availableTimes}
-                    showMonthDropdown
-                    placeholderText="Selecciona una fecha"
-                    inline
-                    className="react-datepicker" // Agrega esta clase para aplicar los estilos
-                  />
+          <BlockUi blocking={isLoading} message="Cargando fechas disponibles...">
+            <form
+              onSubmit={handleSubmit}
+              className="border bg-darkD-500 p-8 rounded-md flex flex-wrap w-full max-w-4xl"
+            >
+              <h3 className="text-white font-bold mb-4 w-full text-center">
+                Crear Nueva Cita
+              </h3>
+              {errorMessage && (
+                <p className="text-red-500 mb-4 w-full text-center">
+                  {errorMessage}
+                </p>
+              )}
+
+              <div className="flex w-full">
+                <div className="w-2/3 pr-4 text-center m-4">
+                  {/* {isLoading ? (
+                    <span className=" bg-red-700 text-white p-4 rounded mb-4">
+                      Cargando fechas disponibles...
+                    </span>
+                  ) : (
+                    ""
+                  )} */}
+                  <div className="mt-2 bg-darkD-400 shadow-md rounded-lg">
+                    <DatePicker
+                      minDate={new Date()}
+                      onChange={(date) => handleCalendarSelectedDate(date)}
+                      onMonthChange={handleCalendarMonthChange}
+                      selected={calendarDate}
+                      onSelect={(date) => handleCalendarSelectDate(date)}
+                      includeDates={availableDates}
+                      showTimeSelect
+                      timeFormat="HH:mm"
+                      includeTimes={availableTimes}
+                      showMonthDropdown
+                      placeholderText="Selecciona una fecha"
+                      inline
+                      className="react-datepicker" // Agrega esta clase para aplicar los estilos
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="w-1/3 pl-4">
-                <div className="mb-4">
-                  <label className="text-white">Tipo de Consulta</label>
-                  <select
-                    name="service"
-                    value={consultationType}
-                    onChange={handleServiceChange}
-                    className="w-full p-2 rounded-md text-black"
-                  >
-                    <option value="" disabled hidden>
-                      Selecciona una opción
-                    </option>
-                    <option value="Consulta de valoración">
-                      Consulta de valoración
-                    </option>
-                    {pending.map((p) => (
-                      <option key={p.service.id} value={p.service.name}>
-                        {p.service.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className="mb-4">
-                  <label className="text-white">Dentista</label>
-                  <select
-                    name="dentist_id"
-                    value={dentist}
-                    onChange={handleDentistChange}
-                    className="w-full p-2 rounded-md text-black"
-                  >
-                    <option value="" disabled>
-                      Selecciona un profesional
-                    </option>
-                    {dentists.map((p) => (
-                      <option key={p.id} value={p.id}>
-                        {p.person.first_name} {p.person.last_name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className="mb-4">
-                  <label className="text-white">Observaciones</label>
-                  <textarea
-                    value={observaciones}
-                    onChange={handleObservacionesChange}
-                    className="w-full p-2 rounded-md text-black"
-                    placeholder="Detalles que quiera compartir con el dentista..."
-                  ></textarea>
-                </div>
-                <div className="w-full">
-                  {!condirmPay && (
-                    <button
-                      type="submit"
-                      className="bg-greenD-500 text-black p-2 rounded-md w-full"
+                <div className="w-1/3 pl-4">
+                  <div className="mb-4">
+                    <label className="text-white">Tipo de Consulta</label>
+                    <select
+                      name="service"
+                      value={consultationType}
+                      onChange={handleServiceChange}
+                      className="w-full p-2 rounded-md text-black"
                     >
-                      Crear Cita
-                    </button>
+                      <option value="" disabled hidden>
+                        Selecciona una opción
+                      </option>
+                      <option value="Consulta de valoración">
+                        Consulta de valoración
+                      </option>
+                      {pending.map((p) => (
+                        <option key={p.service.id} value={p.service.name}>
+                          {p.service.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="mb-4">
+                    <label className="text-white">Dentista</label>
+                    <select
+                      name="dentist_id"
+                      value={dentist}
+                      onChange={handleDentistChange}
+                      className="w-full p-2 rounded-md text-black"
+                    >
+                      <option value="" disabled>
+                        Selecciona un profesional
+                      </option>
+                      {dentists.map((p) => (
+                        <option key={p.id} value={p.id}>
+                          {p.person.first_name} {p.person.last_name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="mb-4">
+                    <label className="text-white">Observaciones</label>
+                    <textarea
+                      value={observaciones}
+                      onChange={handleObservacionesChange}
+                      className="w-full p-2 rounded-md text-black"
+                      placeholder="Detalles que quiera compartir con el dentista..."
+                    ></textarea>
+                  </div>
+                  <div className="w-full">
+                    {!condirmPay && (
+                      <button
+                        type="submit"
+                        className="bg-greenD-500 text-black p-2 rounded-md w-full"
+                      >
+                        Crear Cita
+                      </button>
+                    )}
+                  </div>
+                  {condirmPay && (
+                    <div>
+                      <p>Por favor, realiza el pago para confirmar la cita</p>
+                      <Timer />
+                    </div>
                   )}
                 </div>
-                {condirmPay && (
-                  <div>
-                    <p>Por favor, realiza el pago para confirmar la cita</p>
-                    <Timer />
-                  </div>
-                )}
               </div>
-            </div>
-          </form>
+
+            </form>
+          </BlockUi>
           {preferenceId && (
             <Wallet initialization={{ preferenceId: preferenceId }} />
           )}
         </div>
+
       </div>
     </div>
   )
