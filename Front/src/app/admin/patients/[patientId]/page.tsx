@@ -2,18 +2,23 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { getPatientId } from '@/helpers/patients.helper';
-import { AppointmentId, PatientId, userSession } from '@/types';
+import { AppointmentId, PatientId, PaymentId, userSession } from '@/types';
 import { getAppointmentId } from '@/helpers/appointments.helper';
 import NavDash from '@/components/NavBar/navDash';
 import { format } from 'date-fns';
 import { toZonedTime } from 'date-fns-tz';
+import { getPaymentId } from '@/helpers/payment.helper';
+import Image from 'next/image';
 
 const DetailsId = ({ params }: { params: { patientId: string } }) => {
   const router = useRouter();
-  const [patient, setPatient] = useState<PatientId>();
   const [userData, setUserData] = useState<userSession>();
+  const [patient, setPatient] = useState<PatientId>();
   const [appointment, setAppointment] = useState<AppointmentId[]>([]);
+  const [payment, setPayment] = useState<PaymentId[]>([])
 
+
+  //INFORMACION DEL PACIENTE
   useEffect(() => {
     if (typeof window !== 'undefined' && window.localStorage) {
       const userData = localStorage.getItem('userSession');
@@ -27,6 +32,8 @@ const DetailsId = ({ params }: { params: { patientId: string } }) => {
     fetchData();
   }, [params.patientId]);
 
+
+ //  INFORMACION DE LAS CITAS 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.localStorage) {
       const userData = localStorage.getItem('userSession');
@@ -42,12 +49,29 @@ const DetailsId = ({ params }: { params: { patientId: string } }) => {
 
   console.log("Appointment", appointment)
 
+  //  INFORMACION DE LOS PAGOS
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const userData = localStorage.getItem('userSession');
+      setUserData(JSON.parse(userData!));
+    }
+
+    const fetchPayment = async () => {
+      const payment = await getPaymentId(params.patientId);
+      setPayment(payment);
+    };
+    fetchPayment();
+  }, [params.patientId]);
+
+  console.log("PAYMENT", payment)
+
 
 
   return (
     <div className="w-[80%] h-screen bg-darkD-600 text-white ml-[20%] relative">
       <NavDash />
       <div className="m-8 p-4 mt-24">
+        {/* CONTENEDOR DEL INFORMACION DEL PACIENTE */}
         <div className="flex flex-col bg-darkD-500 gap-5 p-10 rounded-xl">
           <div className="flex flex-row justify-between pr-30">
             <div className="flex flex-row items-center gap-8">
@@ -77,6 +101,7 @@ const DetailsId = ({ params }: { params: { patientId: string } }) => {
           </div>
         </div>
 
+        {/* CONTENEDOR DE SERVICIOS */}
         <div className='grid grid-cols-4 p-1 gap-4 my-5'>
             <div className='flex flex-row gap-1 pl-14 pr-4 py-1 bg-[#D5D84A21] justify-between items-center  rounded-xl'>
               <p className='text-base'>Receta médica</p>
@@ -98,6 +123,8 @@ const DetailsId = ({ params }: { params: { patientId: string } }) => {
               <img src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720713871/PillYellow_bp6ew7.svg" alt="icono capsula" />
             </div>
         </div>
+
+        {/* CONTENEDOR DE CITAS*/}
 
         <div className='flex flex-col gap-4'>
           <h3>Citas Pendientes</h3>
@@ -131,6 +158,39 @@ const DetailsId = ({ params }: { params: { patientId: string } }) => {
           </div>
           
         </div>
+
+        {/* CONTENEDOR DE PAGOS */}
+        <div className='flex flex-col my-4 gap-4 '>
+          <h3>Pagos Realizados</h3>
+          <div>
+            {payment.map((i)=>{
+              return (
+                
+                  <div key={i.id} className="">
+                    <div className="flex-col bg-greenD-500 bg-opacity-5 w-[200px] h-[150px] rounded-md  flex justify-center items-center hover:scale-105 transition-transform duration-300 gap-2">
+                      <p className="text-[#60D66A]">{i.dentalServ.name}</p>
+                      <p className="text-[#60D66A]">${i.dentalServ.price}</p>
+                      
+                      <Image
+                        className="group-hover:fill-current text-white"
+                        src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201228/Vector_b9qqdm.svg"
+                        width={35}
+                        height={35}
+                        alt="Pagos"
+                      />
+                      <p className="text-[#60D66A] text-sm">{ format(i.appointment.date_time,"dd/MM/yyyy")}</p>
+                    </div>
+          </div>
+                
+              )
+            })}
+
+              
+          </div>
+
+        </div>
+        
+        
 
       </div>
     </div>
