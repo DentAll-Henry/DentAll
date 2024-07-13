@@ -1,12 +1,19 @@
-import { FAQChatBot } from "@/components/ChatBot/FAQChatBot"
+import dynamic from "next/dynamic";
 
-const page = () => {
+const DynamicFAQChatBot = dynamic(
+  () => import("@/components/ChatBot/FAQChatBot"),
+  {
+    ssr: false, // Evita el renderizado del lado del servidor
+  }
+);
+
+const HomePage = () => {
   return (
     <div>
-      <FAQChatBot />
+      {/* Otros componentes */}
+      <DynamicFAQChatBot />
     </div>
-  )
-}
+  );
+};
 
-export default page
-
+export default HomePage;

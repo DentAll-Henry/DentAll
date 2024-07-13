@@ -1,4 +1,5 @@
-"use client";
+'use client'
+import React, { useEffect } from "react";
 import { Webchat, WebchatProvider, useClient } from "@botpress/webchat";
 import { buildTheme } from "@botpress/webchat-generator";
 
@@ -12,8 +13,16 @@ const { style, theme } = buildTheme({
   themeColor: "#00CE90",
 });
 
-export const FAQChatBot = () => {
+const FAQChatBot: React.FC = () => {
   const client = useClient({ clientId });
+
+  useEffect(() => {
+    // Verificar si estamos en el navegador antes de interactuar con el DOM
+    if (typeof document !== "undefined") {
+      // Acciones que dependen de `document` aquí
+      // Por ejemplo, manipulación del DOM, eventos, etc.
+    }
+  }, []); // El array vacío [] asegura que el efecto se ejecute solo una vez después del montaje
 
   return (
     <WebchatProvider
@@ -31,3 +40,5 @@ export const FAQChatBot = () => {
     </WebchatProvider>
   );
 };
+
+export default FAQChatBot;
