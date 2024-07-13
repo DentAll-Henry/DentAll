@@ -1,19 +1,28 @@
-"use client";
-import { Webchat, WebchatProvider, useClient } from "@botpress/webchat";
-import { buildTheme } from "@botpress/webchat-generator";
+"use client"
+import { useEffect, useState } from "react"
+import { Webchat, WebchatProvider, useClient } from "@botpress/webchat"
+import { buildTheme } from "@botpress/webchat-generator"
+import "./style.css"
+import { enviroment } from "@/utils/config"
 
-import "./style.css";
-import { enviroment } from "@/utils/config";
-
-const clientId = enviroment.botpressClient;
+const clientId = enviroment.botpressClient
 
 const { style, theme } = buildTheme({
   themeName: "dusk",
   themeColor: "#00CE90",
-});
+})
 
 export const FAQChatBot = () => {
-  const client = useClient({ clientId });
+  const [isClient, setIsClient] = useState(false)
+  const client = useClient({ clientId })
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+
+  if (!isClient) {
+    return null // Retorna null si no está en el cliente
+  }
 
   return (
     <WebchatProvider
@@ -29,5 +38,6 @@ export const FAQChatBot = () => {
       <style>{style}</style>
       <Webchat />
     </WebchatProvider>
-  );
-};
+  )
+}
+
