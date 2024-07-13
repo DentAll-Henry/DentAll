@@ -291,4 +291,25 @@ export interface RegisterAuth0Props {
   photo: string,
   is_auth0: boolean,
 }
+export interface PaymentId{
+  id:string;
+  date:Date;
+  payment_id:number;
+  payment_status:string;
+  dentalServ: {
+    id: string;
+    name: string;
+    price: string;
+    description: string;
+    img: string | null;
+    isActive: boolean;
+  }
+  appointment: {
+    id:string;
+    date_time: string;
+    description: string;
+    expiration_date: string | null;
+  }
+
+}
 
