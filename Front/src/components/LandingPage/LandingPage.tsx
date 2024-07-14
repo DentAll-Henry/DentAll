@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import axiosInstance from "@/utils/axiosInstance";
 import Gradiente from "../Gradiente/Gradiente";
 import GradienteAzul from "../GradienteAzul/GradienteAzul";
+import Circular from "../Circular/Circular";
 
 type Dentist = {
   name: string;
@@ -55,16 +56,16 @@ const LandingPage = () => {
               <h2>CON NOSOTROS </h2>
             </div>
             <Image
-              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720194390/dental1_tfvhzh.webp"
+              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720979746/dentall4_tcldwh.svg"
               alt="dental custum"
               width={600}
-              height={600}
+              height={400}
             />
           </div>
         </div>
 
         <div className=" w-1/2  ">
-          <div className=" w-[80%] flex flex-col justify-between  gap-[60px] pt-6">
+          <div className=" w-[85%] flex flex-col justify-between  gap-[72px] pt-6">
             <div className="flex flex-col gap-[31px]">
               <p className="text-white">
                 Confía en nosotros para cuidar tu sonrisa. Asegura la salud y
@@ -72,25 +73,39 @@ const LandingPage = () => {
                 odontología. Nuestros servicios ofrecen respuestas rápidas y
                 atención personalizada.
               </p>
-              <button className="w-[35%] text-[16px] text-[#00CE90] font-semibold border border-[#00CE90] rounded-[1px] p-3">
-                Agendar cita{" "}
-              </button>
+              <div className="flex flex-row gap-5">
+                <div className="w-[31%] text-[16px] bg-white text-center text-black font-semibold border border-black rounded-[5px] p-3">
+                Sonrisa {" "}
+              </div>
+              
+              <div className="w-[31%] text-[16px] bg-white text-center text-black font-semibold border border-black rounded-[5px] p-3">
+                Perfecta {" "}
+              </div>
+              <div className="w-[5%] text-[16px] text-white font-bold rounded-[5px] p-3">
+                = {" "}
+              </div>
+              <div className="w-[31%] text-[16px] bg-[#00CE90] text-black text-center font-bold border border-black rounded-[5px] p-3">
+                DentAll{" "}
+              </div>
+              </div>
+              
             </div>
             <Image
-              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720194370/dental2_ndrajq.webp"
+              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720978937/dentall3_lfqjgq.svg"
               alt="dental custum"
-              width={600}
-              height={600}
+              width={700}
+              height={700}
             />
           </div>
         </div>
         <div className="absolute top-[22px] right-[127px]">
-          <GradienteAzul />
+          <Circular />
         </div>
         
       </section>
 
-      <section className="flex flex-row bg-[#1D1D1D]">
+      <section className=" flex flex-row bg-[#1D1D1D]">
+        
         <div className="w-full flex justify-center items-center h-[200px]">
           <h2 className="text-white font-bold text-[48px] leading-tight whitespace-nowrap">
             NUESTRO EQUIPO DE{" "}
@@ -99,7 +114,10 @@ const LandingPage = () => {
         </div>
       </section>
 
-      <section className="bg-[#1D1D1D] py-8">
+      <section className=" relative bg-[#1D1D1D] py-8">
+      <div className=" absolute top-[40px] left-[152px]">
+          <Circular />
+        </div>
         <div className="container mx-auto flex flex-wrap justify-center gap-4">
           {
             best4Dentist?.map((d) => {
@@ -113,7 +131,9 @@ const LandingPage = () => {
           }
         
         </div>
-        
+        <div className="absolute top-[22px] right-[277px]">
+          <Circular/>
+        </div>
       </section>
 
       <section className="flex flex-col bg-[#1D1D1D] p-10 gap-5">
@@ -122,7 +142,7 @@ const LandingPage = () => {
         </h2>
         <div className="flex flex-row gap-12 ">
           <div className="bg-[#00CE90] flex flex-col gap-3 p-9 rounded-lg">
-            <h3 className="text-[34px] font-semibold">Blanqueamiento dental</h3>
+            <h3 className="text-[34px] font-semibold">Carillas dentales</h3>
             <p className="text-[16px] font-semibold">
               {" "}
               Devuelve el brillo a tu sonrisa. Nuestro blanqueamiento dental
@@ -173,7 +193,8 @@ const LandingPage = () => {
         </div>
       </section>
 
-      <section>
+      <section className="relative">
+
         <h2 className="text-[58px] text-center  text-white font-bold leading-normal">
           <span className="text-[#00CE90]">UBICANOS </span> EN EL MAPA
         </h2>
@@ -182,12 +203,13 @@ const LandingPage = () => {
             <MapComponent />
           </div>
         </div>
+        <div className="absolute top-[194px] right-[277px]">
+          <Circular/>
+        </div>
       </section>
 
-      <section className="relative flex flex-col gap-5 p-20 text-center bg-[#1D1D1D]">
-          <div className=" absolute top-0 left-0">
-              <GradienteAzul />
-            </div>
+      <section className=" flex flex-col gap-5 p-20 text-center bg-[#1D1D1D]">
+          
         <h2 className="text-[58px] text-center  text-white font-bold leading-normal">
           NUESTROS <span className="text-[#00CE90]">CLIENTES</span> NOS
           RECOMIENDAN
