@@ -30,7 +30,7 @@ const PatientsLayout = ({ children }: { children: React.ReactNode }) => {
     navItemHover: "hover:bg-zinc-600",
     navItemText: "",
     navItemTextHover: "group-hover:text-greenD-500",
-    headerText: "text-red-500 text-start ml-8",
+    headerText: "text-black  bg-greenD-500",
   };
 
   return (
