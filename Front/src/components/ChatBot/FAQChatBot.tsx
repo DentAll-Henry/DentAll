@@ -30,6 +30,8 @@ const FAQChatBot: React.FC = () => {
 
   return (
     <div className="relative">
+      <div className="flex">
+        <div className="flex items-end">¿Necesitas ayuda?</div>
       <Image
         className="group-hover:fill-current text-white cursor-pointer hover:scale-110"
         src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720812990/Dientin_niogsu.png"
@@ -37,7 +39,8 @@ const FAQChatBot: React.FC = () => {
         height={50}
         alt="Chat bot"
         onClick={toggleChat}
-      />
+        />
+      </div>
       {isChatOpen && (
         <div
           style={{

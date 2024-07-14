@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 import { updateRegisterForm } from "@/helpers/formValidation";
-import axiosInstance, { setAuthToken } from '@/utils/axiosInstance'
+import axiosInstance, { setAuthToken } from "@/utils/axiosInstance";
 
 type User = {
   id: string;
@@ -13,7 +13,7 @@ type User = {
   birthdate: string;
   dni: string;
   phone: string;
-  email:string;
+  email: string;
   address: string;
   location: string;
   nationality: string;
@@ -22,30 +22,33 @@ type User = {
 
 type DataUser = {
   phone: string;
-  email:string;
+  email: string;
   address: string;
   location: string;
   password: string;
   confirmPass: string;
+  nationality: string;
 };
 
 type ErrorDataUser = {
   phone?: string;
-  email?:string;
+  email?: string;
   address?: string;
   location?: string;
   password?: string;
   confirmPass?: string;
+  nationality?: string;
 };
 
 const EditProfile = () => {
   const router = useRouter();
-  
+
   const [user, setUser] = useState<User>();
   const [dataUser, setDataUser] = useState<DataUser>({
     phone: "",
     email: "",
     address: "",
+    nationality: "",
     location: "",
     password: "",
     confirmPass: "",
@@ -53,6 +56,7 @@ const EditProfile = () => {
   const [errorUser, setErrorUser] = useState<ErrorDataUser>({
     phone: "",
     email: "",
+    nationality: "",
     address: "",
     location: "",
     password: "",
@@ -70,9 +74,10 @@ const EditProfile = () => {
         email: parsedUser.userData.email,
         address: parsedUser.userData.address,
         location: parsedUser.userData.location,
+        nationality: parsedUser.userData.location,
         password: "",
         confirmPass: "",
-      })
+      });
       setAuthToken(parsedUser.token);
     } else {
       router.push("/login");
@@ -99,25 +104,28 @@ const EditProfile = () => {
 
     if (Object.keys(errors).length === 0) {
       try {
-          const response = await axiosInstance.patch('/auth/updateperson',{
-            id: user?.id,
-            ...dataUser
-          });
-          localStorage.setItem(
-            "userSession",
-            JSON.stringify({ token: response.data.token , userData: response.data.userData })
-          );
-          Swal.fire({
-            title: "¡Excelente!",
-            text: "Información actualizada.",
-            icon: "success",
-            confirmButtonText: "Aceptar",
-            customClass: {
-              confirmButton:
-                "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
-            },
-          });
-          router.push("/patients/appointments");
+        const response = await axiosInstance.patch("/auth/updateperson", {
+          id: user?.id,
+          ...dataUser,
+        });
+        localStorage.setItem(
+          "userSession",
+          JSON.stringify({
+            token: response.data.token,
+            userData: response.data.userData,
+          })
+        );
+        Swal.fire({
+          title: "¡Excelente!",
+          text: "Información actualizada.",
+          icon: "success",
+          confirmButtonText: "Aceptar",
+          customClass: {
+            confirmButton:
+              "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
+          },
+        });
+        router.push("/patients/appointments");
       } catch (error: any) {
         Swal.fire({
           title: "Error",
@@ -130,8 +138,8 @@ const EditProfile = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-darkD-500 m-8 p-4">
-      <div className="flex flex-col w-full h-full justify-center items-center overflow-auto">
+    <div className="flex justify-center items-center h-screen bg-darkD-500 m-8 p-4 mt-12">
+      <div className="flex flex-col w-full h-full justify-center items-center ">
         <div className="text-white p-8 w-full max-w-3xl">
           <h2 className="text-xl mb-8 text-center">Información personal</h2>
           <form
@@ -168,30 +176,13 @@ const EditProfile = () => {
                 onChange={handleChange}
               />
             </div>
-            <div className="w-full">
-              <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
-                TELÉFONO
-              </label>
-              <input
-                className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#FFF] w-full text-black"
-                placeholder={user?.phone}
-                value={dataUser.phone}
-                type="text"
-                id="phone"
-                name="phone"
-                required
-                onChange={handleChange}
-              />
-              {errorUser.phone && (
-                <p className="text-red-500">{errorUser.phone}</p>
-              )}
-            </div>
+
             <div className="w-full">
               <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
                 NACIONALIDAD
               </label>
               <input
-                className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full text-black"
+                className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full "
                 placeholder={user?.nationality}
                 type="text"
                 id="nationality"
@@ -201,13 +192,6 @@ const EditProfile = () => {
                 onChange={handleChange}
               />
             </div>
-          </form>
-
-          <h2 className="text-xl mb-8 text-center">Información Requerida</h2>
-          <form
-            onSubmit={handleSubmit}
-            className="grid grid-cols-1 md:grid-cols-2 gap-6"
-          >
             <div className="w-full">
               <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
                 FECHA DE NACIMIENTO
@@ -246,6 +230,32 @@ const EditProfile = () => {
                 onChange={handleChange}
               />
             </div>
+          </form>
+
+          <h2 className="text-xl mb-8 text-center">Información Requerida</h2>
+          <form
+            onSubmit={handleSubmit}
+            className="grid grid-cols-1 md:grid-cols-2 gap-6"
+          >
+            <div className="w-full">
+              <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
+                TELÉFONO
+              </label>
+              <input
+                className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#FFF] w-full text-black"
+                placeholder={user?.phone}
+                value={dataUser.phone}
+                type="text"
+                id="phone"
+                name="phone"
+                required
+                onChange={handleChange}
+              />
+              {errorUser.phone && (
+                <p className="text-red-500">{errorUser.phone}</p>
+              )}
+            </div>
+
             <div className="w-full">
               <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
                 CORREO ELECTRÓNICO
@@ -341,7 +351,7 @@ const EditProfile = () => {
                 type="submit"
                 className="flex w-[340px] h-[38px] px-[25px] py-[11px] justify-center items-center gap-[10px] rounded-[1px] bg-[#00CE90]"
               >
-                <span className="text-[#030423] font-maven-pro text-[16px] font-semibold leading-normal">
+                <span className="text-black font-maven-pro text-[16px] font-semibold leading-normal">
                   Guardar información
                 </span>
               </button>
