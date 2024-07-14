@@ -1,7 +1,7 @@
 /* components/Circular.module.css */
 .circular {
-    width: 641px;
-    height: 304px;
+    width: 200px;
+    height: 200px;
     flex-shrink: 0;
     border-radius: 641px;
     background: radial-gradient(

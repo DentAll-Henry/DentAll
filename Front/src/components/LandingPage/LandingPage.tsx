@@ -5,6 +5,8 @@ import DoctorCard from "../DoctorCards/DoctorCard";
 import MapComponent from "@/components/Maps/maps";
 import { useEffect, useState } from "react";
 import axiosInstance from "@/utils/axiosInstance";
+import Gradiente from "../Gradiente/Gradiente";
+import GradienteAzul from "../GradienteAzul/GradienteAzul";
 
 type Dentist = {
   name: string;
@@ -40,10 +42,13 @@ const LandingPage = () => {
 
   return (
     <div>
-      <section className="flex flex-row bg-[#1D1D1D] ">
+      <section className="relative flex flex-row bg-[#1D1D1D] mt-8">
+        <div className=" absolute top-[106px] left-[-212px]">
+          <Gradiente />
+        </div>
         
         <div className="w-1/2 flex flex-col items-center">
-          <div className="flex flex-col p-7 gap-[50px]">
+          <div className="flex flex-col gap-[50px]">
             <div className=" text-white flex flex-col gap-0 text-[58px] font-bold leading-normal ">
               <h2>ILUMINA </h2>
               <h2 className="text-[#00CE90]">TU SONRISA</h2>
@@ -52,14 +57,14 @@ const LandingPage = () => {
             <Image
               src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720194390/dental1_tfvhzh.webp"
               alt="dental custum"
-              width={500}
-              height={500}
+              width={600}
+              height={600}
             />
           </div>
         </div>
 
-        <div className="w-1/2 pt-10">
-          <div className=" w-[80%] flex flex-col p-4 gap-[40px]">
+        <div className=" w-1/2  ">
+          <div className=" w-[80%] flex flex-col justify-between  gap-[60px] pt-6">
             <div className="flex flex-col gap-[31px]">
               <p className="text-white">
                 Confía en nosotros para cuidar tu sonrisa. Asegura la salud y
@@ -74,10 +79,13 @@ const LandingPage = () => {
             <Image
               src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720194370/dental2_ndrajq.webp"
               alt="dental custum"
-              width={700}
-              height={700}
+              width={600}
+              height={600}
             />
           </div>
+        </div>
+        <div className="absolute top-[22px] right-[127px]">
+          <GradienteAzul />
         </div>
         
       </section>
@@ -105,6 +113,7 @@ const LandingPage = () => {
           }
         
         </div>
+        
       </section>
 
       <section className="flex flex-col bg-[#1D1D1D] p-10 gap-5">
@@ -175,7 +184,10 @@ const LandingPage = () => {
         </div>
       </section>
 
-      <section className="flex flex-col gap-5 p-20 text-center bg-[#1D1D1D]">
+      <section className="relative flex flex-col gap-5 p-20 text-center bg-[#1D1D1D]">
+          <div className=" absolute top-0 left-0">
+              <GradienteAzul />
+            </div>
         <h2 className="text-[58px] text-center  text-white font-bold leading-normal">
           NUESTROS <span className="text-[#00CE90]">CLIENTES</span> NOS
           RECOMIENDAN
