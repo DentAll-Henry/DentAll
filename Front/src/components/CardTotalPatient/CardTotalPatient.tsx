@@ -89,12 +89,12 @@ function CardTotalPatient() {
         <div className="w-full flex flex-row gap-5" key={patient.person.id}>
           <div className="w-[31%] p-3 flex flex-row gap-4">
             <Image
-              src="/images/profile.png"
+              src={patient.person.photo}
               width={24}
               height={24}
               alt="foto de perfil"
             />
-            <Link href={`/admin/patients/${patient.id}`}>
+            <Link href={`/admin/users/patients/${patient.id}`}>
               <p>
                 {patient.person.first_name} {patient.person.last_name}
               </p>
