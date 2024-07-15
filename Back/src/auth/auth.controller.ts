@@ -14,6 +14,7 @@ import { RolesGuard } from 'src/role/guards/roles.guard';
 import { DRoles } from 'src/decorators/roles.decorator';
 import { Roles } from 'src/role/enums/roles.enum';
 import { AuthGuard } from './guards/auth.guard';
+import { CreateDentistPersonDto } from 'src/person/dtos/createDentistPerson.dto';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -45,6 +46,39 @@ export class AuthController {
   @ApiBadRequestResponse({ status: 400, description: 'Invalid credentials.' })
   signIn(@Body() signInInfo: SignInDto) {
     return this.authService.signIn(signInInfo);
+  }
+
+  @Post('createdentist')
+  @ApiOperation({ summary: 'Create a dentist.' })
+  @ApiResponse({
+    status: 201,
+    description: 'Create a dentist.',
+  })
+  @ApiBadRequestResponse({
+    status: 400,
+    description: 'Bad request.',
+  })
+  async createDentist(@Body() userInfo: CreateDentistPersonDto) {
+    const { password, specialtyName, description, ...personInfo } = userInfo;
+    const authInfo = { email: userInfo.email, password };
+    const dentistInfo = { specialtyName, description };
+    return this.authService.createDentist(personInfo, authInfo, dentistInfo);
+  }
+
+  @Post('createpatient')
+  @ApiOperation({ summary: 'Create a patient.' })
+  @ApiResponse({
+    status: 201,
+    description: 'Create a person with role.',
+  })
+  @ApiBadRequestResponse({
+    status: 400,
+    description: 'Bad request.',
+  })
+  async createPatient(@Body() userInfo: CreatePersonDto) {
+    const { password,...personInfo } = userInfo;
+    const authInfo = { email: userInfo.email, password };
+    return this.authService.signUp(personInfo, authInfo);
   }
 
   @Post('changerole')
