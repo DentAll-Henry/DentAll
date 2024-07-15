@@ -26,6 +26,7 @@ const AboutPage = () => {
             interactúan con su cuidado dental.
           </p>
         </div>
+        
       </div>
 
       <div className=" flex flex-col  gap-8 w-[90%] m-auto ">
