@@ -32,13 +32,13 @@ const FAQChatBot: React.FC = () => {
     <div className="relative">
       <div className="flex">
         <div className="flex items-end">¿Necesitas ayuda?</div>
-      <Image
-        className="group-hover:fill-current text-white cursor-pointer hover:scale-110"
-        src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720812990/Dientin_niogsu.png"
-        width={50}
-        height={50}
-        alt="Chat bot"
-        onClick={toggleChat}
+        <Image
+          className="group-hover:fill-current text-white cursor-pointer hover:scale-110"
+          src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720812990/Dientin_niogsu.png"
+          width={50}
+          height={50}
+          alt="Chat bot"
+          onClick={toggleChat}
         />
       </div>
       {isChatOpen && (
