@@ -155,7 +155,7 @@ export class MockAutoLoadService {
               description,
               specialtyName,
             });
-            await this.personService.delRole(p.id, { roleName: Roles.PATIENT })
+            // await this.personService.delRole(p.id, { roleName: Roles.PATIENT })
             await this.personService.updatePerson(p.id, { photo })
             console.log(`<${p.first_name} ${p.last_name}> saved as dentist`);
           }
