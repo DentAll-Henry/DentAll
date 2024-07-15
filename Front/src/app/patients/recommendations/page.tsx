@@ -5,8 +5,10 @@ const page: React.FC = () => {
   return (
     <div className="w-[80%] h-screen  text-white ml-[20%]">
       <NavDash />
-      <h2 className="text-[58px] text-center mt-[10%] text-[#00CE90] font-bold leading-normal">Recomendaciones</h2>
-      <div className="w-[80%] bg- m-auto bg-darkD-500">
+      <h2 className="text-[58px] text-center mt-[10%] text-[#00CE90] font-bold leading-normal">
+        Recomendaciones
+      </h2>
+      <div className="w-[50%]  rounded bg-darkD-500">
         <div className="p-8">
           <VideoPlayer
             src="https://res.cloudinary.com/ddpohfyur/video/upload/v1720191340/-c598-455d-af3c-ae7342691c4b_lntmww.mp4"
@@ -17,7 +19,10 @@ const page: React.FC = () => {
             muted
           />
         </div>
-        <h2>Como cepillarse los dientes</h2>
+
+        <div className="text-center text-xl font-bold p-4">
+          Como cepillarse los dientes
+        </div>
       </div>
       <div className="grid grid-cols-3 gap-4 p-8">
         <div className="bg-darkD-500 p-4">

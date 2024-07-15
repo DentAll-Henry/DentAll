@@ -21,7 +21,7 @@ const Footer = () => {
           <h1 className="text-2xl font-semibold">CONTACTO</h1>
           <Link
             className="hover:text-greenD-500"
-            href="dentallabgotvv@gmail.com"
+            href="mailto:correo@example.com?subject=Consulta&body=Hola,%20me%20gustaría%20obtener%20más%20información%20sobre%20sus%20servicios."
           >
             <p>dentallabgotvv@gmail.com</p>
           </Link>

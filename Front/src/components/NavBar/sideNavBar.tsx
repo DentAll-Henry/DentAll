@@ -37,29 +37,30 @@ const DynamicFAQChatBot = dynamic(
 const SideNav = ({ navItems, styles, headerText }: SideNavProps) => {
   const router = useRouter();
 
-  const handleLogout = () => {
-    localStorage.removeItem("userSession");
+const handleLogout = () => {
+  localStorage.removeItem("userSession");
 
-    const clientId = encodeURIComponent(enviroment.auth0.clientId + "");
-    const domain = encodeURIComponent(enviroment.auth0.domain + "");
-    const returnTo = encodeURIComponent(window.location.origin);
+  const clientId = encodeURIComponent(enviroment.auth0.clientId + "");
+  const domain = encodeURIComponent(enviroment.auth0.domain + "");
+  const returnTo = encodeURIComponent(window.location.origin);
 
-    Swal.fire({
-      title: "¡Excelente!",
-      text: "Sesión cerrada correctamente.",
-      icon: "success",
-      confirmButtonText: "Aceptar",
-      customClass: {
-        confirmButton:
-          "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded",
-      },
-    });
-
-    const url = `https://${domain}/v2/logout?client_id=${clientId}&returnTo=${returnTo}/api/auth/logout`;
-    console.log(url);
-
-    router.push(url);
-  };
+  Swal.fire({
+    title: "¡Excelente!",
+    text: "Sesión cerrada correctamente.",
+    icon: "success",
+    confirmButtonText: "Aceptar",
+    customClass: {
+      confirmButton:
+        "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded",
+    },
+  }).then((result) => {
+    if (result.isConfirmed) {
+      const url = `https://${domain}/v2/logout?client_id=${clientId}&returnTo=${returnTo}/api/auth/logout`;
+      console.log(url);
+      router.push(url);
+    }
+  });
+};
 
   return (
     <div className={`h-screen w-[20%] ${styles.container} text-white fixed`}>
