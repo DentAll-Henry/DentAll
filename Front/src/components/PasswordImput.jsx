@@ -22,7 +22,7 @@ const PasswordInput = ({ value, onChange, id, name, required }) => {
         id={id}
         name={name}
         required={required}
-        className="flex h-[38px] px-[15px] py-[11px] items-center gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
+        className="flex h-[38px] px-[15px] py-[11px] items-center gap-[10px] self-stretch border border-gray-300 rounded-[5px] bg-[#BBB] w-full"
         placeholder="********"
       />
       <button

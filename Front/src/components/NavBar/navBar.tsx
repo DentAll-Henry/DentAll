@@ -16,7 +16,7 @@ const Navbar = () => {
             priority
           />
         </div>
-        <div className="flex flex-wrap w-[578px] items-start gap-x-[61px] ">
+        <div className="flex flex-wrap w-[578px] items-center justify-center gap-x-[61px] ">
           <a
             href="/"
             className="text-white font-maven-pro text-[16px] font-semibold leading-normal transition-all  hover:scale-110"
@@ -29,12 +29,12 @@ const Navbar = () => {
           >
             NOSOTROS
           </a>
-          <a
+          {/* <a
             href="#"
             className="text-white font-maven-pro text-[16px] font-semibold leading-normal transition-all  hover:scale-110"
           >
             TRATAMIENTOS
-          </a>
+          </a> */}
           <a
             href="/services"
             className="text-white font-maven-pro text-[16px] font-semibold leading-normal transition-all  hover:scale-110"

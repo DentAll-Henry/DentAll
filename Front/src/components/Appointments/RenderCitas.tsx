@@ -77,7 +77,7 @@ const RenderCitas = () => {
       </div>
       <div className="flex justify-end">
         <Link href="/patients/create-appointment">
-          <p className="bg-gray-500 p-1 mr-8 rounded-md cursor-pointer">
+          <p className="bg-gray-400 px-4 py-2 mr-8 rounded-md cursor-pointer">
             + Agregar cita
           </p>
         </Link>

@@ -8,7 +8,7 @@ const page = () => {
     <div className="w-[80%] h-screen text-white ml-[20%] relative">
       <NavDash />
       <div className="ml-12 text-xl mt-[15%]">
-        <h2 className="font-bold">Selecciona un servicio</h2>
+        <h2 className="font-semibold">Selecciona un servicio</h2>
       </div>
 
       <div className="flex  absolute">

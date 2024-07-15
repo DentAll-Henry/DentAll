@@ -101,7 +101,7 @@ const Login = () => {
         <a href="/" className="absolute top-4 left-4 text-[#00CE90]">
           Volver
         </a>
-        <div className="w-[35%] flex flex-col items-center bg-darkD-500 text-white p-8">
+        <div className="w-[35%] flex flex-col items-center justify-center bg-darkD-500 text-white p-12">
           <div className="flex flex-col items-start justify-start mb-8">
             <h2 className="text-[#ECEDF6] text-[34px] font-semibold leading-normal mb-4">
               Bienvenido a DentAll
@@ -115,7 +115,7 @@ const Login = () => {
                   EMAIL
                 </label>
                 <input
-                  className="flex h-[38px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
+                  className="flex h-[38px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[5px] bg-[#BBB] w-full"
                   placeholder="mail@mail.com"
                   value={dataUser.email}
                   type="text"
@@ -149,10 +149,10 @@ const Login = () => {
                   Olvidé mi contraseña
                 </a>
               </div>
-              <div className="w-full max-w-[80%] mt-4 flex justify-center">
+              <div className="w-full  mt-4 flex justify-center">
                 <button
                   type="submit"
-                  className="flex w-[340px] h-[38px] px-[25px] py-[11px] justify-center items-center gap-[10px] rounded-[1px] bg-[#00CE90]"
+                  className="flex w-[340px] h-[38px] px-[25px] py-[11px] justify-center items-center gap-[10px] rounded-[5px] bg-[#00CE90]"
                 >
                   <span className="text-[#030423] font-maven-pro text-[16px] font-semibold leading-normal">
                     Iniciar Sesión
@@ -162,7 +162,7 @@ const Login = () => {
             </form>
           </div>
           <div className="w-full max-w-[80%] text-[#00CE90] mt-8 flex flex-col items-center space-y-4">
-            <p>O inicia sesión con:</p>
+            <p className="text-white">O inicia sesión con:</p>
             {(!user) ?
               (<div className="flex space-x-4">
                 <div className="w-[44px] h-[44px] flex-shrink-0 relative">
@@ -178,11 +178,11 @@ const Login = () => {
             }
           </div>
           <div className="w-full max-w-[80%] text-[#00CE90] mt-8 flex flex-row items-center justify-center gap-4">
-            <p>No tienes cuenta?</p>
+            <p className="text-white">No tienes cuenta?</p>
             <a href="/register">Regístrate</a>
           </div>
         </div>
-        <div className="w-[65%] h-full relative">
+        <div className="w-[65%] h-full relative ">
           <Image
             className="hidden md:block"
             src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720194374/imgLogin_p0e1bb.webp"

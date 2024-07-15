@@ -81,8 +81,8 @@ const Citas: React.FC<CitasProps> = ({
 
   return (
     <div className="mx-8 mt-4 h-screen">
-      <div>
-        <h3 className="font-bold ml-8">PROXIMAS CITAS</h3>
+      <div className="flex flex-col gap-2">
+        <h3 className="font-bold ">PROXIMAS CITAS</h3>
         <div className="flex flex-row bg-darkD-500 rounded-md gap-1">
           <div className="w-[14%] px-4 py-2">Fecha</div>
           <div className="w-[9%] px-4 py-2">Hora</div>
@@ -131,8 +131,8 @@ const Citas: React.FC<CitasProps> = ({
         )}
       </div>
 
-      <div>
-        <h3 className="font-bold ml-8 mt-20">CITAS REALIZADAS</h3>
+      <div className="flex flex-col gap-2">
+        <h3 className="font-bold  mt-20">CITAS REALIZADAS</h3>
         <div className="flex flex-row bg-darkD-500 rounded-md gap-1">
           <div className="w-[14%] px-4 py-2">Fecha</div>
           <div className="w-[9%] px-4 py-2">Hora</div>
