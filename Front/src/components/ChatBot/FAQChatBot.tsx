@@ -1,8 +1,12 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Webchat, WebchatProvider, useClient } from "@botpress/webchat";
+import {
+  Webchat,
+  WebchatProvider,
+  useClient,
+  useWebchatStore,
+} from "@botpress/webchat";
 import { buildTheme } from "@botpress/webchat-generator";
-
 import "./style.css";
 import { enviroment } from "@/utils/config";
 import Image from "next/image";
@@ -24,7 +28,7 @@ const FAQChatBot: React.FC = () => {
     }
   }, []);
 
-  const toggleChat = () => {
+  const toggleChat = async () => {
     setIsChatOpen(!isChatOpen);
   };
 
@@ -47,38 +51,48 @@ const FAQChatBot: React.FC = () => {
             position: "absolute",
             bottom: "1px",
             right: "1px",
-            width: "250px",
-            height: "300px",
+            width: "22rem",
+            height: "35rem",
             boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
             borderRadius: "10px",
             overflow: "hidden",
             zIndex: 1000,
           }}
         >
-          <button
-            onClick={toggleChat}
-            style={{
-              position: "absolute",
-              top: "10px",
-              right: "10px",
-              background: "none",
-              border: "none",
-              fontSize: "1.5rem",
-              cursor: "pointer",
-              zIndex: 1001,
-            }}
-          >
-            &times;
-          </button>
           <WebchatProvider
             client={client}
-            theme={theme}
+            theme={{
+              ...theme,
+              header: {
+                ...theme.header,
+                content: {
+                  ...theme?.header?.content,
+                  actions: {
+                    ...theme?.header?.content?.actions,
+                    icons: {
+                      ...theme?.header?.content?.actions?.icons,
+                      style: {
+                        ...theme?.header?.content?.actions?.icons?.style,
+                        color: "#00CE90",
+                      },
+                    },
+                  },
+                },
+              },
+            }}
             configuration={{
               botName: "Dientín",
               botAvatar:
                 "https://res.cloudinary.com/ddpohfyur/image/upload/v1720812990/Dientin_niogsu.png",
               composerPlaceholder: "Empieza a chatear con Dientín",
+              botDescription:
+                "Soy Dientín, tu asistente personal de DentAll. Puedes preguntarme aqui lo que necesites.",
+              email: {
+                title: "Email",
+                link: "mailto:dentallabgotvv@gmail.com",
+              },
             }}
+            closeWindow={() => setIsChatOpen(!isChatOpen)}
           >
             <style>{style}</style>
             <Webchat />
