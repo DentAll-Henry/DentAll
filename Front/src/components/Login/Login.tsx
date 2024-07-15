@@ -25,75 +25,79 @@ const Login = () => {
     password: "",
   });
 
-  useEffect(() => {
-    console.log("Componente Login renderizado");
-    const userSession = localStorage.getItem("userSession");
-    if (userSession) {
-      router.push("/patients");
-    }
-  }, [router]);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setDataUser({
-      ...dataUser,
-      [event.target.name]: event.target.value,
-    });
-  };
+ useEffect(() => {
+   console.log("Componente Login renderizado");
+   const userSession = localStorage.getItem("userSession");
+   if (userSession) {
+     router.push("/patients");
+   }
+ }, [router]);
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const errors = validateLoginForm(dataUser);
-    setErrorUser(errors);
+ const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+   setDataUser({
+     ...dataUser,
+     [event.target.name]: event.target.value,
+   });
+ };
 
-    if (Object.keys(errors).length === 0) {
-      try {
-        const response = await login(dataUser);
-        const { token, userData } = response;
-        console.log(response);
-        localStorage.setItem(
-          "userSession",
-          JSON.stringify({ token: token, userData })
-        );
-        Swal.fire({
-          title: "¡Excelente!",
-          text: `${userData.first_name}, has iniciado sesión correctamente. `,
-          icon: "success",
-          confirmButtonText: "Aceptar",
-          customClass: {
-            confirmButton:
-              "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
-          },
-        });
-        const decodedToken: {
-          id: string;
-          email: string;
-          exp: Date;
-          iat: Date;
-          roles: string;
-        } = decodeJWT(token);
-        console.log(decodedToken);
-        if (decodedToken?.roles === "patient") {
-          router.push("/patients");
-        } else if (decodedToken?.roles === "dentist") {
-          router.push("/professional");
-        } else if (decodedToken?.roles === "administrative") {
-          router.push("/administrative");
-        } else if (decodedToken?.roles === "admin") {
-          router.push("/admin");
-        } else {
-          router.push("/");
-        }
-      } catch (error: any) {
-        console.log(error);
-        Swal.fire({
-          title: "Error",
-          text: "Hubo un problema al iniciar sesión. Por favor, intente de nuevo.",
-          icon: "error",
-          confirmButtonText: "Aceptar",
-        });
-      }
-    }
-  };
+ const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+   event.preventDefault();
+   const errors = validateLoginForm(dataUser);
+   setErrorUser(errors);
+
+   if (Object.keys(errors).length === 0) {
+     try {
+       const response = await login(dataUser);
+       const { token, userData } = response;
+       console.log(response);
+       localStorage.setItem(
+         "userSession",
+         JSON.stringify({ token: token, userData })
+       );
+       await Swal.fire({
+         title: "¡Excelente!",
+         text: `${userData.first_name}, has iniciado sesión correctamente.`,
+         icon: "success",
+         confirmButtonText: "Aceptar",
+         customClass: {
+           confirmButton:
+             "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
+         },
+       });
+
+       const decodedToken: {
+         id: string;
+         email: string;
+         exp: Date;
+         iat: Date;
+         roles: string;
+       } = decodeJWT(token);
+       console.log(decodedToken);
+
+       if (decodedToken?.roles === "patient") {
+         router.push("/patients");
+       } else if (decodedToken?.roles === "dentist") {
+         router.push("/professional");
+       } else if (decodedToken?.roles === "administrative") {
+         router.push("/administrative");
+       } else if (decodedToken?.roles === "admin") {
+         router.push("/admin");
+       } else {
+         router.push("/");
+       }
+     } catch (error: any) {
+       console.log(error);
+       Swal.fire({
+         title: "Error",
+         text: "Hubo un problema al iniciar sesión. Por favor, intente de nuevo.",
+         icon: "error",
+         confirmButtonText: "Aceptar",
+       });
+     }
+   }
+ };
+
 
   return (
     <div className="flex justify-center items-center h-[100vh]">
