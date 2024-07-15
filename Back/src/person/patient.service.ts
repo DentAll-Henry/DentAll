@@ -14,6 +14,10 @@ export class PatientsService {
     return await this.patientsRepository.getAllPatients(paginationDto);
   }
 
+  async patientsQuantity() {
+    return this.patientsRepository.patientsQuantity();
+  }
+
   async patientByPersonId(personId: Person['id']): Promise<Patient> {
     const patient = await this.patientsRepository.patientByPersonId(personId);
     return patient;
