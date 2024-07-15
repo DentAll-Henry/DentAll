@@ -9,6 +9,8 @@ import { Person } from '../person/entities/person.entity';
 import { ComparePass } from '../utils/comparePass';
 import { Roles } from 'src/role/enums/roles.enum';
 import { Role } from 'src/role/entities/role.entity';
+import { Dentist } from 'src/person/entities/dentist.entity';
+import { DentistsService } from 'src/person/dentist.service';
 
 @Injectable()
 export class AuthService {
@@ -17,6 +19,7 @@ export class AuthService {
     private readonly peopleService: PeopleService,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
+    private readonly dentistsService: DentistsService,
   ) {}
 
   async credentialByEmail(email: string): Promise<Auth> {
@@ -77,6 +80,42 @@ export class AuthService {
     });
 
     return { succes: 'Authorized acces', token, userData: person };
+  }
+
+  async createDentist(
+    personInfo: Partial<Person>,
+    signUpInfo: Omit<Auth, 'id'>,
+    dentistInfo: Partial<Dentist>,
+  ) {
+    const personByEmailExist: Person =
+      await this.peopleService.personByEmail(personInfo.email);
+    if (personByEmailExist)
+      throw new BadRequestException(`El email ${personInfo.email} ya existe.`);
+
+    const personByDniExist: Person =
+      await this.peopleService.personByDni(personInfo.dni);
+    if (personByDniExist) throw new BadRequestException(`El DNI ${personInfo.dni} ya existe.`);
+
+    const credential: Auth =
+      await this.credentialByEmail(signUpInfo.email);
+    if (credential) throw new BadRequestException(`El email ${personInfo.email} ya existe.`);
+
+    signUpInfo.password = 
+      await Hash(signUpInfo.password);
+
+    const newCredential: Auth = 
+      await this.authRepository.signUp(signUpInfo);
+
+    const newPerson: Person = await this.peopleService.createPerson(
+      {
+        auth: newCredential,
+        ...personInfo,
+      }
+    );
+
+    await this.dentistsService.createDentist({...dentistInfo, personId: newPerson.id})
+
+    return newPerson;
   }
 
   async changeRole(changeRoleInfo: { id_person: string, new_role: Roles}) {
