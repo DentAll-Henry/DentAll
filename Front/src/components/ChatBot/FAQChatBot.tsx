@@ -33,11 +33,14 @@ const FAQChatBot: React.FC = () => {
   };
 
   return (
-    <div className="relative">
-      <div className="flex">
-        <div className="flex items-end">¿Necesitas ayuda?</div>
+    <div>
+      {/* {isChatOpen ? ( */}
+      <div className="flex-row items-center place-content-center ml-32">
+        <div className="flex text-center place-content-center">
+          ¿Estás teniendo problemas? Haz click en Dientín para obtener ayuda.
+        </div>
         <Image
-          className="group-hover:fill-current text-white cursor-pointer hover:scale-110"
+          className="align-middle text-center place-content-center items-center ml-24 group-hover:fill-current text-white cursor-pointer hover:scale-110 "
           src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720812990/Dientin_niogsu.png"
           width={50}
           height={50}
@@ -45,6 +48,7 @@ const FAQChatBot: React.FC = () => {
           onClick={toggleChat}
         />
       </div>
+      {/* ) : ( */}
       {isChatOpen && (
         <div
           style={{
@@ -90,6 +94,10 @@ const FAQChatBot: React.FC = () => {
               email: {
                 title: "Email",
                 link: "mailto:dentallabgotvv@gmail.com",
+              },
+              phone: {
+                title: "Teléfono",
+                link: "https://wa.me/519128273890",
               },
             }}
             closeWindow={() => setIsChatOpen(!isChatOpen)}
