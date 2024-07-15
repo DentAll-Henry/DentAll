@@ -8,6 +8,9 @@ import { Guest } from './entities/guest.entity';
 import { PatientsService } from './patient.service';
 import { FilesService } from 'src/files/files.service';
 import { MailService } from 'src/mail/mail.service';
+import { Auth } from 'src/auth/entities/auth.entity';
+import { Dentist } from './entities/dentist.entity';
+import { DentistsService } from './dentist.service';
 
 @Injectable()
 export class PeopleService {
@@ -59,6 +62,14 @@ export class PeopleService {
     return person;
   }
 
+  async administrativesQuantity() {
+    return this.peopleRepository.administrativesQuantity();
+  }
+
+  async superAdminsQuantity() {
+    return this.peopleRepository.superAdminsQuantity();
+  }
+
   async peopleByRole(
     roleName: Role['name'],
     paginationDto: { page: number; limit: number },
@@ -87,9 +98,40 @@ export class PeopleService {
     personInfo.roles = [role];
 
     const newPerson: Person =
-      await this.peopleRepository.createPersonAsPatient(personInfo);
+      await this.peopleRepository.createPerson(personInfo);
 
     await this.patientsService.createPatient(newPerson);
+
+    await this.mailService.sendMail(
+
+      newPerson.email,
+      'Registro exitoso en DentAll',
+      'signup',
+      {
+        first_name: newPerson.first_name,
+        email: newPerson.email,
+      }
+    );
+
+    return newPerson;
+  }
+
+  async createPerson(
+    personInfo: Partial<Person>,
+  ) {
+    const personByEmailExist: Person =
+      await this.peopleRepository.personByEmail(personInfo.email);
+    if (personByEmailExist)
+      throw new BadRequestException('Ya existe un registro con ese email.');
+
+    const personByDniExist: Person = await this.peopleRepository.personByDni(
+      personInfo.dni,
+    );
+    if (personByDniExist)
+      throw new BadRequestException('Ya existe un registro con ese DNI.');
+
+    const newPerson: Person =
+      await this.peopleRepository.createPerson(personInfo);
 
     await this.mailService.sendMail(
 
