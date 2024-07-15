@@ -4,6 +4,7 @@ import {
   JoinColumn,
   JoinTable,
   ManyToMany,
+  ManyToOne,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -21,13 +22,13 @@ export class Dentist {
   @PrimaryGeneratedColumn('uuid')
   id: string = uuid();
 
-  @OneToOne(() => Specialty)
-  @JoinColumn({ name: 'specialty_id' })
+  @ManyToOne(() => Specialty, (specialty) => specialty.id)
   specialty?: Specialty | Specialty['id'] | Specialty['name'];
 
   @Column('decimal', {
     precision: 2,
     scale: 1,
+    nullable: true
   })
   rate?: number;
 
