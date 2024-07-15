@@ -76,6 +76,11 @@ export class Person {
     default: 'https://res.cloudinary.com/ddpohfyur/image/upload/v1719842517/profileImage_okbvqw.jpg',
   })
   photo?: string;
+  
+  @Column({
+    default: true,
+  })
+  is_active: boolean;
 
   @DeleteDateColumn({
     nullable: true,

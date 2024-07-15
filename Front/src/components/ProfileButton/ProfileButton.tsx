@@ -4,11 +4,20 @@ import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { RegisterProps } from "@/types";
+import { decodeJWT } from "@/helpers/decodeJwt";
+import axiosInstance from "@/utils/axiosInstance";
+
+type Role = {
+  eng: string,
+  esp: string,
+}
 
 export default function ProfileButton() {
   const [showPopup, setShowPopup] = useState(false);
   const [showRolesDropdown, setShowRolesDropdown] = useState(false);
-   const [userData, setUserData] = useState<RegisterProps | any>(null);
+  const [userData, setUserData] = useState<RegisterProps | any>(null);
+  const [roles, setRoles] = useState<Role[]>([])
+  const [roleAuth, setRoleAuth] = useState("")
   const router = useRouter();
     useEffect(() => {
       if (typeof window !== "undefined" && window.localStorage) {
@@ -18,6 +27,27 @@ export default function ProfileButton() {
           const parsedUserData = JSON.parse(storedUserData);
           console.log("Parsed User Data:", parsedUserData);
           setUserData(parsedUserData); // Asegúrate de actualizar el estado correctamente
+          const token = decodeJWT(parsedUserData.token)
+          setRoleAuth(token.roles)
+          const roles: Role[] = parsedUserData.userData.roles.map((r: any) => {
+            if (r.name === 'patient') return {
+              eng: 'patient',
+              esp: 'Paciente',
+            };
+            if (r.name === 'dentist') return {
+              eng: 'dentist',
+              esp: 'Dentista',
+            };
+            if (r.name === 'administrative') return {
+              eng: 'administrative',
+              esp: 'Administrativo',
+            };
+            if (r.name === 'admin') return {
+              eng: 'admin',
+              esp: 'Super admin'
+            };
+          });
+          setRoles(roles)
         }
       }
     }, [usePathname]);
@@ -32,19 +62,28 @@ export default function ProfileButton() {
     setShowRolesDropdown(!showRolesDropdown);
   };
 
-  const handleRoleSelect = (role:any) => {
+  const handleRoleSelect = async (role:any) => {
+    const response = await axiosInstance.post('/auth/changerole', {
+      id_person: userData.userData.id,
+      new_role: role,
+    })
+    setUserData({ token: response.data.token, userData: response.data.userData });
+    localStorage.setItem(
+      "userSession",
+      JSON.stringify({ token: response.data.token, userData: response.data.userData })
+    );
     switch (role) {
       case "admin":
         router.push("/admin");
         break;
-      case "professional":
+      case "dentist":
         router.push("/professional");
         break;
       case "administrative":
         router.push("/administrative");
         break;
       case "patient":
-        router.push("/patient");
+        router.push("/patients");
         break;
       default:
         break;
@@ -90,30 +129,18 @@ export default function ProfileButton() {
           </div>
           {showRolesDropdown && (
             <div className="py-1 space-y-1">
-              <button
-                onClick={() => handleRoleSelect("admin")}
-                className="rounded block px-4 py-2 text-sm text-black w-full text-left bg-greenD-500 hover:bg-greenD-400"
-              >
-                Superadmin
-              </button>
-              <button
-                onClick={() => handleRoleSelect("professional")}
-                className="rounded block px-4 py-2 text-sm text-black w-full text-left bg-greenD-500 hover:bg-greenD-400"
-              >
-                Profesional
-              </button>
-              <button
-                onClick={() => handleRoleSelect("administrative")}
-                className="rounded block px-4 py-2 text-sm text-black w-full text-left bg-greenD-500 hover:bg-greenD-400"
-              >
-                Administrativo
-              </button>
-              <button
-                onClick={() => handleRoleSelect("patient")}
-                className="rounded block px-4 py-2 text-sm text-black w-full text-left bg-greenD-500 hover:bg-greenD-400"
-              >
-                Paciente
-              </button>
+              {
+                roles.map((r: Role, index) => 
+                  <button
+                    onClick={() => handleRoleSelect(r.eng)}
+                    className={r.eng === roleAuth ? "rounded block px-4 py-2 text-sm text-gray-300 w-full text-left bg-greenD-500" : "rounded block px-4 py-2 text-sm text-black w-full text-left bg-greenD-500 hover:bg-greenD-400"}
+                    key={index}
+                    disabled={r.eng === roleAuth}
+                  >
+                    {r.esp}
+                  </button>
+                )
+              }
             </div>
           )}
         </div>

@@ -27,6 +27,19 @@ export class PatientsRepository {
 
     return await queryBuilder.getMany();
   }
+
+  async patientsQuantity() {
+    const activePatientsQuantity: number = await this.patientsRepository
+      .createQueryBuilder('patients')
+      .where('patients.is_active = :isActive', { isActive: true})
+      .getCount();
+
+    const patientsQuantity: number = await this.patientsRepository
+      .createQueryBuilder('patients')
+      .getCount();
+
+    return { total: patientsQuantity, active: activePatientsQuantity, inactive: patientsQuantity-activePatientsQuantity };
+  }
   
   async patientByPersonId(personId: Person ['id']): Promise<Patient> {
     const patient = await this.patientsRepository.findOne({

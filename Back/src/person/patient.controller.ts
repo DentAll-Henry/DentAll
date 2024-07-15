@@ -19,6 +19,14 @@ export class PatientsController {
     return this.patientsService.getAllPatients(paginationDto);
   }
 
+  @Get('quantity')
+  @ApiOperation({ summary: 'Get the patients quantity.' })
+  @ApiResponse({ status: 200, description: 'Returns the patients quantity.' })
+  @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
+  async patientsQuantity() {
+    return this.patientsService.patientsQuantity();
+  }
+
   @Get('person/:id')
   @ApiOperation({ summary: 'Get a patient by person ID.' })
   @ApiResponse({ status: 200, description: 'Returns to the patient with the specified person ID.' })

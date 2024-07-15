@@ -34,6 +34,10 @@ export class DentistsService {
     return this.dentistsRepository.dentistsByDentalServ(dentalServName);
   }
 
+  async dentistsQuantity() {
+    return this.dentistsRepository.dentistsQuantity();
+  }
+
   async dentistByPersonId(idperson: Person['id']) {
     return this.dentistsRepository.dentistByPersonId(idperson);
   }
