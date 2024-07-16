@@ -152,7 +152,20 @@ export class PeopleService {
       roleName.roleName,
     );
     const person: Person = await this.personById(personId);
-    return this.peopleRepository.addRole(person, roleToAdd);
+    const personWithRole: Person = await this.peopleRepository.addRole(person, roleToAdd);
+    
+    if (roleName.roleName === 'patient') {
+      const existPatient = await this.patientsService.patientByPersonId(personWithRole.id);
+      if (existPatient && !existPatient.is_active) {
+        await this.patientsService.changeStatus(existPatient.id);
+      } else if (existPatient && existPatient.is_active) {
+        // No es necesaria ninguna acción
+      } else {
+        await this.createPersonAsPatient(personWithRole);
+      }
+    }
+
+    return personWithRole;
   }
 
   async delRole(personId: string, roleName: { roleName: Roles }) {
@@ -160,7 +173,16 @@ export class PeopleService {
       roleName.roleName,
     );
     const person: Person = await this.personById(personId);
-    return this.peopleRepository.delRole(person, roleToDel);
+    const personWithOutRole: Person = await this.peopleRepository.delRole(person, roleToDel);
+    
+    if (roleName.roleName === 'patient') {
+      const existPatient = await this.patientsService.patientByPersonId(personWithOutRole.id);
+      if (existPatient && existPatient.is_active) {
+        await this.patientsService.changeStatus(existPatient.id);
+      }
+    }
+
+    return personWithOutRole;
   }
 
   async editPhoto(idperson: string, file: Express.Multer.File) {

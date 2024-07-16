@@ -58,7 +58,7 @@ export class AuthController {
     status: 400,
     description: 'Bad request.',
   })
-  async createDentist(@Body() userInfo: CreateDentistPersonDto) {
+  createDentist(@Body() userInfo: CreateDentistPersonDto) {
     const { password, specialtyName, description, ...personInfo } = userInfo;
     const authInfo = { email: userInfo.email, password };
     const dentistInfo = { specialtyName, description };
@@ -75,7 +75,7 @@ export class AuthController {
     status: 400,
     description: 'Bad request.',
   })
-  async createPatient(@Body() userInfo: CreatePersonDto) {
+  createPatient(@Body() userInfo: CreatePersonDto) {
     const { password,...personInfo } = userInfo;
     const authInfo = { email: userInfo.email, password };
     return this.authService.signUp(personInfo, authInfo);
@@ -94,7 +94,7 @@ export class AuthController {
   @ApiResponse({ status: 201, description: 'Action confirmed.', })
   @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
   @UseInterceptors(ConfirmPassInterceptor)
-  async deleteAuth(@Body() authInfo: AuthDto) {
+  deleteAuth(@Body() authInfo: AuthDto) {
     return this.authService.deleteAuth(authInfo);
   }
 
@@ -103,7 +103,7 @@ export class AuthController {
   @ApiResponse({ status: 201, description: 'Return the person restored.', })
   @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
   @UseInterceptors(ConfirmPassInterceptor)
-  async restoreAuth(@Body() authInfo: AuthDto) {
+  restoreAuth(@Body() authInfo: AuthDto) {
     return this.authService.restoreAuth(authInfo);
   }
   
@@ -111,7 +111,7 @@ export class AuthController {
   @ApiOperation({ summary: 'Change the password.' })
   @ApiResponse({ status: 201, description: 'Password updated succesfully.', })
   @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
-  async changePass(@Body() newPass: UpdatePasswordDto) {
+  changePass(@Body() newPass: UpdatePasswordDto) {
     return this.authService.changePass(newPass);
   }
 
@@ -122,8 +122,7 @@ export class AuthController {
   @ApiOperation({ summary: 'Update person information. The request body must has confirmPass.' })
   @ApiResponse({ status: 201, description: 'Information updated succesfully.' })
   @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
-  @UseInterceptors(ConfirmPassInterceptor)
-  async updatePerson(@Req() req: Request, @Body() infoToUpdate: UpdatePersonDto ) {
+  updatePerson(@Req() req: Request, @Body() infoToUpdate: UpdatePersonDto ) {
     const role: Roles = (req as any).userRoles;
     return this.authService.updatePerson(role, infoToUpdate);
   }
