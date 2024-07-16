@@ -27,6 +27,7 @@ export const environment = {
   mercadopago: {
     accesstoken: process.env.MERCADOPAGO_ACCESS_TOKEN,
   },
+  resendAPIKey: process.env.RESEND_API_KEY,
   fronturl: process.env.FRONT_URL || 'http://localhost:3001',
   backUrl: process.env.BACK_URL || 'http://localhost:3000',
 };
