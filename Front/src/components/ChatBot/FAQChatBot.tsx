@@ -1,36 +1,36 @@
-"use client";
-import React, { useState, useEffect } from "react";
+"use client"
+import React, { useState, useEffect } from "react"
 import {
   Webchat,
   WebchatProvider,
   useClient,
   useWebchatStore,
-} from "@botpress/webchat";
-import { buildTheme } from "@botpress/webchat-generator";
-import "./style.css";
-import { enviroment } from "@/utils/config";
-import Image from "next/image";
+} from "@botpress/webchat"
+import { buildTheme } from "@botpress/webchat-generator"
+import "./style.css"
+import { enviroment } from "@/utils/config"
+import Image from "next/image"
 
-const clientId = enviroment.botpressClient;
+const clientId = enviroment.botpressClient
 
 const { style, theme } = buildTheme({
   themeName: "dusk",
   themeColor: "#00CE90",
-});
+})
 
 const FAQChatBot: React.FC = () => {
-  const client = useClient({ clientId });
-  const [isChatOpen, setIsChatOpen] = useState(false);
+  const client = useClient({ clientId })
+  const [isChatOpen, setIsChatOpen] = useState(false)
 
   useEffect(() => {
     if (typeof document !== "undefined") {
       // Acciones que dependen de `document` aquí
     }
-  }, []);
+  }, [])
 
   const toggleChat = async () => {
-    setIsChatOpen(!isChatOpen);
-  };
+    setIsChatOpen(!isChatOpen)
+  }
 
   return (
     <div>
@@ -108,7 +108,8 @@ const FAQChatBot: React.FC = () => {
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default FAQChatBot;
+export default FAQChatBot
+

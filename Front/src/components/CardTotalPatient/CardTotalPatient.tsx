@@ -205,6 +205,8 @@ function CardTotalPatient() {
     fetchPatients();
   }, []);
 
+ 
+
   console.log("pacientes:", patients);
 
   return (
