@@ -122,6 +122,34 @@ export class PeopleController {
     return person;
   }
 
+  @Get('administratives/quantity')
+  @ApiOperation({ summary: 'Get the administratives quantity.' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns the administratives quantity.',
+  })
+  @ApiBadRequestResponse({
+    status: 400,
+    description: 'Bad request.',
+  })
+  async administrativesQuantity() {
+    return this.peopleService.administrativesQuantity();
+  }
+
+  @Get('superadmins/quantity')
+  @ApiOperation({ summary: 'Get the super admins quantity.' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns the super admins quantity.',
+  })
+  @ApiBadRequestResponse({
+    status: 400,
+    description: 'Bad request.',
+  })
+  async superAdminsQuantity() {
+    return this.peopleService.superAdminsQuantity();
+  }
+
   @Get('byrole/:role')
   @ApiOperation({ summary: 'Get people by role, the searching includes deleted ones.' })
   @ApiResponse({

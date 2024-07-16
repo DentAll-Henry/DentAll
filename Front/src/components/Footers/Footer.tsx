@@ -1,4 +1,3 @@
-
 import Image from "next/image";
 import Link from "next/link";
 
@@ -21,7 +20,7 @@ const Footer = () => {
           <h1 className="text-2xl font-semibold">CONTACTO</h1>
           <Link
             className="hover:text-greenD-500"
-            href="dentallabgotvv@gmail.com"
+            href="mailto:dentallabgotvv@gmail.com"
           >
             <p>dentallabgotvv@gmail.com</p>
           </Link>

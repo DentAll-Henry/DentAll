@@ -127,7 +127,12 @@ export interface Patients{
     nationality:string;
     is_auth0: boolean;
     photo:string;
-    deleteDate:null
+    deleteDate:null;
+    roles: {
+      id: string;
+      name: string;
+      description: string
+    }[]
   };
   appointments:personAppointments[];
   dentalRecord:null

@@ -72,6 +72,19 @@ export class DentistsRepository {
     return dentists;
   }
 
+  async dentistsQuantity() {
+    const activeDentistsQuantity: number = await this.dentistsRepository
+      .createQueryBuilder('dentists')
+      .where('dentists.is_active = :isActive', { isActive: true})
+      .getCount();
+
+    const dentistsQuantity: number = await this.dentistsRepository
+      .createQueryBuilder('dentists')
+      .getCount();
+
+    return { total: dentistsQuantity, active: activeDentistsQuantity, inactive: dentistsQuantity-activeDentistsQuantity };
+  }
+
   async dentistByPersonId(idperson: Person['id']) {
     const dentist: Dentist = await this.dentistsRepository.findOne({
       where: {

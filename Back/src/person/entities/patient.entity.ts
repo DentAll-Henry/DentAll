@@ -1,4 +1,5 @@
 import {
+  Column,
   Entity,
   JoinColumn,
   OneToMany,
@@ -13,6 +14,11 @@ import { DentalRecord } from 'src/dentalRecord/entities/dentalRecord.entity';
 export class Patient {
   @PrimaryGeneratedColumn('uuid')
   id: string;
+
+  @Column({
+    default: true,
+  })
+  is_active: boolean;
 
   @OneToOne(() => Person)
   @JoinColumn({ name: 'person_id' })

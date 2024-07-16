@@ -135,6 +135,40 @@ export class PeopleRepository {
     return person;
   }
 
+  async administrativesQuantity() {
+    const activeAdministrativesQuantity: number = await this.peopleRepository
+      .createQueryBuilder('people')
+      .leftJoinAndSelect('people.roles', 'roles')
+      .where('roles.name = :roleName', { roleName: 'administrative'})
+      .andWhere('people.is_active = :isActive', { isActive: true})
+      .getCount();
+
+    const administrativesQuantity: number = await this.peopleRepository
+      .createQueryBuilder('people')
+      .leftJoinAndSelect('people.roles', 'roles')
+      .where('roles.name = :roleName', { roleName: 'administrative'})
+      .getCount();
+
+    return { total: administrativesQuantity, active: activeAdministrativesQuantity, inactive: administrativesQuantity-activeAdministrativesQuantity };
+  }
+
+  async superAdminsQuantity() {
+    const activeSuperAdminsQuantity: number = await this.peopleRepository
+      .createQueryBuilder('people')
+      .leftJoinAndSelect('people.roles', 'roles')
+      .where('roles.name = :roleName', { roleName: 'admin'})
+      .andWhere('people.is_active = :isActive', { isActive: true})
+      .getCount();
+
+    const superAdminsQuantity: number = await this.peopleRepository
+      .createQueryBuilder('people')
+      .leftJoinAndSelect('people.roles', 'roles')
+      .where('roles.name = :roleName', { roleName: 'admin'})
+      .getCount();
+
+    return { total: superAdminsQuantity, active: activeSuperAdminsQuantity, inactive: superAdminsQuantity-activeSuperAdminsQuantity };
+  }
+
   async peopleByRole(roleName: Role['name'], paginationDto: { page: number; limit: number }): Promise<Person[]> {
     const { page, limit } = paginationDto;
 
@@ -167,7 +201,7 @@ export class PeopleRepository {
     return people;
   }
 
-  async createPersonAsPatient(personInfo: Partial<Person>): Promise<Person> {
+  async createPerson(personInfo: Partial<Person>): Promise<Person> {
     try {
       const person: Person = await this.peopleRepository.save(personInfo);
       return person;
@@ -185,7 +219,7 @@ export class PeopleRepository {
 
       if (existingRole)
         throw new BadRequestException('El usuario ya tiene el rol asignado.');
-
+      
       person.roles.push(roleToAdd);
       const updatedPerson: Person = await this.peopleRepository.save(person);
       return updatedPerson;

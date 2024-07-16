@@ -5,9 +5,16 @@ export class CreateDentistDto {
   @IsOptional()
   @ApiProperty({
     description: 'The specialty name.',
-    example: 'Endodontics',
+    example: 'Odontología general',
   })
   specialtyName?: string;
+
+  @IsOptional()
+  @ApiProperty({
+    description: 'The dental service name.',
+    example: 'Consulta de valoración',
+  })
+  dentalServName?: string;
 
   @IsOptional()
   @IsNumber(
@@ -38,7 +45,7 @@ export class CreateDentistDto {
   @ApiProperty({
     description: 'Dentist description',
     example:
-      'Cirujano dental especializado en extracciones complejas e implantes. Con más de 10 años de experiencia, asegura el bienestar de sus pacientes.',
+      'Profesional odontólogo especializado en el cuidado y mantenimiento de la salud bucodental.',
   })
   description: string;
 }

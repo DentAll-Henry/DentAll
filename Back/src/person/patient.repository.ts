@@ -21,11 +21,32 @@ export class PatientsRepository {
       .leftJoinAndSelect('patients.appointments', 'appointments')
       .leftJoinAndSelect('patients.dentalRecord', 'dentalRecord')
       .leftJoinAndSelect('person.roles', 'roles')
-      .where('roles.name = :role', {role})
+      .where((qb) => {
+        const subQuery = qb.subQuery()
+          .select('person.id')
+          .from('Person', 'person')
+          .leftJoin('person.roles', 'roles')
+          .where('roles.name = :role', { role: 'patient' })
+          .getQuery();
+        return 'person.id IN ' + subQuery;
+      })
       .skip((page - 1) * limit)
       .take(limit);
 
     return await queryBuilder.getMany();
+  }
+
+  async patientsQuantity() {
+    const activePatientsQuantity: number = await this.patientsRepository
+      .createQueryBuilder('patients')
+      .where('patients.is_active = :isActive', { isActive: true})
+      .getCount();
+
+    const patientsQuantity: number = await this.patientsRepository
+      .createQueryBuilder('patients')
+      .getCount();
+
+    return { total: patientsQuantity, active: activePatientsQuantity, inactive: patientsQuantity-activePatientsQuantity };
   }
   
   async patientByPersonId(personId: Person ['id']): Promise<Patient> {
@@ -39,6 +60,7 @@ export class PatientsRepository {
         person: true,
         appointments: true,
       },
+      withDeleted: true,
     });
     if (!patient)
       throw new BadRequestException('No existe paciente con el ID de persona especificado.');
@@ -74,12 +96,14 @@ export class PatientsRepository {
   }
 
   async patientById(patientId: string): Promise<Patient> {
-    const patient = await this.patientsRepository.findOne({
-      where: {
-        id: patientId,
-      },  
-      relations: ['person'],
-    });  
+    const patient = this.patientsRepository
+      .createQueryBuilder('patients')
+      .leftJoinAndSelect('patients.person', 'person')
+      .leftJoinAndSelect('person.roles', 'roles')
+      .leftJoin('patients.appointments', 'appointments')
+      .where('patients.id = :patientId', {patientId})
+      .getOne()
+
     if (!patient)
       throw new BadRequestException('No existe paciente con el ID especificado.');  
     return patient;
@@ -94,5 +118,14 @@ export class PatientsRepository {
       }
       throw new BadRequestException('Error interno del servidor.');
     }
+  }
+
+  async changeStatus(patient: Patient) {
+    if (patient.is_active) {
+      patient.is_active = false;
+    } else {
+      patient.is_active = true;
+    }
+    return await this.patientsRepository.save(patient)
   }
 }

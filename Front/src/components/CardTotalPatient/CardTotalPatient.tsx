@@ -6,6 +6,15 @@ import Modal from "../Modal/Modal";
 import { Patients } from "@/types";
 import { useRouter } from "next/navigation";
 import { allPatients } from "@/helpers/patients.helper";
+import axiosInstance from "@/utils/axiosInstance";
+import Swal from "sweetalert2";
+
+type AllRoles = {
+  eng: string,
+  esp: string,
+  status: boolean,
+  personId: string,
+}
 
 function CardTotalPatient() {
   type User = {
@@ -20,12 +29,47 @@ function CardTotalPatient() {
   const [selectedRole, setSelectedRole] = useState("Profesional");
   const [selectedPatient, setSelectedPatient] = useState<Patients | null>(null);
   const [roles, setRoles] = useState<string[]>([]); // Estado para los roles seleccionados
+  const [allRoles, setAllRoles] = useState<AllRoles[]>([
+    {
+      eng: 'patient',
+      esp: 'Paciente',
+      status: true,
+      personId: '',
+    },
+    {
+      eng: 'dentist',
+      esp: 'Dentista',
+      status: true,
+      personId: '',
+    },
+    {
+      eng: 'administrative',
+      esp: 'Adminsitrativo',
+      status: true,
+      personId: '',
+    },
+    {
+      eng: 'admin',
+      esp: 'Super Admin',
+      status: true,
+      personId: '',
+    },
+  ])
   const router = useRouter();
 
   const openModal = (patient: Patients) => {
     setSelectedPatient(patient);
     setIsModalOpen(true);
     // Cargar los roles del paciente seleccionado al abrir el modal
+    const rolesPatient: string[] = patient.person.roles.map((r) => r.name)
+    const allRolesPatient: AllRoles[] = allRoles.map((r) => {
+      if(rolesPatient.includes(r.eng)) {
+        return {...r, status: false, personId: patient.person.id }
+      } else {
+        return {...r, status: true, personId: patient.person.id }
+      }
+    });
+    setAllRoles(allRolesPatient);
     setRoles([]);
   };
 
@@ -39,21 +83,111 @@ function CardTotalPatient() {
     setSelectedRole(event.target.value);
   };
 
-  const addRole = (role: string) => {
-    if (!roles.includes(role)) {
-      setRoles([...roles, role]);
+  const addRole = async (role: string, personId: string) => {
+    if (role !== 'dentist') {
+      try {
+        const response = await axiosInstance.patch(`/people/addrole/${personId}`, {
+          roleName: role
+        })
+        await Swal.fire({
+          title: "¡Excelente!",
+          text: "Rol añadido.",
+          icon: "success",
+          confirmButtonText: "Aceptar",
+          customClass: {
+            confirmButton:
+              "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
+          },
+        });
+      } catch (error: any) {
+        await Swal.fire({
+          title: "¡Error!",
+          text: error.message,
+          icon: "error",
+          confirmButtonText: "Aceptar",
+          customClass: {
+            confirmButton:
+              "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
+          },
+        });
+      }
+    } else {
+      try {
+        let response: any;
+        try {
+          const dentistResponse = await axiosInstance.get(`/dentists/person/${personId}`);
+          response = await axiosInstance.patch(`/dentists/changestatus/${dentistResponse.data.id}`)
+        } catch {
+          response = await axiosInstance.post(`/dentists/create`, {
+            specialtyName: 'Odontología general',
+            dentalServName: 'Consulta de valoración',
+            personId,
+            description: 'Odontólogo general'
+          })
+        } finally {
+          console.log("--> Acá Carlos <--")
+          console.log(response.data)
+          await Swal.fire({
+            title: "¡Excelente!",
+            text: "Rol añadido.",
+            icon: "success",
+            confirmButtonText: "Aceptar",
+            customClass: {
+              confirmButton:
+                "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
+            },
+          });
+        }
+      } catch (error: any) {
+        await Swal.fire({
+          title: "¡Error!",
+          text: error.message,
+          icon: "error",
+          confirmButtonText: "Aceptar",
+          customClass: {
+            confirmButton:
+              "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
+          },
+        });
+      }
     }
+    closeModal();
   };
+
+  const delRole = async (role: string, personId: string) => {
+    if (role !== 'dentist') {
+      await axiosInstance.patch(`/people/delrole/${personId}`, {
+        roleName: role
+      });
+      await Swal.fire({
+        title: "¡Excelente!",
+        text: "Rol retirado.",
+        icon: "success",
+        confirmButtonText: "Aceptar",
+        customClass: {
+          confirmButton:
+            "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
+        },
+      });
+    } else {
+      const dentist = await axiosInstance.get(`/dentists/person/${personId}`);
+      await axiosInstance.patch(`/dentists/changestatus/${dentist.data.id}`);
+      await Swal.fire({
+        title: "¡Excelente!",
+        text: "Rol retirado.",
+        icon: "success",
+        confirmButtonText: "Aceptar",
+        customClass: {
+          confirmButton:
+            "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
+        },
+      });
+    }
+    closeModal();
+  }
 
   const removeRole = (role: string) => {
     setRoles(roles.filter((r) => r !== role));
-  };
-
-  const guardarCambios = () => {
-    // Aquí podrías enviar los roles actualizados al backend o hacer la lógica necesaria
-    console.log("Roles seleccionados:", roles);
-    // Cerrar el modal después de guardar los cambios
-    closeModal();
   };
 
   useEffect(() => {
@@ -80,6 +214,10 @@ function CardTotalPatient() {
 
     fetchPatients();
   }, []);
+
+  useEffect(() => {
+    router.push('/admin/users/patients');
+  }, [isModalOpen])
 
   console.log("pacientes:", patients);
 
@@ -161,39 +299,29 @@ function CardTotalPatient() {
             ))}
           </div>
           <div className="flex gap-2 mb-4">
-            <div
-              className="bg-green-500 text-white rounded px-4 py-2 hover:bg-green-600 cursor-pointer"
-              onClick={() => addRole("Paciente")}
-            >
-              Agregar Paciente
-            </div>
-            <div
-              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer"
-              onClick={() => addRole("Superadmin")}
-            >
-              Agregar Superadmin
-            </div>
-            <div
-             
-              className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 cursor-pointer"
-              onClick={() => addRole("Profesional")}
-            >
-              Agregar Profesional
-            </div>
-            <div
-             
-              className="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600 cursor-pointer"
-              onClick={() => addRole("Administrativo")}
-            >
-              Agregar Administrativo
-            </div>
-          </div>
-          <div
-           
-            className="w-full bg-blue-500 text-white p-2 rounded text-center cursor-pointer"
-            onClick={guardarCambios}
-          >
-            Guardar
+            {allRoles.map((r, index) => {
+              if(r.status) {
+                return (
+                  <div
+                    className="bg-green-500 text-white rounded px-4 py-2 hover:bg-green-600 cursor-pointer"
+                    onClick={() => addRole(r.eng, r.personId)}
+                    key={index}
+                  >
+                    { 'Agregar ' + r.esp }
+                  </div>
+                )
+              } else {
+                return (
+                  <div
+                    className="bg-red-500 text-white rounded px-4 py-2 hover:bg-red-600 cursor-pointer"
+                    onClick={() => delRole(r.eng, r.personId)}
+                    key={index}
+                  >
+                    { 'Retirar ' + r.esp }
+                  </div>
+                )
+              }
+            })}
           </div>
         </Modal>
       )}

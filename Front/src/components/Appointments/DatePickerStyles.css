@@ -5,7 +5,6 @@
   background-color: #007776; /* Cambia el fondo del calendario a verde */
   width: 99%;
   font-size: 1.2rem;
-  
 }
 
 /* Estilos del encabezado del DatePicker */
@@ -17,14 +16,12 @@
 
 /* Estilos de los días del DatePicker */
 .react-datepicker__day {
-   /* Centra el texto de los días */
+  /* Centra el texto de los días */
   margin-left: 1.5em;
-  
 }
 .react-datepicker__day-name {
-   /* Centra el texto de los días */
+  /* Centra el texto de los días */
   margin-left: 1.5em;
-  
 }
 
 /* Estilos del día seleccionado en el DatePicker */
@@ -39,16 +36,25 @@
 }
 
 /* Estilos de la caja de tiempo en el DatePicker */
-.react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box {
+.react-datepicker__time-container
+  .react-datepicker__time
+  .react-datepicker__time-box {
   background-color: #007776; /* Cambia el fondo de la caja de tiempo a verde */
 }
 
 /* Estilos de la lista de tiempos en el DatePicker */
-.react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list {
+.react-datepicker__time-container
+  .react-datepicker__time
+  .react-datepicker__time-box
+  ul.react-datepicker__time-list {
   background-color: #007776; /* Cambia el fondo de la lista de tiempos a verde */
 }
 
 /* Estilos de la hora seleccionada en la lista de tiempos del DatePicker */
-.react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list li.react-datepicker__time-list-item--selected {
+.react-datepicker__time-container
+  .react-datepicker__time
+  .react-datepicker__time-box
+  ul.react-datepicker__time-list
+  li.react-datepicker__time-list-item--selected {
   background-color: #007776; /* Cambia el fondo de la hora seleccionada a un verde más oscuro */
 }

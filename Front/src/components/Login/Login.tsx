@@ -25,82 +25,99 @@ const Login = () => {
     password: "",
   });
 
-  useEffect(() => {
-    console.log("Componente Login renderizado");
-    const userSession = localStorage.getItem("userSession");
-    if (userSession) {
-      router.push("/patients");
-    }
-  }, [router]);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setDataUser({
-      ...dataUser,
-      [event.target.name]: event.target.value,
-    });
-  };
+ useEffect(() => {
+   console.log("Componente Login renderizado");
+   const userSession = localStorage.getItem("userSession");
+   if (userSession) {
+     router.push("/patients");
+   }
+ }, [router]);
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const errors = validateLoginForm(dataUser);
-    setErrorUser(errors);
+ const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+   setDataUser({
+     ...dataUser,
+     [event.target.name]: event.target.value,
+   });
+ };
 
-    if (Object.keys(errors).length === 0) {
-      try {
-        const response = await login(dataUser);
-        const { token, userData } = response;
-        console.log(response);
-        localStorage.setItem(
-          "userSession",
-          JSON.stringify({ token: token, userData })
-        );
-        Swal.fire({
-          title: "¡Excelente!",
-          text: `${userData.first_name}, has iniciado sesión correctamente. `,
-          icon: "success",
-          confirmButtonText: "Aceptar",
-          customClass: {
-            confirmButton:
-              "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
-          },
-        });
-        const decodedToken: {
-          id: string;
-          email: string;
-          exp: Date;
-          iat: Date;
-          roles: string;
-        } = decodeJWT(token);
-        console.log(decodedToken);
-        if (decodedToken?.roles === "patient") {
-          router.push("/patients");
-        } else if (decodedToken?.roles === "dentist") {
-          router.push("/professional");
-        } else if (decodedToken?.roles === "administrative") {
-          router.push("/administrative");
-        } else if (decodedToken?.roles === "admin") {
-          router.push("/admin");
-        } else {
-          router.push("/");
-        }
-      } catch (error: any) {
-        console.log(error);
-        Swal.fire({
-          title: "Error",
-          text: "Hubo un problema al iniciar sesión. Por favor, intente de nuevo.",
-          icon: "error",
-          confirmButtonText: "Aceptar",
-        });
-      }
-    }
-  };
+ const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+   event.preventDefault();
+   const errors = validateLoginForm(dataUser);
+   setErrorUser(errors);
+
+   if (Object.keys(errors).length === 0) {
+     try {
+       const response = await login(dataUser);
+       const { token, userData } = response;
+       console.log(response);
+       localStorage.setItem(
+         "userSession",
+         JSON.stringify({ token: token, userData })
+       );
+       await Swal.fire({
+         title: "¡Excelente!",
+         text: `${userData.first_name}, has iniciado sesión correctamente.`,
+         icon: "success",
+         confirmButtonText: "Aceptar",
+         customClass: {
+           confirmButton:
+             "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
+         },
+       });
+
+       const decodedToken: {
+         id: string;
+         email: string;
+         exp: Date;
+         iat: Date;
+         roles: string;
+       } = decodeJWT(token);
+       console.log(decodedToken);
+
+       if (decodedToken?.roles === "patient") {
+         router.push("/patients");
+       } else if (decodedToken?.roles === "dentist") {
+         router.push("/professional");
+       } else if (decodedToken?.roles === "administrative") {
+         router.push("/administrative");
+       } else if (decodedToken?.roles === "admin") {
+         router.push("/admin");
+       } else {
+         router.push("/");
+       }
+     } catch (error: any) {
+       console.log(error);
+       Swal.fire({
+         title: "Error",
+         text: "Hubo un problema al iniciar sesión. Por favor, intente de nuevo.",
+         icon: "error",
+         confirmButtonText: "Aceptar",
+       });
+     }
+   }
+ };
+
+ const navigateBack = () => {
+  router.back();
+};
+
+
 
   return (
     <div className="flex justify-center items-center h-[100vh]">
       <div className="flex w-full h-full max-h-[1024px]">
-        <a href="/" className="absolute top-4 left-4 text-[#00CE90]">
+        <a href="/" className="flex flex-row justify-center items-center absolute top-4 left-4 text-white gap-2">
+        <Image
+          className="" // Ajusta el tamaño según tus necesidades
+          src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720967334/ArrowCircleRight_aln0la.png"
+          alt="Arrow"
+          width={30}
+          height={30}
+        />
           Volver
         </a>
+        
         <div className="w-[35%] flex flex-col items-center justify-center bg-darkD-500 text-white p-12">
           <div className="flex flex-col items-start justify-start mb-8">
             <h2 className="text-[#ECEDF6] text-[34px] font-semibold leading-normal mb-4">

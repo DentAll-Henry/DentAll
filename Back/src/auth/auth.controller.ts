@@ -14,6 +14,7 @@ import { RolesGuard } from 'src/role/guards/roles.guard';
 import { DRoles } from 'src/decorators/roles.decorator';
 import { Roles } from 'src/role/enums/roles.enum';
 import { AuthGuard } from './guards/auth.guard';
+import { CreateDentistPersonDto } from 'src/person/dtos/createDentistPerson.dto';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -47,6 +48,39 @@ export class AuthController {
     return this.authService.signIn(signInInfo);
   }
 
+  @Post('createdentist')
+  @ApiOperation({ summary: 'Create a dentist.' })
+  @ApiResponse({
+    status: 201,
+    description: 'Create a dentist.',
+  })
+  @ApiBadRequestResponse({
+    status: 400,
+    description: 'Bad request.',
+  })
+  createDentist(@Body() userInfo: CreateDentistPersonDto) {
+    const { password, specialtyName, description, ...personInfo } = userInfo;
+    const authInfo = { email: userInfo.email, password };
+    const dentistInfo = { specialtyName, description };
+    return this.authService.createDentist(personInfo, authInfo, dentistInfo);
+  }
+
+  @Post('createpatient')
+  @ApiOperation({ summary: 'Create a patient.' })
+  @ApiResponse({
+    status: 201,
+    description: 'Create a person with role.',
+  })
+  @ApiBadRequestResponse({
+    status: 400,
+    description: 'Bad request.',
+  })
+  createPatient(@Body() userInfo: CreatePersonDto) {
+    const { password,...personInfo } = userInfo;
+    const authInfo = { email: userInfo.email, password };
+    return this.authService.signUp(personInfo, authInfo);
+  }
+
   @Post('changerole')
   @ApiOperation({ summary: 'Validating role to change token.' })
   @ApiResponse({ status: 201, description: 'Return the new token.', })
@@ -60,7 +94,7 @@ export class AuthController {
   @ApiResponse({ status: 201, description: 'Action confirmed.', })
   @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
   @UseInterceptors(ConfirmPassInterceptor)
-  async deleteAuth(@Body() authInfo: AuthDto) {
+  deleteAuth(@Body() authInfo: AuthDto) {
     return this.authService.deleteAuth(authInfo);
   }
 
@@ -69,7 +103,7 @@ export class AuthController {
   @ApiResponse({ status: 201, description: 'Return the person restored.', })
   @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
   @UseInterceptors(ConfirmPassInterceptor)
-  async restoreAuth(@Body() authInfo: AuthDto) {
+  restoreAuth(@Body() authInfo: AuthDto) {
     return this.authService.restoreAuth(authInfo);
   }
   
@@ -77,7 +111,7 @@ export class AuthController {
   @ApiOperation({ summary: 'Change the password.' })
   @ApiResponse({ status: 201, description: 'Password updated succesfully.', })
   @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
-  async changePass(@Body() newPass: UpdatePasswordDto) {
+  changePass(@Body() newPass: UpdatePasswordDto) {
     return this.authService.changePass(newPass);
   }
 
@@ -88,8 +122,7 @@ export class AuthController {
   @ApiOperation({ summary: 'Update person information. The request body must has confirmPass.' })
   @ApiResponse({ status: 201, description: 'Information updated succesfully.' })
   @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
-  @UseInterceptors(ConfirmPassInterceptor)
-  async updatePerson(@Req() req: Request, @Body() infoToUpdate: UpdatePersonDto ) {
+  updatePerson(@Req() req: Request, @Body() infoToUpdate: UpdatePersonDto ) {
     const role: Roles = (req as any).userRoles;
     return this.authService.updatePerson(role, infoToUpdate);
   }
