@@ -1,16 +1,10 @@
 import {
   Body,
   Controller,
-  FileTypeValidator,
-  FileValidator,
-  Get,
-  MaxFileSizeValidator,
-  ParseFilePipe,
-  ParseFilePipeBuilder,
   Post,
   UploadedFile,
+  UseGuards,
   UseInterceptors,
-  UsePipes,
 } from '@nestjs/common';
 import { FilesService } from './files.service';
 import {
@@ -24,6 +18,10 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { fileUploadDto } from './files.dto';
 import { ValidationFile } from './Pipes/ValidationFile.pipe';
+import { DRoles } from 'src/decorators/roles.decorator';
+import { Roles } from 'src/role/enums/roles.enum';
+import { AuthGuard } from 'src/auth/guards/auth.guard';
+import { RolesGuard } from 'src/role/guards/roles.guard';
 
 @ApiTags('Files')
 @Controller('files')
@@ -31,6 +29,8 @@ export class FilesController {
   constructor(private readonly filesService: FilesService) {}
 
   @Post('upload')
+  @DRoles(Roles.ADMIN)
+  @UseGuards(AuthGuard, RolesGuard)
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('file'))
   @ApiOperation({ summary: 'Upload file to Cloudinary' })
@@ -51,6 +51,8 @@ export class FilesController {
   }
 
   @Post('images')
+  @DRoles(Roles.ADMIN)
+  @UseGuards(AuthGuard, RolesGuard)
   @ApiOperation({ summary: 'Get images from Cloudinary' })
   @ApiResponse({
     status: 200,

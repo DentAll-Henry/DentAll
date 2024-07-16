@@ -7,6 +7,7 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -22,6 +23,10 @@ import { LimitApiQueries, PageApiQueries } from 'src/config/swagger-config';
 import { SpecialtyNameDto } from './dtos/dentSpecialty.dto';
 import { DentalServNameDto } from './dtos/dentDentalServ.dto';
 import { ArrayDentalServNameDto } from './dtos/dentDentalServArray.dto';
+import { DRoles } from 'src/decorators/roles.decorator';
+import { AuthGuard } from 'src/auth/guards/auth.guard';
+import { RolesGuard } from 'src/role/guards/roles.guard';
+import { Roles } from 'src/role/enums/roles.enum';
 
 @ApiTags('Dentists')
 @Controller('dentists')
@@ -29,6 +34,8 @@ export class DentistsController {
   constructor(private readonly dentistsService: DentistsService) {}
 
   @Get()
+  @DRoles(Roles.ADMIN)
+  @UseGuards(AuthGuard, RolesGuard)
   @ApiOperation({ summary: 'Get all dentists.' })
   @ApiResponse({
     status: 200,
@@ -51,18 +58,20 @@ export class DentistsController {
     return this.dentistsService.get4BestRateDentists();
   }
 
-  @Get('byspecialty')
-  @ApiOperation({ summary: 'Get dentists by specialty.' })
-  @ApiResponse({
-    status: 200,
-    description: 'Returns all dentists with the specified specialty.',
-  })
-  @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
-  async dentistsBySpecialty(@Query() specialtyDto: SpecialtyNameDto) {
-    return this.dentistsService.dentistsBySpecialty(specialtyDto.specialtyName);
-  }
+  // @Get('byspecialty')
+  // @ApiOperation({ summary: 'Get dentists by specialty.' })
+  // @ApiResponse({
+  //   status: 200,
+  //   description: 'Returns all dentists with the specified specialty.',
+  // })
+  // @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
+  // async dentistsBySpecialty(@Query() specialtyDto: SpecialtyNameDto) {
+  //   return this.dentistsService.dentistsBySpecialty(specialtyDto.specialtyName);
+  // }
 
   @Get('bydentalserv')
+  @DRoles(Roles.ADMIN, Roles.ADMINISTRATIVE, Roles.PATIENT)
+  @UseGuards(AuthGuard, RolesGuard)
   @ApiOperation({ summary: 'Get dentists by dental service.' })
   @ApiResponse({
     status: 200,
@@ -85,6 +94,8 @@ export class DentistsController {
   }
 
   @Get('person/:id')
+  @DRoles(Roles.ADMIN, Roles.ADMINISTRATIVE, Roles.PATIENT)
+  @UseGuards(AuthGuard, RolesGuard)
   @ApiOperation({ summary: 'Get a dentist by person ID.' })
   @ApiResponse({
     status: 200,
@@ -96,6 +107,8 @@ export class DentistsController {
   }
 
   @Get(':id')
+  @DRoles(Roles.ADMIN, Roles.ADMINISTRATIVE, Roles.PATIENT)
+  @UseGuards(AuthGuard, RolesGuard)
   @ApiOperation({ summary: 'Get a dentist by ID.' })
   @ApiResponse({
     status: 200,
@@ -107,6 +120,8 @@ export class DentistsController {
   }
 
   @Post('create')
+  @DRoles(Roles.ADMIN)
+  @UseGuards(AuthGuard, RolesGuard)
   @ApiOperation({ summary: 'Create a dentist.' })
   @ApiResponse({
     status: 201,
@@ -118,6 +133,8 @@ export class DentistsController {
   }
 
   @Patch('changestatus/:id')
+  @DRoles(Roles.ADMIN)
+  @UseGuards(AuthGuard, RolesGuard)
   @ApiOperation({ summary: 'Enable o disable a dentist with the specific ID.' })
   @ApiResponse({
     status: 201,
@@ -128,17 +145,17 @@ export class DentistsController {
     return this.dentistsService.changeDentistStatus(id);
   }
 
-  @Patch('adddentalserv/:id')
-  @ApiOperation({ summary: 'Add dental services to the dentist.' })
-  @ApiResponse({
-    status: 201,
-    description: 'Returns the dentist with the dental services added.',
-  })
-  @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
-  async addDentalServ(
-    @Param('id', ParseUUIDPipe) id: string,
-    @Body() dentalServ: ArrayDentalServNameDto,
-  ) {
-    return this.dentistsService.addDentalServ(id, dentalServ.names);
-  }
+  // @Patch('adddentalserv/:id')
+  // @ApiOperation({ summary: 'Add dental services to the dentist.' })
+  // @ApiResponse({
+  //   status: 201,
+  //   description: 'Returns the dentist with the dental services added.',
+  // })
+  // @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
+  // async addDentalServ(
+  //   @Param('id', ParseUUIDPipe) id: string,
+  //   @Body() dentalServ: ArrayDentalServNameDto,
+  // ) {
+  //   return this.dentistsService.addDentalServ(id, dentalServ.names);
+  // }
 }
