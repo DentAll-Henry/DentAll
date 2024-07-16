@@ -33,7 +33,7 @@ const TotalDentist = () => {
           
         </div>
 
-        <div className='flex flex-row gap-4 justify-center items-center border border-darkD-400 rounded-[5px] p-3'>
+        {/* <div className='flex flex-row gap-4 justify-center items-center border border-darkD-400 rounded-[5px] p-3'>
             <p>Agregar nuevo profesional</p>
             <Image
                         src="/images/IconPlus.svg"
@@ -41,7 +41,7 @@ const TotalDentist = () => {
                         height={24}
                         alt="pluss"
                     />
-        </div>
+        </div> */}
 
       
     </div>
