@@ -82,23 +82,9 @@ function CardTotalDentist() {
           <div className='w-[28%] p-3  '>
             <p className=' text-blue-500 rounded-sm px-1'>{dentist.specialty.name}</p>
           </div>
-          {/* <div className='w-[14%] p-3 flex flex-row gap-8'>
-            <Image 
-              onClick={() => openModal(dentist)}
-              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201305/PencilSimple_ugfifd.svg"
-              width={24}
-              height={24}
-              alt="editar"
-              className="cursor-pointer" 
-            />
-            <Image
-              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201219/Trash_e3pep7.svg"
-              width={24}
-              height={24}
-              alt="eliminar"
-              className="cursor-pointer" 
-            />
-          </div> */}
+          <div className='w-[10%] p-3 flex flex-row gap-8'>
+            <p className={dentist.is_active ? 'text-green-500 rounded-sm px-1' : 'text-gray-500 rounded-sm px-1'}>{dentist.is_active ? 'Activo' : 'Inactivo'}</p>
+          </div>
         </div>
       ))}
       {selectedDentist && (
