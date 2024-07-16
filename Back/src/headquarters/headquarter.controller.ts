@@ -9,6 +9,7 @@ import {
   Post,
   Query,
   Res,
+  UseGuards,
 } from '@nestjs/common';
 import { Response } from 'express';
 import {
@@ -24,6 +25,10 @@ import {
 import { HeadquarterService } from './headquarter.service';
 import { HeadquarterDto } from './dtos/headquarter.dto';
 import { LimitApiQueries, PageApiQueries } from 'src/config/swagger-config';
+import { DRoles } from 'src/decorators/roles.decorator';
+import { Roles } from 'src/role/enums/roles.enum';
+import { AuthGuard } from 'src/auth/guards/auth.guard';
+import { RolesGuard } from 'src/role/guards/roles.guard';
 
 @ApiTags('Headquarter')
 @Controller('headquarter')
@@ -68,6 +73,8 @@ export class HeadquarterController {
   }
 
   @Post()
+  @DRoles(Roles.ADMIN, Roles.ADMINISTRATIVE)
+  @UseGuards(AuthGuard, RolesGuard)
   @ApiOperation({ summary: 'Create a new headquarter' })
   @ApiResponse({ status: 201, description: 'Return the new headquarter.' })
   @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
@@ -80,6 +87,8 @@ export class HeadquarterController {
   }
 
   @Patch(':id')
+  @DRoles(Roles.ADMIN, Roles.ADMINISTRATIVE)
+  @UseGuards(AuthGuard, RolesGuard)
   @ApiOperation({ summary: 'Edit a headquarter by ID' })
   @ApiResponse({ status: 200, description: 'Return the edited headquarter.' })
   @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
@@ -104,6 +113,8 @@ export class HeadquarterController {
   }
 
   @Delete(':id')
+  @DRoles(Roles.ADMIN, Roles.ADMINISTRATIVE)
+  @UseGuards(AuthGuard, RolesGuard)
   @ApiOperation({ summary: 'Delete a headquarter by ID' })
   @ApiResponse({
     status: 200,

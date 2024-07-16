@@ -45,52 +45,52 @@ export class PeopleController {
   constructor(private readonly peopleService: PeopleService) {}
 
   //& --> guests endpoints <--
-  @Get('guests')
-  @ApiOperation({ summary: 'Get all guests.' })
-  @ApiResponse({
-    status: 200,
-    description: 'Returns an array with all guests.',
-  })
-  @ApiQuery(PageApiQueries)
-  @ApiQuery(LimitApiQueries)
-  async getAllGuests(@Query() paginationDto: PaginationDto) {
-    return this.peopleService.getAllGuests(paginationDto);
-  }
+  // @Get('guests')
+  // @ApiOperation({ summary: 'Get all guests.' })
+  // @ApiResponse({
+  //   status: 200,
+  //   description: 'Returns an array with all guests.',
+  // })
+  // @ApiQuery(PageApiQueries)
+  // @ApiQuery(LimitApiQueries)
+  // async getAllGuests(@Query() paginationDto: PaginationDto) {
+  //   return this.peopleService.getAllGuests(paginationDto);
+  // }
 
-  @Get('guestemail')
-  @ApiOperation({ summary: 'Get a person by email.' })
-  @ApiResponse({
-    status: 200,
-    description: 'Returns to the guest with the specified email.',
-  })
-  @ApiBadRequestResponse({
-    status: 400,
-    description: 'Guest with that email does not exist.',
-  })
-  async guestByEmail(@Param('email') email: string): Promise<Guest> {
-    const guest: Guest = await this.peopleService.guestByEmail(email);
-    if (!guest)
-      throw new BadRequestException(`Guest with email ${email} does not exist`);
-    return guest;
-  }
+  // @Get('guestemail')
+  // @ApiOperation({ summary: 'Get a person by email.' })
+  // @ApiResponse({
+  //   status: 200,
+  //   description: 'Returns to the guest with the specified email.',
+  // })
+  // @ApiBadRequestResponse({
+  //   status: 400,
+  //   description: 'Guest with that email does not exist.',
+  // })
+  // async guestByEmail(@Param('email') email: string): Promise<Guest> {
+  //   const guest: Guest = await this.peopleService.guestByEmail(email);
+  //   if (!guest)
+  //     throw new BadRequestException(`Guest with email ${email} does not exist`);
+  //   return guest;
+  // }
 
-  @Post()
-  @ApiOperation({ summary: 'Create a guest.' })
-  @ApiResponse({
-    status: 201,
-    description: 'Create a guest.',
-  })
-  @ApiBadRequestResponse({
-    status: 400,
-    description: 'Bad request.',
-  })
-  async createGuest(@Body() infoGuest: CreateGuestDto) {} //! Ajustar
+  // @Post()
+  // @ApiOperation({ summary: 'Create a guest.' })
+  // @ApiResponse({
+  //   status: 201,
+  //   description: 'Create a guest.',
+  // })
+  // @ApiBadRequestResponse({
+  //   status: 400,
+  //   description: 'Bad request.',
+  // })
+  // async createGuest(@Body() infoGuest: CreateGuestDto) {} //! Ajustar
 
   //& --> people endpoints <--
   // @ApiBearerAuth()
   @Get()
-  // @DRoles(Roles.ADMIN)
-  // @UseGuards(AuthGuard, RolesGuard)
+  @DRoles(Roles.ADMIN)
+  @UseGuards(AuthGuard, RolesGuard)
   @ApiOperation({
     summary: 'Get all people, the searching includes deleted ones.',
   })
@@ -151,7 +151,11 @@ export class PeopleController {
   }
 
   @Get('byrole/:role')
-  @ApiOperation({ summary: 'Get people by role, the searching includes deleted ones.' })
+  @DRoles(Roles.ADMIN)
+  @UseGuards(AuthGuard, RolesGuard)
+  @ApiOperation({
+    summary: 'Get people by role, the searching includes deleted ones.',
+  })
   @ApiResponse({
     status: 200,
     description: 'Returns people with the specified role.',
@@ -162,37 +166,43 @@ export class PeopleController {
   })
   @ApiQuery(PageApiQueries)
   @ApiQuery(LimitApiQueries)
-  async peopleByRole(@Param('role') role: Roles, @Query() paginationDto: PaginationDto) {
-    const people: Person[] = await this.peopleService.peopleByRole(role, paginationDto);
+  async peopleByRole(
+    @Param('role') role: Roles,
+    @Query() paginationDto: PaginationDto,
+  ) {
+    const people: Person[] = await this.peopleService.peopleByRole(
+      role,
+      paginationDto,
+    );
     if (people.length === 0)
-      throw new BadRequestException(
-        `No existen usuarios con el rol ${role}.`,
-      );
+      throw new BadRequestException(`No existen usuarios con el rol ${role}.`);
     return people;
   }
 
-  @Get(':idperson')
-  @ApiOperation({
-    summary: 'Get a person by ID, the searching includes deleted ones.',
-  })
-  @ApiResponse({
-    status: 200,
-    description: 'Returns to the person with the specified ID.',
-  })
-  @ApiBadRequestResponse({
-    status: 400,
-    description: 'Person with that ID does not exist.',
-  })
-  async personById(
-    @Param('idperson', ParseUUIDPipe) idperson: string,
-  ): Promise<Person> {
-    const person: Person = await this.peopleService.personById(idperson);
-    if (!person)
-      throw new BadRequestException(`No existe usuario con el ID ${idperson}.`);
-    return person;
-  }
+  // @Get(':idperson')
+  // @ApiOperation({
+  //   summary: 'Get a person by ID, the searching includes deleted ones.',
+  // })
+  // @ApiResponse({
+  //   status: 200,
+  //   description: 'Returns to the person with the specified ID.',
+  // })
+  // @ApiBadRequestResponse({
+  //   status: 400,
+  //   description: 'Person with that ID does not exist.',
+  // })
+  // async personById(
+  //   @Param('idperson', ParseUUIDPipe) idperson: string,
+  // ): Promise<Person> {
+  //   const person: Person = await this.peopleService.personById(idperson);
+  //   if (!person)
+  //     throw new BadRequestException(`No existe usuario con el ID ${idperson}.`);
+  //   return person;
+  // }
 
   @Patch('addrole/:idperson')
+  @DRoles(Roles.ADMIN)
+  @UseGuards(AuthGuard, RolesGuard)
   @ApiOperation({ summary: 'Add new person role.' })
   @ApiResponse({
     status: 200,
@@ -207,6 +217,8 @@ export class PeopleController {
   }
 
   @Patch('delrole/:idperson')
+  @DRoles(Roles.ADMIN)
+  @UseGuards(AuthGuard, RolesGuard)
   @ApiOperation({ summary: 'Delete a person role.' })
   @ApiResponse({
     status: 200,
@@ -221,6 +233,8 @@ export class PeopleController {
   }
 
   @Patch('editphoto/:idperson')
+  @DRoles(Roles.ADMIN, Roles.DENTIST, Roles.ADMINISTRATIVE, Roles.PATIENT)
+  @UseGuards(AuthGuard, RolesGuard)
   @ApiOperation({ summary: 'Change de profile photo.' })
   @ApiResponse({
     status: 200,
@@ -241,6 +255,8 @@ export class PeopleController {
   }
 
   @Patch('update/:id')
+  @DRoles(Roles.ADMIN)
+  @UseGuards(AuthGuard, RolesGuard)
   @ApiOperation({ summary: 'Update person info.' })
   @ApiResponse({
     status: 200,

@@ -7,7 +7,6 @@ import {
   useWebchatStore,
 } from "@botpress/webchat"
 import { buildTheme } from "@botpress/webchat-generator"
-//import "./style.css"
 import { enviroment } from "@/utils/config"
 import Image from "next/image"
 

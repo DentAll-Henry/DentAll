@@ -8,6 +8,7 @@ import esLocale from "@fullcalendar/core/locales/es";
 import axios from "axios";
 import { enviroment } from "@/utils/config";
 import { addMinutes, format } from "date-fns";
+import axiosInstance from "@/utils/axiosInstance";
 
 type Event = {
   id: string;
@@ -48,7 +49,7 @@ const CalendarAppointments: React.FC<CalendarProps> = ({ dentist_id }) => {
   );
 
   useEffect(() => {
-        const initializeDentistIds = async () => {
+    const initializeDentistIds = async () => {
       if (dentist_id) {
         setSelectedDentistsIds([dentist_id]);
       } else {
@@ -64,7 +65,6 @@ const CalendarAppointments: React.FC<CalendarProps> = ({ dentist_id }) => {
   }, [selectedDentistsIds]);
 
   const goNext = async () => {
-
     if (calendarRef.current) {
       const calendarApi = calendarRef.current.getApi();
       const currentStart = calendarApi.view.currentStart;
@@ -80,7 +80,7 @@ const CalendarAppointments: React.FC<CalendarProps> = ({ dentist_id }) => {
 
   const fetchDentists = async () => {
     try {
-      const response = await axios.get(`${enviroment.apiUrl}/dentists`);
+      const response = await axiosInstance.get(`/dentists`);
       setDentists(response.data);
       setSelectedDentistsIds(
         response.data.map((dentist: Dentist) => dentist.id)
@@ -108,13 +108,14 @@ const CalendarAppointments: React.FC<CalendarProps> = ({ dentist_id }) => {
   const fetchEvents = async (filters: RequestEventsFilter) => {
     const { start, end } = filters;
     try {
-      const response = await axios.get(
-        `${enviroment.apiUrl
+      const response = await axiosInstance.get(
+        `${
+          enviroment.apiUrl
         }/appointments?start=${start}&end=${end}&dentists=${filters.dentists.join(
           ","
         )}`
       );
-      if(response.data.length >=0){
+      if (response.data.length >= 0) {
         setEvents(response.data);
       }
     } catch (error) {
@@ -137,7 +138,7 @@ const CalendarAppointments: React.FC<CalendarProps> = ({ dentist_id }) => {
       };
       setEvents((prevEvents) => [...prevEvents, event]);
 
-      // const response = await axios.post(`${enviroment.apiUrl}/appointments`, event);
+      // const response = await axios.post(`/appointments`, event);
       // console.log(response.data);
     } catch (error) {
       console.error("Error al crear el evento:", error);
