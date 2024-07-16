@@ -90,10 +90,17 @@ const Register = () => {
 
   return (
     <div className="flex justify-center items-center h-screen bg-[#1D1D1D] relative">
-      <a href="/" className="absolute top-4 left-4 text-[#00CE90]">
-        Volver
-      </a>
-      <div className="flex w-full h-full">
+       <a href="/" className="flex flex-row justify-center items-center absolute top-4 left-4 text-white gap-2">
+        <Image
+          className="" // Ajusta el tamaño según tus necesidades
+          src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720967334/ArrowCircleRight_aln0la.png"
+          alt="Arrow"
+          width={30}
+          height={30}
+        />
+          Volver
+        </a>
+      <div className="flex w-full h-full pt-10">
         <div className="w-1/3 flex flex-col items-center bg-[#1D1D1D] text-white p-8">
           <h2 className="text-[#ECEDF6] font-maven-pro text-[34px] font-semibold leading-normal mb-4">
             Bienvenido a DentAll

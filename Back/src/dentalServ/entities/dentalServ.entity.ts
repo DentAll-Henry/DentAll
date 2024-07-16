@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Appointment } from 'src/appointments/entities/appointment.entity';
+import { Payment } from 'src/payments/entities/payment.entity';
 import {
   Entity,
   Column,
@@ -68,6 +69,8 @@ export class DentalServ {
   })
   appo: Appointment | Appointment['id'];
 
+  @OneToMany(() => Payment, (payment) => payment.dentalServ)
+  payments?: Payment[];
   // implement treathments
   // @ManyToOne(() => DentalRecord, (dentalRecord) => dentalRecord.id)
   // record: DentalRecord | DentalRecord['id'];
