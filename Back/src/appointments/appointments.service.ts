@@ -19,6 +19,7 @@ import { PatientsService } from 'src/person/patient.service';
 import { Dentist } from 'src/person/entities/dentist.entity';
 import { DentistsService } from 'src/person/dentist.service';
 import { GetLastAppointmentDateDto } from './dto/get-last-appointment-date.dto';
+import { format } from 'date-fns';
 
 @Injectable()
 export class AppointmentsService {
@@ -122,19 +123,35 @@ export class AppointmentsService {
 
     //send email
 
-    /* await this.mailService.sendMail(
+    await this.mailService.sendMail(
 
       patient.person['email'],
       'Nueva cita en DentAll',
-      'new_appointment',
-      {
-        first_name: patient.person['first_name'],
-        service: dentServ.name,
-        date_time: createAppointmentDto.date_time,
-        dentist: appointment.dentist_id['person']['first_name'],
-      },
+      `<!DOCTYPE html>
+<html>
 
-    ); */
+<head>
+  <title>Confirmacion de su cita</title>
+</head>
+
+<body>
+  <h1>Hola, ${patient.person['first_name']}!</h1>
+  <p>Solo queremos recordarte que su cita en DentAll sigue en nuestra agenda y esperamos verle pronto por aqui.</p>
+  <h4>Detalles de su cita:</h4>
+  <ul>
+    <li>Fecha y hora: ${format(appointment.date_time, 'yyyy-MM-dd HH:mm')}</li>
+    <li>Doctor: ${appointment.dentist_id['person']['first_name']} ${appointment.dentist_id['person']['last_name']}</li>
+    <li>Servicio: ${appointment.service['name']}</li>
+  </ul>
+  <p>Si necesita realizar cambios, puede hacerlo en la sección de Citas de su cuenta en DentAll.</p>
+  <p>Por favor, no dude en contactarnos si tiene alguna pregunta.</p>
+  <p>Gracias por preferirnos.</p>
+  <p>DentAll</p>
+</body>
+
+</html>`
+
+    );
 
 
     if (createAppointmentDto.pending_appointment_id) {
@@ -428,11 +445,27 @@ export class AppointmentsService {
     await this.mailService.sendMail(
       appointment.patient['person']['email'],
       'Confirmacion de cancelacion de su cita en DentAll',
-      'cancel_appointment',
-      {
-        first_name: appointment.patient['person']['first_name'],
-        date_time: appointment.date_time,
-      },
+      `<!DOCTYPE html>
+        <html>
+
+        <head>
+            <title>Cancelacion de su cita</title>
+        </head>
+
+        <body>
+            <h1>Hola, ${appointment.patient['person']['first_name']}!</h1>
+            <p>Le notificamos que su cita ha sido cancelada en DentAll con exito.</p>
+            <h4>Detalles de su cita:</h4>
+            <ul>
+                <li>Fecha y hora: ${format(appointment.date_time, 'yyyy-MM-dd HH:mm')}</li>
+            </ul>
+            <p>Si se trata de un error puede comunicarse con nosotros.</p>
+            <p>Por favor, no dude en contactarnos si tiene alguna pregunta.</p>
+            <p>Gracias por preferirnos.</p>
+            <p>DentAll</p>
+        </body>
+
+        </html>`
     );
     return 'Appointment deleted succesfully';
   }

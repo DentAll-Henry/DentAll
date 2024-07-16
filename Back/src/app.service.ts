@@ -5,6 +5,7 @@ import { Appointment } from './appointments/entities/appointment.entity';
 import { Repository } from 'typeorm';
 import { MailService } from './mail/mail.service';
 import { Payment } from './payments/entities/payment.entity';
+import { format } from 'date-fns';
 
 @Injectable()
 export class AppService {
@@ -56,14 +57,30 @@ export class AppService {
         for (const cita of appointmentsFuturos) {
             const response = await this.mailService.sendMail(
                 cita.patient['person']['email'],
-                'Nueva cita en DentAll',
-                'appointment_reminder',
-                {
-                    first_name: cita.patient['person']['first_name'],
-                    service: cita.service['name'],
-                    date_time: cita.date_time,
-                    dentist: cita.dentist_id['person']['first_name'],
-                },
+                'Recordatorio de cita en DentAll',
+                `<!DOCTYPE html>
+                    <html>
+
+                    <head>
+                    <title>Recordatorio de su cita</title>
+                    </head>
+
+                    <body>
+                    <h1>Hola, ${cita.patient['person']['first_name']}!</h1>
+                    <p>Solo queremos recordarte que su cita en DentAll sigue en nuestra agenda y esperamos verle pronto por aqui.</p>
+                    <h4>Detalles de su cita:</h4>
+                    <ul>
+                        <li>Fecha y hora: ${format(cita.date_time, 'yyyy-MM-dd HH:mm')}</li>
+                        <li>Doctor: ${cita.dentist_id['person']['first_name']} ${cita.dentist_id['person']['last_name']}</li>
+                        <li>Servicio: ${cita.service['name']}</li>
+                    </ul>
+                    <p>Si necesita realizar cambios, puede hacerlo en la sección de Citas de su cuenta en DentAll.</p>
+                    <p>Por favor, no dude en contactarnos si tiene alguna pregunta.</p>
+                    <p>Gracias por preferirnos.</p>
+                    <p>DentAll</p>
+                    </body>
+
+                    </html>`
             );
             await new Promise(resolve => setTimeout(resolve, 2000));
         }

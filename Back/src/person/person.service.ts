@@ -106,11 +106,35 @@ export class PeopleService {
 
       newPerson.email,
       'Registro exitoso en DentAll',
-      'signup',
-      {
-        first_name: newPerson.first_name,
-        email: newPerson.email,
-      }
+          `<!DOCTYPE html>
+      <html lang="en">
+
+      <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Notificacion de creacion de cuenta</title>
+          <style>
+              /* Estilos CSS aquí */
+          </style>
+      </head>
+
+      <body>
+          <div>
+              <h1>Bienvenido/a ${newPerson.first_name}!</h1>
+              <p>Tu cuenta en nuestro sitio ha sido creada exitosamente.</p>
+              <p>Detalles de la cuenta:</p>
+              <ul>
+                  <li><strong>Usuario:</strong> ${newPerson.email}</li>
+                  <li><strong>Contrasena:</strong> La contrasena que has proporcionado</li>
+                  
+              </ul>
+              <p>¡Gracias por unirte a nosotros!</p>
+              <p>Atentamente,</p>
+              <p>El equipo de DentAll</p>
+          </div>
+      </body>
+
+      </html>`
     );
 
     return newPerson;
@@ -133,16 +157,6 @@ export class PeopleService {
     const newPerson: Person =
       await this.peopleRepository.createPerson(personInfo);
 
-    await this.mailService.sendMail(
-
-      newPerson.email,
-      'Registro exitoso en DentAll',
-      'signup',
-      {
-        first_name: newPerson.first_name,
-        email: newPerson.email,
-      }
-    );
 
     return newPerson;
   }
