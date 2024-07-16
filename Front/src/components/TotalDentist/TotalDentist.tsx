@@ -18,12 +18,12 @@ const TotalDentist = () => {
                 <p>Email</p>
             </div>
 
-            <div className='w-[14%] p-3'>
+            <div className='w-[28%] p-3'>
                 <p >Especialidad</p>
             </div>
 
-            <div className='w-[14%] p-3'>
-                <p>Acciones</p>
+            <div className='w-[10%] p-3'>
+                <p>Estado</p>
             </div>
 
         </div>

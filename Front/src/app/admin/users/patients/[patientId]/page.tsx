@@ -80,13 +80,13 @@ const DetailsId = ({ params }: { params: { patientId: string } }) => {
                 {patient?.person.first_name} {patient?.person.last_name}
               </h1>
             </div>
-            <img src="/images/PencilSimple.svg" alt="" />
+            {/* <img src="/images/PencilSimple.svg" alt="" /> */}
           </div>
           <div className="grid grid-cols-3 gap-24">
             <div className="flex flex-col gap-2">
               <p className="text-greenD-500">INFORMACIÓN PERSONAL</p>
               <p><span className="text-darkD-300">DNI:</span> {patient?.person.dni}</p>
-              <p><span className="text-darkD-300">Fecha de nacimiento:</span> 25-01-2024</p>
+              <p><span className="text-darkD-300">Fecha de nacimiento:</span> {patient?.person.birthdate ? format(new Date(patient.person.birthdate), "dd-MM-yyyy") : "No disponible"}</p>
             </div>
             <div className="flex flex-col gap-2">
               <p className="text-greenD-500">INFORMACIÓN DE CONTACTO</p>
@@ -118,9 +118,9 @@ const DetailsId = ({ params }: { params: { patientId: string } }) => {
               <img src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720713870/Books_hcufp5.svg" alt="icono capsula" />
             </div>
 
-            <div className='flex flex-row gap-1 pl-14 pr-4 py-1 bg-[#D5D84A21] justify-between items-center  rounded-xl'>
-              <p className='text-base'>Receta médica</p>
-              <img src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720713871/PillYellow_bp6ew7.svg" alt="icono capsula" />
+            <div className='flex flex-row gap-1 pl-14 pr-4 py-1 bg-[#7ed84a21] justify-between items-center  rounded-xl'>
+              <p className='text-base'>Crear nueva orden </p>
+              <img src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720887373/NotePencil_axapbz.svg "/>
             </div>
         </div>
 

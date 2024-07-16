@@ -25,75 +25,79 @@ const Login = () => {
     password: "",
   });
 
-  useEffect(() => {
-    console.log("Componente Login renderizado");
-    const userSession = localStorage.getItem("userSession");
-    if (userSession) {
-      router.push("/patients");
-    }
-  }, [router]);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setDataUser({
-      ...dataUser,
-      [event.target.name]: event.target.value,
-    });
-  };
+ useEffect(() => {
+   console.log("Componente Login renderizado");
+   const userSession = localStorage.getItem("userSession");
+   if (userSession) {
+     router.push("/patients");
+   }
+ }, [router]);
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const errors = validateLoginForm(dataUser);
-    setErrorUser(errors);
+ const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+   setDataUser({
+     ...dataUser,
+     [event.target.name]: event.target.value,
+   });
+ };
 
-    if (Object.keys(errors).length === 0) {
-      try {
-        const response = await login(dataUser);
-        const { token, userData } = response;
-        console.log(response);
-        localStorage.setItem(
-          "userSession",
-          JSON.stringify({ token: token, userData })
-        );
-        Swal.fire({
-          title: "¡Excelente!",
-          text: `${userData.first_name}, has iniciado sesión correctamente. `,
-          icon: "success",
-          confirmButtonText: "Aceptar",
-          customClass: {
-            confirmButton:
-              "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
-          },
-        });
-        const decodedToken: {
-          id: string;
-          email: string;
-          exp: Date;
-          iat: Date;
-          roles: string;
-        } = decodeJWT(token);
-        console.log(decodedToken);
-        if (decodedToken?.roles === "patient") {
-          router.push("/patients");
-        } else if (decodedToken?.roles === "dentist") {
-          router.push("/professional");
-        } else if (decodedToken?.roles === "administrative") {
-          router.push("/administrative");
-        } else if (decodedToken?.roles === "admin") {
-          router.push("/admin");
-        } else {
-          router.push("/");
-        }
-      } catch (error: any) {
-        console.log(error);
-        Swal.fire({
-          title: "Error",
-          text: "Hubo un problema al iniciar sesión. Por favor, intente de nuevo.",
-          icon: "error",
-          confirmButtonText: "Aceptar",
-        });
-      }
-    }
-  };
+ const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+   event.preventDefault();
+   const errors = validateLoginForm(dataUser);
+   setErrorUser(errors);
+
+   if (Object.keys(errors).length === 0) {
+     try {
+       const response = await login(dataUser);
+       const { token, userData } = response;
+       console.log(response);
+       localStorage.setItem(
+         "userSession",
+         JSON.stringify({ token: token, userData })
+       );
+       await Swal.fire({
+         title: "¡Excelente!",
+         text: `${userData.first_name}, has iniciado sesión correctamente.`,
+         icon: "success",
+         confirmButtonText: "Aceptar",
+         customClass: {
+           confirmButton:
+             "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
+         },
+       });
+
+       const decodedToken: {
+         id: string;
+         email: string;
+         exp: Date;
+         iat: Date;
+         roles: string;
+       } = decodeJWT(token);
+       console.log(decodedToken);
+
+       if (decodedToken?.roles === "patient") {
+         router.push("/patients");
+       } else if (decodedToken?.roles === "dentist") {
+         router.push("/professional");
+       } else if (decodedToken?.roles === "administrative") {
+         router.push("/administrative");
+       } else if (decodedToken?.roles === "admin") {
+         router.push("/admin");
+       } else {
+         router.push("/");
+       }
+     } catch (error: any) {
+       console.log(error);
+       Swal.fire({
+         title: "Error",
+         text: "Hubo un problema al iniciar sesión. Por favor, intente de nuevo.",
+         icon: "error",
+         confirmButtonText: "Aceptar",
+       });
+     }
+   }
+ };
+
 
   return (
     <div className="flex justify-center items-center h-[100vh]">
@@ -101,7 +105,7 @@ const Login = () => {
         <a href="/" className="absolute top-4 left-4 text-[#00CE90]">
           Volver
         </a>
-        <div className="w-[35%] flex flex-col items-center bg-darkD-500 text-white p-8">
+        <div className="w-[35%] flex flex-col items-center justify-center bg-darkD-500 text-white p-12">
           <div className="flex flex-col items-start justify-start mb-8">
             <h2 className="text-[#ECEDF6] text-[34px] font-semibold leading-normal mb-4">
               Bienvenido a DentAll
@@ -115,7 +119,7 @@ const Login = () => {
                   EMAIL
                 </label>
                 <input
-                  className="flex h-[38px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
+                  className="flex h-[38px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[5px] bg-[#BBB] w-full"
                   placeholder="mail@mail.com"
                   value={dataUser.email}
                   type="text"
@@ -149,10 +153,10 @@ const Login = () => {
                   Olvidé mi contraseña
                 </a>
               </div>
-              <div className="w-full max-w-[80%] mt-4 flex justify-center">
+              <div className="w-full  mt-4 flex justify-center">
                 <button
                   type="submit"
-                  className="flex w-[340px] h-[38px] px-[25px] py-[11px] justify-center items-center gap-[10px] rounded-[1px] bg-[#00CE90]"
+                  className="flex w-[340px] h-[38px] px-[25px] py-[11px] justify-center items-center gap-[10px] rounded-[5px] bg-[#00CE90]"
                 >
                   <span className="text-[#030423] font-maven-pro text-[16px] font-semibold leading-normal">
                     Iniciar Sesión
@@ -162,7 +166,7 @@ const Login = () => {
             </form>
           </div>
           <div className="w-full max-w-[80%] text-[#00CE90] mt-8 flex flex-col items-center space-y-4">
-            <p>O inicia sesión con:</p>
+            <p className="text-white">O inicia sesión con:</p>
             {(!user) ?
               (<div className="flex space-x-4">
                 <div className="w-[44px] h-[44px] flex-shrink-0 relative">
@@ -178,11 +182,11 @@ const Login = () => {
             }
           </div>
           <div className="w-full max-w-[80%] text-[#00CE90] mt-8 flex flex-row items-center justify-center gap-4">
-            <p>No tienes cuenta?</p>
+            <p className="text-white">No tienes cuenta?</p>
             <a href="/register">Regístrate</a>
           </div>
         </div>
-        <div className="w-[65%] h-full relative">
+        <div className="w-[65%] h-full relative ">
           <Image
             className="hidden md:block"
             src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720194374/imgLogin_p0e1bb.webp"

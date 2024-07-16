@@ -73,6 +73,17 @@ export class DentistsController {
     return this.dentistsService.dentistsByDentalServ(dentalServ.name);
   }
 
+  @Get('quantity')
+  @ApiOperation({ summary: 'Get teh dentists quantity.' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns the dentists quantity.',
+  })
+  @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
+  async dentistsQuantity() {
+    return this.dentistsService.dentistsQuantity();
+  }
+
   @Get('person/:id')
   @ApiOperation({ summary: 'Get a dentist by person ID.' })
   @ApiResponse({

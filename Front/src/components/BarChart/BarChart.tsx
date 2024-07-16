@@ -40,24 +40,24 @@ function BarChart() {
                         scales: {
                             x: {
                                 type: "category",
-                                ticks: {
-                                    color: "white", // Color de las etiquetas del eje x
-                                    font: {
-                                        weight: "bold", // Texto en negrita
-                                    },
-                                },
+                                // ticks: {
+                                //     color: "white", // Color de las etiquetas del eje x
+                                //     font: {
+                                //         weight: "bold", // Texto en negrita
+                                //     },
+                                // },
                             },
                             y: {
                                 beginAtZero: true,
                                 grid: {
                                     color: "rgba(255, 255, 255, 0.1)", // Color blanco para las líneas horizontales
                                 },
-                                ticks: {
-                                    color: "white", // Color de las etiquetas del eje y
-                                    font: {
-                                        weight: "bold", // Texto en negrita
-                                    },
-                                },
+                                // ticks: {
+                                //     color: "white", // Color de las etiquetas del eje y
+                                //     font: {
+                                //         weight: "bold", // Texto en negrita
+                                //     },
+                                // },
                             },
                         },
                         plugins: {

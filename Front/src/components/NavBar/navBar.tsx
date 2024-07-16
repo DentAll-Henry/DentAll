@@ -16,7 +16,7 @@ const Navbar = () => {
             priority
           />
         </div>
-        <div className="flex flex-wrap w-[578px] items-start gap-x-[61px] ">
+        <div className="flex flex-wrap w-[578px] items-center justify-center gap-x-[61px] ">
           <a
             href="/"
             className="text-white font-maven-pro text-[16px] font-semibold leading-normal transition-all  hover:scale-110"
@@ -29,12 +29,12 @@ const Navbar = () => {
           >
             NOSOTROS
           </a>
-          <a
+          {/* <a
             href="#"
             className="text-white font-maven-pro text-[16px] font-semibold leading-normal transition-all  hover:scale-110"
           >
             TRATAMIENTOS
-          </a>
+          </a> */}
           <a
             href="/services"
             className="text-white font-maven-pro text-[16px] font-semibold leading-normal transition-all  hover:scale-110"
@@ -43,11 +43,11 @@ const Navbar = () => {
           </a>
         </div>
         <div className="inline-flex items-center px-[10px] gap-[50px]">
-          <button className="flex px-[25px] py-[10px] justify-center items-center gap-x-[10px] rounded-[1px] border-2 border-[#00CE90] text-[#00CE90] font-maven-pro text-[16px] font-semibold leading-normal">
+          <button className="flex px-[25px] py-[10px] justify-center items-center gap-x-[10px] rounded-[5px] border-2 border-[#00CE90] text-[#00CE90] font-maven-pro text-[16px] font-semibold leading-normal">
             Agendar cita
           </button>
           <Link href="/login">
-            <button className="rounded-[1px] bg-[#00CE90] px-[25px] py-[10px] text-[#0D0508] font-maven-pro text-[16px] font-semibold leading-normal">
+            <button className="rounded-[5px] bg-[#00CE90] px-[25px] py-[10px] text-[#0D0508] font-maven-pro text-[16px] font-semibold leading-normal">
               Iniciar sesión
             </button>
           </Link>

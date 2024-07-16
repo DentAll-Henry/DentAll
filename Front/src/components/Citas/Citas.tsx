@@ -1,14 +1,12 @@
 "use client";
 import { format } from "date-fns";
 import { toZonedTime } from "date-fns-tz";
-import { es } from "date-fns/locale";
 import axios from "axios";
 import { enviroment } from "@/utils/config";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 import { Appointment } from "@/types";
-
 
 type CitasProps = {
   futureAppointments: Appointment[];
@@ -81,36 +79,32 @@ const Citas: React.FC<CitasProps> = ({
 
   return (
     <div className="mx-8 mt-4 h-screen">
-      <div>
-        <h3 className="font-bold ml-8">PROXIMAS CITAS</h3>
+      <div className="flex flex-col gap-2">
+        <h3 className="font-bold ">PROXIMAS CITAS</h3>
         <div className="flex flex-row bg-darkD-500 rounded-md gap-1">
           <div className="w-[14%] px-4 py-2">Fecha</div>
           <div className="w-[9%] px-4 py-2">Hora</div>
           <div className="w-[20%] px-4 py-2">Especialista </div>
           <div className="w-[30%] px-4 py-2">Tipo de consulta</div>
-          <div className="w-[10%] px-2 py-2">Pago</div>
+          <div className="w-[10%] px-2 py-2">Estado Pago</div>
           <div className="w-[16%] px-4 py-2">Acciones</div>
         </div>
 
         {futureAppointments.map((appointment) => (
           <div key={appointment.id} className="flex flex-row rounded-md gap-1">
             <div className="w-[14%] px-4 py-2">
-              {format(
-                toZonedTime(appointment.date_time, "UTC"),
-                "dd-MMMM-yyyy",
-                { locale: es }
-              )}
+              {format(toZonedTime(appointment.date_time, "UTC"), "dd-MM-yyyy")}
             </div>
             <div className="w-[9%] px-4 py-2">
               {format(toZonedTime(appointment.date_time, "UTC"), "HH:mm")}
             </div>
             <div className="w-[20%] px-4 py-2">
-              Dr.{appointment.dentist_id.person.first_name}{" "}
+              Dr. {appointment.dentist_id.person.first_name}{" "}
               {appointment.dentist_id.person.last_name}{" "}
             </div>
             <div className="w-[30%] px-4 py-2">{appointment.service.name}</div>
-            <div className="w-[10%] px-2 py-2 bg-[#00FB5E] rounded-md text-black font-medium text-center">
-              {appointment.pagado}
+            <div className={`w-[10%] px-2 py-2 ${appointment.payment ? "bg-[#00FB5E]" : "bg-[#FFAF44]"} rounded-md text-black font-medium text-center`}>
+              {appointment.payment ? "Completado" : "Pendiente"}
             </div>
             <div
               onClick={() => handleCancelAppointment(appointment.id)}
@@ -121,18 +115,18 @@ const Citas: React.FC<CitasProps> = ({
           </div>
         ))}
 
-        {loadMoreButton && (
-          <button
-            onClick={loadMoreAppointments}
-            className="bg-blue-500 text-white p-2 rounded-md mt-4"
-          >
-            Cargar más
-          </button>
-        )}
+        {/* {loadMoreButton && (
+          // <button
+          //   onClick={loadMoreAppointments}
+          //   className="bg-blue-500 text-white p-2 rounded-md mt-4"
+          // >
+          //   Cargar más
+          // </button>
+        )} */}
       </div>
 
-      <div>
-        <h3 className="font-bold ml-8 mt-20">CITAS REALIZADAS</h3>
+      <div className="flex flex-col gap-2">
+        <h3 className="font-bold  mt-20">CITAS REALIZADAS</h3>
         <div className="flex flex-row bg-darkD-500 rounded-md gap-1">
           <div className="w-[14%] px-4 py-2">Fecha</div>
           <div className="w-[9%] px-4 py-2">Hora</div>
@@ -143,11 +137,7 @@ const Citas: React.FC<CitasProps> = ({
         {canceledAppointments.map((appointment) => (
           <div key={appointment.id} className="flex flex-row rounded-md gap-1">
             <div className="w-[14%] px-4 py-2">
-              {format(
-                toZonedTime(appointment.date_time, "UTC"),
-                "dd-MMMM-yyyy",
-                { locale: es }
-              )}
+              {format(toZonedTime(appointment.date_time, "UTC"), "dd-MM-yyyy")}
             </div>
             <div className="w-[9%] px-4 py-2">
               {format(toZonedTime(appointment.date_time, "UTC"), "HH:mm")}

@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { RegisterProps } from "@/types";
+import ProfileButton from "../ProfileButton/ProfileButton";
 
 const NavDash = () => {
   const pathname = usePathname();
@@ -31,21 +32,9 @@ const NavDash = () => {
 
         {userData?.token && (
           <div className="flex flex-row items-center ml-[45%] ">
-            <Link
-              href="/users/account"
-              className="flex items-center transition-all  hover:scale-105"
-            >
-              <Image
-                src={
-                  userData.userData.photo ||
-                  "https://res.cloudinary.com/ddpohfyur/image/upload/v1720201221/user_bdisfr.svg"
-                }
-                width={40}
-                height={30}
-                style={{ borderRadius: 50 }}
-                alt="Usuario"
-              />
-            </Link>
+            <div className="flex justify-center items-center ">
+              <ProfileButton />
+            </div>
             <p className="m-4 text-xl font-bold ">
               {userData.userData.first_name} {userData.userData.last_name}
             </p>

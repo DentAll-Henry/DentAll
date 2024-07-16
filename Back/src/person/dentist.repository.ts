@@ -33,6 +33,7 @@ export class DentistsRepository {
       .createQueryBuilder('dentists')
       .leftJoinAndSelect('dentists.specialty', 'specialty')
       .leftJoinAndSelect('dentists.person', 'people')
+      .where('dentists.is_active = :isActive', { isActive: true})
       .orderBy('dentists.rate', 'DESC')
       .take(4);
 
@@ -70,6 +71,19 @@ export class DentistsRepository {
     if (dentists.length === 0) throw new BadRequestException('No hay dentistas para la especialidad indicada.')
 
     return dentists;
+  }
+
+  async dentistsQuantity() {
+    const activeDentistsQuantity: number = await this.dentistsRepository
+      .createQueryBuilder('dentists')
+      .where('dentists.is_active = :isActive', { isActive: true})
+      .getCount();
+
+    const dentistsQuantity: number = await this.dentistsRepository
+      .createQueryBuilder('dentists')
+      .getCount();
+
+    return { total: dentistsQuantity, active: activeDentistsQuantity, inactive: dentistsQuantity-activeDentistsQuantity };
   }
 
   async dentistByPersonId(idperson: Person['id']) {

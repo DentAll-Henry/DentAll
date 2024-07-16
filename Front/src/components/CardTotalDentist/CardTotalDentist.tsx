@@ -64,12 +64,12 @@ function CardTotalDentist() {
         <div className='w-full flex flex-row gap-5' key={dentist.person.id}>
           <div className='w-[31%] p-3 flex flex-row gap-4'>
             <Image
-              src="/images/profile.png"
+              src={dentist.person.photo}
               width={24}
               height={24}
               alt="foto de perfil"
             />
-            <Link href={`/admin/dentists/${dentist.id}`}>
+            <Link href={`/admin/users/dentists/${dentist.id}`}>
               <p>Dr.{dentist.person.first_name} {dentist.person.last_name}</p>
             </Link>
           </div>
@@ -79,25 +79,11 @@ function CardTotalDentist() {
           <div className='w-[23%] p-3'>
             <p>{dentist.person.email}</p>
           </div>
-          <div className='w-[14%] p-3  '>
-            <p className='bg-blue-200 text-black rounded-sm px-1'>{dentist.specialty.name}</p>
+          <div className='w-[28%] p-3  '>
+            <p className=' text-blue-500 rounded-sm px-1'>{dentist.specialty.name}</p>
           </div>
-          <div className='w-[14%] p-3 flex flex-row gap-8'>
-            <Image 
-              onClick={() => openModal(dentist)}
-              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201305/PencilSimple_ugfifd.svg"
-              width={24}
-              height={24}
-              alt="editar"
-              className="cursor-pointer" 
-            />
-            <Image
-              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201219/Trash_e3pep7.svg"
-              width={24}
-              height={24}
-              alt="eliminar"
-              className="cursor-pointer" 
-            />
+          <div className='w-[10%] p-3 flex flex-row gap-8'>
+            <p className={dentist.is_active ? 'text-green-500 rounded-sm px-1' : 'text-gray-500 rounded-sm px-1'}>{dentist.is_active ? 'Activo' : 'Inactivo'}</p>
           </div>
         </div>
       ))}

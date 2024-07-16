@@ -4,6 +4,7 @@ import Image from "next/image";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
 import { enviroment } from "@/utils/config";
+import dynamic from "next/dynamic";
 
 interface NavItem {
   href: string;
@@ -21,36 +22,45 @@ interface SideNavProps {
     navItemHover: string;
     navItemText: string;
     navItemTextHover: string;
-    headerText: string; // Nueva clase de estilo para el texto del encabezado
+    headerText: string;
   };
-  headerText: string; // Nueva propiedad para el texto del encabezado
+  headerText: string;
 }
+
+const DynamicFAQChatBot = dynamic(
+  () => import("@/components/ChatBot/FAQChatBot"),
+  {
+    ssr: false,
+  }
+);
 
 const SideNav = ({ navItems, styles, headerText }: SideNavProps) => {
   const router = useRouter();
-  const handleLogout = () => {
-    localStorage.removeItem("userSession");
 
-    const clientId = encodeURIComponent(enviroment.auth0.clientId+"");
-    const domain = encodeURIComponent(enviroment.auth0.domain+"");
-    const returnTo = encodeURIComponent(window.location.origin);
-    
-    Swal.fire({
-      title: "¡Excelente!",
-      text: "Sesión cerrada correctamente.",
-      icon: "success",
-      confirmButtonText: "Aceptar",
-      customClass: {
-        confirmButton:
+const handleLogout = () => {
+  localStorage.removeItem("userSession");
+
+  const clientId = encodeURIComponent(enviroment.auth0.clientId + "");
+  const domain = encodeURIComponent(enviroment.auth0.domain + "");
+  const returnTo = encodeURIComponent(window.location.origin);
+
+  Swal.fire({
+    title: "¡Excelente!",
+    text: "Sesión cerrada correctamente.",
+    icon: "success",
+    confirmButtonText: "Aceptar",
+    customClass: {
+      confirmButton:
         "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded",
-      },
-    });
-    // router.push("/api/auth/logout");
-    const url = `https://${domain}/v2/logout?client_id=${clientId}&returnTo=${returnTo}/api/auth/logout`
-    console.log(url)
-
-    router.push(url)
-  };
+    },
+  }).then((result) => {
+    if (result.isConfirmed) {
+      const url = `https://${domain}/v2/logout?client_id=${clientId}&returnTo=${returnTo}/api/auth/logout`;
+      console.log(url);
+      router.push(url);
+    }
+  });
+};
 
   return (
     <div className={`h-screen w-[20%] ${styles.container} text-white fixed`}>
@@ -63,7 +73,6 @@ const SideNav = ({ navItems, styles, headerText }: SideNavProps) => {
           priority
         />
       </div>
-      {/* Añadir el texto dinámico aquí */}
       <div
         className={`text-center mt-4 text-lg font-bold ${styles.headerText}`}
       >
@@ -95,10 +104,10 @@ const SideNav = ({ navItems, styles, headerText }: SideNavProps) => {
           <li
             className={`py-2 px-4 m-4 rounded-xl ${styles.navItem} ${styles.navItemHover} group`}
           >
-              <button
-                onClick={handleLogout}
-                className={`${styles.navItemText} ${styles.navItemTextHover} flex gap-4`}
-              >
+            <button
+              onClick={handleLogout}
+              className={`${styles.navItemText} ${styles.navItemTextHover} flex gap-4`}
+            >
               <Image
                 className="group-hover:fill-current text-white"
                 src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720362437/Property_Power_bmot88.svg"
@@ -106,20 +115,14 @@ const SideNav = ({ navItems, styles, headerText }: SideNavProps) => {
                 height={24}
                 alt="Cerrar sesión"
               />
-                Cerrar sesión
-              </button>
+              Cerrar sesión
+            </button>
           </li>
         </ul>
       </nav>
-      {/* <div className="flex items-end justify-end mt-[90%] mr-4">
-        <Image
-          className="group-hover:fill-current text-white"
-          src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720203858/robot_dki1y5.webp"
-          width={50}
-          height={50}
-          alt="Chat bot"
-        />
-      </div> */}
+      <div className="absolute bottom-0 right-0 mb-4 mr-4 ">
+        <DynamicFAQChatBot />
+      </div>
     </div>
   );
 };

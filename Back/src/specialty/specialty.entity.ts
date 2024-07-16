@@ -1,9 +1,11 @@
 import { DentalServ } from 'src/dentalServ/entities/dentalServ.entity';
+import { Dentist } from 'src/person/entities/dentist.entity';
 import {
   Column,
   Entity,
   JoinTable,
   ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -34,4 +36,7 @@ export class Specialty {
     },
   })
   services?: DentalServ[];
+
+  @OneToMany(() => Dentist, (dentist) => dentist.id)
+  dentists?: Dentist[]
 }
