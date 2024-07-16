@@ -51,35 +51,43 @@ export class DentistsService {
     rate?: number;
     personId: string;
     description?: string;
+    dentalServName?: string;
   }) {
-    const { specialtyName, rate, personId, description } = dentistInfo;
+    const { specialtyName, rate, personId, description, dentalServName } = dentistInfo;
     const person: Person = await this.peopleService.addRole(personId, {
       roleName: Roles.DENTIST,
     });
     let dentistToCreate: Partial<Dentist>;
+    let specialty: Specialty;
+    let dental_services: DentalServ[] = [];
+    
     if (specialtyName) {
-      const specialty =
+      const specialtyResponse =
         await this.specialtiesService.SpecialtyByName(specialtyName);
-      if (specialty instanceof Specialty) {
-        dentistToCreate = {
-          specialty,
-          rate,
-          person,
-          description,
-        };
+      if (specialtyResponse instanceof Specialty) {
+        specialty = specialtyResponse;
       } else {
-        dentistToCreate = {
-          rate,
-          person,
-          description,
-        };
+        const specialtyResponse = await this.specialtiesService.SpecialtyByName("Odontología general") as Specialty;
+        specialty = specialtyResponse;
       }
-      return await this.dentistsRepository.createDentist(dentistToCreate);
     }
+
+    if (dentalServName) {
+      try {
+        const dentalServResponse = await this.dentalServService.getDentalServByName(dentalServName);
+        dental_services.push(dentalServResponse[0])
+      } catch {
+        const dentalServResponse = await this.dentalServService.getDentalServByName("Consulta de valoración");
+        dental_services.push(dentalServResponse[0])
+      }
+    }
+
     dentistToCreate = {
       rate,
       person,
       description,
+      specialty,
+      dental_services,
     };
     return await this.dentistsRepository.createDentist(dentistToCreate);
   }
