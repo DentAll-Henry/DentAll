@@ -51,8 +51,6 @@ export class AuthController {
   }
 
   @Post('signup')
-  @DRoles(Roles.ADMIN, Roles.DENTIST, Roles.ADMINISTRATIVE, Roles.PATIENT)
-  @UseGuards(AuthGuard, RolesGuard)
   @ApiOperation({
     summary:
       'Create user and its credentials. The request body must has confirmPass.',
@@ -67,8 +65,6 @@ export class AuthController {
   }
 
   @Post('signin')
-  @DRoles(Roles.ADMIN, Roles.DENTIST, Roles.ADMINISTRATIVE, Roles.PATIENT)
-  @UseGuards(AuthGuard, RolesGuard)
   @ApiOperation({ summary: 'Validating credential for signin.' })
   @ApiResponse({ status: 201, description: 'Return the token.' })
   @ApiBadRequestResponse({ status: 400, description: 'Invalid credentials.' })
