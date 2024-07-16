@@ -8,6 +8,7 @@ import {
   Post,
   Query,
   Res,
+  UseGuards,
 } from '@nestjs/common';
 import { DentalServService } from './dentalServ.service';
 import { Response } from 'express';
@@ -23,6 +24,10 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { LimitApiQueries, PageApiQueries } from 'src/config/swagger-config';
+import { DRoles } from 'src/decorators/roles.decorator';
+import { Roles } from 'src/role/enums/roles.enum';
+import { AuthGuard } from 'src/auth/guards/auth.guard';
+import { RolesGuard } from 'src/role/guards/roles.guard';
 
 @ApiTags('Dental-Serv')
 @Controller('dental-serv')
@@ -82,6 +87,8 @@ export class DentalServController {
   }
 
   @Get('/by-name/')
+  @DRoles(Roles.ADMIN, Roles.DENTIST, Roles.ADMINISTRATIVE, Roles.PATIENT)
+  @UseGuards(AuthGuard, RolesGuard)
   @ApiOperation({ summary: 'Get one dental service by name' })
   @ApiResponse({ status: 200, description: 'Return one dental service' })
   @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
@@ -98,26 +105,28 @@ export class DentalServController {
     res.status(200).json(service);
   }
 
-  @Get(':id')
-  @ApiOperation({ summary: 'Get one dental service by id' })
-  @ApiResponse({ status: 200, description: 'Return one dental service' })
-  @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
-  @ApiInternalServerErrorResponse({ status: 500, description: 'Server error.' })
-  @ApiParam({
-    name: 'id',
-    required: true,
-    description: 'Dental service id',
-    example: '62a3bd93-1c50-436a-9644-cd314cf71623',
-  })
-  async getDentalServById(
-    @Param('id', ParseUUIDPipe) id: string,
-    @Res() res: Response,
-  ) {
-    const service = await this.dentalServService.getDentalServByID(id);
-    res.status(200).json(service);
-  }
+  // @Get(':id')
+  // @ApiOperation({ summary: 'Get one dental service by id' })
+  // @ApiResponse({ status: 200, description: 'Return one dental service' })
+  // @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
+  // @ApiInternalServerErrorResponse({ status: 500, description: 'Server error.' })
+  // @ApiParam({
+  //   name: 'id',
+  //   required: true,
+  //   description: 'Dental service id',
+  //   example: '62a3bd93-1c50-436a-9644-cd314cf71623',
+  // })
+  // async getDentalServById(
+  //   @Param('id', ParseUUIDPipe) id: string,
+  //   @Res() res: Response,
+  // ) {
+  //   const service = await this.dentalServService.getDentalServByID(id);
+  //   res.status(200).json(service);
+  // }
 
   @Post()
+  @DRoles(Roles.ADMIN, Roles.ADMINISTRATIVE)
+  @UseGuards(AuthGuard, RolesGuard)
   @ApiOperation({ summary: 'Create a new dental service' })
   @ApiResponse({ status: 201, description: 'Return created service' })
   @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
@@ -129,6 +138,8 @@ export class DentalServController {
   }
 
   @Patch(':id')
+  @DRoles(Roles.ADMIN, Roles.ADMINISTRATIVE, Roles.DENTIST)
+  @UseGuards(AuthGuard, RolesGuard)
   @ApiOperation({ summary: 'Edit one dental service by id' })
   @ApiResponse({ status: 200, description: 'Return edited service' })
   @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
@@ -157,6 +168,8 @@ export class DentalServController {
   }
 
   @Patch('switch/:id')
+  @DRoles(Roles.ADMIN, Roles.ADMINISTRATIVE, Roles.DENTIST)
+  @UseGuards(AuthGuard, RolesGuard)
   @ApiOperation({ summary: 'Switch active status of one service by id' })
   @ApiResponse({ status: 200, description: 'Return edited service' })
   @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
