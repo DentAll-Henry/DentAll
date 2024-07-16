@@ -328,7 +328,7 @@ const EditProfile = () => {
                 <p className="text-red-500">{errorUser.password}</p>
               )}
             </div>
-            <div className="w-full">
+            {/* <div className="w-full">
               <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
                 REPETIR CONTRASEÑA
               </label>
@@ -345,7 +345,7 @@ const EditProfile = () => {
               {errorUser.confirmPass && (
                 <p className="text-red-500">{errorUser.confirmPass}</p>
               )}
-            </div>
+            </div> */}
             <div className="w-full mt-4 flex justify-center md:col-span-2">
               <button
                 type="submit"

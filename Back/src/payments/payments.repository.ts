@@ -64,6 +64,7 @@ export class PaymentsRepository {
         back_urls: {
           success: environment.fronturl + 'patients/appointments',
           failure: environment.fronturl + 'patients/appointments',
+          pending: environment.fronturl + 'patients/appointments',
         },
         notification_url: `${environment.backUrl}payments/success/?patient_id=${patient.id}&dentalServ_id=${service.id}&appointment_id=${appointment.id}`,
         auto_return: 'approved',

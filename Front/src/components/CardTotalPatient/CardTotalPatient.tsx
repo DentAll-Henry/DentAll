@@ -10,11 +10,11 @@ import axiosInstance from "@/utils/axiosInstance";
 import Swal from "sweetalert2";
 
 type AllRoles = {
-  eng: string,
-  esp: string,
-  status: boolean,
-  personId: string,
-}
+  eng: string;
+  esp: string;
+  status: boolean;
+  personId: string;
+};
 
 function CardTotalPatient() {
   type User = {
@@ -29,42 +29,42 @@ function CardTotalPatient() {
   const [selectedPatient, setSelectedPatient] = useState<Patients | null>(null);
   const [allRoles, setAllRoles] = useState<AllRoles[]>([
     {
-      eng: 'patient',
-      esp: 'Paciente',
+      eng: "patient",
+      esp: "Paciente",
       status: true,
-      personId: '',
+      personId: "",
     },
     {
-      eng: 'dentist',
-      esp: 'Dentista',
+      eng: "dentist",
+      esp: "Dentista",
       status: true,
-      personId: '',
+      personId: "",
     },
     {
-      eng: 'administrative',
-      esp: 'Adminsitrativo',
+      eng: "administrative",
+      esp: "Adminsitrativo",
       status: true,
-      personId: '',
+      personId: "",
     },
     {
-      eng: 'admin',
-      esp: 'Super Admin',
+      eng: "admin",
+      esp: "Super Admin",
       status: true,
-      personId: '',
+      personId: "",
     },
-  ])
+  ]);
   const router = useRouter();
 
   const openModal = (patient: Patients) => {
     setSelectedPatient(patient);
     setIsModalOpen(true);
     // Cargar los roles del paciente seleccionado al abrir el modal
-    const rolesPatient: string[] = patient.person.roles.map((r) => r.name)
+    const rolesPatient: string[] = patient.person.roles.map((r) => r.name);
     const allRolesPatient: AllRoles[] = allRoles.map((r) => {
-      if(rolesPatient.includes(r.eng)) {
-        return {...r, status: false, personId: patient.person.id }
+      if (rolesPatient.includes(r.eng)) {
+        return { ...r, status: false, personId: patient.person.id };
       } else {
-        return {...r, status: true, personId: patient.person.id }
+        return { ...r, status: true, personId: patient.person.id };
       }
     });
     setAllRoles(allRolesPatient);
@@ -76,11 +76,14 @@ function CardTotalPatient() {
   };
 
   const addRole = async (role: string, personId: string) => {
-    if (role !== 'dentist') {
+    if (role !== "dentist") {
       try {
-        const response = await axiosInstance.patch(`/people/addrole/${personId}`, {
-          roleName: role
-        })
+        const response = await axiosInstance.patch(
+          `/people/addrole/${personId}`,
+          {
+            roleName: role,
+          }
+        );
         await Swal.fire({
           title: "¡Excelente!",
           text: "Rol añadido.",
@@ -107,18 +110,22 @@ function CardTotalPatient() {
       try {
         let response: any;
         try {
-          const dentistResponse = await axiosInstance.get(`/dentists/person/${personId}`);
-          response = await axiosInstance.patch(`/dentists/changestatus/${dentistResponse.data.id}`)
+          const dentistResponse = await axiosInstance.get(
+            `/dentists/person/${personId}`
+          );
+          response = await axiosInstance.patch(
+            `/dentists/changestatus/${dentistResponse.data.id}`
+          );
         } catch {
           response = await axiosInstance.post(`/dentists/create`, {
-            specialtyName: 'Odontología general',
-            dentalServName: 'Consulta de valoración',
+            specialtyName: "Odontología general",
+            dentalServName: "Consulta de valoración",
             personId,
-            description: 'Odontólogo general'
-          })
+            description: "Odontólogo general",
+          });
         } finally {
-          console.log("--> Acá Carlos <--")
-          console.log(response.data)
+          console.log("--> Acá Carlos <--");
+          console.log(response.data);
           await Swal.fire({
             title: "¡Excelente!",
             text: "Rol añadido.",
@@ -144,13 +151,13 @@ function CardTotalPatient() {
       }
     }
     closeModal();
-    window.location.reload()
+    fetchPatients();
   };
 
   const delRole = async (role: string, personId: string) => {
-    if (role !== 'dentist') {
+    if (role !== "dentist") {
       await axiosInstance.patch(`/people/delrole/${personId}`, {
-        roleName: role
+        roleName: role,
       });
       await Swal.fire({
         title: "¡Excelente!",
@@ -177,8 +184,8 @@ function CardTotalPatient() {
       });
     }
     closeModal();
-    window.location.reload()
-  }
+    fetchPatients();
+  };
 
   useEffect(() => {
     const userSession = localStorage.getItem("userSession");
@@ -191,21 +198,19 @@ function CardTotalPatient() {
     }
   }, [router]);
 
-  useEffect(() => {
-    const fetchPatients = async () => {
-      try {
-        const patientsData = await allPatients();
-        console.log("Fetched patients:", patientsData);
-        setPatients(patientsData);
-      } catch (error) {
-        console.error("Error fetching patients:", error);
-      }
-    };
+  const fetchPatients = async () => {
+    try {
+      const patientsData = await allPatients();
+      console.log("Fetched patients:", patientsData);
+      setPatients(patientsData);
+    } catch (error) {
+      console.error("Error fetching patients:", error);
+    }
+  };
 
+  useEffect(() => {
     fetchPatients();
   }, []);
-
- 
 
   console.log("pacientes:", patients);
 
@@ -274,16 +279,16 @@ function CardTotalPatient() {
           </h3>
           <div className="flex gap-2 mb-4">
             {allRoles.map((r, index) => {
-              if(r.status) {
+              if (r.status) {
                 return (
                   <div
                     className="bg-green-500 text-white rounded px-4 py-2 hover:bg-green-600 cursor-pointer"
                     onClick={() => addRole(r.eng, r.personId)}
                     key={index}
                   >
-                    { 'Agregar ' + r.esp }
+                    {"Agregar " + r.esp}
                   </div>
-                )
+                );
               } else {
                 return (
                   <div
@@ -291,9 +296,9 @@ function CardTotalPatient() {
                     onClick={() => delRole(r.eng, r.personId)}
                     key={index}
                   >
-                    { 'Retirar ' + r.esp }
+                    {"Retirar " + r.esp}
                   </div>
-                )
+                );
               }
             })}
           </div>
