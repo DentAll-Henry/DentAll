@@ -106,7 +106,7 @@ export class AuthController {
   }
 
   @Post('changerole')
-  @DRoles(Roles.ADMIN, Roles.ADMINISTRATIVE)
+  @DRoles(Roles.PATIENT, Roles.DENTIST, Roles.ADMIN, Roles.ADMINISTRATIVE)
   @UseGuards(AuthGuard, RolesGuard)
   @ApiOperation({ summary: 'Validating role to change token.' })
   @ApiResponse({ status: 201, description: 'Return the new token.' })
