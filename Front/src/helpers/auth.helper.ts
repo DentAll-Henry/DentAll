@@ -1,4 +1,5 @@
 import { LoginProps, RegisterProps } from "@/types";
+import axiosInstance from "@/utils/axiosInstance";
 import { enviroment } from "@/utils/config";
 import axios from "axios";
 
@@ -6,24 +7,17 @@ import "sweetalert2/dist/sweetalert2.min.css";
 
 export async function register(userData: RegisterProps) {
   try {
-    const response = await axios.post(
-      `${enviroment.apiUrl}/auth/signup`,
-      userData
-    );
+    const response = await axiosInstance.post(`/auth/signup`, userData);
     return response.data;
   } catch (error) {
     console.error(error);
     throw error;
   }
-  
 }
 
 export async function login(userData: LoginProps) {
   try {
-    const response = await axios.post(
-      `${enviroment.apiUrl}/auth/signin`,
-      userData
-    );
+    const response = await axiosInstance.post(`/auth/signin`, userData);
     return response.data;
   } catch (error) {
     console.error(error);
