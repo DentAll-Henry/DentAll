@@ -1,8 +1,10 @@
 import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
 import nodemailerConfig from 'src/config/nodemailer';
+import { Resend } from 'resend';
 
 import { SystemConfigsService } from 'src/system_configs/system_configs.service';
+import { environment } from 'src/config/environment';
 
 @Injectable()
 export class MailService {
@@ -14,18 +16,31 @@ export class MailService {
     ) {
     }
 
-    async sendMail(to: string, subject: string, template: string, context: {}) {
-        this.mailerService
-            .sendMail({
-                to,
-                from: `DentAll clinic <${process.env.NODEMAILER_USER}>`,
-                subject,
-                template,
-                context,
-            })
-            .then((a) => { console.log(a); })
-            .catch((e) => { console.log(e); });
+    async sendMail(to: string, subject: string, html: string) {
+        const resend = new Resend(environment.resendAPIKey);
+
+        const aa = await resend.emails.send({
+            from: 'DentAll <onboarding@resend.dev>',
+            to: "dentallabgotvv@gmail.com",
+            subject,
+            html,
+        });
+
+        console.log(aa);
     }
+
+    /*     async sendMail(to: string, subject: string, template: string, context: {}) {
+            this.mailerService
+                .sendMail({
+                    to,
+                    from: `DentAll clinic <${process.env.NODEMAILER_USER}>`,
+                    subject,
+                    template,
+                    context,
+                })
+                .then((a) => { console.log(a); })
+                .catch((e) => { console.log(e); });
+        } */
     /* const mail = (await this.systemConfigsService.findOne('email')).value
     const mailOptions = {
         from: `${process.env.NODEMAILER_USER}`, // dirección del remitente
