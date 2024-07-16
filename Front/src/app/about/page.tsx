@@ -245,7 +245,7 @@ const AboutPage = () => {
         <div className="flex flex-wrap gap-12 justify-center mt-4">
           <div className="text-center">
             <Image
-              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1721082094/Carlos_ok_z2a2dm.png"
+              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1721149471/3_oqzdu9.png"
               alt="Carlos Tunjano"
               width={120}
               height={120}
@@ -255,7 +255,7 @@ const AboutPage = () => {
           </div>
           <div className="text-center">
             <Image
-              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1721082320/Manu_ok_re3s21.png"
+              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1721149471/4_zqeiqy.png"
               alt="Manuel Ochoa"
               width={120}
               height={120}
@@ -265,7 +265,7 @@ const AboutPage = () => {
           </div>
           <div className="text-center">
             <Image
-              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1721069004/Dientin_404_cnlpwk.png"
+              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1721149470/1_imqjjm.png"
               alt="Mauricio Arce"
               width={120}
               height={120}
@@ -295,7 +295,7 @@ const AboutPage = () => {
           </div>
           <div className="text-center">
             <Image
-              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1721069004/Dientin_404_cnlpwk.png"
+              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1721149470/2_ai2imp.png"
               alt="Matias Videla"
               width={120}
               height={120}
@@ -305,7 +305,7 @@ const AboutPage = () => {
           </div>
           <div className="text-center">
             <Image
-              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1721069004/Dientin_404_cnlpwk.png"
+              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1721149470/00CE90_mbx6pb.png"
               alt="Sebastian Villagra"
               width={120}
               height={120}
