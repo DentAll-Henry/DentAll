@@ -179,7 +179,7 @@ const RegisterAuth0 = () => {
           email: user?.email,
           password: `${user?.sub}D`,
         });
-        const { success, token, userData } = response;
+        const { success, token, userData } = response.data;
         console.log("--> Acá Carlos <--");
         console.log(response);
         localStorage.setItem(
