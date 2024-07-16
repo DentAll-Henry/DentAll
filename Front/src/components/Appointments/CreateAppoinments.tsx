@@ -6,7 +6,7 @@ import { enviroment } from "@/utils/config";
 import NavDash from "../NavBar/navDash"; // Asegúrate de que la ruta sea correcta
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { endOfMonth, format, startOfMonth } from "date-fns";
+import { addDays, endOfMonth, format, startOfMonth } from "date-fns";
 import { toZonedTime } from "date-fns-tz";
 import "./DatePickerStyles.css"; // Importa los estilos personalizados
 import { handlePayment } from "@/helpers/handlePayment";
@@ -303,7 +303,7 @@ const CreateAppointment = () => {
                   )} */}
                   <div className="mt-2 bg-darkD-400 shadow-md rounded-lg">
                     <DatePicker
-                      minDate={new Date()}
+                      minDate={addDays(new Date(), 1)}
                       onChange={(date) => handleCalendarSelectedDate(date)}
                       onMonthChange={handleCalendarMonthChange}
                       selected={calendarDate}
