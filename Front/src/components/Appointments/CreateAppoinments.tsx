@@ -15,6 +15,7 @@ import Timer from "../Timer/Timer";
 import BlockUi from "@availity/block-ui";
 import "@availity/block-ui/src/BlockUi.css";
 import "@availity/block-ui/src/Loader.css";
+import axiosInstance from "@/utils/axiosInstance";
 
 type User = {
   id: string;
@@ -66,11 +67,11 @@ const CreateAppointment = () => {
   const getData = async () => {
     if (user) {
       try {
-        const patient = await axios.get(
+        const patient = await axiosInstance.get(
           `${enviroment.apiUrl}/patients/person/${user.id}`
         );
         setAppointment({ ...appointment, patient: patient.data.id });
-        const response = await axios.get(
+        const response = await axiosInstance.get(
           `${enviroment.apiUrl}/appointments/pending_appointments_by_patient/${patient.data.id}`
         );
         setPending(response.data);
@@ -89,10 +90,10 @@ const CreateAppointment = () => {
     const encodedServiceName = encodeURIComponent(selectedServiceName);
 
     try {
-      const dentistResponse = await axios.get(
+      const dentistResponse = await axiosInstance.get(
         `${enviroment.apiUrl}/dentists/bydentalserv?name=${encodedServiceName}`
       );
-      const serviceResponse = await axios.get(
+      const serviceResponse = await axiosInstance.get(
         `${enviroment.apiUrl}/dental-serv/by-name?name=${encodedServiceName}`
       );
       setAppointment({ ...appointment, service: serviceResponse.data[0].id });
@@ -146,10 +147,7 @@ const CreateAppointment = () => {
           ? { ...appointment, pending_appointment_id: pending_id }
           : appointment;
 
-      const response = await axios.post(
-        `${enviroment.apiUrl}/appointments`,
-        data
-      );
+      const response = await axiosInstance.post(`/appointments`, data);
       if (response.status === 201) {
         setAppointment((prevAppointment) => ({
           ...prevAppointment,
@@ -168,15 +166,12 @@ const CreateAppointment = () => {
     end_date: string,
     time_slots: boolean = false
   ) => {
-    return await axios.post(
-      `${enviroment.apiUrl}/appointments/get_available_slots`,
-      {
-        dentist_id: dentist,
-        start_date,
-        end_date,
-        time_slots,
-      }
-    );
+    return await axiosInstance.post(`/appointments/get_available_slots`, {
+      dentist_id: dentist,
+      start_date,
+      end_date,
+      time_slots,
+    });
   };
 
   const fetchTimes = async (date: string) => {

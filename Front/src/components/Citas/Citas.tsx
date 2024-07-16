@@ -7,6 +7,7 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 import { Appointment } from "@/types";
+import axiosInstance from "@/utils/axiosInstance";
 
 type CitasProps = {
   futureAppointments: Appointment[];
@@ -45,9 +46,7 @@ const Citas: React.FC<CitasProps> = ({
       });
 
       if (result.isConfirmed) {
-        const response = await axios.delete(
-          `${enviroment.apiUrl}/appointments/${id}`
-        );
+        const response = await axiosInstance.delete(`/appointments/${id}`);
         if (response.status === 200) {
           Swal.fire({
             title: "¡Excelente!",
@@ -103,7 +102,11 @@ const Citas: React.FC<CitasProps> = ({
               {appointment.dentist_id.person.last_name}{" "}
             </div>
             <div className="w-[30%] px-4 py-2">{appointment.service.name}</div>
-            <div className={`w-[10%] px-2 py-2 ${appointment.payment ? "bg-[#00FB5E]" : "bg-[#FFAF44]"} rounded-md text-black font-medium text-center`}>
+            <div
+              className={`w-[10%] px-2 py-2 ${
+                appointment.payment ? "bg-[#00FB5E]" : "bg-[#FFAF44]"
+              } rounded-md text-black font-medium text-center`}
+            >
               {appointment.payment ? "Completado" : "Pendiente"}
             </div>
             <div

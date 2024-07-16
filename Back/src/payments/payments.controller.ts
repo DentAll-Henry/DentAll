@@ -7,6 +7,7 @@ import {
   Query,
   Req,
   Res,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -20,6 +21,10 @@ import {
 import { Response, Request } from 'express';
 import { PaymentsService } from './payments.service';
 import { PaymentDto } from './dto/payment.dto';
+import { DRoles } from 'src/decorators/roles.decorator';
+import { Roles } from 'src/role/enums/roles.enum';
+import { AuthGuard } from 'src/auth/guards/auth.guard';
+import { RolesGuard } from 'src/role/guards/roles.guard';
 
 @ApiTags('Payments')
 @Controller('payments')
@@ -27,6 +32,8 @@ export class PaymentsController {
   constructor(private readonly paymentsService: PaymentsService) {}
 
   @Post('new-preference')
+  @DRoles(Roles.ADMIN, Roles.PATIENT)
+  @UseGuards(AuthGuard, RolesGuard)
   @ApiOperation({ summary: 'Create a new preference' })
   @ApiBody({ type: PaymentDto })
   @ApiResponse({ status: 201, description: 'Return preference id' })
@@ -73,6 +80,8 @@ export class PaymentsController {
   }
 
   @Get('payments_by_patient/:patient_id')
+  @DRoles(Roles.ADMIN, Roles.ADMINISTRATIVE, Roles.PATIENT)
+  @UseGuards(AuthGuard, RolesGuard)
   @ApiOperation({ summary: 'Get all payments by patient' })
   @ApiParam({ name: 'patient_id', type: String, description: 'Patient id' })
   @ApiResponse({ status: 200, description: 'Return payments' })
@@ -83,6 +92,8 @@ export class PaymentsController {
   }
 
   @Get('by_id/:payment_id')
+  @DRoles(Roles.ADMIN, Roles.ADMINISTRATIVE, Roles.PATIENT)
+  @UseGuards(AuthGuard, RolesGuard)
   @ApiOperation({ summary: 'Get payment by id' })
   @ApiParam({ name: 'payment_id', type: String, description: 'Payment id' })
   @ApiResponse({ status: 200, description: 'Return payment data' })
@@ -91,41 +102,4 @@ export class PaymentsController {
   async getPaymentById(@Param('payment_id') payment_id: string) {
     return await this.paymentsService.getPaymentById(payment_id);
   }
-
-  // @Get('/failure/:id')
-  // @ApiOperation({ summary: 'Indicate payment failure' })
-  // @ApiParam({ name: 'id', type: String, description: 'Preference id' })
-  // @ApiResponse({ status: 200, description: 'Return failure' })
-  // @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
-  // @ApiInternalServerErrorResponse({ status: 500, description: 'Server error.' })
-  // async failure(
-  //   @Query('collection_id') collection_id: string,
-  //   @Query('collection_status') collection_status: string,
-  //   @Query('payment_id') payment_id: string,
-  //   @Query('status') status: string,
-  //   @Query('external_reference') external_reference: string,
-  //   @Query('payment_type') payment_type: string,
-  //   @Query('merchant_order_id') merchant_order_id: string,
-  //   @Query('preference_id') preference_id: string,
-  //   @Query('site_id') site_id: string,
-  //   @Query('processing_mode') processing_mode: string,
-  //   @Query('merchant_account_id') merchant_account_id: string,
-  //   @Res() res: Response,
-  // ) {
-  //   const data = {
-  //     collection_id,
-  //     collection_status,
-  //     payment_id,
-  //     status,
-  //     external_reference,
-  //     payment_type,
-  //     merchant_order_id,
-  //     preference_id,
-  //     site_id,
-  //     processing_mode,
-  //     merchant_account_id,
-  //   };
-  //   await this.paymentsService.failure(data);
-  //   res.send('Failure');
-  // }
 }

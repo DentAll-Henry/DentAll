@@ -105,8 +105,7 @@ const CreateAppointment = () => {
     setDentist(e.target.value);
     setAppointment({ ...appointment, dentist_id: selectedDentistId });
     try {
-      const slotsDaysResponse = await axios.post(
-        `${enviroment.apiUrl}/appointments/get_available_slots`,
+      const slotsDaysResponse = await axios.post(`/appointments/get_available_slots`,
         {
           dentist_id: selectedDentistId,
           start_date: `${year}-${month}-${(new Date(new Date().getFullYear(), parseInt(month) + 1, 1).getDate()).toString().padStart(2, '0')}`,
@@ -134,8 +133,7 @@ const CreateAppointment = () => {
     const selectedDayNumber = e.target.value;  // Mantener como string
     const selectedDayText = days[parseInt(selectedDayNumber)];
     console.log(selectedDayText)
-    const slotsHoursResponse = await axios.post(
-      `${enviroment.apiUrl}/appointments/get_available_slots`,
+    const slotsHoursResponse = await axios.post(`/appointments/get_available_slots`,
       {
         dentist_id: dentist,
         start_date: slots[parseInt(selectedDayNumber)][0].split('T')[0],
@@ -189,7 +187,7 @@ const CreateAppointment = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(`${enviroment.apiUrl}/appointments`, appointment );
+      const response = await axios.post(`/appointments`, appointment );
 
       if (response.status === 201) {
         alert("Cita creada con éxito");
