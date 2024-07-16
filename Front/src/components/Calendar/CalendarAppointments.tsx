@@ -48,8 +48,7 @@ const CalendarAppointments: React.FC<CalendarProps> = ({ dentist_id }) => {
   );
 
   useEffect(() => {
-    goNext();
-    const initializeDentistIds = async () => {
+        const initializeDentistIds = async () => {
       if (dentist_id) {
         setSelectedDentistsIds([dentist_id]);
       } else {
@@ -62,9 +61,10 @@ const CalendarAppointments: React.FC<CalendarProps> = ({ dentist_id }) => {
 
   useEffect(() => {
     goNext();
-  }, [selectedDentistsIds, firstVisibleDate, lastVisibleDate]);
+  }, [selectedDentistsIds]);
 
   const goNext = async () => {
+
     if (calendarRef.current) {
       const calendarApi = calendarRef.current.getApi();
       const currentStart = calendarApi.view.currentStart;
@@ -109,13 +109,12 @@ const CalendarAppointments: React.FC<CalendarProps> = ({ dentist_id }) => {
     const { start, end } = filters;
     try {
       const response = await axios.get(
-        `${
-          enviroment.apiUrl
+        `${enviroment.apiUrl
         }/appointments?start=${start}&end=${end}&dentists=${filters.dentists.join(
           ","
         )}`
       );
-      if (response.data.length > 0) {
+      if(response.data.length >=0){
         setEvents(response.data);
       }
     } catch (error) {

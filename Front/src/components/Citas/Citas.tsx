@@ -86,7 +86,7 @@ const Citas: React.FC<CitasProps> = ({
           <div className="w-[9%] px-4 py-2">Hora</div>
           <div className="w-[20%] px-4 py-2">Especialista </div>
           <div className="w-[30%] px-4 py-2">Tipo de consulta</div>
-          <div className="w-[10%] px-2 py-2">Pago</div>
+          <div className="w-[10%] px-2 py-2">Estado Pago</div>
           <div className="w-[16%] px-4 py-2">Acciones</div>
         </div>
 
@@ -99,12 +99,12 @@ const Citas: React.FC<CitasProps> = ({
               {format(toZonedTime(appointment.date_time, "UTC"), "HH:mm")}
             </div>
             <div className="w-[20%] px-4 py-2">
-              Dr.{appointment.dentist_id.person.first_name}{" "}
+              Dr. {appointment.dentist_id.person.first_name}{" "}
               {appointment.dentist_id.person.last_name}{" "}
             </div>
             <div className="w-[30%] px-4 py-2">{appointment.service.name}</div>
-            <div className="w-[10%] px-2 py-2 bg-[#00FB5E] rounded-md text-black font-medium text-center">
-              {appointment.pagado}
+            <div className={`w-[10%] px-2 py-2 ${appointment.payment ? "bg-[#00FB5E]" : "bg-[#FFAF44]"} rounded-md text-black font-medium text-center`}>
+              {appointment.payment ? "Completado" : "Pendiente"}
             </div>
             <div
               onClick={() => handleCancelAppointment(appointment.id)}

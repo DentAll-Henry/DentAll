@@ -67,7 +67,12 @@ export interface Appointment {
   date_time: string;
   description: string;
   patient: string;
-  pagado: string;
+  payment: {
+    id: string;
+    date: string;
+    payment_id: number;
+    payment_status: string;
+  } | null;
   dentist_id: {
     id: string;
     person: {

@@ -33,6 +33,7 @@ export class DentistsRepository {
       .createQueryBuilder('dentists')
       .leftJoinAndSelect('dentists.specialty', 'specialty')
       .leftJoinAndSelect('dentists.person', 'people')
+      .where('dentists.is_active = :isActive', { isActive: true})
       .orderBy('dentists.rate', 'DESC')
       .take(4);
 
