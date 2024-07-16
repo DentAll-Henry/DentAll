@@ -1,15 +1,15 @@
 "use client";
 
-import { fetchService } from "@/helpers/service.helper"
-import { Service } from "@/types"
-import Image from "next/image"
-import { useEffect, useState } from "react"
-import { initMercadoPago, Wallet } from "@mercadopago/sdk-react"
-import { handlePayment } from "@/helpers/handlePayment"
-import { enviroment } from "@/utils/config"
-import { useRouter } from "next/navigation"
-import axios from "axios"
-
+import { fetchService } from "@/helpers/service.helper";
+import { Service } from "@/types";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
+import { handlePayment } from "@/helpers/handlePayment";
+import { enviroment } from "@/utils/config";
+import { useRouter } from "next/navigation";
+import axios from "axios";
+import axiosInstance from "@/utils/axiosInstance";
 
 type User = {
   id: string;
@@ -19,14 +19,12 @@ type User = {
 export const ServicesForPatient = () => {
   const router = useRouter();
 
-
-  const [serviceData, setServiceData] = useState<Service[]>([])
+  const [serviceData, setServiceData] = useState<Service[]>([]);
   const [preferenceIds, setPreferenceIds] = useState<{
-    [key: string]: string | null
-  }>({})
-  const [user, setUser] = useState<User | null>(null)
-  const [loggin, setLoggin] = useState(false)
-
+    [key: string]: string | null;
+  }>({});
+  const [user, setUser] = useState<User | null>(null);
+  const [loggin, setLoggin] = useState(false);
 
   useEffect(() => {
     const userSession = localStorage.getItem("userSession");
@@ -55,16 +53,14 @@ export const ServicesForPatient = () => {
   const handleClick = async (dentalServID: string) => {
     try {
       if (user) {
-        const patient = await axios.get(
+        const patient = await axiosInstance.get(
           `${enviroment.apiUrl}/patients/person/${user.id}`
-
-        )
-        const preference = await handlePayment(patient.data.id, dentalServID)
+        );
+        const preference = await handlePayment(patient.data.id, dentalServID);
         setPreferenceIds((prev) => ({
           ...prev,
           [dentalServID]: preference.preferenceId,
-        }))
-
+        }));
       }
     } catch (error: any) {
       console.error("Error handling click:", error.message);
