@@ -219,7 +219,7 @@ export class PeopleRepository {
 
       if (existingRole)
         throw new BadRequestException('El usuario ya tiene el rol asignado.');
-
+      
       person.roles.push(roleToAdd);
       const updatedPerson: Person = await this.peopleRepository.save(person);
       return updatedPerson;
