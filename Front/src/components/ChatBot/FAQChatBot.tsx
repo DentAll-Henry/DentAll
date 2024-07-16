@@ -14,14 +14,16 @@ const { style, theme } = buildTheme({
 
 export const FAQChatBot = () => {
   const [isClient, setIsClient] = useState(false)
-  const client = useClient({ clientId })
+  const client = useClient({
+    clientId,
+  })
 
   useEffect(() => {
     setIsClient(true)
   }, [])
 
   if (!isClient) {
-    return null // Retorna null si no está en el cliente
+    return null
   }
 
   return (
