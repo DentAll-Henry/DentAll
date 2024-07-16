@@ -1,5 +1,6 @@
 import NavDash from "@/components/NavBar/navDash";
 import VideoPlayer from "@/components/Video/Video";
+import YouTubeVideo from "@/components/Video/youTubeVideo";
 
 const page: React.FC = () => {
   return (
@@ -11,13 +12,8 @@ const page: React.FC = () => {
       <div className="space-y-4">
         <div className="w-[90%] m-auto flex rounded text-black bg-greenD-500">
           <div className="p-8 w-[50%]  ">
-            <VideoPlayer
-              src="https://res.cloudinary.com/ddpohfyur/video/upload/v1720191340/-c598-455d-af3c-ae7342691c4b_lntmww.mp4"
-              type="video/mp4"
-              controls
-              loop
-              muted
-            />
+            <h1 className="text-3xl font-bold mb-4">Mi Video de YouTube</h1>
+            <YouTubeVideo videoId="https://youtu.be/p2KiPXjVOFc" />
           </div>
           <div className="w-[50%] p-8 space-y-4">
             <div className="text-center text-2xl font-bold">
