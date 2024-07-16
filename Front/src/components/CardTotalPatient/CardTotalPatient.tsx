@@ -26,9 +26,7 @@ function CardTotalPatient() {
   const [user, setUser] = useState<User | null>(null);
   const [loggin, setLoggin] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedRole, setSelectedRole] = useState("Profesional");
   const [selectedPatient, setSelectedPatient] = useState<Patients | null>(null);
-  const [roles, setRoles] = useState<string[]>([]); // Estado para los roles seleccionados
   const [allRoles, setAllRoles] = useState<AllRoles[]>([
     {
       eng: 'patient',
@@ -70,17 +68,11 @@ function CardTotalPatient() {
       }
     });
     setAllRoles(allRolesPatient);
-    setRoles([]);
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedPatient(null);
-    setRoles([]);
-  };
-
-  const handleRoleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedRole(event.target.value);
   };
 
   const addRole = async (role: string, personId: string) => {
@@ -152,6 +144,7 @@ function CardTotalPatient() {
       }
     }
     closeModal();
+    window.location.reload()
   };
 
   const delRole = async (role: string, personId: string) => {
@@ -184,11 +177,8 @@ function CardTotalPatient() {
       });
     }
     closeModal();
+    window.location.reload()
   }
-
-  const removeRole = (role: string) => {
-    setRoles(roles.filter((r) => r !== role));
-  };
 
   useEffect(() => {
     const userSession = localStorage.getItem("userSession");
@@ -214,10 +204,6 @@ function CardTotalPatient() {
 
     fetchPatients();
   }, []);
-
-  useEffect(() => {
-    router.push('/admin/users/patients');
-  }, [isModalOpen])
 
   console.log("pacientes:", patients);
 
@@ -284,20 +270,6 @@ function CardTotalPatient() {
               {selectedPatient.person.last_name}
             </span>
           </h3>
-          <div className="flex flex-wrap gap-2 mb-4">
-            {roles.map((role) => (
-              <div key={role} className="flex items-center gap-2 bg-slate-400 p-1 rounded">
-                <span className="text-black font-medium">{role}</span>
-                <div
-                 
-                  className="bg-red-500 text-white px-2 rounded hover:bg-red-600 cursor-pointer"
-                  onClick={() => removeRole(role)}
-                >
-                  -
-                </div>
-              </div>
-            ))}
-          </div>
           <div className="flex gap-2 mb-4">
             {allRoles.map((r, index) => {
               if(r.status) {
