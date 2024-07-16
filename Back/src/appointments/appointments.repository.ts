@@ -21,7 +21,7 @@ export class AppointmentsRepository {
   ) { }
   async getAppointments(paginationDto: AppointmentPaginationDto): Promise<Appointment[]> {
     const { page, limit, only_future, only_past, start, end, dentists } = paginationDto;
-
+    
     const dentists_arr = dentists.length > 0 ? dentists.split(',') : ['a7d57f3d-46ec-437a-966e-3c7f45180f12'];
 
     const duration_minutes = await this.systemConfigsService.findOne(
@@ -66,7 +66,7 @@ export class AppointmentsRepository {
       }
       events.push(event)
     })
-
+console.log(events)
     return events
   }
 
@@ -124,6 +124,7 @@ export class AppointmentsRepository {
   }
 
   async getAppointmentById(id: string): Promise<Appointment> {
+    
     return await this.appointment.findOne({
       where: { id },
       relations: ['service', 'patient.person', 'dentist_id.person'],
