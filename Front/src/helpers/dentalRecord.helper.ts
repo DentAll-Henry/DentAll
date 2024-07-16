@@ -1,5 +1,6 @@
-import axios from "axios"
-import { enviroment } from "@/utils/config"
+import axios from "axios";
+import { enviroment } from "@/utils/config";
+import axiosInstance from "@/utils/axiosInstance";
 
 export const getAppointmentId = async (
   health_Insurance: string,
@@ -11,7 +12,7 @@ export const getAppointmentId = async (
   treatments: []
 ) => {
   try {
-    const response = await axios.get(
+    const response = await axiosInstance.get(
       `${enviroment.apiUrl}/dental-record/${{
         health_Insurance,
         observations,
@@ -21,11 +22,10 @@ export const getAppointmentId = async (
         tooothInfo,
         treatments,
       }}`
-    )
-    console.log(response)
-    return response.data
+    );
+    console.log(response);
+    return response.data;
   } catch (error: any) {
-    console.log(error)
+    console.log(error);
   }
-}
-
+};

@@ -102,9 +102,17 @@ const Login = () => {
   return (
     <div className="flex justify-center items-center h-[100vh]">
       <div className="flex w-full h-full max-h-[1024px]">
-        <a href="/" className="absolute top-4 left-4 text-[#00CE90]">
+        <a href="/" className="flex flex-row justify-center items-center absolute top-4 left-4 text-white gap-2">
+        <Image
+          className="" // Ajusta el tamaño según tus necesidades
+          src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720967334/ArrowCircleRight_aln0la.png"
+          alt="Arrow"
+          width={30}
+          height={30}
+        />
           Volver
         </a>
+        
         <div className="w-[35%] flex flex-col items-center justify-center bg-darkD-500 text-white p-12">
           <div className="flex flex-col items-start justify-start mb-8">
             <h2 className="text-[#ECEDF6] text-[34px] font-semibold leading-normal mb-4">

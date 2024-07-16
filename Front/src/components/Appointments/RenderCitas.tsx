@@ -7,6 +7,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { enviroment } from "@/utils/config";
 import { Appointment } from "@/types";
+import axiosInstance from "@/utils/axiosInstance";
 
 type User = {
   id: string;
@@ -39,16 +40,16 @@ const RenderCitas = () => {
     if (page === 1) setFutureAppointments([]);
     if (loggin && user && user.id) {
       try {
-        const patient = await axios.get(
+        const patient = await axiosInstance.get(
           `${enviroment.apiUrl}/patients/person/${user.id}`
         );
-        const futureResponse = await axios.get(
+        const futureResponse = await axiosInstance.get(
           `${enviroment.apiUrl}/appointments/patient/${patient.data.id}?only_future=true&page=${page}`
         );
         if (futureResponse.data.length < 10) setLoadMoreButton(false);
         setFutureAppointments((prev) => [...prev, ...futureResponse.data]);
 
-        const pastResponse = await axios.get(
+        const pastResponse = await axiosInstance.get(
           `${enviroment.apiUrl}/appointments/patient/${patient.data.id}?only_past=true`
         );
         setPastAppointments(pastResponse.data);
