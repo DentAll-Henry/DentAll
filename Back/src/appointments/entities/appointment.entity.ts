@@ -1,9 +1,10 @@
 import { addMinutes } from 'date-fns';
 import { DentalServ } from 'src/dentalServ/entities/dentalServ.entity';
+import { Payment } from 'src/payments/entities/payment.entity';
 import { Dentist } from 'src/person/entities/dentist.entity';
 import { Patient } from 'src/person/entities/patient.entity';
 // import { Person } from 'src/person/entities/person.entity';
-import { AfterInsert, BeforeInsert, Column, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { AfterInsert, BeforeInsert, Column, Entity, Index, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({
   name: 'appointments',
@@ -53,6 +54,9 @@ export class Appointment {
     cascade: true,
   })
   service: DentalServ | DentalServ['id'];
+
+  @OneToOne(() => Payment, payment => payment.appointment)
+  payment: Payment;
 
   /** 
    * 

@@ -5,6 +5,7 @@ import {
   Column,
   Entity,
   JoinColumn,
+  ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -23,11 +24,11 @@ export class Payment {
   @Column({ nullable: true, default: null, type: 'varchar', length: 20 })
   payment_status: string;
 
-  @OneToOne(() => Patient)
+  @ManyToOne(() => Patient)
   @JoinColumn({ name: 'patient' })
   patient: Patient['id'];
 
-  @OneToOne(() => DentalServ)
+  @ManyToOne(() => DentalServ)
   @JoinColumn({ name: 'dentalServ' })
   dentalServ: DentalServ['id'];
 
