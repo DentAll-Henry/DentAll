@@ -94,7 +94,7 @@ export class DentistsController {
   }
 
   @Get('person/:id')
-  @DRoles(Roles.ADMIN, Roles.ADMINISTRATIVE, Roles.PATIENT)
+  @DRoles(Roles.ADMIN, Roles.ADMINISTRATIVE, Roles.PATIENT, Roles.DENTIST)
   @UseGuards(AuthGuard, RolesGuard)
   @ApiOperation({ summary: 'Get a dentist by person ID.' })
   @ApiResponse({

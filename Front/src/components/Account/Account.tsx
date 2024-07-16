@@ -8,6 +8,7 @@ import axiosInstance from "@/utils/axiosInstance";
 import { decodeJWT } from "@/helpers/decodeJwt";
 import Swal from "sweetalert2";
 import { getPatientId } from "@/helpers/patients.helper";
+import { format } from "date-fns";
 
 // type errorMessage = {
 //   response:{
@@ -115,7 +116,7 @@ const Account = () => {
   return (
     <div>
       <div
-        className="flex justify-start m-4 mr-8 items-center cursor-pointer w-[6%] "
+        className="flex  gap-2 justify-start m-4 mr-8 items-center cursor-pointer w-[6%] "
         onClick={navigateBack}
       >
         <Image
@@ -181,7 +182,7 @@ const Account = () => {
             </p>
             <p>
               <span className="text-darkD-300">Fecha de nacimiento:</span>{" "}
-              {userData?.userData?.birthdate}
+              {userData?.userData? format(userData.userData.birthdate, "dd-MM-yyyy") : ""}
             </p>
           </div>
           <div className="flex flex-col gap-2">
