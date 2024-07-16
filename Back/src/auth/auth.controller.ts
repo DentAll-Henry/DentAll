@@ -37,6 +37,7 @@ import { CreateDentistPersonDto } from 'src/person/dtos/createDentistPerson.dto'
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @ApiBearerAuth()
   @Get()
   @DRoles(Roles.ADMIN)
   @UseGuards(AuthGuard, RolesGuard)
@@ -105,6 +106,7 @@ export class AuthController {
     return this.authService.signUp(personInfo, authInfo);
   }
 
+  @ApiBearerAuth()
   @Post('changerole')
   @DRoles(Roles.PATIENT, Roles.DENTIST, Roles.ADMIN, Roles.ADMINISTRATIVE)
   @UseGuards(AuthGuard, RolesGuard)
@@ -115,6 +117,7 @@ export class AuthController {
     return this.authService.changeRole(changeRoleInfo);
   }
 
+  @ApiBearerAuth()
   @Delete('delete')
   @DRoles(Roles.ADMIN, Roles.DENTIST, Roles.ADMINISTRATIVE, Roles.PATIENT)
   @UseGuards(AuthGuard, RolesGuard)
@@ -129,6 +132,7 @@ export class AuthController {
     return this.authService.deleteAuth(authInfo);
   }
 
+  @ApiBearerAuth()
   @Patch('restore')
   @ApiOperation({
     summary:
@@ -141,6 +145,7 @@ export class AuthController {
     return this.authService.restoreAuth(authInfo);
   }
 
+  @ApiBearerAuth()
   @Patch('changePassword')
   @DRoles(Roles.ADMIN, Roles.DENTIST, Roles.ADMINISTRATIVE, Roles.PATIENT)
   @UseGuards(AuthGuard, RolesGuard)
@@ -153,8 +158,6 @@ export class AuthController {
 
   @ApiBearerAuth()
   @Patch('updateperson')
-  @DRoles(Roles.ADMIN, Roles.DENTIST, Roles.ADMINISTRATIVE, Roles.PATIENT)
-  @UseGuards(AuthGuard, RolesGuard)
   @DRoles(Roles.PATIENT, Roles.DENTIST, Roles.ADMINISTRATIVE, Roles.ADMIN)
   @UseGuards(AuthGuard, RolesGuard)
   @ApiOperation({
