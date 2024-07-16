@@ -1,6 +1,6 @@
 import NavDash from "@/components/NavBar/navDash";
 import VideoPlayer from "@/components/Video/Video";
-import YouTubeVideo from "@/components/Video/youTubeVideo";
+import YouTubeVideo from "@/components/Video/YouTubeVideo";
 
 const page: React.FC = () => {
   return (
