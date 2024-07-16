@@ -4,14 +4,12 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
   src,
   type,
   controls = true,
-  autoPlay = false,
   loop = false,
   muted = false,
 }) => {
   return (
     <video
       controls={controls}
-      autoPlay={autoPlay}
       loop={loop}
       muted={muted}
       style={{ width: "100%", height: "auto" }}
