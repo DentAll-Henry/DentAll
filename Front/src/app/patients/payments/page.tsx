@@ -11,7 +11,7 @@ const page = () => {
         <h2 className="font-bold">Historial de pagos</h2>
       </div>
 
-      <div>
+      <div className="flex ">
         <PaymentsHistory />
       </div>
     </div>
