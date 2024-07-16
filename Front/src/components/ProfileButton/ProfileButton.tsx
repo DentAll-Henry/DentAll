@@ -114,12 +114,15 @@ export default function ProfileButton() {
       {showPopup && (
         <div className="absolute space-y-1 right-0 z-10 mt-2 w-56 origin-top-right bg-darkD-600 border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none p-1 ">
           <div className="py-1 space-y-1">
-            <button
-              onClick={toggleRolesDropdown}
-              className="rounded block px-4 py-2 text-sm text-black w-full text-left bg-white hover:bg-gray-200"
-            >
-              Cambiar de rol
-            </button>
+            {
+              roles.length > 1 &&
+              <button
+                onClick={toggleRolesDropdown}
+                className="rounded block px-4 py-2 text-sm text-black w-full text-left bg-white hover:bg-gray-200"
+              >
+                Cambiar de rol
+              </button>
+            }
             <Link
               href="/users/account"
               className="rounded block px-4 py-2 text-sm text-black bg-white hover:bg-gray-200"
@@ -130,16 +133,19 @@ export default function ProfileButton() {
           {showRolesDropdown && (
             <div className="py-1 space-y-1">
               {
-                roles.map((r: Role, index) => 
-                  <button
-                    onClick={() => handleRoleSelect(r.eng)}
-                    className={r.eng === roleAuth ? "rounded block px-4 py-2 text-sm text-gray-300 w-full text-left bg-greenD-500" : "rounded block px-4 py-2 text-sm text-black w-full text-left bg-greenD-500 hover:bg-greenD-400"}
-                    key={index}
-                    disabled={r.eng === roleAuth}
-                  >
-                    {r.esp}
-                  </button>
-                )
+                roles.map((r: Role, index) => {
+                  if(r.eng !== roleAuth)
+                  return (
+                    <button
+                      onClick={() => handleRoleSelect(r.eng)}
+                      className={r.eng === roleAuth ? "rounded block px-4 py-2 text-sm text-gray-300 w-full text-left bg-greenD-500" : "rounded block px-4 py-2 text-sm text-black w-full text-left bg-greenD-500 hover:bg-greenD-400"}
+                      key={index}
+                      disabled={r.eng === roleAuth}
+                    >
+                      {r.esp}
+                    </button>
+                  )
+                })
               }
             </div>
           )}
