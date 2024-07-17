@@ -132,7 +132,6 @@ export class AuthController {
     return this.authService.deleteAuth(authInfo);
   }
 
-  @ApiBearerAuth()
   @Patch('restore')
   @ApiOperation({
     summary:
