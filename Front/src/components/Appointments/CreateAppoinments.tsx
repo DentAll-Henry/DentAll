@@ -8,6 +8,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { addDays, endOfMonth, format, startOfMonth } from "date-fns";
 import { toZonedTime } from "date-fns-tz";
+import { es } from "date-fns/locale"; // Importa la localización en español
 import "./DatePickerStyles.css"; // Importa los estilos personalizados
 import { handlePayment } from "@/helpers/handlePayment";
 import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
@@ -42,7 +43,7 @@ const CreateAppointment = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [availableDates, setAvailableDates] = useState<Date[]>([]);
   const [availableTimes, setAvailableTimes] = useState<Date[]>([]);
-  const [calendarDate, setCalendarDate] = useState<Date>();
+  const [calendarDate, setCalendarDate] = useState<Date | null>(null);
   const [observaciones, setObservaciones] = useState("");
 
   const [consultationType, setConsultationType] = useState("");
@@ -52,7 +53,7 @@ const CreateAppointment = () => {
   const router = useRouter();
   const [pending, setPending] = useState<PendingAppointment[]>([]);
   const [dentists, setDentists] = useState<Dentist[]>([]);
-  const [condirmPay, setConfirmPay] = useState(false);
+  const [confirmPay, setConfirmPay] = useState(false);
   const [preferenceId, setPreferenceId] = useState("");
 
   const [appointment, setAppointment] = useState({
@@ -266,208 +267,144 @@ const CreateAppointment = () => {
   };
 
   return (
-    <div className="flex ">
+    <div className="flex">
       <NavDash />
-      <div className="flex-1 mt-[5%]">
-        <div className="w-full h-screen flex justify-center items-center bg-darkD-600 text-white">
-          <BlockUi
-            blocking={isLoading}
-            message="Cargando fechas disponibles..."
+      <div className="flex-1 mt-[5%] p-8">
+        <BlockUi blocking={isLoading} message="Cargando fechas disponibles...">
+          <form
+            onSubmit={handleSubmit}
+            className="border bg-darkD-500 p-8 rounded-md flex flex-wrap w-full h-full"
           >
-            <form
-              onSubmit={handleSubmit}
-              className="border bg-darkD-500 p-8 rounded-md flex flex-wrap w-full max-w-4xl"
-            >
-              <h2 className="text-white font-bold mb-4 w-full text-center">
-                Crear Nueva Cita
-              </h2>
-              {errorMessage && (
-                <p className="text-red-500 mb-4 w-full text-center">
-                  {errorMessage}
-                </p>
-              )}
+            <h2 className="text-white font-bold mb-4 w-full h-60 text-center">
+              Crear Nueva Cita
+            </h2>
+            {errorMessage && (
+              <p className="text-red-500 mb-4 w-full text-center">
+                {errorMessage}
+              </p>
+            )}
 
-              <div className="flex w-full">
-                <div className="w-2/3 pr-4 text-center m-4">
-                  {/* {isLoading ? (
-                    <span className=" bg-red-700 text-white p-4 rounded mb-4">
-                      Cargando fechas disponibles...
-                    </span>
-                  ) : (
-                    ""
-                  )} */}
-                  <div className="mt-2 bg-darkD-400 shadow-md rounded-lg">
-                    <DatePicker
-                      minDate={addDays(new Date(), 1)}
-                      onChange={(date) => handleCalendarSelectedDate(date)}
-                      onMonthChange={handleCalendarMonthChange}
-                      selected={calendarDate}
-                      onSelect={(date) => handleCalendarSelectDate(date)}
-                      includeDates={availableDates}
-                      showTimeSelect
-                      timeFormat="HH:mm"
-                      includeTimes={availableTimes}
-                      showMonthDropdown
-                      placeholderText="Selecciona una fecha"
-                      inline
-                      className="react-datepicker" // Agrega esta clase para aplicar los estilos
-                    />
-                  </div>
-                </div>
-                <div className="w-1/3 pl-4">
-                  <div className="mb-4">
-                    <label className="text-white">Tipo de Consulta</label>
-                    <select
-                      name="service"
-                      value={consultationType}
-                      onChange={handleServiceChange}
-                      className="w-full p-2 rounded-md text-black"
-                    >
-                      <option value="" disabled hidden>
-                        Selecciona una opción
-                      </option>
-                      <option value="Consulta de valoración">
-                        Consulta de valoración
-                      </option>
-                      {pending.map((p) => (
-                        <option key={p.service.id} value={p.service.name}>
-                          {p.service.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="mb-4">
-                    <label className="text-white">Dentista</label>
-                    <select
-                      name="dentist_id"
-                      value={dentist}
-                      onChange={handleDentistChange}
-                      className="w-full p-2 rounded-md text-black"
-                    >
-                      <option value="" disabled>
-                        Selecciona un profesional
-                      </option>
-                      {dentists.map((p) => (
-                        <option key={p.id} value={p.id}>
-                          {p.person.first_name} {p.person.last_name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="mb-4">
-                    <label className="text-white">Observaciones</label>
-                    <textarea
-                      value={observaciones}
-                      onChange={handleObservacionesChange}
-                      className="w-full p-2 rounded-md text-black"
-                      placeholder="Detalles que quiera compartir con el dentista..."
-                    ></textarea>
-                  </div>
-                  <div className="w-full">
-                    {!condirmPay && (
-                      <button
-                        type="submit"
-                        className="bg-green-500 text-white p-2 rounded-md w-full border-2 border-green-700"
-                      >
-                        Crear Cita
-                      </button>
-                    )}
-                  </div>
-
-                  {condirmPay && (
-                    <div>
-                      <p>Por favor, realiza el pago para confirmar la cita</p>
-                      <Timer />
-                    </div>
-                  )}
+            <div className="flex w-full">
+              <div className="w-full md:w-2/2 flex flex-col items-center mb-4 md:mb-0">
+                <div className="bg-[#00CE90] p-4 rounded-lg w-full">
+                  <DatePicker
+                    minDate={addDays(new Date(), 1)}
+                    onChange={(date) => handleCalendarSelectedDate(date)}
+                    onMonthChange={handleCalendarMonthChange}
+                    selected={calendarDate}
+                    onSelect={(date) => handleCalendarSelectDate(date)}
+                    includeDates={availableDates}
+                    showTimeSelect
+                    timeFormat="HH:mm"
+                    includeTimes={availableTimes}
+                    showMonthDropdown
+                    placeholderText="Selecciona una fecha"
+                    inline
+                    className="react-datepicker w-full h-96"
+                    locale={es}
+                  />
                 </div>
               </div>
-            </form>
-          </BlockUi>
-          {preferenceId && (
-            <Wallet initialization={{ preferenceId: preferenceId }} />
-          )}
-        </div>
+              <div className="w-full h-full md:w-1/2 flex flex-col pl-4">
+                <div className="mb-2">
+                  <label className="text-white">Tipo de Consulta</label>
+                  <select
+                    name="service"
+                    value={consultationType}
+                    onChange={handleServiceChange}
+                    className="w-full p-2 rounded-md text-black"
+                  >
+                    <option value="" disabled hidden>
+                      Selecciona una opción
+                    </option>
+                    <option value="Consulta de valoración">
+                      Consulta de valoración
+                    </option>
+                    {pending.map((p) => (
+                      <option key={p.service.id} value={p.service.name}>
+                        {p.service.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="mb-4">
+                  <label className="text-white">Dentista</label>
+                  <select
+                    name="dentist_id"
+                    value={dentist}
+                    onChange={handleDentistChange}
+                    className="w-full p-2 rounded-md text-black"
+                  >
+                    <option value="" disabled>
+                      Selecciona un profesional
+                    </option>
+                    {dentists.map((p) => (
+                      <option key={p.id} value={p.id}>
+                        {p.person.first_name} {p.person.last_name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="mb-4">
+                  <label className="text-white">Observaciones</label>
+                  <textarea
+                    value={observaciones}
+                    onChange={handleObservacionesChange}
+                    className="w-full p-2 rounded-md text-black"
+                    placeholder="Detalles que quiera compartir con el dentista..."
+                  ></textarea>
+                </div>
+                <div className="w-full">
+                  {!confirmPay && (
+                    <button
+                      type="submit"
+                      className="bg-green-500 text-white p-2 rounded-md w-full border-2 border-green-700"
+                    >
+                      Crear Cita
+                    </button>
+                  )}
+                </div>
+
+                {confirmPay && (
+                  <div>
+                    <p>Por favor, realiza el pago para confirmar la cita</p>
+                    <Timer />
+                  </div>
+                )}
+              </div>
+            </div>
+          </form>
+        </BlockUi>
+        {preferenceId && (
+          <Wallet initialization={{ preferenceId: preferenceId }} />
+        )}
+        {availableTimes.length > 0 && (
+          <div className="w-full flex justify-center items-center mt-4">
+            <div className="grid grid-cols-3 gap-4">
+              {availableTimes.map((time, index) => (
+                <div
+                  key={index}
+                  className={`p-2 rounded-lg cursor-pointer ${
+                    appointment.date_time === format(time, "yyyy-MM-dd HH:mm")
+                      ? "bg-[#00CE90] text-white"
+                      : "bg-gray-200 text-black"
+                  }`}
+                  onClick={() =>
+                    setAppointment({
+                      ...appointment,
+                      date_time: format(time, "yyyy-MM-dd HH:mm"),
+                    })
+                  }
+                >
+                  {format(time, "HH:mm")}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
 export default CreateAppointment;
-
-{
-  /* <div className="mb-4">
-  <label className="text-white">Año</label>
-  <select
-    value={year}
-    onChange={handleYearChange}
-    className="w-full p-2 rounded-md text-black"
-  >
-    <option value="" disabled hidden>
-      Selecciona el año
-    </option>
-    <option value="2024">2024</option>
-    <option value="2025">2025</option>
-  </select>
-</div>
-<div className="mb-4">
-  <label className="text-white">Mes</label>
-  <select
-    value={month}
-    onChange={handleMonthChange}
-    className="w-full p-2 rounded-md text-black"
-  >
-    <option value="" disabled hidden>
-      Selecciona el mes
-    </option>
-    <option value="01">Enero</option>
-    <option value="02">Febrero</option>
-    <option value="03">Marzo</option>
-    <option value="04">Abril</option>
-    <option value="05">Mayo</option>
-    <option value="06">Junio</option>
-    <option value="07">Julio</option>
-    <option value="08">Agosto</option>
-    <option value="09">Septiembre</option>
-    <option value="10">Octubre</option>
-    <option value="11">Noviembre</option>
-    <option value="12">Dicembre</option>
-  </select>
-</div>
-
-<div className="mb-4">
-  <label className="text-white">Día</label>
-  <select
-    value={selectedDay}
-    onChange={handleDaysChange}
-    className="w-full p-2 rounded-md text-black"
-  >
-    <option value="" disabled hidden>
-      Selecciona el día
-    </option>
-    {days.map(
-      (d, index) =>
-        <option key={index} value={index.toString()}>
-          {d}
-        </option>
-    )}
-  </select>
-</div>
-<div className="mb-4">
-  <label className="text-white">Hora</label>
-  <select
-    value={selectedHour}
-    onChange={handleHoursChange}
-    className="w-full p-2 rounded-md text-black"
-  >
-    <option value="" disabled hidden>
-      Selecciona la hora
-    </option>
-    {hours.map((h, index) => (
-      <option key={index} value={h}>
-        {h}
-      </option>
-    ))}
-  </select>
-</div> */
-}
