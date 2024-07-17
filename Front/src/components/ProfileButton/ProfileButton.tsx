@@ -123,7 +123,7 @@ export default function ProfileButton() {
         </Link>
       )}
       {showPopup && (
-        <div className="absolute space-y-1 right-0 z-10 mt-2 w-56 origin-top-right bg-darkD-600 border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none p-1 ">
+        <div className="absolute space-y-1 right-0 z-10 mt-2 w-56 origin-top-right bg-darkD-600 border border-greenD-500 divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none p-1 ">
           <div className="py-1 space-y-1">
             {roles.length > 1 && (
               <button
