@@ -33,8 +33,6 @@ const FormModal = ({ isOpen, onClose, patientId }: { isOpen: boolean; onClose: C
     useEffect(() => {
       const getDentalServices = async () => {
         const response = await axiosInstance.get('/dental-serv?page=1&limit=100');
-        console.log("--> Acá Carlos <--")
-        console.log(response.data.services)
         setDentalServices(response.data.services)
       }
 
