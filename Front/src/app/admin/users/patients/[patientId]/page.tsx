@@ -130,7 +130,7 @@ const DetailsId = ({ params }: { params: { patientId: string } }) => {
 
         {/* CONTENEDOR DE CITAS*/}
 
-        <div className='flex flex-col gap-4'>
+        <div className='flex flex-col gap-4 my-10'>
           <h3>Citas Pendientes</h3>
           <div className='flex flex-col gap-4'>
             <div className='flex flex-row bg-darkD-500 rounded-md gap-1'>
@@ -162,7 +162,7 @@ const DetailsId = ({ params }: { params: { patientId: string } }) => {
         {/* CONTENEDOR DE PAGOS */}
         <div className='flex flex-col my-4 gap-4 '>
           <h3>Pagos Realizados</h3>
-          <div>
+          <div className='flex flex-row gap-4'>
             {payment.map((i)=>{
               return (
                 <div key={i.id} className="">
