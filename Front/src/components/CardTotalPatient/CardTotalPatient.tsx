@@ -262,17 +262,10 @@ function CardTotalPatient() {
       {selectedPatient && (
         <Modal isOpen={isModalOpen} onClose={closeModal}>
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-bold text-black">Editar roles</h2>
-            <span
-              className="cursor-pointer text-black font-bold"
-              onClick={closeModal}
-            >
-              X
-            </span>
           </div>
-          <h3 className="text-lg mb-4 text-black">
-            Roles de{" "}
-            <span className="text-red-700">
+          <h3 className="text-lg mb-4">
+            Editar roles de:{" "}
+            <span className="text-greenD-500">
               {selectedPatient.person.first_name}{" "}
               {selectedPatient.person.last_name}
             </span>
@@ -281,8 +274,7 @@ function CardTotalPatient() {
             {allRoles.map((r, index) => {
               if (r.status) {
                 return (
-                  <div
-                    className="bg-green-500 text-white rounded px-4 py-2 hover:bg-green-600 cursor-pointer"
+                  <div className="text-[#00FB5E]  hover:text-white rounded px-4 py-2 border border-[#00FB5E] cursor-pointer"
                     onClick={() => addRole(r.eng, r.personId)}
                     key={index}
                   >
@@ -292,7 +284,7 @@ function CardTotalPatient() {
               } else {
                 return (
                   <div
-                    className="bg-red-500 text-white rounded px-4 py-2 hover:bg-red-600 cursor-pointer"
+                    className=" text-[#FF2F44] rounded px-4 py-2 border hover:text-white border-[#FF2F44] cursor-pointer"
                     onClick={() => delRole(r.eng, r.personId)}
                     key={index}
                   >
