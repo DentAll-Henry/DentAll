@@ -61,6 +61,7 @@ export class AuthService {
       await this.credentialByEmail(signInInfo.email);
 
     if (!credential) throw new BadRequestException('Credenciales de acceso inválidas.');
+    if (credential.deleteDate !== null) throw new BadRequestException('Credenciales de acceso inválidas.');
 
     const isPassCorrect: boolean = await ComparePass(signInInfo.password, credential.password)
     if (!isPassCorrect) throw new BadRequestException('Credenciales de acceso inválidas.');
@@ -209,5 +210,29 @@ export class AuthService {
     });
 
     return { token, userData: personToReturn};
+  }
+
+  async changeStatus (idperson: string) {
+    const person: Person = await this.peopleService.personById(idperson);
+    if (!person) throw new BadRequestException('No existe usuario con el id especificado.');
+    
+    const auth: Auth = await this.credentialByEmail(person.email);
+    
+    let action: string;
+    
+    if(person.is_active) {
+      person.is_active = false;
+      action = 'deactivate';
+    } else {
+      console.log(person);
+      person.is_active = true
+      action = 'activate';
+    };
+
+    await this.authRepository.changeStatus(auth, action);
+
+    const personUpdated: Person = await this.peopleService.updatePerson(person.id, person);
+
+    return personUpdated;
   }
 }
