@@ -113,9 +113,9 @@ const PatientsList = () => {
           <p>Última cita</p>
         </div>
 
-        <div className="w-[14%] p-3">
+        {/* <div className="w-[14%] p-3">
           <p>Acciones</p>
-        </div>
+        </div> */}
       </div>
 
       <div className="flex flex-col gap-2">
@@ -129,6 +129,7 @@ const PatientsList = () => {
               email={p.email}
               last_appointment={p.last_appointment}
               photo={p.photo}
+              
             />
           );
         })}
