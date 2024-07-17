@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiOperation,
   ApiQuery,
   ApiResponse,
@@ -28,6 +29,7 @@ import { RolesGuard } from 'src/role/guards/roles.guard';
 export class PatientsController {
   constructor(private readonly patientsService: PatientsService) {}
 
+  @ApiBearerAuth()
   @Get()
   @DRoles(Roles.ADMIN, Roles.ADMINISTRATIVE)
   @UseGuards(AuthGuard, RolesGuard)
@@ -52,10 +54,9 @@ export class PatientsController {
     return this.patientsService.patientsQuantity();
   }
 
+  @ApiBearerAuth()
   @Get('person/:id')
   @DRoles(Roles.ADMIN, Roles.ADMINISTRATIVE, Roles.PATIENT)
-  @UseGuards(AuthGuard, RolesGuard)
-  @DRoles(Roles.ADMIN)
   @UseGuards(AuthGuard, RolesGuard)
   @ApiOperation({ summary: 'Get a patient by person ID.' })
   @ApiResponse({
@@ -72,6 +73,7 @@ export class PatientsController {
     return this.patientsService.patientByPersonId(id);
   }
 
+  @ApiBearerAuth()
   @Get('dentist/:iddentist')
   @DRoles(Roles.ADMIN, Roles.DENTIST)
   @UseGuards(AuthGuard, RolesGuard)
@@ -93,6 +95,7 @@ export class PatientsController {
     return this.patientsService.patientByDentistId(iddentist, paginationDto);
   }
 
+  @ApiBearerAuth()
   @Get(':id')
   @DRoles(Roles.ADMIN)
   @UseGuards(AuthGuard, RolesGuard)
