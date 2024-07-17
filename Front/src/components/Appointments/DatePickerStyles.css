@@ -9,30 +9,43 @@
 
 /* Estilos del encabezado del DatePicker */
 .react-datepicker__header {
-  background-color: #007776; /* Cambia el fondo del encabezado del calendario a verde */
+  background-color: #007776;
   display: flex;
   flex-direction: column;
+  border-bottom: none;
 }
 
 /* Estilos de los días del DatePicker */
-.react-datepicker__day {
-  /* Centra el texto de los días */
-  margin-left: 1.5em;
-}
+.react-datepicker__day,
 .react-datepicker__day-name {
-  /* Centra el texto de los días */
-  margin-left: 1.5em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 5.4rem;
+  height: 6rem;
+  margin: 0.6rem;
+  border-radius: 10%;
+  box-sizing: border-box;
 }
 
 /* Estilos del día seleccionado en el DatePicker */
 .react-datepicker__day--selected,
 .react-datepicker__day--keyboard-selected {
-  background-color: #00ce90; /* Cambia el fondo del día seleccionado a un verde más oscuro */
+  background-color: #00ce90;
+  color: white;
+}
+
+/* Estilos del día cuando se pasa el cursor sobre él */
+.react-datepicker__day:hover {
+  background-color: transparent; /* Mantiene el fondo transparente */
+  color: white;
+  border: 2px solid #00ce90; /* Agrega un borde verde */
+  border-radius: 10%; /* Mantiene los días redondos */
 }
 
 /* Estilos del contenedor de tiempo en el DatePicker */
 .react-datepicker__time-container .react-datepicker__time {
-  background-color: #007776; /* Cambia el fondo del contenedor de tiempo a verde */
+  background-color: #007776;
 }
 
 /* Estilos de la caja de tiempo en el DatePicker */
