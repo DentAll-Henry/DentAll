@@ -15,6 +15,7 @@ import { Response } from 'express';
 import { DentalServDto } from './dtos/dentalServ.dto';
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiBody,
   ApiInternalServerErrorResponse,
   ApiOperation,
@@ -86,6 +87,7 @@ export class DentalServController {
     res.status(200).json(services);
   }
 
+  @ApiBearerAuth()
   @Get('/by-name/')
   @DRoles(Roles.ADMIN, Roles.DENTIST, Roles.ADMINISTRATIVE, Roles.PATIENT)
   @UseGuards(AuthGuard, RolesGuard)
@@ -124,6 +126,7 @@ export class DentalServController {
   //   res.status(200).json(service);
   // }
 
+  @ApiBearerAuth()
   @Post()
   @DRoles(Roles.ADMIN, Roles.ADMINISTRATIVE)
   @UseGuards(AuthGuard, RolesGuard)
@@ -137,6 +140,7 @@ export class DentalServController {
     res.status(201).json(newDentalServ);
   }
 
+  @ApiBearerAuth()
   @Patch(':id')
   @DRoles(Roles.ADMIN, Roles.ADMINISTRATIVE, Roles.DENTIST)
   @UseGuards(AuthGuard, RolesGuard)
@@ -167,6 +171,7 @@ export class DentalServController {
     res.status(200).json(editedDentalServ);
   }
 
+  @ApiBearerAuth()
   @Patch('switch/:id')
   @DRoles(Roles.ADMIN, Roles.ADMINISTRATIVE, Roles.DENTIST)
   @UseGuards(AuthGuard, RolesGuard)
