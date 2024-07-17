@@ -2,7 +2,6 @@ import { getImages, uploadImage } from "@/helpers/files.helper";
 import { getPatientId } from "@/helpers/patients.helper";
 import React, { useEffect, useState } from "react";
 import { PatientId } from "../../types/index";
-import { Patient } from "../../../../Back/src/person/entities/patient.entity";
 import axiosInstance from "@/utils/axiosInstance";
 import Swal from "sweetalert2";
 
@@ -73,18 +72,21 @@ const PatientsDetails = ({
     event: React.ChangeEvent<HTMLInputElement>,
     folder: string
   ) => {
+    console.log("Uploading image...");
+
     const imageFile = event.target.files?.[0];
     if (imageFile) {
       const formData = new FormData();
       formData.append("file", imageFile);
       formData.append("path", `DentAll/${IsEmail}/${folder}`);
       try {
+        console.log("Uploading image 2...");
+
         const upload = await axiosInstance.post("/files/upload", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
         });
-        console.log(upload.data);
 
         if (upload.data) {
           Swal.fire({
@@ -132,7 +134,7 @@ const PatientsDetails = ({
       )}
       {openLoad && (
         <div className="flex flex-col">
-          <label htmlFor="profileImage">
+          <label htmlFor="profileImage" className="cursor-pointer">
             <h2>Subir {`${tag}`}</h2>
             <input
               type="file"
@@ -140,7 +142,7 @@ const PatientsDetails = ({
               name="profileImage"
               accept="image/*"
               className="hidden"
-              onChange={() => handleImageUpload}
+              onChange={(event) => handleImageUpload(event, folder)}
             />
           </label>
         </div>
