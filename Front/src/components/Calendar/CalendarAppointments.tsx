@@ -9,6 +9,10 @@ import axios from "axios";
 import { enviroment } from "@/utils/config";
 import { addMinutes, format } from "date-fns";
 import axiosInstance from "@/utils/axiosInstance";
+import Swal from "sweetalert2";
+import Modal from "../Modal/Modal";
+import ModalNuevaCita from "./ModalNuevaCita";
+import { toZonedTime } from "date-fns-tz";
 
 type Event = {
   id: string;
@@ -47,6 +51,8 @@ const CalendarAppointments: React.FC<CalendarProps> = ({ dentist_id }) => {
   const [lastVisibleDate, setLastVisibleDate] = useState(
     format(new Date(), "yyyy-MM-dd")
   );
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [dateTimeAppointment, setDateTimeAppointment] = useState<string>("");
 
   useEffect(() => {
     const initializeDentistIds = async () => {
@@ -102,15 +108,24 @@ const CalendarAppointments: React.FC<CalendarProps> = ({ dentist_id }) => {
   };
 
   const handleEventClick = (info: any) => {
-    alert(`${info.event.title}\n${info.event.extendedProps.description}`);
+    Swal.fire({
+      title: "Detalles de la cita",
+      html: `<p style="text-align: left;">
+      <b>Paciente:</b> ${info.event.title}<br><b>Doctor:</b> ${info.event.extendedProps.dentist}<br><b>Fecha y hora:</b> ${info.event.startStr}<br><b>Doctor:</b> ${info.event.extendedProps.dentist}<br><b>Servicio:</b> ${info.event.extendedProps.service}</p><p style="text-align: left;">${info.event.extendedProps.description}</p>`,
+      icon: "info",
+      confirmButtonText: "OK",
+      customClass: {
+        confirmButton:
+          "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
+      },
+    })
   };
 
   const fetchEvents = async (filters: RequestEventsFilter) => {
     const { start, end } = filters;
     try {
       const response = await axiosInstance.get(
-        `${
-          enviroment.apiUrl
+        `${enviroment.apiUrl
         }/appointments?start=${start}&end=${end}&dentists=${filters.dentists.join(
           ","
         )}`
@@ -123,20 +138,39 @@ const CalendarAppointments: React.FC<CalendarProps> = ({ dentist_id }) => {
     }
   };
 
-  const addAppointment = async (e: DateClickArg) => {
+  const addAppointment = async (dateCliclArg: DateClickArg) => {
+    const date_time = toZonedTime(dateCliclArg.dateStr, "UTC")
+    if (date_time < new Date()) {
+      Swal.fire({
+        title: "Error al procesar su acción!",
+        text: `No es posible agendar citas en fechas pasadas.`,
+        icon: "error",
+        confirmButtonText: "OK",
+        customClass: {
+          confirmButton:
+            "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
+        },
+      })
+      return;
+    }
     try {
-      const paciente = prompt("paciente") || "";
-      const fecha = e.dateStr;
-      const hora = prompt("hora") || "00:00"; // Asegúrate de proporcionar un valor por defecto válido
-      const dentista = prompt("dentista") || "";
-      const event: Event = {
-        id: Math.random().toString(16),
-        title: paciente,
-        start: `${fecha}T${hora}`,
-        color: "green",
-        description: "", // Asume que dentista se usa como descripción
-      };
-      setEvents((prevEvents) => [...prevEvents, event]);
+      Swal.fire({
+        title: "Confirme su acción!",
+        text: `Desea crear una cita el dia ${format(date_time, "dd/MM/yyyy")}?`,
+        icon: "question",
+        showCancelButton: true,
+        cancelButtonText: "No",
+        confirmButtonText: "Si",
+        customClass: {
+          confirmButton:
+            "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
+        },
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          setDateTimeAppointment(format(date_time, "yyyy-MM-dd"));
+          setIsModalOpen(true);
+        }
+      });
 
       // const response = await axios.post(`/appointments`, event);
       // console.log(response.data);
@@ -195,6 +229,9 @@ const CalendarAppointments: React.FC<CalendarProps> = ({ dentist_id }) => {
         locale={esLocale}
         dateClick={(e) => addAppointment(e)}
       />
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} >
+        <ModalNuevaCita modalOpen={setIsModalOpen} goNext={goNext} date_time={dateTimeAppointment} />
+      </Modal>
     </>
   );
 };
