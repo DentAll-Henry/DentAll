@@ -85,7 +85,7 @@ const Citas: React.FC<CitasProps> = ({
           <div className="w-[9%] px-4 py-2">Hora</div>
           <div className="w-[20%] px-4 py-2">Especialista </div>
           <div className="w-[30%] px-4 py-2">Tipo de consulta</div>
-          <div className="w-[10%] px-2 py-2">Estado Pago</div>
+          <div className="w-[10%] px-2 py-2">Estado pago</div>
           <div className="w-[16%] px-4 py-2">Acciones</div>
         </div>
 

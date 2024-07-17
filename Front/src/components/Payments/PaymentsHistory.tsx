@@ -113,7 +113,10 @@ const PaymentsHistory = () => {
         ))}
       {selectedPayment && (
         <Modal isOpen={isModalOpen} onClose={closeModal}>
+          
+
           <PaymentDetail payment_id={selectedPayment.id} />
+         
         </Modal>
       )}
     </div>
