@@ -6,10 +6,17 @@ import { enviroment } from "@/utils/config";
 import NavDash from "../NavBar/navDash"; // Asegúrate de que la ruta sea correcta
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { addDays, endOfMonth, format, startOfMonth } from "date-fns";
+import {
+  addDays,
+  endOfMonth,
+  format,
+  startOfMonth,
+  subMonths,
+  addMonths,
+} from "date-fns";
 import { toZonedTime } from "date-fns-tz";
-import { es } from "date-fns/locale"; // Importa la localización en español
-import "./DatePickerStyles.css"; // Importa los estilos personalizados
+import { es } from "date-fns/locale";
+import "./DatePickerStyles.css";
 import { handlePayment } from "@/helpers/handlePayment";
 import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 import Timer from "../Timer/Timer";
@@ -52,9 +59,8 @@ const CreateAppointment = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [availableDates, setAvailableDates] = useState<Date[]>([]);
   const [availableTimes, setAvailableTimes] = useState<Date[]>([]);
-  const [calendarDate, setCalendarDate] = useState<Date | null>(null);
+  const [calendarDate, setCalendarDate] = useState<Date | null>(new Date());
   const [observaciones, setObservaciones] = useState("");
-
   const [consultationType, setConsultationType] = useState("");
   const [dentist, setDentist] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -147,7 +153,6 @@ const CreateAppointment = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // TODO: hacer validaciones para el objeto appointment
     try {
       const pending_id =
         pending.find((p) => p.service.id === appointment.service)?.id || "";
@@ -211,7 +216,7 @@ const CreateAppointment = () => {
 
   useEffect(() => {
     if (dentist && consultationType) {
-      handleCalendarMonthChange(new Date());
+      handleCalendarMonthChange(calendarDate!);
     }
   }, [dentist, consultationType]);
 
@@ -275,6 +280,18 @@ const CreateAppointment = () => {
     }
   };
 
+  const handlePrevMonth = () => {
+    const newDate = subMonths(calendarDate!, 1);
+    setCalendarDate(newDate);
+    handleCalendarMonthChange(newDate);
+  };
+
+  const handleNextMonth = () => {
+    const newDate = addMonths(calendarDate!, 1);
+    setCalendarDate(newDate);
+    handleCalendarMonthChange(newDate);
+  };
+
   return (
     <div className="flex">
       <NavDash />
@@ -284,8 +301,8 @@ const CreateAppointment = () => {
             onSubmit={handleSubmit}
             className="border bg-darkD-500 p-8 rounded-md flex flex-wrap w-full h-full"
           >
-            <h2 className="text-white font-bold mb-4 w-full text-center">
-              Crear Nueva Cita
+            <h2 className="text-white font-bold mb-3 w-full text-center text-xl">
+              Crear nueva cita
             </h2>
             {errorMessage && (
               <p className="text-red-500 mb-4 w-full text-center">
@@ -295,7 +312,14 @@ const CreateAppointment = () => {
 
             <div className="flex w-full">
               <div className="w-full md:w-2/2 flex flex-col items-center mb-4 md:mt-0">
-                <div className=" rounded-lg w-full">
+                <div className="rounded-lg w-full relative flex items-center justify-center">
+                  <button
+                    type="button"
+                    onClick={handlePrevMonth}
+                    className="absolute left-4 top-0 mt-2 text-white z-10"
+                  >
+                    &lt;
+                  </button>
                   <DatePicker
                     minDate={addDays(new Date(), 1)}
                     onChange={(date) => handleCalendarSelectedDate(date)}
@@ -303,15 +327,21 @@ const CreateAppointment = () => {
                     selected={calendarDate}
                     onSelect={(date) => handleCalendarSelectDate(date)}
                     includeDates={availableDates}
-                    // showTimeSelect
                     timeFormat="HH:mm"
                     includeTimes={availableTimes}
-                    showMonthDropdown
                     placeholderText="Selecciona una fecha"
                     inline
                     className="react-datepicker w-full h-96"
-                    locale={customEsLocale} // Usa la localización personalizada
+                    locale={customEsLocale}
+                    disabled={!consultationType || !dentist} // Deshabilitar el calendario si no se han seleccionado los campos necesarios
                   />
+                  <button
+                    type="button"
+                    onClick={handleNextMonth}
+                    className="absolute right-4 top-0 mt-2 text-white z-10"
+                  >
+                    &gt;
+                  </button>
                 </div>
               </div>
               <div className="w-full h-full md:w-1/2 flex flex-col pl-4">
@@ -366,8 +396,8 @@ const CreateAppointment = () => {
                           className={`p-2 rounded-lg cursor-pointer border-2 ${
                             appointment.date_time ===
                             format(time, "yyyy-MM-dd HH:mm")
-                              ? "border-[#00CE90] text-[#00CE90]" // Borde verde y texto verde para la hora seleccionada
-                              : "border-gray-200 text-gray-200" // Borde gris y texto gris para las horas no seleccionadas
+                              ? "border-[#00CE90] text-[#00CE90]"
+                              : "border-gray-200 text-gray-200"
                           }`}
                           onClick={() =>
                             setAppointment({
