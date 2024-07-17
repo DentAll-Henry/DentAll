@@ -20,17 +20,20 @@ const CardPatient: React.FC<PatientCardProps> = ({
 }) => {
   return (
     <div>
-      <Link href="#">
+      
         <div className="w-full flex flex-row gap-5 ">
-          <div className="w-[31%] p-3 flex flex-row gap-4">
-            <Image
-              src={photo}
-              width={24}
-              height={24}
-              alt="foto de perfil"
-            />
-            <p>{name}</p>
-          </div>
+          <Link className="w-[31%]" href={`/professional/patients/${id}`}>
+            <div className=" p-3 flex flex-row gap-4">
+              <Image
+                src={photo}
+                width={24}
+                height={24}
+                alt="foto de perfil"
+              />
+              <p>{name}</p>
+            </div>
+          </Link>
+          
 
           <div className="w-[18%] p-3">
             <p>{phone}</p>
@@ -44,7 +47,7 @@ const CardPatient: React.FC<PatientCardProps> = ({
             <p>{last_appointment}</p>
           </div>
 
-          <div className="w-[14%] p-3 flex flex-row gap-8">
+          {/* <div className="w-[14%] p-3 flex flex-row gap-8">
             <Image
               src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201305/PencilSimple_ugfifd.svg"
               width={24}
@@ -57,9 +60,9 @@ const CardPatient: React.FC<PatientCardProps> = ({
               height={24}
               alt="eliminar"
             />
-          </div>
+          </div> */}
         </div>
-      </Link>
+      
     </div>
   );
 }
