@@ -1,43 +1,42 @@
-"use client"
-import React, { useState, useEffect } from "react"
+"use client";
+import React, { useState, useEffect } from "react";
 import {
   Webchat,
   WebchatProvider,
   useClient,
   useWebchatStore,
-} from "@botpress/webchat"
-import { buildTheme } from "@botpress/webchat-generator"
+} from "@botpress/webchat";
+import { buildTheme } from "@botpress/webchat-generator";
+import { enviroment } from "@/utils/config";
+import Image from "next/image";
 
-import { enviroment } from "@/utils/config"
-import Image from "next/image"
-
-const clientId = enviroment.botpressClient
+const clientId = enviroment.botpressClient;
 
 const { style, theme } = buildTheme({
   themeName: "dusk",
   themeColor: "#00CE90",
-})
+});
 
 const FAQChatBot: React.FC = () => {
-  const client = useClient({ clientId })
-  const [isChatOpen, setIsChatOpen] = useState(false)
+  const client = useClient({ clientId });
+  const [isChatOpen, setIsChatOpen] = useState(false);
 
   useEffect(() => {
     if (typeof document !== "undefined") {
       // Acciones que dependen de `document` aquí
     }
-  }, [])
+  }, []);
 
   const toggleChat = async () => {
-    setIsChatOpen(!isChatOpen)
-  }
+    setIsChatOpen(!isChatOpen);
+  };
 
   return (
     <div>
       {/* {isChatOpen ? ( */}
       <div className="flex-row items-center place-content-center ml-32">
         <div className="flex text-center place-content-center">
-          ¿Estás teniendo problemas? Haz click en Dientín para obtener ayuda.
+          ¿Necesitas ayuda? Haz click en Dientín.
         </div>
         <Image
           className="align-middle text-center place-content-center items-center ml-24 group-hover:fill-current text-white cursor-pointer hover:scale-110 "
@@ -55,8 +54,8 @@ const FAQChatBot: React.FC = () => {
             position: "absolute",
             bottom: "1px",
             right: "1px",
-            width: "22rem",
-            height: "35rem",
+            width: "95%",
+            height: "400%",
             boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
             borderRadius: "10px",
             overflow: "hidden",
@@ -90,7 +89,7 @@ const FAQChatBot: React.FC = () => {
                 "https://res.cloudinary.com/ddpohfyur/image/upload/v1720812990/Dientin_niogsu.png",
               composerPlaceholder: "Empieza a chatear con Dientín",
               botDescription:
-                "Soy Dientín, tu asistente personal de DentAll. Puedes preguntarme aqui lo que necesites.",
+                "Soy Dientín, el asistente personal de DentAll. Aquí puedes preguntarme lo que necesites.",
               email: {
                 title: "Email",
                 link: "mailto:dentallabgotvv@gmail.com",
@@ -108,8 +107,7 @@ const FAQChatBot: React.FC = () => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default FAQChatBot
-
+export default FAQChatBot;

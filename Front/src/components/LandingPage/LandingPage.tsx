@@ -75,18 +75,19 @@ const LandingPage = () => {
                 atención personalizada.
               </p>
               <div className="flex flex-row gap-5">
-                <div className="w-[31%] text-[16px]  text-center text-yellow-300 font-semibold brounded-[5px] p-3 shadow-[3px_7px_7.8px_0px_rgba(212,206,54,0.25)]">
+                <div className="w-[31%] text-[16px]  text-center text-white font-semibold brounded-[5px] p-3 shadow-[3px_7px_7.8px_0px_rgba(255,255,255,0.25)]">
                 Sonrisa 
               </div>
-              <div className="w-[5%] text-[16px] text-red-600 font-bold rounded-[5px] p-3">
+              {/* <div className="w-[5%] text-[16px] text-red-600 font-bold rounded-[5px] p-3">
                 + {" "}
-              </div>
+              </div> */}
               <div className="w-[31%] text-[16px]  text-center text-white font-semibold brounded-[5px] p-3 shadow-[3px_7px_7.8px_0px_rgba(255,255,255,0.25)]">
                 Perfecta {" "}
               </div>
-              <div className="w-[5%] text-[16px] text-red-600 font-bold rounded-[5px] p-3">
+              
+              {/* <div className="w-[5%] text-[16px] text-red-600 font-bold rounded-[5px] p-3">
                 = {" "}
-              </div>
+              </div> */}
               <div className="w-[31%] text-[16px] text-[#00CE90] text-center font-bold rounded-[5px] p-3 shadow-[3px_7px_7.8px_0px_rgba(0,206,144,0.25)]">
                   DentAll
               </div>

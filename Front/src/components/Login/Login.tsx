@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 import PasswordInput from "../PasswordImput";
-import { decodeJWT } from '../../helpers/decodeJwt'
+import { decodeJWT } from "../../helpers/decodeJwt";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import Link from "next/link";
 
@@ -25,94 +25,95 @@ const Login = () => {
     password: "",
   });
 
+  useEffect(() => {
+    console.log("Componente Login renderizado");
+    const userSession = localStorage.getItem("userSession");
+    if (userSession) {
+      router.push("/patients");
+    }
+  }, [router]);
 
- useEffect(() => {
-   console.log("Componente Login renderizado");
-   const userSession = localStorage.getItem("userSession");
-   if (userSession) {
-     router.push("/patients");
-   }
- }, [router]);
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setDataUser({
+      ...dataUser,
+      [event.target.name]: event.target.value,
+    });
+  };
 
- const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-   setDataUser({
-     ...dataUser,
-     [event.target.name]: event.target.value,
-   });
- };
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const errors = validateLoginForm(dataUser);
+    setErrorUser(errors);
 
- const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-   event.preventDefault();
-   const errors = validateLoginForm(dataUser);
-   setErrorUser(errors);
+    if (Object.keys(errors).length === 0) {
+      try {
+        const response = await login(dataUser);
+        const { token, userData } = response;
+        console.log(response);
+        localStorage.setItem(
+          "userSession",
+          JSON.stringify({ token: token, userData })
+        );
+        await Swal.fire({
+          title: "¡Excelente!",
+          text: `${userData.first_name}, has iniciado sesión correctamente.`,
+          icon: "success",
+          confirmButtonText: "Aceptar",
+          customClass: {
+            confirmButton:
+              "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
+          },
+        });
 
-   if (Object.keys(errors).length === 0) {
-     try {
-       const response = await login(dataUser);
-       const { token, userData } = response;
-       console.log(response);
-       localStorage.setItem(
-         "userSession",
-         JSON.stringify({ token: token, userData })
-       );
-       await Swal.fire({
-         title: "¡Excelente!",
-         text: `${userData.first_name}, has iniciado sesión correctamente.`,
-         icon: "success",
-         confirmButtonText: "Aceptar",
-         customClass: {
-           confirmButton:
-             "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
-         },
-       });
+        const decodedToken: {
+          id: string;
+          email: string;
+          exp: Date;
+          iat: Date;
+          roles: string;
+        } = decodeJWT(token);
+        console.log(decodedToken);
 
-       const decodedToken: {
-         id: string;
-         email: string;
-         exp: Date;
-         iat: Date;
-         roles: string;
-       } = decodeJWT(token);
-       console.log(decodedToken);
-
-       if (decodedToken?.roles === "patient") {
-         router.push("/patients");
-       } else if (decodedToken?.roles === "dentist") {
-         router.push("/professional");
-       } else if (decodedToken?.roles === "administrative") {
-         router.push("/administrative");
-       } else if (decodedToken?.roles === "admin") {
-         router.push("/admin");
-       } else {
-         router.push("/");
-       }
-     } catch (error: any) {
-       console.log(error);
-       Swal.fire({
-         title: "Error",
-         text: "Hubo un problema al iniciar sesión. Por favor, intente de nuevo.",
-         icon: "error",
-         confirmButtonText: "Aceptar",
-       });
-     }
-   }
- };
-
+        if (decodedToken?.roles === "patient") {
+          router.push("/patients");
+        } else if (decodedToken?.roles === "dentist") {
+          router.push("/professional");
+        } else if (decodedToken?.roles === "administrative") {
+          router.push("/administrative");
+        } else if (decodedToken?.roles === "admin") {
+          router.push("/admin");
+        } else {
+          router.push("/");
+        }
+      } catch (error: any) {
+        console.log(error);
+        Swal.fire({
+          title: "Error",
+          text: "Hubo un problema al iniciar sesión. Por favor, intente de nuevo.",
+          icon: "error",
+          confirmButtonText: "Aceptar",
+        });
+      }
+    }
+  };
 
   return (
     <div className="flex justify-center items-center h-[100vh]">
       <div className="flex w-full h-full max-h-[1024px]">
-        <a href="/" className="flex flex-row justify-center items-center absolute top-4 left-4 text-white gap-2">
-        <Image
-          className="" // Ajusta el tamaño según tus necesidades
-          src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720967334/ArrowCircleRight_aln0la.png"
-          alt="Arrow"
-          width={30}
-          height={30}
-        />
+        <a
+          href="/"
+          className="flex flex-row justify-center items-center absolute top-4 left-4 text-white gap-2"
+        >
+          <Image
+            className="" // Ajusta el tamaño según tus necesidades
+            src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720967334/ArrowCircleRight_aln0la.png"
+            alt="Arrow"
+            width={30}
+            height={30}
+          />
           Volver
         </a>
-        
+
         <div className="w-[35%] flex flex-col items-center justify-center bg-darkD-500 text-white p-12">
           <div className="flex flex-col items-start justify-start mb-8">
             <h2 className="text-[#ECEDF6] text-[34px] font-semibold leading-normal mb-4">
@@ -127,7 +128,7 @@ const Login = () => {
                   EMAIL
                 </label>
                 <input
-                  className="flex h-[38px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[5px] bg-[#BBB] w-full"
+                  className="flex h-[30px] px-[10px] py-[5px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[5px] bg-[#BBB] w-full"
                   placeholder="mail@mail.com"
                   value={dataUser.email}
                   type="text"
@@ -151,6 +152,7 @@ const Login = () => {
                   value={dataUser.password}
                   onChange={handleChange}
                   required
+                  className="flex h-[30px] px-[10px] py-[5px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[5px] bg-[#BBB] w-full"
                 />
                 {errorUser.password && (
                   <p className="text-red-500">{errorUser.password}</p>
@@ -175,8 +177,8 @@ const Login = () => {
           </div>
           <div className="w-full max-w-[80%] text-[#00CE90] mt-8 flex flex-col items-center space-y-4">
             <p className="text-white">O inicia sesión con:</p>
-            {(!user) ?
-              (<div className="flex space-x-4">
+            {!user ? (
+              <div className="flex space-x-4">
                 <div className="w-[44px] h-[44px] flex-shrink-0 relative">
                   <a href="/api/auth/login">
                     <Image
@@ -186,8 +188,12 @@ const Login = () => {
                     />
                   </a>
                 </div>
-              </div>) : (<div>Hello {user.name}, <Link href="/api/auth/logout">Logout</Link></div>)
-            }
+              </div>
+            ) : (
+              <div>
+                Hello {user.name}, <Link href="/api/auth/logout">Logout</Link>
+              </div>
+            )}
           </div>
           <div className="w-full max-w-[80%] text-[#00CE90] mt-8 flex flex-row items-center justify-center gap-4">
             <p className="text-white">No tienes cuenta?</p>
