@@ -111,7 +111,7 @@ const CalendarAppointments: React.FC<CalendarProps> = ({ dentist_id }) => {
     Swal.fire({
       title: "Detalles de la cita",
       html: `<p style="text-align: left;">
-      <b>Paciente:</b> ${info.event.title}<br><b>Doctor:</b> ${info.event.extendedProps.dentist}<br><b>Fecha y hora:</b> ${info.event.startStr}<br><b>Doctor:</b> ${info.event.extendedProps.dentist}<br><b>Servicio:</b> ${info.event.extendedProps.service}</p><p style="text-align: left;">${info.event.extendedProps.description}</p>`,
+      <b>Paciente:</b> ${info.event.title}<br><b>Doctor:</b> ${info.event.extendedProps.dentist}<br><b>Fecha y hora:</b> ${format(toZonedTime(info.event.startStr, "UTC"), "dd-MM-yyyy HH:mm")}<br><b>Doctor:</b> ${info.event.extendedProps.dentist}<br><b>Servicio:</b> ${info.event.extendedProps.service}</p><p style="text-align: left;">${info.event.extendedProps.description}</p>`,
       icon: "info",
       confirmButtonText: "OK",
       customClass: {
@@ -139,6 +139,7 @@ const CalendarAppointments: React.FC<CalendarProps> = ({ dentist_id }) => {
   };
 
   const addAppointment = async (dateCliclArg: DateClickArg) => {
+    if (dentist_id) return;
     const date_time = toZonedTime(dateCliclArg.dateStr, "UTC")
     if (date_time < new Date()) {
       Swal.fire({
@@ -228,6 +229,11 @@ const CalendarAppointments: React.FC<CalendarProps> = ({ dentist_id }) => {
         timeZone="UTC"
         locale={esLocale}
         dateClick={(e) => addAppointment(e)}
+        eventTimeFormat={{
+          hour: '2-digit',
+          minute: '2-digit',
+          meridiem: false
+        }}
       />
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} >
         <ModalNuevaCita modalOpen={setIsModalOpen} goNext={goNext} date_time={dateTimeAppointment} />
@@ -235,5 +241,6 @@ const CalendarAppointments: React.FC<CalendarProps> = ({ dentist_id }) => {
     </>
   );
 };
+
 
 export default CalendarAppointments;

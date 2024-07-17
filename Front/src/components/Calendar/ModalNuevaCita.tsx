@@ -1,14 +1,9 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
-import FullCalendar from "@fullcalendar/react";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import interactionPlugin, { DateClickArg } from "@fullcalendar/interaction";
-import timeGridPlugin from "@fullcalendar/timegrid";
-import esLocale from "@fullcalendar/core/locales/es";
+import React, { useEffect, useState } from "react";
 import { format } from "date-fns";
 import Swal from "sweetalert2";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import Select, { StylesConfig } from 'react-select';
+import Select from 'react-select';
 import axiosInstance from "@/utils/axiosInstance";
 import { DentistId, Patients } from "@/types";
 import { toZonedTime } from "date-fns-tz";
