@@ -15,7 +15,7 @@ const Modal: FC<ModalProps> = ({ isOpen, onClose, children }) => {
         className="fixed inset-0 bg-darkD-400 opacity-50"
         onClick={onClose}
       ></div>
-      <div className="bg-[#1A2228]    rounded-lg p-6 z-10 relative">
+      <div className="bg-[#1A2228]  min-w-[40%]  rounded-lg p-6 z-10 relative">
         <button className="absolute top-2 right-4" onClick={onClose}>
           &times;
         </button>
