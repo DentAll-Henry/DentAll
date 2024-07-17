@@ -87,7 +87,7 @@
 /* Estilos para los días no disponibles */
 .react-datepicker__day--disabled {
   /* Cambia el fondo de los días no disponibles a gris oscuro */
-  color: #ffffffb3; /* Cambia el color del texto de los días no disponibles a gris claro */
+  color: #959393b3; /* Cambia el color del texto de los días no disponibles a gris claro */
   cursor: not-allowed; /* Cambia el cursor a no permitido */
 }
 
