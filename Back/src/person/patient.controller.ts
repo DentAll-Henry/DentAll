@@ -97,7 +97,7 @@ export class PatientsController {
 
   @ApiBearerAuth()
   @Get(':id')
-  @DRoles(Roles.ADMIN)
+  @DRoles(Roles.ADMIN, Roles.DENTIST)
   @UseGuards(AuthGuard, RolesGuard)
   @ApiOperation({ summary: 'Get a patient by ID.' })
   @ApiResponse({
