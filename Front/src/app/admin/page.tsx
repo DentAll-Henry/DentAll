@@ -52,7 +52,7 @@ function page() {
             </div>
           </Link>
 
-          <Link href="/admin/users/appointments">
+          <Link href="/admin/appointments">
           <div className="flex flex-row  ">
             <div className="flex justify-center bg-[#a2f69a] p-4 w-[20%] rounded-tl-[10px] rounded-tr-0 rounded-br-0 rounded-bl-[10px]">
               <Image
@@ -66,9 +66,9 @@ function page() {
 
             <div className="bg-[#9af6a224] w-[80%] p-4 rounded-tl-0 rounded-tr-[10px] rounded-br-[10px] rounded-bl-0">
               <p className="text-xs text-[#a2f69a] ">
-                Total de citas pendientes
+                Calendario de citas
               </p>
-              <p className="text-sm">10 pacientes</p>
+              <p className="text-sm"></p>
             </div>
           </div>
           

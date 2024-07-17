@@ -187,9 +187,9 @@ const CalendarAppointments: React.FC<CalendarProps> = ({ dentist_id }) => {
           <div>
             <h2>Dentistas</h2>
           </div>
-          <div>
+          <div className="mb-4 px-4  flex flex-row">
             {dentists.map((dentist: Dentist) => (
-              <div key={dentist.id}>
+              <div className="w-1/3" key={dentist.id}>
                 <label>
                   <input
                     type="checkbox"

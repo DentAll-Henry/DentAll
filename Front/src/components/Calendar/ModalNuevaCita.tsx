@@ -181,238 +181,191 @@ const ModalNuevaCita: React.FC<ModalCitaProps> = ({
     }),
   };
 
-  return (
-    <div className=" flex flex-col items-center bg-[#1A2228]  text-white p-8">
-      <h1 className="text-xl font-semibold my-4">Nueva cita</h1>
-      <h4>Fecha: {format(toZonedTime(date_time, "UTC"), "dd-MM-yyyy")}</h4>
-      <Formik
-        initialValues={{
-          patient: "",
-          dentist_id: "",
-          date_time: "",
-          service: "",
-          description: "",
-        }}
-        validate={(values) => {
-          console.log("values:", appointmentData);
-          const errors = {
-            patient: "",
-            dentist_id: "",
-            date_time: "",
-            service: "",
-          };
-          if (!appointmentData.patient || appointmentData.patient === "") {
-            errors.patient = "Seleccione un paciente";
-          }
-          if (
-            !appointmentData.dentist_id ||
-            appointmentData.dentist_id === ""
-          ) {
-            errors.dentist_id = "Seleccione un dentista";
-          }
-          if (!appointmentData.date_time || appointmentData.date_time === "") {
-            errors.date_time = "Seleccione una hora";
-          }
-          if (!appointmentData.service || appointmentData.service === "") {
-            errors.service = "Seleccione un servicio";
-          }
-          if (
-            errors.patient !== "" ||
-            errors.dentist_id !== "" ||
-            errors.date_time !== "" ||
-            errors.service !== ""
-          ) {
-            return errors;
-          }
-          return {};
-        }}
-        onSubmit={(values) => {
-          console.log(true);
-          axiosInstance
-            .post("/appointments", {
-              ...appointmentData,
-            })
-            .then((response) => {
-              console.log("response:", response);
-              if (response.status === 201) {
-                Swal.fire({
-                  title: "Cita agendada con exito!",
-                  text: `La cita ha sido agendada satisfactoriamente el dia ${format(
-                    toZonedTime(date_time, "UTC"),
-                    "dd-MM-yyyy"
-                  )} a las ${format(toZonedTime(date_time, "UTC"), "HH:mm")}`,
-                  icon: "success",
-                  confirmButtonText: "OK",
-                  customClass: {
-                    confirmButton:
-                      "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
-                  },
-                }).then(() => {
-                  modalOpen(false);
-                  goNext();
-                });
-              }
-            })
-            .catch((error) => {
-              console.log(error.response.data.message[0]);
-              Swal.fire({
-                title: "Error!",
-                html: `Ha ocurrido un error al agendar la cita.\n<ul>${error.response.data.message.map(
-                  (e: any) => {
-                    return `<li>${e}</li>`;
-                  }
-                )}</ul>`,
-                icon: "success",
-                confirmButtonText: "OK",
-                customClass: {
-                  confirmButton:
-                    "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
-                },
-              });
-            });
-        }}
-      >
-        <Form>
-          <div className="mb-4">
-            <label htmlFor="patient">Paciente</label>
-            <Select
-              classNamePrefix="my-custom-select"
-              styles={customStyles}
-              theme={(theme) => ({
-                ...theme,
-                borderRadius: 8,
-                colors: {
-                  ...theme.colors,
-                  primary25: "#00CE90",
-                  primary: "#00CE90",
-                },
-              })}
-              name="patient"
-              placeholder="Seleccione el paciente"
-              onChange={(option) => {
-                option &&
-                  setAppointmentData({
-                    ...appointmentData,
-                    patient: option.value,
-                  });
-              }}
-              options={patients}
-            />
-            <ErrorMessage name="patient" component="div" />
-          </div>
+    return (
+        <div className=" flex flex-col items-center bg-[#1A2228] text-white p-8">
+            <h1 className="text-2xl font-semibold my-4">Nueva cita</h1>
+            <h4>Fecha: {format(toZonedTime(date_time, "UTC"), "dd-MM-yyyy")}</h4>
+            <Formik
+                initialValues={{
+                    patient: "",
+                    dentist_id: "",
+                    date_time: "",
+                    service: "",
+                    description: "",
+                }}
+                validate={values => {
+                    console.log("values:", appointmentData);
+                    const errors = {
+                        patient: "",
+                        dentist_id: "",
+                        date_time: "",
+                        service: "",
+                    };
+                    if (!appointmentData.patient || appointmentData.patient === "") {
+                        errors.patient = 'Seleccione un paciente';
+                    }
+                    if (!appointmentData.dentist_id || appointmentData.dentist_id === "") {
+                        errors.dentist_id = 'Seleccione un dentista';
+                    }
+                    if (!appointmentData.date_time || appointmentData.date_time === "") {
+                        errors.date_time = 'Seleccione una hora';
+                    }
+                    if (!appointmentData.service || appointmentData.service === "") {
+                        errors.service = 'Seleccione un servicio';
+                    }
+                    if (errors.patient !== "" || errors.dentist_id !== "" || errors.date_time !== "" || errors.service !== "") {
+                        return errors;
+                    }
+                    return {}
+                }}
+                onSubmit={(values) => {
 
-          <div className="mb-4">
-            <label htmlFor="dentist_id">Dentista</label>
-            <Select
-              classNamePrefix="my-custom-select"
-              styles={customStyles}
-              theme={(theme) => ({
-                ...theme,
-                borderRadius: 8,
-                colors: {
-                  ...theme.colors,
-                  primary25: "#00CE90",
-                  primary: "#00CE90",
-                },
-              })}
-              name="dentist_id"
-              placeholder="Seleccione el dentista"
-              onChange={(option) => {
-                option &&
-                  setAppointmentData({
-                    ...appointmentData,
-                    dentist_id: option.value,
-                  });
-              }}
-              options={dentists}
-            />
-            <ErrorMessage name="dentist_id" component="div" />
-          </div>
+                    console.log(true)
+                    axiosInstance.post("/appointments", {
+                        ...appointmentData
+                    }).then(response => {
+                        console.log("response:", response);
+                        if (response.status === 201) {
+                            Swal.fire({
+                                title: "Cita agendada con exito!",
+                                text: `La cita ha sido agendada satisfactoriamente el dia ${format(toZonedTime(date_time, "UTC"), "dd-MM-yyyy")} a las ${format(toZonedTime(date_time, "UTC"), "HH:mm")}`,
+                                icon: "success",
+                                confirmButtonText: "OK",
+                                customClass: {
+                                    confirmButton:
+                                        "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
+                                },
+                            }).then(() => {
+                                modalOpen(false);
+                                goNext()
+                            });
+                        }
+                    }).catch(error => {
+                        console.log(error.response.data.message[0])
+                        Swal.fire({
+                            title: "Error!",
+                            html: `Ha ocurrido un error al agendar la cita.\n<ul>${error.response}</ul>`,
+                            icon: "error",
+                            confirmButtonText: "OK",
+                            customClass: {
+                                confirmButton:
+                                    "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
+                            },
+                        })
 
-          <div className="mb-4">
-            <label htmlFor="time">Hora</label>
-            <Select
-              classNamePrefix="my-custom-select"
-              styles={customStyles}
-              theme={(theme) => ({
-                ...theme,
-                borderRadius: 8,
-                colors: {
-                  ...theme.colors,
-                  primary25: "#00CE90",
-                  primary: "#00CE90",
-                },
-              })}
-              name="time"
-              isDisabled={availableSlots !== null ? false : true}
-              placeholder="Seleccione la hora"
-              onChange={(option) => {
-                option &&
-                  setAppointmentData({
-                    ...appointmentData,
-                    date_time: `${date_time} ${option.value}`,
-                  });
-              }}
-              options={availableSlots ? availableSlots : []}
-            />
-            <ErrorMessage name="date_time" component="div" />
-          </div>
+                    });
 
-          <div className="mb-4">
-            <label htmlFor="service">Servicio</label>
-            <Select
-              classNamePrefix="my-custom-select"
-              styles={customStyles}
-              theme={(theme) => ({
-                ...theme,
-                borderRadius: 8,
-                colors: {
-                  ...theme.colors,
-                  primary25: "#00CE90",
-                  primary: "#00CE90",
-                },
-              })}
-              name="service"
-              placeholder="Seleccione el servicio"
-              onChange={(option) => {
-                option &&
-                  setAppointmentData({
-                    ...appointmentData,
-                    service: option.value,
-                  });
-              }}
-              options={services}
-            />
-            <ErrorMessage name="service" component="div" />
-          </div>
+                }}
+            >
+                 {({ isSubmitting }) => (
+                <Form>
+                    <div className="mb-4">
+                        <label htmlFor="patient">Paciente</label>
+                        <Select
+                            classNamePrefix="my-custom-select"
+                            styles={customStyles}
+                            theme={(theme) => ({
+                                ...theme,
+                                borderRadius: 8,
+                                colors: {
+                                  ...theme.colors,
+                                  primary25: "#00CE90",
+                                  primary: "#00CE90",
+                                },
+                              })}
+                            name="patient"
+                            placeholder="Seleccione el paciente"
+                            onChange={option => { option && setAppointmentData({ ...appointmentData, patient: option.value }) }}
+                            options={patients}
 
-          <div className="mb-4">
-            <label htmlFor="description">Descripción</label>
-            <Field
-              as="textarea"
-              value={appointmentData.description}
-              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-                setAppointmentData({
-                  ...appointmentData,
-                  description: e.target.value,
-                })
-              }
-              name="description"
-              className="w-full p-2 rounded-md text-black"
-            />
-            <ErrorMessage name="description" component="div" />
-          </div>
+                        />
+                        <ErrorMessage name="patient" component="div" />
+                    </div>
 
-          <button
-            className="rounded block px-4 py-2 text-xl w-full text-center text-black bg-greenD-500 cursor-pointer"
-            type="submit"
-          >
-            Agendar
-          </button>
-        </Form>
-      </Formik>
-    </div>
-  );
+                    <div className="mb-4">
+                        <label htmlFor="dentist_id">Dentista</label>
+                        <Select
+                            classNamePrefix="my-custom-select"
+                            styles={customStyles}
+                            theme={(theme) => ({
+                                ...theme,
+                                borderRadius: 8,
+                                colors: {
+                                  ...theme.colors,
+                                  primary25: "#00CE90",
+                                  primary: "#00CE90",
+                                },
+                              })}
+                            name="dentist_id"
+                            placeholder="Seleccione el dentista"
+                            onChange={option => { option && setAppointmentData({ ...appointmentData, dentist_id: option.value }) }}
+                            options={dentists}
+
+                        />
+                        <ErrorMessage name="dentist_id" component="div" />
+                    </div>
+
+                    <div className="mb-4">
+                        <label htmlFor="time">Hora</label>
+                        <Select
+                            classNamePrefix="my-custom-select"
+                            styles={customStyles}
+                            theme={(theme) => ({
+                                ...theme,
+                                borderRadius: 8,
+                                colors: {
+                                  ...theme.colors,
+                                  primary25: "#00CE90",
+                                  primary: "#00CE90",
+                                },
+                              })}
+                            name="time"
+                            isDisabled={availableSlots !== null ? false : true}
+                            placeholder="Seleccione la hora"
+                            onChange={option => { option && setAppointmentData({ ...appointmentData, date_time: `${date_time} ${option.value}` }) }}
+                            options={availableSlots ? availableSlots : []}
+
+                        />
+                        <ErrorMessage name="date_time" component="div" />
+                    </div>
+
+                    <div className="mb-4">
+                        <label htmlFor="service">Servicio</label>
+                        <Select
+                            classNamePrefix="my-custom-select"
+                            styles={customStyles}
+                            theme={(theme) => ({
+                                ...theme,
+                                borderRadius: 8,
+                                colors: {
+                                  ...theme.colors,
+                                  primary25: "#00CE90",
+                                  primary: "#00CE90",
+                                },
+                              })}
+                            name="service"
+                            placeholder="Seleccione el servicio"
+                            onChange={option => { option && setAppointmentData({ ...appointmentData, service: option.value }) }}
+                            options={services}
+
+                        />
+                        <ErrorMessage name="service" component="div" />
+                    </div>
+
+                    <div className="mb-4">
+                        <label htmlFor="description">Descripción</label>
+                        <Field as="textarea" value={appointmentData.description} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setAppointmentData({ ...appointmentData, description: e.target.value })} name="description" className="w-full p-2 rounded-md text-black" />
+                        <ErrorMessage name="description" component="div" />
+                    </div>
+
+                    <button type="submit" disabled={isSubmitting} className="bg-greenD-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded">
+                        Agendar
+                    </button>
+                </Form>
+            )}
+            </Formik>
+        </div>
+    );
 };
 
 export default ModalNuevaCita;
