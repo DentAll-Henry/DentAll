@@ -13,6 +13,7 @@ import { SystemConfigsService } from './system_configs.service';
 import { UpdateSystemConfigDto } from './dto/update-system_config.dto';
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiBody,
   ApiOperation,
   ApiParam,
@@ -30,6 +31,8 @@ import { RolesGuard } from 'src/role/guards/roles.guard';
 export class SystemConfigsController {
   constructor(private readonly systemConfigsService: SystemConfigsService) {}
 
+  
+  @ApiBearerAuth()
   @Get()
   @DRoles(Roles.ADMIN)
   @UseGuards(AuthGuard, RolesGuard)
@@ -45,6 +48,7 @@ export class SystemConfigsController {
     return this.systemConfigsService.findAll();
   }
 
+  @ApiBearerAuth()
   @Get(':slug_name')
   @DRoles(Roles.ADMIN)
   @UseGuards(AuthGuard, RolesGuard)
@@ -65,6 +69,7 @@ export class SystemConfigsController {
     return this.systemConfigsService.findOne(id);
   }
 
+  @ApiBearerAuth()
   @Patch()
   @DRoles(Roles.ADMIN)
   @UseGuards(AuthGuard, RolesGuard)
