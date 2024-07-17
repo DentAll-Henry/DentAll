@@ -180,8 +180,6 @@ const RegisterAuth0 = () => {
           password: `${user?.sub}D`,
         });
         const { success, token, userData } = response.data;
-        console.log("--> Acá Carlos <--");
-        console.log(response);
         localStorage.setItem(
           "userSession",
           JSON.stringify({ token: token, userData })

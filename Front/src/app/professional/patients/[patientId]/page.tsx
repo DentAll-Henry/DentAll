@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { userSession } from '@/types';
 import { getPatientDentistId } from '@/helpers/patients.helper'
 import { format } from 'date-fns'
+import FormModal from '@/components/PendingAppointment/FormModal'
 
  interface PatientId{
   id: string;
@@ -32,6 +33,7 @@ import { format } from 'date-fns'
 function DetailsId({ params }: { params: { patientId: string } }) {
   const [userData, setUserData] = useState<userSession>();
   const [patient, setPatient] = useState<PatientId>();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
     //INFORMACION DEL PACIENTE
     useEffect(() => {
@@ -101,12 +103,16 @@ function DetailsId({ params }: { params: { patientId: string } }) {
               <img src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720713870/Books_hcufp5.svg" alt="icono capsula" />
             </div>
 
-            <div className='flex flex-row gap-1 pl-14 pr-4 py-1 bg-[#7ed84a21] justify-between items-center  rounded-xl'>
+            <div
+              className='flex flex-row gap-1 pl-14 pr-4 py-1 bg-[#7ed84a21] justify-between items-center rounded-xl cursor-pointer'
+              onClick={() => setIsModalOpen(true)}
+            >
               <p className='text-base'>Crear nueva orden </p>
               <img src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720887373/NotePencil_axapbz.svg "/>
             </div>
         </div>
       </div>
+      <FormModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} patientId={params.patientId}/>
     </div>
   );
 }
