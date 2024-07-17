@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiBody,
   ApiInternalServerErrorResponse,
   ApiOperation,
@@ -31,6 +32,7 @@ import { RolesGuard } from 'src/role/guards/roles.guard';
 export class PaymentsController {
   constructor(private readonly paymentsService: PaymentsService) {}
 
+  @ApiBearerAuth()
   @Post('new-preference')
   @DRoles(Roles.ADMIN, Roles.PATIENT)
   @UseGuards(AuthGuard, RolesGuard)
@@ -79,6 +81,7 @@ export class PaymentsController {
     res.send(dsad);
   }
 
+  @ApiBearerAuth()
   @Get('payments_by_patient/:patient_id')
   @DRoles(Roles.ADMIN, Roles.ADMINISTRATIVE, Roles.PATIENT)
   @UseGuards(AuthGuard, RolesGuard)
@@ -91,6 +94,7 @@ export class PaymentsController {
     return await this.paymentsService.getPaymentsByPatient(patient_id);
   }
 
+  @ApiBearerAuth()
   @Get('by_id/:payment_id')
   @DRoles(Roles.ADMIN, Roles.ADMINISTRATIVE, Roles.PATIENT)
   @UseGuards(AuthGuard, RolesGuard)
