@@ -270,4 +270,4 @@ export const theme = {
       className: "#1yvv0m5 #st28uh #z9bam5 #1xr0huw #1sxpzkv #chew64",
     },
   },
-}
+};

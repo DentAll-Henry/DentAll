@@ -285,7 +285,7 @@ const AboutPage = () => {
           </div>
           <div className="text-center">
             <Image
-              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1721069004/Dientin_404_cnlpwk.png"
+              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1721163641/jorge_coegyz.png"
               alt="Jorge Bello"
               width={120}
               height={120}

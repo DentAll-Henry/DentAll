@@ -2,7 +2,6 @@ import Link from "next/link";
 import Image from "next/image";
 import React from "react";
 
-
 const NotFoundPage = () => {
   return (
     <div className="min-h-screen text-white flex flex-col justify-center items-center text-center p-4">
@@ -15,10 +14,10 @@ const NotFoundPage = () => {
         />
       </div>
       <h1 className="text-4xl font-bold  mt-4">
-        Ups! Lo siento no encontré lo que buscabas...
+        Ups! Lo siento, no encontré lo que buscabas...
       </h1>
       <p className="text-gray-600 mt-2">
-        Aqui esta el boton para que vuelvas al inicio
+        Aquí esta el boton para que vuelvas al inicio
       </p>
       <Link href="/">
         <p className="mt-4 inline-block bg-greenD-500 text-black px-6 py-3 rounded font-bold shadow hover:bg-greenD-400 transition duration-300">

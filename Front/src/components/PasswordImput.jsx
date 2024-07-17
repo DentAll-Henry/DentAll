@@ -2,7 +2,7 @@ import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 
-const PasswordInput = ({ value, onChange, id, name, required }) => {
+const PasswordInput = ({ value, onChange, id, name, required, className }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleMouseDown = () => {
@@ -22,7 +22,7 @@ const PasswordInput = ({ value, onChange, id, name, required }) => {
         id={id}
         name={name}
         required={required}
-        className="flex h-[38px] px-[15px] py-[11px] items-center gap-[10px] self-stretch border border-gray-300 rounded-[5px] bg-[#BBB] w-full"
+        className={className} // Aplicar className aquí
         placeholder="********"
       />
       <button

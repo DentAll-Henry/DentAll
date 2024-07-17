@@ -27,7 +27,7 @@
 /* Estilos del día seleccionado en el DatePicker */
 .react-datepicker__day--selected,
 .react-datepicker__day--keyboard-selected {
-  background-color: #b60707; /* Cambia el fondo del día seleccionado a un verde más oscuro */
+  background-color: #00ce90; /* Cambia el fondo del día seleccionado a un verde más oscuro */
 }
 
 /* Estilos del contenedor de tiempo en el DatePicker */
