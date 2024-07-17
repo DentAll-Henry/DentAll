@@ -44,12 +44,7 @@ const Register = () => {
   }, []);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("handleChange llamado");
     setDataUser({
-      ...dataUser,
-      [event.target.name]: event.target.value,
-    });
-    console.log("Nuevo estado de dataUser:", {
       ...dataUser,
       [event.target.name]: event.target.value,
     });
@@ -57,14 +52,12 @@ const Register = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log("handleSubmit llamado");
     const errors = validateRegisterForm(dataUser);
     setErrorUser(errors);
 
     if (Object.keys(errors).length === 0) {
       try {
         const response = await register(dataUser);
-        console.log("Este es el response", response);
         Swal.fire({
           title: "¡Excelente!",
           text: "Cuenta creada correctamente.",
@@ -77,7 +70,6 @@ const Register = () => {
         });
         router.push("/login");
       } catch (error: any) {
-        console.log(error);
         Swal.fire({
           title: "Error",
           text: error.response.data.message,
@@ -88,21 +80,26 @@ const Register = () => {
     }
   };
 
+  const inputClass =
+    "h-[28px] px-[8px] py-[4px] items-center gap-[10px] self-stretch border border-gray-300 bg-[#BBB] w-full rounded-[5px]";
+
   return (
-    <div className="flex justify-center items-center h-screen bg-[#1D1D1D] relative">
-       <a href="/" className="flex flex-row justify-center items-center absolute top-4 left-4 text-white gap-2">
+    <div className="h-screen flex justify-center items-center bg-[#1D1D1D] relative">
+      <a
+        href="/"
+        className="flex flex-row justify-center items-center absolute top-4 left-4 text-white gap-2"
+      >
         <Image
-          className="" // Ajusta el tamaño según tus necesidades
           src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720967334/ArrowCircleRight_aln0la.png"
           alt="Arrow"
           width={30}
           height={30}
         />
-          Volver
-        </a>
-      <div className="flex w-full h-full pt-10">
-        <div className="w-1/3 flex flex-col items-center bg-[#1D1D1D] text-white p-8">
-          <h2 className="text-[#ECEDF6] font-maven-pro text-[34px] font-semibold leading-normal mb-4">
+        Volver
+      </a>
+      <div className="flex w-full h-full">
+        <div className="w-2/3 flex flex-col items-center bg-[#1D1D1D] text-white p-8">
+          <h2 className="text-[#ECEDF6] font-maven-pro text-[34px] font-semibold leading-normal mb-4 p-2">
             Bienvenido a DentAll
           </h2>
           <div className="w-[80%] flex flex-col gap-4">
@@ -113,7 +110,7 @@ const Register = () => {
                     NOMBRE/S
                   </label>
                   <input
-                    className="flex h-[30px] px-[15px] items-center gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
+                    className={inputClass}
                     placeholder="Juan"
                     value={dataUser.first_name}
                     type="text"
@@ -131,7 +128,7 @@ const Register = () => {
                     APELLIDO/S
                   </label>
                   <input
-                    className="flex h-[30px] px-[15px] items-center gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
+                    className={inputClass}
                     placeholder="Perez"
                     value={dataUser.last_name}
                     type="text"
@@ -151,7 +148,7 @@ const Register = () => {
                     DNI
                   </label>
                   <input
-                    className="flex h-[30px] px-[15px] items-center gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
+                    className={inputClass}
                     placeholder="12345678"
                     value={dataUser.dni}
                     type="text"
@@ -169,7 +166,7 @@ const Register = () => {
                     TELÉFONO
                   </label>
                   <input
-                    className="flex h-[30px] px-[15px] items-center gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
+                    className={inputClass}
                     placeholder="0123456789"
                     value={dataUser.phone}
                     type="text"
@@ -188,7 +185,7 @@ const Register = () => {
                   FECHA DE NACIMIENTO
                 </label>
                 <input
-                  className="flex h-[30px] px-[15px] items-center border border-[gray-300] rounded-[1px] bg-[#BBB] w-full text-center"
+                  className={`${inputClass} text-left`}
                   value={dataUser.birthdate}
                   type="date"
                   id="birthdate"
@@ -206,7 +203,7 @@ const Register = () => {
                   CORREO ELECTRÓNICO
                 </label>
                 <input
-                  className="flex h-[30px] px-[15px] items-center gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
+                  className={inputClass}
                   placeholder="mail@mail.com"
                   value={dataUser.email}
                   type="email"
@@ -224,7 +221,7 @@ const Register = () => {
                   DIRECCIÓN
                 </label>
                 <input
-                  className="flex h-[30px] px-[15px] items-center gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
+                  className={inputClass}
                   placeholder="Calle Falsa 123"
                   value={dataUser.address}
                   type="text"
@@ -242,7 +239,7 @@ const Register = () => {
                   LOCALIDAD
                 </label>
                 <input
-                  className="flex h-[30px] px-[15px] items-center gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
+                  className={inputClass}
                   placeholder="Lugar falso"
                   value={dataUser.location}
                   type="text"
@@ -260,7 +257,7 @@ const Register = () => {
                   NACIONALIDAD
                 </label>
                 <input
-                  className="flex h-[30px] px-[15px] items-center gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
+                  className={inputClass}
                   placeholder="País de origen"
                   value={dataUser.nationality}
                   type="text"
@@ -284,6 +281,7 @@ const Register = () => {
                     id="password"
                     name="password"
                     required
+                    className={inputClass}
                   />
                   {errorUser.password && (
                     <p className="text-red-500">{errorUser.password}</p>
@@ -299,6 +297,7 @@ const Register = () => {
                     id="confirmPass"
                     name="confirmPass"
                     required
+                    className={inputClass}
                   />
                   {errorUser.confirmPass && (
                     <p className="text-red-500">{errorUser.confirmPass}</p>
@@ -308,7 +307,7 @@ const Register = () => {
               <div className="w-full mt-4 flex justify-center">
                 <button
                   type="submit"
-                  className="flex w-[340px] h-[38px] px-[25px] py-[11px] justify-center items-center gap-[10px] rounded-[1px] bg-[#00CE90]"
+                  className="flex w-[340px] h-[38px] px-[25px] py-[11px] justify-center items-center gap-[10px] bg-[#00CE90] rounded-[5px]"
                 >
                   <span className="text-[#030423] font-maven-pro text-[16px] font-semibold leading-normal">
                     Crear cuenta
@@ -337,6 +336,7 @@ const Register = () => {
             src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720203080/Group_48095527_bgwmit.webp"
             alt="Register Image"
             layout="fill"
+            objectFit="cover"
             priority
           />
         </div>
