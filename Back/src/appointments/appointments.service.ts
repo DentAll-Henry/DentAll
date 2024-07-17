@@ -84,6 +84,7 @@ export class AppointmentsService {
   }
 
   async create(createAppointmentDto: CreateAppointmentDto) {
+
     const dentServ: DentalServ = await this.dentalServService.getDentalServByID(
       createAppointmentDto.service,
     );
@@ -120,6 +121,11 @@ export class AppointmentsService {
     const appointment = await this.appointmentsRepository.getAppointmentById(
       appointment_created.id,
     );
+
+    if (createAppointmentDto.expiration_date === null)
+      await this.appointmentsRepository.updateAppointment(appointment.id, {
+        expiration_date: null
+      });
 
     //send email
 
