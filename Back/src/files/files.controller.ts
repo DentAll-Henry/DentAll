@@ -9,6 +9,7 @@ import {
 import { FilesService } from './files.service';
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiBody,
   ApiConsumes,
   ApiOperation,
@@ -28,6 +29,7 @@ import { RolesGuard } from 'src/role/guards/roles.guard';
 export class FilesController {
   constructor(private readonly filesService: FilesService) {}
 
+  @ApiBearerAuth()
   @Post('upload')
   @DRoles(Roles.ADMIN)
   @UseGuards(AuthGuard, RolesGuard)
@@ -50,6 +52,7 @@ export class FilesController {
     return this.filesService.uploadFile(fileInfo);
   }
 
+  @ApiBearerAuth()
   @Post('images')
   @DRoles(Roles.ADMIN)
   @UseGuards(AuthGuard, RolesGuard)
