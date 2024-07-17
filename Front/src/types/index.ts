@@ -132,6 +132,7 @@ export interface Patients{
     is_auth0: boolean;
     photo:string;
     deleteDate:null;
+    is_active: boolean;
     roles: {
       id: string;
       name: string;
