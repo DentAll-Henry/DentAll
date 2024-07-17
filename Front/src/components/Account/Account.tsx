@@ -9,6 +9,7 @@ import { decodeJWT } from "@/helpers/decodeJwt";
 import Swal from "sweetalert2";
 import { getPatientId } from "@/helpers/patients.helper";
 import { format } from "date-fns";
+import EditProfile from "../EditProfile/EditProfile";
 
 // type errorMessage = {
 //   response:{
@@ -27,8 +28,6 @@ const Account = () => {
   ); // URL de la imagen de perfil por defecto
   const [showEditIcon, setShowEditIcon] = useState(false);
   const [role, setRole] = useState("");
-
- 
 
   useEffect(() => {
     if (typeof window !== "undefined" && window.localStorage) {
@@ -114,7 +113,7 @@ const Account = () => {
     }
   };
   return (
-    <div>
+    <div className="">
       <div
         className="flex  gap-2 justify-start m-4 mr-8 items-center cursor-pointer w-[6%] "
         onClick={navigateBack}
@@ -128,88 +127,98 @@ const Account = () => {
         />
         <span className="mr-2">Volver</span>
       </div>
-      <div className="flex flex-col bg-darkD-600 gap-5 p-10 rounded-xl w-[80%] m-auto">
-        <div className="flex flex-row gap-4 p-4">
-          <div className="flex justify-center items-center gap-4 relative ml-8 ">
-            <div
-              onMouseEnter={() => setShowEditIcon(true)}
-              onMouseLeave={() => setShowEditIcon(false)}
-            >
-              <Image
-                src={profileImage}
-                width={100}
-                height={100}
-                style={{ borderRadius: 100 }}
-                alt="Imagen de perfil"
-              />
-              {showEditIcon && (
-                <label
-                  htmlFor="profileImage"
-                  className="absolute bottom-0  p-2 rounded-full cursor-pointer"
-                  
+      <div className="flex p-10 rounded-xl w-[80%] justify-between gap-12 m-auto">
+        
+          <div className="  bg-darkD-400 w-[35%] h-[30%] p-4 rounded ">
+            <div className="flex flex-row gap-4 p-4">
+              <div className="flex justify-center items-center gap-4 relative ">
+                <div
+                  onMouseEnter={() => setShowEditIcon(true)}
+                  onMouseLeave={() => setShowEditIcon(false)}
                 >
                   <Image
-                    src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720887373/NotePencil_axapbz.svg"
-                    width={30}
-                    height={30}
-                    alt="Editar imagen"
+                    src={profileImage}
+                    width={100}
+                    height={100}
+                    style={{ borderRadius: 100 }}
+                    alt="Imagen de perfil"
                   />
-                  <input
-                    type="file"
-                    id="profileImage"
-                    name="profileImage"
-                    accept="image/*"
-                    className="hidden"
-                    onChange={handleImageUpload}
-                  />
-                </label>
-              )}
+                  {showEditIcon && (
+                    <label
+                      htmlFor="profileImage"
+                      className="absolute bottom-0  p-2 rounded-full cursor-pointer"
+                    >
+                      <Image
+                        src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720887373/NotePencil_axapbz.svg"
+                        width={30}
+                        height={30}
+                        alt="Editar imagen"
+                      />
+                      <input
+                        type="file"
+                        id="profileImage"
+                        name="profileImage"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={handleImageUpload}
+                      />
+                    </label>
+                  )}
+                </div>
+              </div>
+              <div >
+                <h2 className="text-[24px] font-semibold">
+                  {userData?.userData?.first_name}{" "}
+                  {userData?.userData?.last_name}
+                </h2>
+                <p>{role}</p>
+              </div>
+            </div>
+
+            <div className="space-y-6">
+              <div className=" ">
+                <p className="text-greenD-500">INFORMACIÓN PERSONAL</p>
+                <p>
+                  <span className="text-darkD-300">DNI:</span>{" "}
+                  {userData?.userData?.dni}
+                </p>
+                <p>
+                  <span className="text-darkD-300">Fecha de nacimiento:</span>{" "}
+                  {userData?.userData
+                    ? format(userData.userData.birthdate, "dd-MM-yyyy")
+                    : ""}
+                </p>
+              </div>
+              <div className="">
+                <p className="text-greenD-500">INFORMACIÓN DE CONTACTO</p>
+                <p>
+                  <span className="text-darkD-300">Teléfono:</span>{" "}
+                  {userData?.userData?.phone}
+                </p>
+                <p>
+                  <span className="text-darkD-300">Email:</span>{" "}
+                  {userData?.userData?.email}
+                </p>
+              </div>
+              <div className="">
+                <p className="text-greenD-500">DOMICILIO</p>
+                <p>
+                  <span className="text-darkD-300">Dirección:</span>{" "}
+                  {userData?.userData?.address}
+                </p>
+                <p>
+                  <span className="text-darkD-300">Localidad:</span>{" "}
+                  {userData?.userData?.location}
+                </p>
+              </div>
             </div>
           </div>
-          <div className="m-4">
-            <h2 className="text-[24px] font-semibold">
-              {userData?.userData?.first_name} {userData?.userData?.last_name}
-            </h2>
-            <p>{role}</p>
-          </div>
-        </div>
-        <div className="grid grid-cols-3 gap-24">
-          <div className="flex flex-col gap-2">
-            <p className="text-greenD-500">INFORMACIÓN PERSONAL</p>
-            <p>
-              <span className="text-darkD-300">DNI:</span>{" "}
-              {userData?.userData?.dni}
-            </p>
-            <p>
-              <span className="text-darkD-300">Fecha de nacimiento:</span>{" "}
-              {userData?.userData? format(userData.userData.birthdate, "dd-MM-yyyy") : ""}
-            </p>
-          </div>
-          <div className="flex flex-col gap-2">
-            <p className="text-greenD-500">INFORMACIÓN DE CONTACTO</p>
-            <p>
-              <span className="text-darkD-300">Teléfono:</span>{" "}
-              {userData?.userData?.phone}
-            </p>
-            <p>
-              <span className="text-darkD-300">Email:</span>{" "}
-              {userData?.userData?.email}
-            </p>
-          </div>
-          <div className="flex flex-col gap-2">
-            <p className="text-greenD-500">DOMICILIO</p>
-            <p>
-              <span className="text-darkD-300">Dirección:</span>{" "}
-              {userData?.userData?.address}
-            </p>
-            <p>
-              <span className="text-darkD-300">Localidad:</span>{" "}
-              {userData?.userData?.location}
-            </p>
+
+          <div>
+            <EditProfile />
           </div>
         </div>
       </div>
-    </div>
   );
 };
 
