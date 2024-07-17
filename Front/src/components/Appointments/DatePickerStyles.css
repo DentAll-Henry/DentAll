@@ -16,7 +16,18 @@
 }
 
 /* Estilos de los días del DatePicker */
-.react-datepicker__day,
+.react-datepicker__day {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 5.4rem;
+  height: 6rem;
+  margin: 0.6rem;
+  border-radius: 10%;
+  box-sizing: border-box;
+  color: white;
+}
+
 .react-datepicker__day-name {
   display: inline-flex;
   align-items: center;
@@ -26,6 +37,7 @@
   margin: 0.6rem;
   border-radius: 10%;
   box-sizing: border-box;
+  color: white;
 }
 
 /* Estilos del día seleccionado en el DatePicker */
@@ -70,4 +82,32 @@
   ul.react-datepicker__time-list
   li.react-datepicker__time-list-item--selected {
   background-color: #007776; /* Cambia el fondo de la hora seleccionada a un verde más oscuro */
+}
+
+/* Estilos para los días no disponibles */
+.react-datepicker__day--disabled {
+  /* Cambia el fondo de los días no disponibles a gris oscuro */
+  color: #ffffffb3; /* Cambia el color del texto de los días no disponibles a gris claro */
+  cursor: not-allowed; /* Cambia el cursor a no permitido */
+}
+
+.react-datepicker__current-month,
+.react-datepicker__current-month:focus,
+.react-datepicker__current-month:hover {
+  color: white;
+  text-transform: uppercase; /* Convierte el texto a mayúsculas */
+}
+
+.button-month {
+  background-color: transparent;
+  color: white;
+  font-size: 1.5rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.button-month:hover {
+  color: #00ce90;
+  transform: scale(1.2);
 }
