@@ -77,9 +77,8 @@ export class AuthRepository {
         .getOne()
 
       await this.authRepository.restore(authToRestore);
-      console.log("No es posible restore")
     } else if (action === 'deactivate') {
-      await this.authRepository.softDelete(credential);
+      await this.authRepository.softDelete(credential.id);
     } else {
       console.log("No es posible")
     }
