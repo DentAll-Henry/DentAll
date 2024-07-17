@@ -138,11 +138,9 @@ const EditProfile = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-darkD-500 m-8 p-4 mt-12">
-      <div className="flex flex-col w-full h-full justify-center items-center ">
+    <div className="flex justify-center items-center  bg-darkD-400 p-4 rounded">
         <div className="text-white p-8 w-full max-w-3xl">
-          <h2 className="text-xl mb-8 text-center">Información personal</h2>
-          <form
+          {/* <form
             onSubmit={handleSubmit}
             className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8"
           >
@@ -230,9 +228,9 @@ const EditProfile = () => {
                 onChange={handleChange}
               />
             </div>
-          </form>
+          </form> */}
 
-          <h2 className="text-xl mb-8 text-center">Información Requerida</h2>
+          <h2 className="text-xl mb-8 text-center">Editar información</h2>
           <form
             onSubmit={handleSubmit}
             className="grid grid-cols-1 md:grid-cols-2 gap-6"
@@ -310,6 +308,10 @@ const EditProfile = () => {
                 <p className="text-red-500">{errorUser.location}</p>
               )}
             </div>
+            <div className="mt-4">
+
+              <p>Corfirma tu contraseña para guardar los cambios</p>
+            </div>
             <div className="w-full">
               <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
                 CONTRASEÑA
@@ -359,7 +361,7 @@ const EditProfile = () => {
           </form>
         </div>
       </div>
-    </div>
+    
   );
 };
 
