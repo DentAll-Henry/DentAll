@@ -87,7 +87,7 @@ export class PeopleController {
   // async createGuest(@Body() infoGuest: CreateGuestDto) {} //! Ajustar
 
   //& --> people endpoints <--
-  // @ApiBearerAuth()
+  @ApiBearerAuth()
   @Get()
   @DRoles(Roles.ADMIN)
   @UseGuards(AuthGuard, RolesGuard)
@@ -150,6 +150,7 @@ export class PeopleController {
     return this.peopleService.superAdminsQuantity();
   }
 
+  @ApiBearerAuth()
   @Get('byrole/:role')
   @DRoles(Roles.ADMIN)
   @UseGuards(AuthGuard, RolesGuard)
@@ -200,6 +201,7 @@ export class PeopleController {
   //   return person;
   // }
 
+  @ApiBearerAuth()
   @Patch('addrole/:idperson')
   @DRoles(Roles.ADMIN)
   @UseGuards(AuthGuard, RolesGuard)
@@ -216,6 +218,7 @@ export class PeopleController {
     return await this.peopleService.addRole(idperson, roleName);
   }
 
+  @ApiBearerAuth()
   @Patch('delrole/:idperson')
   @DRoles(Roles.ADMIN)
   @UseGuards(AuthGuard, RolesGuard)
@@ -232,6 +235,7 @@ export class PeopleController {
     return await this.peopleService.delRole(idperson, roleName);
   }
 
+  @ApiBearerAuth()
   @Patch('editphoto/:idperson')
   @DRoles(Roles.ADMIN, Roles.DENTIST, Roles.ADMINISTRATIVE, Roles.PATIENT)
   @UseGuards(AuthGuard, RolesGuard)
@@ -254,6 +258,8 @@ export class PeopleController {
     return await this.peopleService.editPhoto(idperson, file);
   }
 
+  
+  @ApiBearerAuth()
   @Patch('update/:id')
   @DRoles(Roles.ADMIN)
   @UseGuards(AuthGuard, RolesGuard)

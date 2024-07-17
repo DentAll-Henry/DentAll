@@ -43,7 +43,7 @@ const Navbar = () => {
           </a>
         </div>
         <div className="inline-flex items-center px-[10px] gap-[50px]">
-          <Link href="/register">
+          <Link href="/login">
           <button className="flex px-[25px] py-[10px] justify-center items-center gap-x-[10px] rounded-[5px] border-2 border-[#00CE90] text-[#00CE90] font-maven-pro text-[16px] font-semibold leading-normal">
             Agendar cita
           </button>

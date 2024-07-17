@@ -46,6 +46,7 @@ import { Roles } from 'src/role/enums/roles.enum';
 export class AppointmentsController {
   constructor(private readonly appointmentsService: AppointmentsService) {}
 
+  @ApiBearerAuth()
   @Post()
   @DRoles(Roles.ADMIN, Roles.DENTIST, Roles.ADMINISTRATIVE, Roles.PATIENT)
   @UseGuards(AuthGuard, RolesGuard)
@@ -61,10 +62,10 @@ export class AppointmentsController {
     return this.appointmentsService.create(createAppointmentDto);
   }
 
+  @ApiBearerAuth()
   @Get()
   @DRoles(Roles.ADMIN, Roles.DENTIST, Roles.ADMINISTRATIVE)
   @UseGuards(AuthGuard, RolesGuard)
-  @ApiBearerAuth()
   @ApiOperation({ summary: 'Get all appointments' })
   @ApiResponse({
     status: 200,
@@ -78,10 +79,10 @@ export class AppointmentsController {
     return this.appointmentsService.findAll(paginationDto);
   }
 
+  @ApiBearerAuth()
   @Get('/dentist/:dentist_id')
   @DRoles(Roles.ADMIN, Roles.DENTIST, Roles.ADMINISTRATIVE)
   @UseGuards(AuthGuard, RolesGuard)
-  @ApiBearerAuth()
   @ApiOperation({ summary: 'Get all appointments for a dentist given his ID' })
   @ApiResponse({
     status: 200,
@@ -106,6 +107,7 @@ export class AppointmentsController {
     return this.appointmentsService.findByDentist(dentist_id, paginationDto);
   }
 
+  @ApiBearerAuth()
   @Post('/pending_appointment')
   @DRoles(Roles.ADMIN, Roles.DENTIST)
   @UseGuards(AuthGuard, RolesGuard)
@@ -126,6 +128,7 @@ export class AppointmentsController {
     );
   }
 
+  @ApiBearerAuth()
   @Get('pending_appointments_by_patient/:patient_id')
   @DRoles(Roles.ADMIN, Roles.ADMINISTRATIVE, Roles.PATIENT)
   @UseGuards(AuthGuard, RolesGuard)
@@ -150,10 +153,10 @@ export class AppointmentsController {
     return this.appointmentsService.getPendingAppointmentsByPatient(patient_id);
   }
 
+  @ApiBearerAuth()
   @Get('/patient/:patient_id')
   @DRoles(Roles.ADMIN, Roles.ADMINISTRATIVE, Roles.PATIENT)
   @UseGuards(AuthGuard, RolesGuard)
-  @ApiBearerAuth()
   @ApiOperation({ summary: 'Get all appointments for a patient given his ID' })
   @ApiResponse({
     status: 200,
@@ -177,10 +180,10 @@ export class AppointmentsController {
     return this.appointmentsService.findByPatient(id, paginationDto);
   }
 
+  @ApiBearerAuth()
   @Get(':appointment_id')
   @DRoles(Roles.ADMIN, Roles.DENTIST, Roles.ADMINISTRATIVE, Roles.PATIENT)
   @UseGuards(AuthGuard, RolesGuard)
-  @ApiBearerAuth()
   @ApiOperation({ summary: 'Get an appointment given his ID' })
   @ApiResponse({
     status: 200,
@@ -226,6 +229,7 @@ export class AppointmentsController {
   //   return this.appointmentsService.update(id, updateAppointmentDto);
   // }
 
+  @ApiBearerAuth()
   @Post('get_available_slots')
   @DRoles(Roles.ADMIN, Roles.PATIENT)
   @UseGuards(AuthGuard, RolesGuard)
@@ -242,6 +246,7 @@ export class AppointmentsController {
     );
   }
 
+  @ApiBearerAuth()
   @Get('last_appointment_date/:dentist_id/:patient_id')
   @DRoles(Roles.ADMIN, Roles.DENTIST)
   @UseGuards(AuthGuard, RolesGuard)
@@ -264,10 +269,10 @@ export class AppointmentsController {
     return this.appointmentsService.getLastAppointment(getLastAppointmentDate);
   }
 
+  @ApiBearerAuth()
   @Delete(':appointment_id')
   @DRoles(Roles.ADMIN, Roles.DENTIST, Roles.ADMINISTRATIVE, Roles.PATIENT)
   @UseGuards(AuthGuard, RolesGuard)
-  @ApiBearerAuth()
   @ApiOperation({
     summary: 'Delete an appointment given his ID as a parameter',
   })

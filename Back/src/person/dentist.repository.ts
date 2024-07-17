@@ -57,17 +57,13 @@ export class DentistsRepository {
   }
 
   async dentistsByDentalServ(dentalServName: DentalServ['name']): Promise<Dentist[]> {
-    const dentists: Dentist[] = await this.dentistsRepository.find({
-      where: {
-        dental_services: {
-          name: dentalServName,
-        },
-        is_active: true,
-      },
-      relations: {
-        person: true,
-      }
-    })
+    const dentists: Dentist[] = await this.dentistsRepository
+      .createQueryBuilder('dentist')
+      .innerJoinAndSelect('dentist.dental_services', 'dental_service', 'dental_service.name = :name', { name: dentalServName })
+      .leftJoinAndSelect('dentist.person', 'person')
+      .where('dentist.is_active = :isActive', { isActive: true })
+      .getMany();
+
     if (dentists.length === 0) throw new BadRequestException('No hay dentistas para la especialidad indicada.')
 
     return dentists;

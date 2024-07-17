@@ -9,6 +9,7 @@ import { format } from 'date-fns';
 import { toZonedTime } from 'date-fns-tz';
 import { getPaymentId } from '@/helpers/payment.helper';
 import Image from 'next/image';
+import FormModal from '@/components/PendingAppointment/FormModal';
 
 const DetailsId = ({ params }: { params: { patientId: string } }) => {
   const router = useRouter();
@@ -16,7 +17,7 @@ const DetailsId = ({ params }: { params: { patientId: string } }) => {
   const [patient, setPatient] = useState<PatientId>();
   const [appointment, setAppointment] = useState<AppointmentId[]>([]);
   const [payment, setPayment] = useState<PaymentId[]>([])
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   //INFORMACION DEL PACIENTE
   useEffect(() => {
@@ -118,7 +119,10 @@ const DetailsId = ({ params }: { params: { patientId: string } }) => {
               <img src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720713870/Books_hcufp5.svg" alt="icono capsula" />
             </div>
 
-            <div className='flex flex-row gap-1 pl-14 pr-4 py-1 bg-[#7ed84a21] justify-between items-center  rounded-xl'>
+            <div
+              className='flex flex-row gap-1 pl-14 pr-4 py-1 bg-[#7ed84a21] justify-between items-center rounded-xl cursor-pointer'
+              onClick={() => setIsModalOpen(true)}
+            >
               <p className='text-base'>Crear nueva orden </p>
               <img src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720887373/NotePencil_axapbz.svg "/>
             </div>
@@ -150,13 +154,9 @@ const DetailsId = ({ params }: { params: { patientId: string } }) => {
                       <div className='w-[16%] px-4 py-2  rounded-md bg-[#FF2F44] text-center'>Cancelar</div>
                     </div>
                   )
-                } )}
-              
+                })}
             </div>
-            
-
           </div>
-          
         </div>
 
         {/* CONTENEDOR DE PAGOS */}
@@ -165,34 +165,27 @@ const DetailsId = ({ params }: { params: { patientId: string } }) => {
           <div>
             {payment.map((i)=>{
               return (
-                
-                  <div key={i.id} className="">
-                    <div className="flex-col bg-greenD-500 bg-opacity-5 w-[200px] h-[150px] rounded-md  flex justify-center items-center hover:scale-105 transition-transform duration-300 gap-2">
-                      <p className="text-[#60D66A]">{i.dentalServ.name}</p>
-                      <p className="text-[#60D66A]">${i.dentalServ.price}</p>
-                      
-                      <Image
-                        className="group-hover:fill-current text-white"
-                        src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201228/Vector_b9qqdm.svg"
-                        width={35}
-                        height={35}
-                        alt="Pagos"
-                      />
-                      <p className="text-[#60D66A] text-sm">{ format(i.appointment.date_time,"dd/MM/yyyy")}</p>
-                    </div>
-          </div>
-                
+                <div key={i.id} className="">
+                  <div className="flex-col bg-greenD-500 bg-opacity-5 w-[200px] h-[150px] rounded-md  flex justify-center items-center hover:scale-105 transition-transform duration-300 gap-2">
+                    <p className="text-[#60D66A]">{i.dentalServ.name}</p>
+                    <p className="text-[#60D66A]">${i.dentalServ.price}</p>
+                    
+                    <Image
+                      className="group-hover:fill-current text-white"
+                      src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201228/Vector_b9qqdm.svg"
+                      width={35}
+                      height={35}
+                      alt="Pagos"
+                    />
+                    <p className="text-[#60D66A] text-sm">{ format(i.appointment.date_time,"dd/MM/yyyy")}</p>
+                  </div>
+                </div> 
               )
             })}
-
-              
           </div>
-
         </div>
-        
-        
-
       </div>
+      <FormModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} patientId={params.patientId}/> {/* Añadir el modal */}
     </div>
   );
 };

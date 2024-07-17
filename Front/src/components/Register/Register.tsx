@@ -316,20 +316,6 @@ const Register = () => {
               </div>
             </form>
           </div>
-          <div className="w-full text-[#00CE90] mt-8 flex flex-col items-center space-y-4">
-            <p>O registrate con:</p>
-            <div className="flex space-x-4">
-              <div className="w-[44px] h-[44px] flex-shrink-0 relative">
-                <a href="#">
-                  <Image
-                    src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201332/RS1_d4mepj.svg"
-                    alt="Google"
-                    layout="fill"
-                  />
-                </a>
-              </div>
-            </div>
-          </div>
         </div>
         <div className="w-2/3 h-full relative">
           <Image

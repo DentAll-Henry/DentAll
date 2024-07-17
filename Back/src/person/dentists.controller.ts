@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiOperation,
   ApiQuery,
   ApiResponse,
@@ -33,6 +34,7 @@ import { Roles } from 'src/role/enums/roles.enum';
 export class DentistsController {
   constructor(private readonly dentistsService: DentistsService) {}
 
+  @ApiBearerAuth()
   @Get()
   @DRoles(Roles.ADMIN)
   @UseGuards(AuthGuard, RolesGuard)
@@ -69,6 +71,7 @@ export class DentistsController {
   //   return this.dentistsService.dentistsBySpecialty(specialtyDto.specialtyName);
   // }
 
+  @ApiBearerAuth()
   @Get('bydentalserv')
   @DRoles(Roles.ADMIN, Roles.ADMINISTRATIVE, Roles.PATIENT)
   @UseGuards(AuthGuard, RolesGuard)
@@ -93,6 +96,7 @@ export class DentistsController {
     return this.dentistsService.dentistsQuantity();
   }
 
+  @ApiBearerAuth()
   @Get('person/:id')
   @DRoles(Roles.ADMIN, Roles.ADMINISTRATIVE, Roles.PATIENT, Roles.DENTIST)
   @UseGuards(AuthGuard, RolesGuard)
@@ -106,6 +110,7 @@ export class DentistsController {
     return this.dentistsService.dentistByPersonId(id);
   }
 
+  @ApiBearerAuth()
   @Get(':id')
   @DRoles(Roles.ADMIN, Roles.ADMINISTRATIVE, Roles.PATIENT)
   @UseGuards(AuthGuard, RolesGuard)
@@ -119,6 +124,7 @@ export class DentistsController {
     return this.dentistsService.dentistById(id);
   }
 
+  @ApiBearerAuth()
   @Post('create')
   @DRoles(Roles.ADMIN)
   @UseGuards(AuthGuard, RolesGuard)
@@ -132,6 +138,7 @@ export class DentistsController {
     return this.dentistsService.createDentist(dentistInfo);
   }
 
+  @ApiBearerAuth()
   @Patch('changestatus/:id')
   @DRoles(Roles.ADMIN)
   @UseGuards(AuthGuard, RolesGuard)
