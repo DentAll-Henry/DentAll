@@ -31,8 +31,57 @@ export async function getPatientDentistId(id: string) {
   try {
     console.log("Soy el ID ", id);
     const response = await axiosInstance.get(
-      `/patients/person/${id}`
+      `/patients/${id}`
     );
+    console.log(response);
+    return response.data;
+  } catch (error: any) {
+    console.log(error);
+  }
+}
+
+
+
+
+export async function getTotalPatient() {
+  try {
+    
+    const response = await axiosInstance.get(
+      `/patients/quantity`
+    );
+    console.log(response);
+    return response.data;
+  } catch (error: any) {
+    console.log(error);
+  }
+}
+
+export async function getTotalDentist() {
+  try {
+    
+    const response = await axiosInstance.get(
+      `/dentists/quantity`
+    );
+    console.log(response);
+    return response.data;
+  } catch (error: any) {
+    console.log(error);
+  }
+}
+
+export async function getTotalAdministrative() {
+  try {
+    const response = await axiosInstance.get(`/people/administratives/quantity`);
+    console.log(response);
+    return response.data;
+  } catch (error: any) {
+    console.log(error);
+  }
+}
+
+export async function getTotalSuperAdmin() {
+  try {
+    const response = await axiosInstance.get(`/people/superadmins/quantity`);
     console.log(response);
     return response.data;
   } catch (error: any) {

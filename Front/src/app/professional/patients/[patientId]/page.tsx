@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { userSession } from '@/types';
 import { getPatientDentistId } from '@/helpers/patients.helper'
 import { format } from 'date-fns'
+import axiosInstance from '@/utils/axiosInstance'
 import FormModal from '@/components/PendingAppointment/FormModal'
 
  interface PatientId{
@@ -43,6 +44,7 @@ function DetailsId({ params }: { params: { patientId: string } }) {
       }
   
       const fetchData = async () => {
+        // const patient= await axiosInstance.get(`/patients/${params.patientId}`)
         const patient = await getPatientDentistId(params.patientId);
         setPatient(patient);
       };
