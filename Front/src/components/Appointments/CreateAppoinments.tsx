@@ -18,6 +18,15 @@ import "@availity/block-ui/src/BlockUi.css";
 import "@availity/block-ui/src/Loader.css";
 import axiosInstance from "@/utils/axiosInstance";
 
+// Modificar la localización en español para cambiar los nombres de los días
+const customEsLocale = {
+  ...es,
+  localize: {
+    ...es.localize,
+    day: (n: number) => ["DOM", "LUN", "MAR", "MIÉ", "JUE", "VIE", "SÁB"][n],
+  },
+};
+
 type User = {
   id: string;
   [key: string]: any;
@@ -269,13 +278,13 @@ const CreateAppointment = () => {
   return (
     <div className="flex">
       <NavDash />
-      <div className="flex-1 mt-[5%] p-8">
+      <div className="flex-1 mt-[5%]">
         <BlockUi blocking={isLoading} message="Cargando fechas disponibles...">
           <form
             onSubmit={handleSubmit}
             className="border bg-darkD-500 p-8 rounded-md flex flex-wrap w-full h-full"
           >
-            <h2 className="text-white font-bold mb-4 w-full h-60 text-center">
+            <h2 className="text-white font-bold mb-4 w-full text-center">
               Crear Nueva Cita
             </h2>
             {errorMessage && (
@@ -285,8 +294,8 @@ const CreateAppointment = () => {
             )}
 
             <div className="flex w-full">
-              <div className="w-full md:w-2/2 flex flex-col items-center mb-4 md:mb-0">
-                <div className="bg-[#00CE90] p-4 rounded-lg w-full">
+              <div className="w-full md:w-2/2 flex flex-col items-center mb-4 md:mt-0">
+                <div className=" rounded-lg w-full">
                   <DatePicker
                     minDate={addDays(new Date(), 1)}
                     onChange={(date) => handleCalendarSelectedDate(date)}
@@ -294,14 +303,14 @@ const CreateAppointment = () => {
                     selected={calendarDate}
                     onSelect={(date) => handleCalendarSelectDate(date)}
                     includeDates={availableDates}
-                    showTimeSelect
+                    // showTimeSelect
                     timeFormat="HH:mm"
                     includeTimes={availableTimes}
                     showMonthDropdown
                     placeholderText="Selecciona una fecha"
                     inline
                     className="react-datepicker w-full h-96"
-                    locale={es}
+                    locale={customEsLocale} // Usa la localización personalizada
                   />
                 </div>
               </div>
@@ -345,6 +354,35 @@ const CreateAppointment = () => {
                     ))}
                   </select>
                 </div>
+
+                {/* Aquí se añaden las horas disponibles */}
+                {availableTimes.length > 0 && (
+                  <div className="w-full mb-4">
+                    <label className="text-white">Horas Disponibles</label>
+                    <div className="grid grid-cols-3 gap-4 text-center">
+                      {availableTimes.map((time, index) => (
+                        <div
+                          key={index}
+                          className={`p-2 rounded-lg cursor-pointer border-2 ${
+                            appointment.date_time ===
+                            format(time, "yyyy-MM-dd HH:mm")
+                              ? "border-[#00CE90] text-[#00CE90]" // Borde verde y texto verde para la hora seleccionada
+                              : "border-gray-200 text-gray-200" // Borde gris y texto gris para las horas no seleccionadas
+                          }`}
+                          onClick={() =>
+                            setAppointment({
+                              ...appointment,
+                              date_time: format(time, "yyyy-MM-dd HH:mm"),
+                            })
+                          }
+                        >
+                          {format(time, "HH:mm")}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
                 <div className="mb-4">
                   <label className="text-white">Observaciones</label>
                   <textarea
@@ -366,42 +404,24 @@ const CreateAppointment = () => {
                 </div>
 
                 {confirmPay && (
-                  <div>
-                    <p>Por favor, realiza el pago para confirmar la cita</p>
+                  <div className="w-full mt-4">
+                    <p className="text-white mb-2">
+                      Por favor, realiza el pago para confirmar la cita
+                    </p>
                     <Timer />
+                    {preferenceId && (
+                      <div className="mt-4">
+                        <Wallet
+                          initialization={{ preferenceId: preferenceId }}
+                        />
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
             </div>
           </form>
         </BlockUi>
-        {preferenceId && (
-          <Wallet initialization={{ preferenceId: preferenceId }} />
-        )}
-        {availableTimes.length > 0 && (
-          <div className="w-full flex justify-center items-center mt-4">
-            <div className="grid grid-cols-3 gap-4">
-              {availableTimes.map((time, index) => (
-                <div
-                  key={index}
-                  className={`p-2 rounded-lg cursor-pointer ${
-                    appointment.date_time === format(time, "yyyy-MM-dd HH:mm")
-                      ? "bg-[#00CE90] text-white"
-                      : "bg-gray-200 text-black"
-                  }`}
-                  onClick={() =>
-                    setAppointment({
-                      ...appointment,
-                      date_time: format(time, "yyyy-MM-dd HH:mm"),
-                    })
-                  }
-                >
-                  {format(time, "HH:mm")}
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );
