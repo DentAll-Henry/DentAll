@@ -224,7 +224,6 @@ export class AuthService {
       person.is_active = false;
       action = 'deactivate';
     } else {
-      console.log(person);
       person.is_active = true
       action = 'activate';
     };
