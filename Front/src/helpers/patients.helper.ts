@@ -26,3 +26,16 @@ export async function getPatientId(id: string) {
     console.log(error);
   }
 }
+
+export async function getPatientDentistId(id: string) {
+  try {
+    console.log("Soy el ID ", id);
+    const response = await axiosInstance.get(
+      `/patients/person/${id}`
+    );
+    console.log(response);
+    return response.data;
+  } catch (error: any) {
+    console.log(error);
+  }
+}
