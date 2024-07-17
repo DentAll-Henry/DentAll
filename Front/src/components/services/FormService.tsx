@@ -64,9 +64,9 @@ const FormService: React.FC<FormServiceProps> = ({ addNewService }) => {
   };
 
   return (
-    <div className="flex justify-center items-center h-[100vh]">
-      <div className="flex w-full h-full max-h-[1024px]">
-        <div className="w-[35%] flex flex-col items-center bg-darkD-500 text-white p-8">
+    
+      
+        
           <div className="w-full max-w-[72%] flex flex-col gap-4">
             <form onSubmit={handleSubmit}>
               <div className="w-full">
@@ -140,7 +140,7 @@ const FormService: React.FC<FormServiceProps> = ({ addNewService }) => {
               <div className="w-full max-w-[80%] mt-4 flex justify-center">
                 <button
                   type="submit"
-                  className="flex w-[340px] h-[38px] px-[25px] py-[11px] justify-center items-center gap-[10px] rounded-[1px] bg-[#00CE90]"
+                  className="flex justify-center items-center gap-[10px] rounded-[1px] bg-[#00CE90]"
                 >
                   <span className="text-[#030423] font-maven-pro text-[16px] font-semibold leading-normal">
                     ENVIAR
@@ -149,9 +149,9 @@ const FormService: React.FC<FormServiceProps> = ({ addNewService }) => {
               </div>
             </form>
           </div>
-        </div>
-      </div>
-    </div>
+      
+      
+    
   );
 };
 

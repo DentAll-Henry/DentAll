@@ -36,7 +36,19 @@ const page = () => {
             <p>Pacientes</p>
           </div>
         </Link>
-        <Link href="#">
+        <Link href="/professional/services">
+          <div className="flex-col bg-red-900 w-[200px] h-[150px] rounded-md border flex justify-center text-center items-center hover:scale-105 transition-transform duration-300">
+            <Image
+              className="group-hover:fill-current text-white"
+              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201326/recetass_si2se4.svg"
+              width={40}
+              height={40}
+              alt="Editar servicios"
+            />
+            <p>Editar servicios</p>
+          </div>
+        </Link>
+        {/* <Link href="#">
           <div className="flex-col bg-red-900 w-[200px] h-[150px] rounded-md border flex justify-center text-center items-center hover:scale-105 transition-transform duration-300">
             <Image
               className="group-hover:fill-current text-white"
@@ -47,7 +59,7 @@ const page = () => {
             />
             <p>Recomendaciones a pacientes</p>
           </div>
-        </Link>
+        </Link> */}
         {/* <Link href="#">
           <div className="flex-col bg-amber-800 w-[200px] h-[150px] rounded-md border flex justify-center items-center hover:scale-105 transition-transform duration-300">
             <Image

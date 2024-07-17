@@ -6,7 +6,7 @@ import axiosInstance from "@/utils/axiosInstance";
 export async function fetchService(): Promise<Service[]> {
   try {
     const response = await axiosInstance.get(
-      `${enviroment.apiUrl}/dental-serv/?page=1&limit=20`
+      `${enviroment.apiUrl}/dental-serv/?page=1&limit=200`
     );
     return response.data.services;
   } catch (error) {
