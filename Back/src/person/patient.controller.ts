@@ -53,7 +53,7 @@ export class PatientsController {
   }
 
   @Get('person/:id')
-  @DRoles(Roles.ADMIN, Roles.ADMINISTRATIVE, Roles.PATIENT)
+  @DRoles(Roles.ADMIN, Roles.ADMINISTRATIVE, Roles.PATIENT, Roles.DENTIST)
   @UseGuards(AuthGuard, RolesGuard)
   @DRoles(Roles.ADMIN)
   @UseGuards(AuthGuard, RolesGuard)

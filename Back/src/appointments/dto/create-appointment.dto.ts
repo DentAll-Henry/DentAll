@@ -56,6 +56,6 @@ export class CreateAppointmentDto {
     @IsUUID()
     pending_appointment_id?: string;
 
-    @IsEmpty()
-    expiration_date: Date;
+    @IsOptional()
+    expiration_date: Date | null;
 }
