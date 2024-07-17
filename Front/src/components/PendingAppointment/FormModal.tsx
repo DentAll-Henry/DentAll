@@ -137,10 +137,10 @@ const FormModal = ({
               })}
             />
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col ">
             <label> Descripción:</label>
             <textarea
-              className="text-black"
+              className="text-black rounded"
               name="description"
               value={formData.description}
               onChange={handleInputChange}

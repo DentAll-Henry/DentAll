@@ -132,7 +132,7 @@ const DetailsId = ({ params }: { params: { patientId: string } }) => {
         {/* CONTENEDOR DE SERVICIOS */}
         <div className="grid grid-cols-4 p-1 gap-4 my-5">
           <div
-            className="flex flex-row gap-1 pl-14 pr-4 py-1 bg-[#D5D84A21] justify-between items-center  rounded-xl"
+            className="flex flex-row gap-1 pl-14 pr-4 py-1 bg-[#D5D84A21] justify-between items-center  rounded-xl cursor-pointer"
             onClick={() => setRecetasModal(true)}
           >
             <p className="text-base">Receta médica</p>
@@ -143,7 +143,7 @@ const DetailsId = ({ params }: { params: { patientId: string } }) => {
           </div>
 
           <div
-            className="flex flex-row gap-1 pl-14 pr-4 py-1 bg-[#BC4AD821] justify-between items-center  rounded-xl"
+            className="flex flex-row gap-1 pl-14 pr-4 py-1 bg-[#BC4AD821] justify-between items-center  rounded-xl cursor-pointer"
             onClick={() => setOdontogramaModal(true)}
           >
             <p className="text-base">Odontograma</p>
@@ -154,7 +154,7 @@ const DetailsId = ({ params }: { params: { patientId: string } }) => {
           </div>
 
           <div
-            className="flex flex-row gap-1 pl-14 pr-4 py-1 bg-[#D84A7521] justify-between items-center  rounded-xl"
+            className="flex flex-row gap-1 pl-14 pr-4 py-1 bg-[#D84A7521] justify-between items-center  rounded-xl cursor-pointer"
             onClick={() => setHistorialModal(true)}
           >
             <p className="text-base">Historial Clínico</p>
@@ -250,6 +250,7 @@ const DetailsId = ({ params }: { params: { patientId: string } }) => {
             close={() => setHistorialModal(false)}
             folder="historial"
             tag="historial"
+            title="Historial"
           />
         </div>
       )}
@@ -260,6 +261,7 @@ const DetailsId = ({ params }: { params: { patientId: string } }) => {
             close={() => setRecetasModal(false)}
             folder="recetas"
             tag="recetas"
+            title="Recetas"
           />
         </div>
       )}
@@ -270,6 +272,7 @@ const DetailsId = ({ params }: { params: { patientId: string } }) => {
             close={() => setOdontogramaModal(false)}
             folder="odontograma"
             tag="odontograma"
+            title="Odontograma"
           />
         </div>
       )}
