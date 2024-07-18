@@ -8,56 +8,40 @@ import { environment } from 'src/config/environment';
 
 @Injectable()
 export class MailService {
+  constructor(
+    private readonly systemConfigsService: SystemConfigsService,
+    private readonly mailerService: MailerService,
+  ) {}
 
-
-    constructor(
-        private readonly systemConfigsService: SystemConfigsService,
-        private readonly mailerService: MailerService
-    ) {
-    }
-
-    async sendMail(to: string, subject: string, html: string) {
-        const resend = new Resend(environment.resendAPIKey);
-
-        const aa = await resend.emails.send({
-            from: 'DentAll <onboarding@resend.dev>',
-            to: "dentallabgotvv@gmail.com",
-            subject,
-            html,
-        });
-
-    }
-
-    /*     async sendMail(to: string, subject: string, template: string, context: {}) {
-            this.mailerService
-                .sendMail({
-                    to,
-                    from: `DentAll clinic <${process.env.NODEMAILER_USER}>`,
-                    subject,
-                    template,
-                    context,
-                })
-                .then((a) => { console.log(a); })
-                .catch((e) => { console.log(e); });
-        } */
-    /* const mail = (await this.systemConfigsService.findOne('email')).value
-    const mailOptions = {
-        from: `${process.env.NODEMAILER_USER}`, // dirección del remitente
-        to,
-        subject,
-        replyTo: mail,
-        //text:"Hola",
-        template: template,
-        context
-    };
+  async sendMail(to: string, subject: string, html: string) {
+    const resend = new Resend(environment.resendAPIKey);
 
     try {
-        const info = await nodemailerConfig.transport.sendMail(mailOptions);
-        console.log('Message sent: %s', info.messageId);
-        return info;
+      await resend.emails.send({
+        from: 'DentAll <onboarding@resend.dev>',
+        to: 'dentallabgotvv@gmail.com',
+        cc: to,
+        subject,
+        html,
+      });
     } catch (error) {
-        console.error('Error sending email:', error);
-        throw error;
-    } 
-}*/
+      console.log(error);
+    }
+
+    try {
+      this.mailerService
+        .sendMail({
+          to,
+          from: `DentAll clinic <${process.env.NODEMAILER_USER}>`,
+          subject,
+          html,
+        })
+        .then((a) => {
+          console.log(a);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    } catch (error) {}
+  }
 }
