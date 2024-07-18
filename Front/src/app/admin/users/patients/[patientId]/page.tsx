@@ -52,8 +52,6 @@ const DetailsId = ({ params }: { params: { patientId: string } }) => {
     fetchAppointment();
   }, [params.patientId]);
 
-  console.log("Appointment", appointment);
-
   //  INFORMACION DE LOS PAGOS
   useEffect(() => {
     if (typeof window !== "undefined" && window.localStorage) {
@@ -67,8 +65,6 @@ const DetailsId = ({ params }: { params: { patientId: string } }) => {
     };
     fetchPayment();
   }, [params.patientId]);
-
-  console.log("PAYMENT", payment);
 
   return (
     <div className="w-[80%] h-screen bg-darkD-600 text-white ml-[20%] relative">

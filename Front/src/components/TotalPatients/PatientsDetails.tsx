@@ -59,7 +59,6 @@ const PatientsDetails = ({
     const fetchHistory = async () => {
       if (patient?.person.email) {
         const response = await getImages(`DentAll/${IsEmail}/${folder}`);
-        console.log(response);
         setHistory(response.data);
       }
     };
@@ -72,16 +71,12 @@ const PatientsDetails = ({
     event: React.ChangeEvent<HTMLInputElement>,
     folder: string
   ) => {
-    console.log("Uploading image...");
-
     const imageFile = event.target.files?.[0];
     if (imageFile) {
       const formData = new FormData();
       formData.append("file", imageFile);
       formData.append("path", `DentAll/${IsEmail}/${folder}`);
       try {
-        console.log("Uploading image 2...");
-
         const upload = await axiosInstance.post("/files/upload", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -101,7 +96,6 @@ const PatientsDetails = ({
           });
         }
       } catch (error: any) {
-        console.log(error);
         Swal.fire({
           title: "Error",
           text: `${error.response.data.message}`,

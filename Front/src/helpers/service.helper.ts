@@ -18,10 +18,8 @@ export async function createService(newServiceData: any) {
   try {
     newServiceData.price = parseFloat(newServiceData.price);
     const response = await axiosInstance.post(`/dental-serv/`, newServiceData);
-    console.log(response);
     return response.data;
   } catch (error) {
-    console.error(error);
     throw error;
   }
 }

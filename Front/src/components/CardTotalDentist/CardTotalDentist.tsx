@@ -46,17 +46,14 @@ function CardTotalDentist() {
     const fetchDentists = async () => {
       try {
         const dentistsData = await allDentist();
-        console.log("Fetched dentists:", dentistsData);
         setDentists(dentistsData);
       } catch (error) {
-        console.error("Error fetching dentists:", error);
+        
       }
     };
 
     fetchDentists();
   }, []);
-
-  console.log("dentistas:", dentists);
 
   return (
     <div>

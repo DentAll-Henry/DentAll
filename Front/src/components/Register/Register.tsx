@@ -40,7 +40,7 @@ const Register = () => {
   });
 
   useEffect(() => {
-    console.log("Componente Register renderizado");
+    
   }, []);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

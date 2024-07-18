@@ -45,16 +45,11 @@ const RegisterAuth0 = () => {
   });
 
   useEffect(() => {
-    console.log("Componente Register renderizado");
+    
   }, []);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("handleChange llamado");
     setDataUser({
-      ...dataUser,
-      [event.target.name]: event.target.value,
-    });
-    console.log("Nuevo estado de dataUser:", {
       ...dataUser,
       [event.target.name]: event.target.value,
     });
@@ -105,7 +100,6 @@ const RegisterAuth0 = () => {
                 iat: Date;
                 roles: string;
               } = decodeJWT(token);
-              console.log(decodedToken);
               if (decodedToken?.roles === "patient") {
                 router.push("/patients");
               } else if (decodedToken?.roles === "dentist") {
@@ -168,7 +162,6 @@ const RegisterAuth0 = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log("handleSubmit llamado");
     const errors = validateRegisterAuth0Form(dataUser);
     setErrorUser(errors);
 
@@ -201,7 +194,6 @@ const RegisterAuth0 = () => {
           iat: Date;
           roles: string;
         } = decodeJWT(token);
-        console.log(decodedToken);
         if (decodedToken?.roles === "patient") {
           router.push("/patients");
         } else if (decodedToken?.roles === "dentist") {
@@ -214,7 +206,6 @@ const RegisterAuth0 = () => {
           router.push("/");
         }
       } catch (error: any) {
-        console.log(error);
         Swal.fire({
           title: "Error",
           text: error?.response?.data?.message,
@@ -223,7 +214,7 @@ const RegisterAuth0 = () => {
         });
       }
     } else {
-      console.log(errors);
+      
     }
   };
 

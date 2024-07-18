@@ -65,11 +65,8 @@ export class SpecialtyRepository {
   async updateSpecialty(specialty: Specialty) {
     try {
       const updated = await this.specialtyRepository.save(specialty);
-      console.log(updated);
-
       return 'Esecialidad actualizada correctamente';
     } catch (error) {
-      console.log(error);
       throw new InternalServerErrorException(
         'No se pudo actualizar la especialidad',
       );

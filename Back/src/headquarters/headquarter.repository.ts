@@ -77,7 +77,6 @@ export class HeadquarterRepository {
       if (error instanceof BadRequestException) {
         throw error;
       }
-      console.log(error);
 
       throw new InternalServerErrorException();
     }

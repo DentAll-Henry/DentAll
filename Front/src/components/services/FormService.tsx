@@ -52,7 +52,6 @@ const FormService: React.FC<FormServiceProps> = ({ addNewService }) => {
         addNewService(response); // Agregar el nuevo servicio al estado del componente padre
         setNewService({ name: "", price: "", description: "", img: "" }); // Limpiar el formulario
       } catch (error: any) {
-        console.log(error);
         Swal.fire({
           title: "Error",
           text: "Hubo un problema al crear el servicio. Por favor, intente de nuevo.",
