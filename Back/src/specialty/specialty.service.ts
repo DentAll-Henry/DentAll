@@ -53,13 +53,9 @@ export class SpecialtyService {
     return await this.specialtyRepository.updateSpecialty(specialty);
   }
   async createSpecialty(specialtyData: specialtyDto) {
-    console.log('llega al servicio');
-
     const existingspecialty = await this.specialtyRepository.getspecialtyByName(
       specialtyData.name,
     );
-    console.log(existingspecialty);
-
     const dentalServs = [];
     for (const service of specialtyData.services) {
       const existingDentallServ =
@@ -68,7 +64,6 @@ export class SpecialtyService {
       if (!existingDentallServ) {
         throw new BadRequestException('No se pudo encontrar el servicio');
       }
-
       dentalServs.push(existingDentallServ);
     }
 
@@ -76,7 +71,6 @@ export class SpecialtyService {
       throw new BadRequestException('Especialidad ya existente');
     }
     specialtyData.services = dentalServs;
-    console.log(specialtyData);
 
     return await this.specialtyRepository.createspecialty(specialtyData);
   }

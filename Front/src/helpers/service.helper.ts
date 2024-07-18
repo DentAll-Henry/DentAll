@@ -6,7 +6,7 @@ import axiosInstance from "@/utils/axiosInstance";
 export async function fetchService(): Promise<Service[]> {
   try {
     const response = await axiosInstance.get(
-      `${enviroment.apiUrl}/dental-serv/?page=1&limit=20`
+      `${enviroment.apiUrl}/dental-serv/?page=1&limit=200`
     );
     return response.data.services;
   } catch (error) {
@@ -18,10 +18,8 @@ export async function createService(newServiceData: any) {
   try {
     newServiceData.price = parseFloat(newServiceData.price);
     const response = await axiosInstance.post(`/dental-serv/`, newServiceData);
-    console.log(response);
     return response.data;
   } catch (error) {
-    console.error(error);
     throw error;
   }
 }

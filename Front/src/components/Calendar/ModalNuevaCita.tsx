@@ -89,7 +89,7 @@ const ModalNuevaCita: React.FC<ModalCitaProps> = ({
       }
     };
     const fetchDentists = async () => {
-      const response = await axiosInstance.get("/dentists?limit=10000");
+      const response = await axiosInstance.get("/dentists/onlyactive?limit=10000");
       if (response.status === 200) {
         const options = response.data.map((dentist: DentistId) => {
           return {
@@ -143,7 +143,6 @@ const ModalNuevaCita: React.FC<ModalCitaProps> = ({
     if (appointmentData.dentist_id !== "") {
       getSlots(appointmentData.dentist_id);
     }
-    console.log("dentist_id:", appointmentData);
   }, [appointmentData.dentist_id]);
 
   const customStyles = {
@@ -194,7 +193,6 @@ const ModalNuevaCita: React.FC<ModalCitaProps> = ({
                     description: "",
                 }}
                 validate={values => {
-                    console.log("values:", appointmentData);
                     const errors = {
                         patient: "",
                         dentist_id: "",
@@ -220,15 +218,13 @@ const ModalNuevaCita: React.FC<ModalCitaProps> = ({
                 }}
                 onSubmit={(values) => {
 
-                    console.log(true)
                     axiosInstance.post("/appointments", {
                         ...appointmentData
                     }).then(response => {
-                        console.log("response:", response);
                         if (response.status === 201) {
                             Swal.fire({
                                 title: "Cita agendada con exito!",
-                                text: `La cita ha sido agendada satisfactoriamente el dia ${format(toZonedTime(date_time, "UTC"), "dd-MM-yyyy")} a las ${format(toZonedTime(date_time, "UTC"), "HH:mm")}`,
+                                text: `La cita ha sido agendada satisfactoriamente.`,
                                 icon: "success",
                                 confirmButtonText: "OK",
                                 customClass: {
@@ -241,7 +237,6 @@ const ModalNuevaCita: React.FC<ModalCitaProps> = ({
                             });
                         }
                     }).catch(error => {
-                        console.log(error.response.data.message[0])
                         Swal.fire({
                             title: "Error!",
                             html: `Ha ocurrido un error al agendar la cita.\n<ul>${error.response}</ul>`,

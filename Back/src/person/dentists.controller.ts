@@ -49,6 +49,21 @@ export class DentistsController {
     return this.dentistsService.getAllDentists(paginationDto);
   }
 
+  @ApiBearerAuth()
+  @Get('onlyactive')
+  @DRoles(Roles.ADMIN, Roles.ADMINISTRATIVE)
+  @UseGuards(AuthGuard, RolesGuard)
+  @ApiOperation({ summary: 'Get all dentists.' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns the information of all dentists.',
+  })
+  @ApiQuery(PageApiQueries)
+  @ApiQuery(LimitApiQueries)
+  async getAllDentistsActive(@Query() paginationDto: PaginationDto) {
+    return this.dentistsService.getAllDentistsActive(paginationDto);
+  }
+
   @Get('best4')
   @ApiOperation({ summary: 'Get the four best rated dentists.' })
   @ApiResponse({

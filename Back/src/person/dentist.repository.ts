@@ -28,6 +28,23 @@ export class DentistsRepository {
     return await queryBuilder.getMany();
   }
 
+  async getAllDentistsActive(paginationDto: { page: number; limit: number }) {
+    const { page, limit } = paginationDto;
+    const queryBuilder = this.dentistsRepository
+      .createQueryBuilder('dentists')
+      .leftJoinAndSelect('dentists.specialty', 'specialty')
+      .leftJoinAndSelect('dentists.person', 'person')
+      .leftJoinAndSelect('person.roles', 'roles')
+      .leftJoinAndSelect('dentists.dental_services', 'dental_services')
+      .leftJoinAndSelect('dentists.appointments', 'appointments')
+      .leftJoinAndSelect('appointments.patient', 'patient')
+      .where('dentists.is_active = :isActive', { isActive: true})
+      .skip((page - 1) * limit)
+      .take(limit);
+
+    return await queryBuilder.getMany();
+  }
+
   async get4BestRateDentists() {
     const queryBuilder = this.dentistsRepository
       .createQueryBuilder('dentists')

@@ -61,6 +61,7 @@ export class AuthService {
       await this.credentialByEmail(signInInfo.email);
 
     if (!credential) throw new BadRequestException('Credenciales de acceso inválidas.');
+    if (credential.deleteDate !== null) throw new BadRequestException('Credenciales de acceso inválidas.');
 
     const isPassCorrect: boolean = await ComparePass(signInInfo.password, credential.password)
     if (!isPassCorrect) throw new BadRequestException('Credenciales de acceso inválidas.');
@@ -182,7 +183,7 @@ export class AuthService {
     return await this.authRepository.changePass(authToUpdate);
   }
 
-  async updatePerson(role: Roles, infoToUpdate: { id: string, phone?: string, email?: string, address?: string, location?: string, password: string }){
+  async updatePerson(role: Roles, infoToUpdate: { id: string, phone?: string, email?: string, address?: string, location?: string, password?: string }){
     const { id, password, ...infoPersonToUpdate } = infoToUpdate;
 
     const person: Person = await this.peopleService.personById(id);
@@ -191,8 +192,10 @@ export class AuthService {
     const credentials: Auth = person.auth as Auth;
     if(!credentials) throw new BadRequestException('Error en la solicitud.')
       
-    const isPassCorrect: boolean = await ComparePass(password, credentials.password);
-    if (!isPassCorrect) throw new BadRequestException('No se puede proceder con la solicitud. Información incorrecta.');
+    if(!person.is_auth0) {
+      const isPassCorrect: boolean = await ComparePass(password, credentials.password);
+      if (!isPassCorrect) throw new BadRequestException('No se puede proceder con la solicitud. Información incorrecta.');
+    }
 
     const personUpdated: Person = await this.peopleService.updatePerson(person.id, infoPersonToUpdate);
 
@@ -209,5 +212,28 @@ export class AuthService {
     });
 
     return { token, userData: personToReturn};
+  }
+
+  async changeStatus (idperson: string) {
+    const person: Person = await this.peopleService.personById(idperson);
+    if (!person) throw new BadRequestException('No existe usuario con el id especificado.');
+    
+    const auth: Auth = await this.credentialByEmail(person.email);
+    
+    let action: string;
+    
+    if(person.is_active) {
+      person.is_active = false;
+      action = 'deactivate';
+    } else {
+      person.is_active = true
+      action = 'activate';
+    };
+
+    await this.authRepository.changeStatus(auth, action);
+
+    const personUpdated: Person = await this.peopleService.updatePerson(person.id, person);
+
+    return personUpdated;
   }
 }

@@ -124,8 +124,6 @@ function CardTotalPatient() {
             description: "Odontólogo general",
           });
         } finally {
-          console.log("--> Acá Carlos <--");
-          console.log(response.data);
           await Swal.fire({
             title: "¡Excelente!",
             text: "Rol añadido.",
@@ -187,6 +185,30 @@ function CardTotalPatient() {
     fetchPatients();
   };
 
+  const handleChangeStatus = async (personId: string) => {
+    Swal.fire({
+      title: "¡Advertencia!",
+        text: "Esta seguro de activar/inactivar el usuario",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Aceptar",
+        cancelButtonText: "Cancelar",
+        customClass: {
+          confirmButton:
+            "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
+          cancelButton:
+            "hover:bg-red-500 text-white font-bold py-2 px-4 rounded",
+        },
+    }).then(async (result) => {
+      if(result.isConfirmed) {
+        const response = await axiosInstance.patch(`/auth/changestatus/${personId}`);
+        fetchPatients();
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+
+      }
+    })
+  }
+
   useEffect(() => {
     const userSession = localStorage.getItem("userSession");
     if (userSession) {
@@ -201,18 +223,15 @@ function CardTotalPatient() {
   const fetchPatients = async () => {
     try {
       const patientsData = await allPatients();
-      console.log("Fetched patients:", patientsData);
       setPatients(patientsData);
     } catch (error) {
-      console.error("Error fetching patients:", error);
+      
     }
   };
 
   useEffect(() => {
     fetchPatients();
   }, []);
-
-  console.log("pacientes:", patients);
 
   return (
     <div>
@@ -250,7 +269,8 @@ function CardTotalPatient() {
               className="cursor-pointer"
             />
             <Image
-              src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201219/Trash_e3pep7.svg"
+              onClick={() => handleChangeStatus(patient.person.id)}
+              src={patient.person.is_active ? "https://res.cloudinary.com/ddpohfyur/image/upload/v1720201219/Trash_e3pep7.svg" : "https://res.cloudinary.com/ddpohfyur/image/upload/v1721225479/trash-gray_rxt57v.png"}
               width={24}
               height={24}
               alt="eliminar"

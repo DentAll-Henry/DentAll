@@ -66,7 +66,6 @@ export class AppointmentsRepository {
       }
       events.push(event)
     })
-console.log(events)
     return events
   }
 

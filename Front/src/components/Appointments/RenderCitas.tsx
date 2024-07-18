@@ -58,7 +58,6 @@ const RenderCitas = () => {
       }
     }
   };
-  console.log("este es un componente valido");
 
   useEffect(() => {
     fetchAppointments();
