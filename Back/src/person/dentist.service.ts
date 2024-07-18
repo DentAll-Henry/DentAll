@@ -22,6 +22,10 @@ export class DentistsService {
     return this.dentistsRepository.getAllDentists(paginationDto);
   }
 
+  async getAllDentistsActive(paginationDto: { page: number; limit: number }) {
+    return this.dentistsRepository.getAllDentistsActive(paginationDto);
+  }
+
   async get4BestRateDentists() {
     return this.dentistsRepository.get4BestRateDentists();
   }

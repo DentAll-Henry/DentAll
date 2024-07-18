@@ -238,7 +238,8 @@ type UpdateErrorProps = {
 }
 
 export function updateRegisterForm(
-  values: Partial<RegisterProps>
+  values: Partial<RegisterProps>,
+  is_auth0: boolean | undefined,
 ): UpdateErrorProps {
   let errors: UpdateErrorProps = {};
 
@@ -248,17 +249,13 @@ export function updateRegisterForm(
     errors.email = "Email is not valid";
   }
 
-  if (!values.password) {
-    errors.password = "Password is required";
-  } else if (!regexValidations.contrasena.test(values.password)) {
-    errors.password =
-      "Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, a number, and a special character";
-  }
-  if (!values.confirmPass) {
-    errors.confirmPass = "Password is required";
-  } else if (!regexValidations.contrasena.test(values.confirmPass)) {
-    errors.confirmPass =
-      "Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, a number, and a special character";
+  if(!is_auth0) {
+    if (!values.password) {
+      errors.password = "Password is required";
+    } else if (!regexValidations.contrasena.test(values.password)) {
+      errors.password =
+        "Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, a number, and a special character";
+    }
   }
 
   if (!values.phone) {

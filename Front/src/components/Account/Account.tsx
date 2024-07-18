@@ -127,7 +127,7 @@ const Account = () => {
         />
         <span className="mr-2">Volver</span>
       </div>
-      <div className="flex p-10 rounded-xl w-[80%] justify-between gap-12 m-auto">
+      <div className="flex p-10 rounded-xl w-[80%] justify-center gap-12 m-auto">
         
           <div className="  bg-darkD-400 w-[35%] h-[30%] p-4 rounded ">
             <div className="flex flex-row gap-4 p-4">
