@@ -11,14 +11,15 @@ import axiosInstance from "@/utils/axiosInstance";
 import { handlePayment } from "@/helpers/handlePayment";
 import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 import Link from "next/link";
+import Modal from "@/components/Modal/Modal"; // Asegúrate de que la ruta sea correcta
 
 type CitasProps = {
-  futureAppointments: Appointment[]
-  pastAppointments: Appointment[]
-  fetchAppointments: () => void
-  loadMoreAppointments: () => void
-  loadMoreButton: boolean
-}
+  futureAppointments: Appointment[];
+  pastAppointments: Appointment[];
+  fetchAppointments: () => void;
+  loadMoreAppointments: () => void;
+  loadMoreButton: boolean;
+};
 
 const Citas: React.FC<CitasProps> = ({
   futureAppointments,
@@ -30,7 +31,11 @@ const Citas: React.FC<CitasProps> = ({
   const [canceledAppointments, setCanceledAppointments] = useState<
     Appointment[]
   >([]);
-  const [preferenceId, setPreferenceId] = useState<{ preferenceId: string, appointmentId: string } | null>(null);
+  const [preferenceId, setPreferenceId] = useState<{
+    preferenceId: string;
+    appointmentId: string;
+  } | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleCancelAppointment = async (id: string) => {
     try {
@@ -50,10 +55,10 @@ const Citas: React.FC<CitasProps> = ({
           title: "text-greenD-500", // Cambia el color del texto del título
           popup: "text-white", // Cambia el color del texto del contenido
         },
-      })
+      });
 
       if (result.isConfirmed) {
-        const response = await axiosInstance.delete(`/appointments/${id}`)
+        const response = await axiosInstance.delete(`/appointments/${id}`);
         if (response.status === 200) {
           Swal.fire({
             title: "¡Excelente!",
@@ -67,24 +72,24 @@ const Citas: React.FC<CitasProps> = ({
               title: "text-greenD-500", // Cambia el color del texto del título
               popup: "text-white", // Cambia el color del texto del contenido
             },
-          })
+          });
           const canceledAppointment = futureAppointments.find(
             (app) => app.id === id
-          )
+          );
           if (canceledAppointment) {
             setCanceledAppointments([
               ...canceledAppointments,
               canceledAppointment,
-            ])
-            fetchAppointments()
+            ]);
+            fetchAppointments();
           }
         }
       }
     } catch (error) {
-      alert("Error al cancelar la cita")
-      console.error(error)
+      alert("Error al cancelar la cita");
+      console.error(error);
     }
-  }
+  };
 
   useEffect(() => {
     initMercadoPago(enviroment.mercadopagoPublicKey, {
@@ -92,13 +97,27 @@ const Citas: React.FC<CitasProps> = ({
     });
   }, []);
 
-  const getPreferenceId = async (patient: string, appointment_id: string): Promise<string> => {
-    const preference = await handlePayment(
-      patient,
-      appointment_id
-    );
-    return preference.preferenceId
-  }
+  const getPreferenceId = async (
+    patient: string,
+    appointment_id: string
+  ): Promise<string> => {
+    const preference = await handlePayment(patient, appointment_id);
+    return preference.preferenceId;
+  };
+
+  const handleOpenModal = async (patientId: string, appointmentId: string) => {
+    setPreferenceId(null);
+    const preferenceId = await getPreferenceId(patientId, appointmentId);
+    setPreferenceId({
+      preferenceId,
+      appointmentId,
+    });
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <div className="mx-8 mt-4 h-screen">
@@ -127,43 +146,33 @@ const Citas: React.FC<CitasProps> = ({
             </div>
             <div className="w-[30%] px-4 py-2">{appointment.service.name}</div>
             <div
-              className={`w-[10%] px-2 py-2 ${appointment.payment ? "bg-[#00FB5E]" : "bg-[#FFAF44]"
-                } rounded-md text-black font-medium text-center`}
+              className={`w-[10%] px-2 py-2 ${
+                appointment.payment ? "bg-[#00FB5E]" : "bg-[#FFAF44]"
+              } rounded-md text-black font-medium text-center`}
             >
-              {appointment.payment ? "Completado" : (
+              {appointment.payment ? (
+                "Completado"
+              ) : (
                 <>
                   <Link
                     href={`#`}
-                    onClick={async () => {
-                      setPreferenceId(null)
-                      const preferenceId = await getPreferenceId(appointment.patient.id, appointment.id)
-                      setPreferenceId({
-                        preferenceId,
-                        appointmentId: appointment.id
-                      })
-                    }}
+                    onClick={() =>
+                      handleOpenModal(appointment.patient.id, appointment.id)
+                    }
                   >
-                    {preferenceId?.preferenceId && preferenceId?.appointmentId === appointment.id ? (
-                      <>
-                        {<Wallet
-                          initialization={{ preferenceId: preferenceId?.preferenceId }} />}
-                      </>
-                    ) : "Pendiente"}
-
+                    Pendiente
                   </Link>
-
                 </>
               )}
             </div>
-            {
-              !appointment.payment &&
+            {!appointment.payment && (
               <div
                 onClick={() => handleCancelAppointment(appointment.id)}
                 className="w-[16%] px-4 py-2 rounded-md bg-[#FF2F44] text-center cursor-pointer"
               >
                 cancelar
               </div>
-            }
+            )}
           </div>
         ))}
 
@@ -202,9 +211,19 @@ const Citas: React.FC<CitasProps> = ({
           </div>
         ))}
       </div>
+
+      <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
+        {preferenceId?.preferenceId && (
+          <div>
+<p className="text-center font-semibold">Presiona aquí para pagar </p>
+            <Wallet
+              initialization={{ preferenceId: preferenceId.preferenceId }}
+            />
+          </div>
+        )}
+      </Modal>
     </div>
-  )
-}
+  );
+};
 
-export default Citas
-
+export default Citas;

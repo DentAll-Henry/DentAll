@@ -144,203 +144,115 @@ const EditProfile = () => {
   };
 
   return (
-    <div className="flex justify-center items-center  bg-darkD-400 p-4 rounded">
-        <div className="text-white p-8 w-full max-w-3xl">
-          {/* <form
-            onSubmit={handleSubmit}
-            className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8"
-          >
-            <div className="w-full">
-              <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
-                NOMBRE
-              </label>
-              <input
-                className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
-                placeholder={user?.first_name}
-                type="text"
-                id="first_name"
-                name="first_name"
-                disabled={true}
-                required
-                onChange={handleChange}
-              />
-            </div>
-            <div className="w-full">
-              <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
-                APELLIDO
-              </label>
-              <input
-                className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
-                placeholder={user?.last_name}
-                type="text"
-                id="last_name"
-                name="last_name"
-                disabled={true}
-                required
-                onChange={handleChange}
-              />
-            </div>
+    <div className="flex justify-center items-center  bg-darkD-600 p-4 rounded">
+      <div className="text-white p-8 w-full max-w-3xl">
+        <h2 className="text-xl mb-8 text-center">Editar información</h2>
+        <form
+          onSubmit={handleSubmit}
+          className="grid grid-cols-1 md:grid-cols-2 gap-6"
+        >
+          <div className="w-full">
+            <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
+              TELÉFONO
+            </label>
+            <input
+              className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#FFF] w-full text-black"
+              placeholder={user?.phone}
+              value={dataUser.phone}
+              type="text"
+              id="phone"
+              name="phone"
+              required
+              onChange={handleChange}
+            />
+            {errorUser.phone && (
+              <p className="text-red-500">{errorUser.phone}</p>
+            )}
+          </div>
 
-            <div className="w-full">
-              <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
-                NACIONALIDAD
-              </label>
-              <input
-                className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full "
-                placeholder={user?.nationality}
-                type="text"
-                id="nationality"
-                name="nationality"
-                disabled={true}
-                required
-                onChange={handleChange}
-              />
+          <div className="w-full">
+            <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
+              CORREO ELECTRÓNICO
+            </label>
+            <input
+              className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#FFF] w-full text-black"
+              placeholder={user?.email}
+              value={dataUser.email}
+              type="email"
+              id="email"
+              name="email"
+              required
+              onChange={handleChange}
+            />
+            {errorUser.email && (
+              <p className="text-red-500">{errorUser.email}</p>
+            )}
+          </div>
+          <div className="w-full">
+            <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
+              DIRECCIÓN
+            </label>
+            <input
+              className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#FFF] w-full text-black"
+              placeholder={user?.address}
+              value={dataUser.address}
+              type="text"
+              id="address"
+              name="address"
+              required
+              onChange={handleChange}
+            />
+            {errorUser.address && (
+              <p className="text-red-500">{errorUser.address}</p>
+            )}
+          </div>
+          <div className="w-full">
+            <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
+              LOCALIDAD
+            </label>
+            <input
+              className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#FFF] w-full text-black"
+              placeholder={user?.location}
+              value={dataUser.location}
+              type="text"
+              id="location"
+              name="location"
+              required
+              onChange={handleChange}
+            />
+            {errorUser.location && (
+              <p className="text-red-500">{errorUser.location}</p>
+            )}
+          </div>
+          <div className="w-[200%] ml-4 border-t border-gray-400 shadow-sm"></div>
+          {!user?.is_auth0 && (
+            <div className=" w-full flex justify-center md:col-span-2">
+              <div className="w-full mt-3">
+                <p>
+                  Corfirma tu contraseña para <br /> guardar los cambios
+                </p>
+              </div>
+              <div className="w-full">
+                <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
+                  CONTRASEÑA
+                </label>
+                <input
+                  type="password"
+                  className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#FFF] w-full text-black"
+                  placeholder="Contraseña"
+                  value={dataUser.password}
+                  id="password"
+                  name="password"
+                  required
+                  onChange={handleChange}
+                />
+                {errorUser.password && (
+                  <p className="text-red-500">{errorUser.password}</p>
+                )}
+              </div>
             </div>
-            <div className="w-full">
-              <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
-                FECHA DE NACIMIENTO
-              </label>
-              <input
-                className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
-                placeholder={
-                  user?.birthdate
-                    ? new Date(user.birthdate).toLocaleDateString([], {
-                        year: "numeric",
-                        month: "2-digit",
-                        day: "2-digit",
-                      })
-                    : ""
-                }
-                type="text"
-                id="birthdate"
-                name="birthdate"
-                disabled={true}
-                required
-                onChange={handleChange}
-              />
-            </div>
-            <div className="w-full">
-              <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
-                DNI
-              </label>
-              <input
-                className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#BBB] w-full"
-                placeholder={user?.dni}
-                type="text"
-                id="dni"
-                name="dni"
-                disabled={true}
-                required
-                onChange={handleChange}
-              />
-            </div>
-          </form> */}
-
-          <h2 className="text-xl mb-8 text-center">Editar información</h2>
-          <form
-            onSubmit={handleSubmit}
-            className="grid grid-cols-1 md:grid-cols-2 gap-6"
-          >
-            <div className="w-full">
-              <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
-                TELÉFONO
-              </label>
-              <input
-                className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#FFF] w-full text-black"
-                placeholder={user?.phone}
-                value={dataUser.phone}
-                type="text"
-                id="phone"
-                name="phone"
-                required
-                onChange={handleChange}
-              />
-              {errorUser.phone && (
-                <p className="text-red-500">{errorUser.phone}</p>
-              )}
-            </div>
-
-            <div className="w-full">
-              <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
-                CORREO ELECTRÓNICO
-              </label>
-              <input
-                className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#FFF] w-full text-black"
-                placeholder={user?.email}
-                value={dataUser.email}
-                type="email"
-                id="email"
-                name="email"
-                required
-                onChange={handleChange}
-              />
-              {errorUser.email && (
-                <p className="text-red-500">{errorUser.email}</p>
-              )}
-            </div>
-            <div className="w-full">
-              <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
-                DIRECCIÓN
-              </label>
-              <input
-                className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#FFF] w-full text-black"
-                placeholder={user?.address}
-                value={dataUser.address}
-                type="text"
-                id="address"
-                name="address"
-                required
-                onChange={handleChange}
-              />
-              {errorUser.address && (
-                <p className="text-red-500">{errorUser.address}</p>
-              )}
-            </div>
-            <div className="w-full">
-              <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
-                LOCALIDAD
-              </label>
-              <input
-                className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#FFF] w-full text-black"
-                placeholder={user?.location}
-                value={dataUser.location}
-                type="text"
-                id="location"
-                name="location"
-                required
-                onChange={handleChange}
-              />
-              {errorUser.location && (
-                <p className="text-red-500">{errorUser.location}</p>
-              )}
-            </div>
-            {
-              !user?.is_auth0 && 
-                <div className="flex w-full flex justify-center md:col-span-2">
-                  <div className="w-full">
-                    <p>Corfirma tu contraseña para <br/> guardar los cambios</p>
-                  </div>
-                  <div className="w-full">
-                    <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
-                      CONTRASEÑA
-                    </label>
-                    <input
-                      type="password"
-                      className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#FFF] w-full text-black"
-                      placeholder="Contraseña"
-                      value={dataUser.password}
-                      id="password"
-                      name="password"
-                      required
-                      onChange={handleChange}
-                    />
-                    {errorUser.password && (
-                      <p className="text-red-500">{errorUser.password}</p>
-                    )}
-                  </div>
-                </div>
-            }
-            {/* <div className="w-full">
+          )}
+          {/* <div className="w-full">
               <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
                 REPETIR CONTRASEÑA
               </label>
@@ -358,20 +270,19 @@ const EditProfile = () => {
                 <p className="text-red-500">{errorUser.confirmPass}</p>
               )}
             </div> */}
-            <div className="w-full mt-4 flex justify-center md:col-span-2">
-              <button
-                type="submit"
-                className="flex w-[340px] h-[38px] px-[25px] py-[11px] justify-center items-center gap-[10px] rounded-[1px] bg-[#00CE90]"
-              >
-                <span className="text-black font-maven-pro text-[16px] font-semibold leading-normal">
-                  Guardar información
-                </span>
-              </button>
-            </div>
-          </form>
-        </div>
+          <div className="w-full mt-4 flex justify-center md:col-span-2">
+            <button
+              type="submit"
+              className="flex w-[340px] h-[38px] px-[25px] py-[11px] justify-center items-center gap-[10px] rounded-[1px] bg-[#00CE90]"
+            >
+              <span className="text-black font-maven-pro text-[16px] font-semibold leading-normal">
+                Guardar información
+              </span>
+            </button>
+          </div>
+        </form>
       </div>
-    
+    </div>
   );
 };
 
