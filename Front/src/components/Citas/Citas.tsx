@@ -1,21 +1,21 @@
-"use client";
-import { format } from "date-fns";
-import { toZonedTime } from "date-fns-tz";
-import axios from "axios";
-import { enviroment } from "@/utils/config";
-import { useState } from "react";
-import Swal from "sweetalert2";
-import "sweetalert2/dist/sweetalert2.min.css";
-import { Appointment } from "@/types";
-import axiosInstance from "@/utils/axiosInstance";
+"use client"
+import { format } from "date-fns"
+import { toZonedTime } from "date-fns-tz"
+import axios from "axios"
+import { enviroment } from "@/utils/config"
+import { useState } from "react"
+import Swal from "sweetalert2"
+import "sweetalert2/dist/sweetalert2.min.css"
+import { Appointment } from "@/types"
+import axiosInstance from "@/utils/axiosInstance"
 
 type CitasProps = {
-  futureAppointments: Appointment[];
-  pastAppointments: Appointment[];
-  fetchAppointments: () => void;
-  loadMoreAppointments: () => void;
-  loadMoreButton: boolean;
-};
+  futureAppointments: Appointment[]
+  pastAppointments: Appointment[]
+  fetchAppointments: () => void
+  loadMoreAppointments: () => void
+  loadMoreButton: boolean
+}
 
 const Citas: React.FC<CitasProps> = ({
   futureAppointments,
@@ -26,7 +26,7 @@ const Citas: React.FC<CitasProps> = ({
 }) => {
   const [canceledAppointments, setCanceledAppointments] = useState<
     Appointment[]
-  >([]);
+  >([])
 
   const handleCancelAppointment = async (id: string) => {
     try {
@@ -43,10 +43,10 @@ const Citas: React.FC<CitasProps> = ({
           cancelButton:
             "hover:bg-gray-300 text-black font-bold py-2 px-4 rounded",
         },
-      });
+      })
 
       if (result.isConfirmed) {
-        const response = await axiosInstance.delete(`/appointments/${id}`);
+        const response = await axiosInstance.delete(`/appointments/${id}`)
         if (response.status === 200) {
           Swal.fire({
             title: "¡Excelente!",
@@ -57,24 +57,24 @@ const Citas: React.FC<CitasProps> = ({
               confirmButton:
                 "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
             },
-          });
+          })
           const canceledAppointment = futureAppointments.find(
             (app) => app.id === id
-          );
+          )
           if (canceledAppointment) {
             setCanceledAppointments([
               ...canceledAppointments,
               canceledAppointment,
-            ]);
-            fetchAppointments();
+            ])
+            fetchAppointments()
           }
         }
       }
     } catch (error) {
-      alert("Error al cancelar la cita");
-      console.error(error);
+      alert("Error al cancelar la cita")
+      console.error(error)
     }
-  };
+  }
 
   return (
     <div className="mx-8 mt-4 h-screen">
@@ -154,7 +154,8 @@ const Citas: React.FC<CitasProps> = ({
         ))}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Citas;
+export default Citas
+

@@ -57,7 +57,7 @@ export class PaymentsRepository {
             id: service.id,
             currency_id: 'ARS', // moked for the moment
             title: service.name,
-            quantity: 0.5,
+            quantity: 1,
             unit_price: Number(service.price),
           },
         ],
@@ -72,7 +72,7 @@ export class PaymentsRepository {
       const response = await preference.create({ body });
       return { preferenceId: response.id };
     } catch (error) {
-      console.log(error)
+      console.log(error);
       if (error instanceof BadRequestException) {
         throw error;
       }

@@ -1,6 +1,6 @@
-import NavDash from '@/components/NavBar/navDash';
-import Image from 'next/image';
-import Link from 'next/link';
+import NavDash from "@/components/NavBar/navDash"
+import Image from "next/image"
+import Link from "next/link"
 
 const page = () => {
   return (
@@ -25,7 +25,7 @@ const page = () => {
               <p>Agendar citas</p>
             </div>
           </Link>
-          <Link href="/professional/patients">
+          <Link href="/administrative/patients">
             <div className="flex-col bg-black w-[200px] h-[150px] rounded-md border flex justify-center items-center hover:scale-105 transition-transform duration-300">
               <Image
                 className="group-hover:fill-current text-white"
@@ -122,7 +122,7 @@ const page = () => {
         />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default page;
+export default page
