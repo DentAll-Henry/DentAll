@@ -119,7 +119,9 @@ const PatientsDetails = ({
           X
         </button>
         <div className="mb-4">
-          <h2 className="text-center text-xl font-semibold">Nueva orden</h2>
+          <h2 className="text-center text-xl font-semibold">
+            Nueva {`${tag}`}
+          </h2>
         </div>
         <div className="flex justify-around mb-4 items-center text-center space-x-2">
           <button
