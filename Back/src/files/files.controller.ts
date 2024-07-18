@@ -31,7 +31,7 @@ export class FilesController {
 
   @ApiBearerAuth()
   @Post('upload')
-  @DRoles(Roles.ADMIN)
+  @DRoles(Roles.ADMIN, Roles.DENTIST, Roles.ADMINISTRATIVE)
   @UseGuards(AuthGuard, RolesGuard)
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('file'))
@@ -54,7 +54,7 @@ export class FilesController {
 
   @ApiBearerAuth()
   @Post('images')
-  @DRoles(Roles.ADMIN)
+  @DRoles(Roles.ADMIN, Roles.DENTIST, Roles.ADMINISTRATIVE)
   @UseGuards(AuthGuard, RolesGuard)
   @ApiOperation({ summary: 'Get images from Cloudinary' })
   @ApiResponse({
