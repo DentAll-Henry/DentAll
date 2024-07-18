@@ -156,7 +156,7 @@ const EditProfile = () => {
               TELÉFONO
             </label>
             <input
-              className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#FFF] w-full text-black"
+              className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[5px] bg-[#FFF] w-full text-black "
               placeholder={user?.phone}
               value={dataUser.phone}
               type="text"
@@ -175,7 +175,7 @@ const EditProfile = () => {
               CORREO ELECTRÓNICO
             </label>
             <input
-              className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#FFF] w-full text-black"
+              className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[5px] bg-[#FFF] w-full text-black"
               placeholder={user?.email}
               value={dataUser.email}
               type="email"
@@ -193,7 +193,7 @@ const EditProfile = () => {
               DIRECCIÓN
             </label>
             <input
-              className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#FFF] w-full text-black"
+              className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[5px] bg-[#FFF] w-full text-black"
               placeholder={user?.address}
               value={dataUser.address}
               type="text"
@@ -211,7 +211,7 @@ const EditProfile = () => {
               LOCALIDAD
             </label>
             <input
-              className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#FFF] w-full text-black"
+              className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[5px] bg-[#FFF] w-full text-black"
               placeholder={user?.location}
               value={dataUser.location}
               type="text"
@@ -238,7 +238,7 @@ const EditProfile = () => {
                 </label>
                 <input
                   type="password"
-                  className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#FFF] w-full text-black"
+                  className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[5px] bg-[#FFF] w-full text-black"
                   placeholder="Contraseña"
                   value={dataUser.password}
                   id="password"
@@ -273,7 +273,7 @@ const EditProfile = () => {
           <div className="w-full mt-4 flex justify-center md:col-span-2">
             <button
               type="submit"
-              className="flex w-[340px] h-[38px] px-[25px] py-[11px] justify-center items-center gap-[10px] rounded-[1px] bg-[#00CE90]"
+              className="flex w-[340px] h-[38px] px-[25px] py-[11px] justify-center items-center gap-[10px] rounded-[2px] bg-[#00CE90]"
             >
               <span className="text-black font-maven-pro text-[16px] font-semibold leading-normal">
                 Guardar información
