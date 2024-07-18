@@ -130,7 +130,7 @@ const Account = () => {
         <span className="mr-2">Volver</span>
       </div>
       <div className="flex  p-10 rounded-xl w-[80%] justify-center gap-12 m-auto">
-        <div className="  bg-darkD-600 w-[35%] h-[30%] p-4 rounded ">
+        <div className="  bg-darkD-600 w-[35%]  p-4 px-6 rounded-[5px] ">
           <div className="flex flex-row gap-4 p-4">
             <div className="flex justify-center items-center gap-4 relative ">
               <div
