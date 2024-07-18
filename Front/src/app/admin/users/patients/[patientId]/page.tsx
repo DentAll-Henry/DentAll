@@ -179,9 +179,9 @@ const DetailsId = ({ params }: { params: { patientId: string } }) => {
               <div className="w-[14%] px-4 py-2">Fecha</div>
               <div className="w-[9%] px-4 py-2">Hora</div>
               <div className="w-[20%] px-4 py-2">Especialista </div>
-              <div className="w-[30%] px-4 py-2">Tipo de consulta</div>
+              <div className="w-[46%] px-4 py-2">Tipo de consulta</div>
               <div className="w-[10%] px-2 py-2">Pago</div>
-              <div className="w-[16%] px-4 py-2">Acciones</div>
+              {/* <div className="w-[16%] px-4 py-2">Acciones</div> */}
             </div>
 
             <div className="flex flex-col gap-2">
@@ -198,13 +198,13 @@ const DetailsId = ({ params }: { params: { patientId: string } }) => {
                       Dr. {i.dentist_id.person.first_name}{" "}
                       {i.dentist_id.person.last_name}
                     </div>
-                    <div className="w-[30%] px-4 py-2">{i.service.name}</div>
+                    <div className="w-[46%] px-4 py-2">{i.service.name}</div>
                     <div className="w-[10%] px-2 py-2 bg-[#00FB5E] rounded-md text-black font-medium text-center">
                       Realizado
                     </div>
-                    <div className="w-[16%] px-4 py-2  rounded-md bg-[#FF2F44] text-center">
+                    {/* <div className="w-[16%] px-4 py-2  rounded-md bg-[#FF2F44] text-center">
                       Cancelar
-                    </div>
+                    </div> */}
                   </div>
                 );
               })}
