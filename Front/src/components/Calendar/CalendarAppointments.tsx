@@ -86,7 +86,7 @@ const CalendarAppointments: React.FC<CalendarProps> = ({ dentist_id }) => {
 
   const fetchDentists = async () => {
     try {
-      const response = await axiosInstance.get(`/dentists`);
+      const response = await axiosInstance.get(`/dentists/onlyactive`);
       setDentists(response.data);
       setSelectedDentistsIds(
         response.data.map((dentist: Dentist) => dentist.id)
