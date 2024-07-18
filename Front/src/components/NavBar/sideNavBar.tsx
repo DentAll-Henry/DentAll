@@ -49,9 +49,12 @@ const handleLogout = () => {
     text: "Sesión cerrada correctamente.",
     icon: "success",
     confirmButtonText: "Aceptar",
+    background: "#1D1D1D", 
     customClass: {
       confirmButton:
-        "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded",
+        "hover:scale-110 bg-greenD-500 text-black font-bold py-2 px-4 rounded",
+      title: "text-greenD-500", 
+      popup: "text-white", 
     },
   }).then((result) => {
     if (result.isConfirmed) {

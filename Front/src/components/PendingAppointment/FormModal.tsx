@@ -44,9 +44,12 @@ const FormModal = ({
       text: "Nueva orden creada.",
       icon: "success",
       confirmButtonText: "Aceptar",
+      background: "#1D1D1D", // Cambia este valor al color de fondo que prefieras
       customClass: {
         confirmButton:
-          "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
+          "hover:scale-110 bg-greenD-500 text-black font-bold py-2 px-4 rounded",
+        title: "text-greenD-500", // Cambia el color del texto del título
+        popup: "text-white", // Cambia el color del texto del contenido
       },
     });
   };

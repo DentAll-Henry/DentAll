@@ -58,12 +58,15 @@ function CardTotalDentist() {
   return (
     <div>
       {dentists.map((dentist) => (
-        <div className="w-full flex flex-row gap-5 justify-start " key={dentist.person.id}>
-          <div className="w-[31%] p-3 flex flex-row gap-4">
+
+        <div className="w-full flex flex-row gap-5" key={dentist.person.id}>
+          <div className="w-[30%] p-3 flex flex-row gap-4 rounded-full">
+
             <Image
+            className="rounded-full"
               src={dentist.person.photo}
               width={24}
-              height={24}
+              height={20}
               alt="foto de perfil"
             />
             <Link href={`/admin/users/dentists/${dentist.id}`}>

@@ -89,9 +89,12 @@ const PatientsDetails = ({
             text: `${tag} subido correctamente.`,
             icon: "success",
             confirmButtonText: "Aceptar",
+            background: "#1D1D1D",
             customClass: {
               confirmButton:
-                "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
+                "hover:scale-110 bg-greenD-500 text-black font-bold py-2 px-4 rounded",
+              title: "text-greenD-500",
+              popup: "text-white",
             },
           });
         }
@@ -101,9 +104,12 @@ const PatientsDetails = ({
           text: `${error.response.data.message}`,
           icon: "error",
           confirmButtonText: "Aceptar",
+          background: "#1D1D1D",
           customClass: {
             confirmButton:
-              "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
+              "hover:scale-110 bg-greenD-500 text-black font-bold py-2 px-4 rounded",
+            title: "text-red-500",
+            popup: "text-white",
           },
         });
       }
