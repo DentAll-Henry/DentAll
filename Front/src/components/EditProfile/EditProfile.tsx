@@ -61,7 +61,6 @@ const EditProfile = () => {
   });
 
   useEffect(() => {
-    console.log("Componente EditProfile renderizado");
     const userSession = localStorage.getItem("userSession");
     if (userSession) {
       const parsedUser = JSON.parse(userSession);
@@ -81,7 +80,6 @@ const EditProfile = () => {
   }, []);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("handleChange llamado");
     setDataUser({
       ...dataUser,
       [event.target.name]: event.target.value,
@@ -94,7 +92,6 @@ const EditProfile = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log("handleSubmit llamado");
     const errors = updateRegisterForm(dataUser, user?.is_auth0);
     setErrorUser(errors);
       

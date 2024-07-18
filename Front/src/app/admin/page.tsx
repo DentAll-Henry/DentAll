@@ -64,10 +64,6 @@ function AdminPage() {
       fetchData();
   }, []);
 
-  console.log("soy el paciente", totalPatients);
-  console.log("soy el dentista", totalDentists);
-  console.log("soy el administrativo", totalAdmins);
-  console.log("soy el superadmin", totalSuperAdmins);
   return (
     <div className="w-[80%] h-screen bg-darkD-600 text-white ml-[20%] relative ">
       <NavDash />

@@ -143,7 +143,6 @@ const ModalNuevaCita: React.FC<ModalCitaProps> = ({
     if (appointmentData.dentist_id !== "") {
       getSlots(appointmentData.dentist_id);
     }
-    console.log("dentist_id:", appointmentData);
   }, [appointmentData.dentist_id]);
 
   const customStyles = {
@@ -194,7 +193,6 @@ const ModalNuevaCita: React.FC<ModalCitaProps> = ({
                     description: "",
                 }}
                 validate={values => {
-                    console.log("values:", appointmentData);
                     const errors = {
                         patient: "",
                         dentist_id: "",
@@ -220,11 +218,9 @@ const ModalNuevaCita: React.FC<ModalCitaProps> = ({
                 }}
                 onSubmit={(values) => {
 
-                    console.log(true)
                     axiosInstance.post("/appointments", {
                         ...appointmentData
                     }).then(response => {
-                        console.log("response:", response);
                         if (response.status === 201) {
                             Swal.fire({
                                 title: "Cita agendada con exito!",
@@ -241,7 +237,6 @@ const ModalNuevaCita: React.FC<ModalCitaProps> = ({
                             });
                         }
                     }).catch(error => {
-                        console.log(error.response.data.message[0])
                         Swal.fire({
                             title: "Error!",
                             html: `Ha ocurrido un error al agendar la cita.\n<ul>${error.response}</ul>`,

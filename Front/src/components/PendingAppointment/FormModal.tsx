@@ -30,13 +30,10 @@ const FormModal = ({
       ...formData,
       [name]: value,
     });
-    console.log(`${name}: ${value}`);
-    console.log(formData);
   };
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    console.log("Form data:", formData);
     const response = await axiosInstance.post(
       "/appointments/pending_appointment",
       formData

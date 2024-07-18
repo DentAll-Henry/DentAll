@@ -78,7 +78,6 @@ export class PaymentsRepository {
       const response = await preference.create({ body });
       return { preferenceId: response.id };
     } catch (error) {
-      console.log(error)
       if (error instanceof BadRequestException) {
         throw error;
       }
@@ -114,8 +113,6 @@ export class PaymentsRepository {
       if (error?.error == 'resource not found') {
         throw new BadRequestException('No se encontro el pago');
       }
-      console.log(error);
-
       throw new InternalServerErrorException('Error interno del servidor');
     }
   }

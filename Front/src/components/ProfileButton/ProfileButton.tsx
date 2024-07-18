@@ -22,10 +22,8 @@ export default function ProfileButton() {
   useEffect(() => {
     if (typeof window !== "undefined" && window.localStorage) {
       const storedUserData = localStorage.getItem("userSession");
-      console.log("Stored User Data:", storedUserData);
       if (storedUserData) {
         const parsedUserData = JSON.parse(storedUserData);
-        console.log("Parsed User Data:", parsedUserData);
         setUserData(parsedUserData); // Asegúrate de actualizar el estado correctamente
         const token = decodeJWT(parsedUserData.token);
         setAuthToken(parsedUserData.token);

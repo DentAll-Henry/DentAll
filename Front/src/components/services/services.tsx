@@ -13,7 +13,6 @@ const Services = () => {
   const handleDelete = async (id: string) => {
     try {
       const response = await updateIsActiveService(id);
-      console.log("Servicio dado de baja:", response);
 
       // const updatedServices = serviceData.map((service) =>
       //   service.id === id ? { ...service, isActive: service.isActive } : service
@@ -22,7 +21,7 @@ const Services = () => {
       // setServiceData(updatedServices);
       await getData();
     } catch (error) {
-      console.error("Error al dar de baja el servicio:", error);
+      
     }
   };
 

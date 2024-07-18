@@ -56,7 +56,7 @@ const PaymentDetail: React.FC<PaymentDetailProps> = ({ payment_id }) => {
   }, []);
 
   useEffect(() => {
-    console.log("paymentDetail:", paymentDetail);
+    
   }, [paymentDetail]);
   return (
     <div>

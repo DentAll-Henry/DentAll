@@ -49,10 +49,7 @@ function DetailsId({ params }: { params: { patientId: string } }) {
         setPatient(patient);
       };
       fetchData();
-    }, [params.patientId]);
-
-    console.log("soy el paciente",patient)
-  
+    }, [params.patientId]);  
 
   return (
     <div className="w-[80%] h-screen bg-darkD-600 text-white ml-[20%] relative">

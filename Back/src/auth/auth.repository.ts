@@ -80,7 +80,7 @@ export class AuthRepository {
     } else if (action === 'deactivate') {
       await this.authRepository.softDelete(credential.id);
     } else {
-      console.log("No es posible")
+      
     }
   }
 }

@@ -23,9 +23,8 @@ export const getAppointmentId = async (
         treatments,
       }}`
     );
-    console.log(response);
     return response.data;
   } catch (error: any) {
-    console.log(error);
+    
   }
 };

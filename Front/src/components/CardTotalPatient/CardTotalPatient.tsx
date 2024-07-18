@@ -223,18 +223,15 @@ function CardTotalPatient() {
   const fetchPatients = async () => {
     try {
       const patientsData = await allPatients();
-      console.log("Fetched patients:", patientsData);
       setPatients(patientsData);
     } catch (error) {
-      console.error("Error fetching patients:", error);
+      
     }
   };
 
   useEffect(() => {
     fetchPatients();
   }, []);
-
-  console.log("pacientes:", patients);
 
   return (
     <div>

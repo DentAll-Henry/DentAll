@@ -6,7 +6,6 @@ const getImages = async (folder: string) => {
 };
 
 const uploadImage = async (folder: string, file: any) => {
-  console.log(file);
   const upload = await axiosInstance.post("/files/upload", {
     folder: folder,
     file: file,
