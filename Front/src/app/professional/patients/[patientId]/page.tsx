@@ -165,7 +165,7 @@ function DetailsId({ params }: { params: { patientId: string } }) {
           <PatientsDetails
             patientId={params.patientId}
             close={() => setHistorialModal(false)}
-            folder="historial"
+            text="Nuevo historial"
             tag="historial"
             title="Historial"
           />
@@ -176,7 +176,7 @@ function DetailsId({ params }: { params: { patientId: string } }) {
           <PatientsDetails
             patientId={params.patientId}
             close={() => setRecetasModal(false)}
-            folder="recetas"
+            text="Nueva receta"
             tag="recetas"
             title="Recetas"
           />
@@ -187,7 +187,7 @@ function DetailsId({ params }: { params: { patientId: string } }) {
           <PatientsDetails
             patientId={params.patientId}
             close={() => setOdontogramaModal(false)}
-            folder="odontograma"
+            text="Nuevo odontograma"
             tag="odontograma"
             title="Odontograma"
           />
