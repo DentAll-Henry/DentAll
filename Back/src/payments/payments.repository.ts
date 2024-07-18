@@ -68,7 +68,13 @@ export class PaymentsRepository {
         },
         notification_url: `${environment.backUrl}payments/success/?patient_id=${patient.id}&dentalServ_id=${service.id}&appointment_id=${appointment.id}`,
         auto_return: 'approved',
+        metadata: {
+          appointment_id: appointment.id,
+          patient_id: patient.id,
+          service_id: service.id,
+        }
       };
+
       const response = await preference.create({ body });
       return { preferenceId: response.id };
     } catch (error) {
