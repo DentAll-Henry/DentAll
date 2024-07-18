@@ -41,8 +41,8 @@ const page = () => {
             <Image
               className="group-hover:fill-current text-white"
               src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201326/recetass_si2se4.svg"
-              width={40}
-              height={40}
+              width={70}
+              height={70}
               alt="Editar servicios"
             />
             <p>Editar servicios</p>

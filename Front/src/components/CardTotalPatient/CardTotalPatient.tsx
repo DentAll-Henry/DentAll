@@ -89,9 +89,12 @@ function CardTotalPatient() {
           text: "Rol añadido.",
           icon: "success",
           confirmButtonText: "Aceptar",
+          background: "#1D1D1D", // Cambia este valor al color de fondo que prefieras
           customClass: {
             confirmButton:
-              "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
+              "hover:scale-110 bg-greenD-500 text-black font-bold py-2 px-4 rounded",
+            title: "text-greenD-500", // Cambia el color del texto del título
+            popup: "text-white", // Cambia el color del texto del contenido
           },
         });
       } catch (error: any) {
@@ -100,9 +103,12 @@ function CardTotalPatient() {
           text: error.message,
           icon: "error",
           confirmButtonText: "Aceptar",
+          background: "#1D1D1D", // Cambia este valor al color de fondo que prefieras
           customClass: {
             confirmButton:
-              "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
+              "hover:scale-110 bg-greenD-500 text-black font-bold py-2 px-4 rounded",
+            title: "text-red-500", // Cambia el color del texto del título
+            popup: "text-white", // Cambia el color del texto del contenido
           },
         });
       }
@@ -129,9 +135,12 @@ function CardTotalPatient() {
             text: "Rol añadido.",
             icon: "success",
             confirmButtonText: "Aceptar",
+            background: "#1D1D1D", // Cambia este valor al color de fondo que prefieras
             customClass: {
               confirmButton:
-                "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
+                "hover:scale-110 bg-greenD-500 text-black font-bold py-2 px-4 rounded",
+              title: "text-greenD-500", // Cambia el color del texto del título
+              popup: "text-white", // Cambia el color del texto del contenido
             },
           });
         }
@@ -141,9 +150,12 @@ function CardTotalPatient() {
           text: error.message,
           icon: "error",
           confirmButtonText: "Aceptar",
+          background: "#1D1D1D", // Cambia este valor al color de fondo que prefieras
           customClass: {
             confirmButton:
-              "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
+              "hover:scale-110 bg-greenD-500 text-black font-bold py-2 px-4 rounded",
+            title: "text-red-500", // Cambia el color del texto del título
+            popup: "text-white", // Cambia el color del texto del contenido
           },
         });
       }
@@ -162,9 +174,12 @@ function CardTotalPatient() {
         text: "Rol retirado.",
         icon: "success",
         confirmButtonText: "Aceptar",
+        background: "#1D1D1D", // Cambia este valor al color de fondo que prefieras
         customClass: {
           confirmButton:
-            "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
+            "hover:scale-110 bg-greenD-500 text-black font-bold py-2 px-4 rounded",
+          title: "text-greenD-500", // Cambia el color del texto del título
+          popup: "text-white", // Cambia el color del texto del contenido
         },
       });
     } else {
@@ -175,9 +190,12 @@ function CardTotalPatient() {
         text: "Rol retirado.",
         icon: "success",
         confirmButtonText: "Aceptar",
+        background: "#1D1D1D", // Cambia este valor al color de fondo que prefieras
         customClass: {
           confirmButton:
-            "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
+            "hover:scale-110 bg-greenD-500 text-black font-bold py-2 px-4 rounded",
+          title: "text-greenD-500", // Cambia el color del texto del título
+          popup: "text-white", // Cambia el color del texto del contenido
         },
       });
     }
@@ -188,25 +206,29 @@ function CardTotalPatient() {
   const handleChangeStatus = async (personId: string) => {
     Swal.fire({
       title: "¡Advertencia!",
-        text: "Esta seguro de activar/inactivar el usuario",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Aceptar",
-        cancelButtonText: "Cancelar",
-        customClass: {
-          confirmButton:
-            "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
-          cancelButton:
-            "hover:bg-red-500 text-white font-bold py-2 px-4 rounded",
-        },
+      text: "Esta seguro de activar/inactivar el usuario",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Aceptar",
+      cancelButtonText: "Cancelar",
+      background: "#1D1D1D",
+      customClass: {
+        confirmButton:
+          "hover:scale-105 bg-greenD-500 text-black font-bold py-2 px-4 rounded",
+        cancelButton:
+          "hover:scale-105 bg-red-500 text-black font-bold py-2 px-4 rounded",
+        title: "text-greenD-500", // Cambia el color del texto del título
+        popup: "text-white", // Cambia el color del texto del contenido
+      },
     }).then(async (result) => {
-      if(result.isConfirmed) {
-        const response = await axiosInstance.patch(`/auth/changestatus/${personId}`);
+      if (result.isConfirmed) {
+        const response = await axiosInstance.patch(
+          `/auth/changestatus/${personId}`
+        );
         fetchPatients();
       } else if (result.dismiss === Swal.DismissReason.cancel) {
-
       }
-    })
+    });
   }
 
   useEffect(() => {
@@ -237,8 +259,9 @@ function CardTotalPatient() {
     <div>
       {patients.map((patient) => (
         <div className="w-full flex flex-row gap-5" key={patient.person.id}>
-          <div className="w-[31%] p-3 flex flex-row gap-4">
+          <div className="w-[31%] p-3 flex flex-row gap-4 rounded-full">
             <Image
+            className="rounded-full"
               src={patient.person.photo}
               width={24}
               height={24}
@@ -270,7 +293,11 @@ function CardTotalPatient() {
             />
             <Image
               onClick={() => handleChangeStatus(patient.person.id)}
-              src={patient.person.is_active ? "https://res.cloudinary.com/ddpohfyur/image/upload/v1720201219/Trash_e3pep7.svg" : "https://res.cloudinary.com/ddpohfyur/image/upload/v1721225479/trash-gray_rxt57v.png"}
+              src={
+                patient.person.is_active
+                  ? "https://res.cloudinary.com/ddpohfyur/image/upload/v1720201219/Trash_e3pep7.svg"
+                  : "https://res.cloudinary.com/ddpohfyur/image/upload/v1721225479/trash-gray_rxt57v.png"
+              }
               width={24}
               height={24}
               alt="eliminar"
@@ -281,8 +308,7 @@ function CardTotalPatient() {
       ))}
       {selectedPatient && (
         <Modal isOpen={isModalOpen} onClose={closeModal}>
-          <div className="flex justify-between items-center mb-4">
-          </div>
+          <div className="flex justify-between items-center mb-4"></div>
           <h3 className="text-lg mb-4">
             Editar roles de:{" "}
             <span className="text-greenD-500">
@@ -294,7 +320,8 @@ function CardTotalPatient() {
             {allRoles.map((r, index) => {
               if (r.status) {
                 return (
-                  <div className="text-[#00FB5E]  hover:text-white rounded px-4 py-2 border border-[#00FB5E] cursor-pointer"
+                  <div
+                    className="text-[#00FB5E]  hover:text-white rounded px-4 py-2 border border-[#00FB5E] cursor-pointer"
                     onClick={() => addRole(r.eng, r.personId)}
                     key={index}
                   >

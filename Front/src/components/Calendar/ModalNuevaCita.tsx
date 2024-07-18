@@ -223,30 +223,42 @@ const ModalNuevaCita: React.FC<ModalCitaProps> = ({
                     }).then(response => {
                         if (response.status === 201) {
                             Swal.fire({
-                                title: "Cita agendada con exito!",
-                                text: `La cita ha sido agendada satisfactoriamente el dia ${format(toZonedTime(date_time, "UTC"), "dd-MM-yyyy")} a las ${format(toZonedTime(date_time, "UTC"), "HH:mm")}`,
-                                icon: "success",
-                                confirmButtonText: "OK",
-                                customClass: {
-                                    confirmButton:
-                                        "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
-                                },
+                              title: "Cita agendada con exito!",
+                              text: `La cita ha sido agendada satisfactoriamente el dia ${format(
+                                toZonedTime(date_time, "UTC"),
+                                "dd-MM-yyyy"
+                              )} a las ${format(
+                                toZonedTime(date_time, "UTC"),
+                                "HH:mm"
+                              )}`,
+                              icon: "success",
+                              confirmButtonText: "Aceptar",
+                              background: "#1D1D1D", // Cambia este valor al color de fondo que prefieras
+                              customClass: {
+                                confirmButton:
+                                  "hover:scale-110 bg-greenD-500 text-black font-bold py-2 px-4 rounded",
+                                title: "text-greenD-500", // Cambia el color del texto del título
+                                popup: "text-white", // Cambia el color del texto del contenido
+                              },
                             }).then(() => {
-                                modalOpen(false);
-                                goNext()
+                              modalOpen(false);
+                              goNext();
                             });
                         }
                     }).catch(error => {
                         Swal.fire({
-                            title: "Error!",
-                            html: `Ha ocurrido un error al agendar la cita.\n<ul>${error.response}</ul>`,
-                            icon: "error",
-                            confirmButtonText: "OK",
-                            customClass: {
-                                confirmButton:
-                                    "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
-                            },
-                        })
+                          title: "Error!",
+                          html: `Ha ocurrido un error al agendar la cita.\n<ul>${error.response}</ul>`,
+                          icon: "error",
+                          confirmButtonText: "Aceptar",
+                          background: "#1D1D1D", // Cambia este valor al color de fondo que prefieras
+                          customClass: {
+                            confirmButton:
+                              "hover:scale-110 bg-greenD-500 text-black font-bold py-2 px-4 rounded",
+                            title: "text-red-500", // Cambia el color del texto del título
+                            popup: "text-white", // Cambia el color del texto del contenido
+                          },
+                        });
 
                     });
 

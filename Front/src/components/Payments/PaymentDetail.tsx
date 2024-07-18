@@ -61,7 +61,7 @@ const PaymentDetail: React.FC<PaymentDetailProps> = ({ payment_id }) => {
   return (
     <div>
       {paymentDetail && (
-        <div className="flex flex-col gap-1 bg-darkD-500  rounded-[5px]">
+        <div className="flex flex-col gap-1  rounded-[5px]">
           <div className=" p-3 flex items-center justify-center gap-1">
             <Image
               src="https://res.cloudinary.com/ddpohfyur/image/upload/v1720201326/recetass_si2se4.svg"

@@ -52,17 +52,19 @@ const Login = () => {
           "userSession",
           JSON.stringify({ token: token, userData })
         );
-        await Swal.fire({
-          title: "¡Excelente!",
-          text: `${userData.first_name}, has iniciado sesión correctamente.`,
-          icon: "success",
-          confirmButtonText: "Aceptar",
-          customClass: {
-            confirmButton:
-              "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
-          },
-        });
-
+    await Swal.fire({
+      title: "¡Excelente!",
+      text: `${userData.first_name}, has iniciado sesión correctamente.`,
+      icon: "success",
+      confirmButtonText: "Aceptar",
+      background: "#1D1D1D", // Cambia este valor al color de fondo que prefieras
+      customClass: {
+        confirmButton:
+          "hover:scale-110 bg-greenD-500 text-black font-bold py-2 px-4 rounded",
+        title: "text-greenD-500", // Cambia el color del texto del título
+        popup: "text-white", // Cambia el color del texto del contenido
+      },
+    });
         const decodedToken: {
           id: string;
           email: string;
@@ -88,6 +90,13 @@ const Login = () => {
           text: "Hubo un problema al iniciar sesión. Por favor, intente de nuevo.",
           icon: "error",
           confirmButtonText: "Aceptar",
+          background: "#1D1D1D", // Cambia este valor al color de fondo que prefieras
+          customClass: {
+            confirmButton:
+              "hover:scale-110 bg-greenD-500 text-black font-bold py-2 px-4 rounded",
+            title: "text-red-500", // Cambia el color del texto del título
+            popup: "text-white", // Cambia el color del texto del contenido
+          },
         });
       }
     }

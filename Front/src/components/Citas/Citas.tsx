@@ -41,11 +41,14 @@ const Citas: React.FC<CitasProps> = ({
         showCancelButton: true,
         confirmButtonText: "Sí, cancelar",
         cancelButtonText: "No, mantener",
+        background: "#1D1D1D",
         customClass: {
           confirmButton:
-            "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
+            "hover:scale-105 bg-greenD-500 text-black font-bold py-2 px-4 rounded",
           cancelButton:
-            "hover:bg-gray-300 text-black font-bold py-2 px-4 rounded",
+            "hover:scale-105 bg-red-500 text-black font-bold py-2 px-4 rounded",
+          title: "text-greenD-500", // Cambia el color del texto del título
+          popup: "text-white", // Cambia el color del texto del contenido
         },
       });
 
@@ -57,9 +60,12 @@ const Citas: React.FC<CitasProps> = ({
             text: "La cita ha sido cancelada correctamente",
             icon: "success",
             confirmButtonText: "Aceptar",
+            background: "#1D1D1D", // Cambia este valor al color de fondo que prefieras
             customClass: {
               confirmButton:
-                "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
+                "hover:scale-110 bg-greenD-500 text-black font-bold py-2 px-4 rounded",
+              title: "text-greenD-500", // Cambia el color del texto del título
+              popup: "text-white", // Cambia el color del texto del contenido
             },
           });
           const canceledAppointment = futureAppointments.find(

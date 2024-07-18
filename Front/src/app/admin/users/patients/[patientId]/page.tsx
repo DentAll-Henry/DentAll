@@ -73,8 +73,9 @@ const DetailsId = ({ params }: { params: { patientId: string } }) => {
         {/* CONTENEDOR DEL INFORMACION DEL PACIENTE */}
         <div className="flex flex-col bg-darkD-500 gap-5 p-10 rounded-xl">
           <div className="flex flex-row justify-between pr-30">
-            <div className="flex flex-row items-center gap-8">
+            <div className="flex flex-row items-center gap-8 rounded-full">
               <img
+              className="rounded-full"
                 src={patient?.person.photo}
                 alt="perfil del paciente"
                 width={80}

@@ -49,7 +49,7 @@ const Services = () => {
             Editar servicios
           </h2>
           <div
-            className="flex bg-greenD-500 items-center p-1 rounded cursor-pointer"
+            className="flex bg-greenD-500 items-center p-2 font-semibold text-black rounded cursor-pointer"
             onClick={() => setIsModalOpen(true)} // Abrir modal al hacer clic
           >
             Agregar servicios +
@@ -75,7 +75,7 @@ const Services = () => {
               >
                 <p className="text-base text-white font-bold">{service.name}</p>
                 <p className="text-sm text-white">{service.description}</p>
-                <button onClick={() => handleDelete(service.id)}>
+                <button className="text-black " onClick={() => handleDelete(service.id)}>
                   {service.isActive ? "Dar de baja" : "Dar de alta"}
                 </button>
               </div>
