@@ -183,7 +183,7 @@ export class AuthService {
     return await this.authRepository.changePass(authToUpdate);
   }
 
-  async updatePerson(role: Roles, infoToUpdate: { id: string, phone?: string, email?: string, address?: string, location?: string, password: string }){
+  async updatePerson(role: Roles, infoToUpdate: { id: string, phone?: string, email?: string, address?: string, location?: string, password?: string }){
     const { id, password, ...infoPersonToUpdate } = infoToUpdate;
 
     const person: Person = await this.peopleService.personById(id);
@@ -192,8 +192,10 @@ export class AuthService {
     const credentials: Auth = person.auth as Auth;
     if(!credentials) throw new BadRequestException('Error en la solicitud.')
       
-    const isPassCorrect: boolean = await ComparePass(password, credentials.password);
-    if (!isPassCorrect) throw new BadRequestException('No se puede proceder con la solicitud. Información incorrecta.');
+    if(!person.is_auth0) {
+      const isPassCorrect: boolean = await ComparePass(password, credentials.password);
+      if (!isPassCorrect) throw new BadRequestException('No se puede proceder con la solicitud. Información incorrecta.');
+    }
 
     const personUpdated: Person = await this.peopleService.updatePerson(person.id, infoPersonToUpdate);
 
