@@ -57,7 +57,8 @@ const FormModal = ({
   useEffect(() => {
     const getDentalServices = async () => {
       const response = await axiosInstance.get("/dental-serv?page=1&limit=100");
-      setDentalServices(response.data.services);
+      const servicesActive = response.data.services.filter((s: Service) => s.isActive)
+      setDentalServices(servicesActive);
     };
     getDentalServices();
   }, []);
