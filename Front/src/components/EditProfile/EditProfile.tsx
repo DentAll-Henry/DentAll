@@ -17,6 +17,7 @@ type User = {
   address: string;
   location: string;
   nationality: string;
+  is_auth0: boolean;
   [key: string]: any;
 };
 
@@ -26,7 +27,6 @@ type DataUser = {
   address: string;
   location: string;
   password: string;
-  confirmPass: string;
   nationality: string;
 };
 
@@ -36,7 +36,6 @@ type ErrorDataUser = {
   address?: string;
   location?: string;
   password?: string;
-  confirmPass?: string;
   nationality?: string;
 };
 
@@ -51,7 +50,6 @@ const EditProfile = () => {
     nationality: "",
     location: "",
     password: "",
-    confirmPass: "",
   });
   const [errorUser, setErrorUser] = useState<ErrorDataUser>({
     phone: "",
@@ -60,7 +58,6 @@ const EditProfile = () => {
     address: "",
     location: "",
     password: "",
-    confirmPass: "",
   });
 
   useEffect(() => {
@@ -76,7 +73,6 @@ const EditProfile = () => {
         location: parsedUser.userData.location,
         nationality: parsedUser.userData.location,
         password: "",
-        confirmPass: "",
       });
       setAuthToken(parsedUser.token);
     } else {
@@ -99,9 +95,9 @@ const EditProfile = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log("handleSubmit llamado");
-    const errors = updateRegisterForm(dataUser);
+    const errors = updateRegisterForm(dataUser, user?.is_auth0);
     setErrorUser(errors);
-
+      
     if (Object.keys(errors).length === 0) {
       try {
         const response = await axiosInstance.patch("/auth/updateperson", {
@@ -308,28 +304,32 @@ const EditProfile = () => {
                 <p className="text-red-500">{errorUser.location}</p>
               )}
             </div>
-            <div className="mt-4">
-
-              <p>Corfirma tu contraseña para guardar los cambios</p>
-            </div>
-            <div className="w-full">
-              <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
-                CONTRASEÑA
-              </label>
-              <input
-                type="password"
-                className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#FFF] w-full text-black"
-                placeholder="Contraseña"
-                value={dataUser.password}
-                id="password"
-                name="password"
-                required
-                onChange={handleChange}
-              />
-              {errorUser.password && (
-                <p className="text-red-500">{errorUser.password}</p>
-              )}
-            </div>
+            {
+              !user?.is_auth0 && 
+                <div className="flex w-full flex justify-center md:col-span-2">
+                <div className="w-full">
+                  <p>Corfirma tu contraseña para guardar los cambios</p>
+                </div>
+                <div className="w-full">
+                  <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
+                    CONTRASEÑA
+                  </label>
+                  <input
+                    type="password"
+                    className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#FFF] w-full text-black"
+                    placeholder="Contraseña"
+                    value={dataUser.password}
+                    id="password"
+                    name="password"
+                    required
+                    onChange={handleChange}
+                  />
+                  {errorUser.password && (
+                    <p className="text-red-500">{errorUser.password}</p>
+                  )}
+                </div>
+                </div>
+            }
             {/* <div className="w-full">
               <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
                 REPETIR CONTRASEÑA
