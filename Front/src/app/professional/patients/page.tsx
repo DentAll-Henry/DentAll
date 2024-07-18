@@ -10,6 +10,7 @@ function page() {
         <NavDash />
         
         <div className="m-8 p-4 mt-24">
+        <h1 className="text-2xl my-4">Lista de Pacientes</h1>
             <PatientsList/>
             
         </div>
