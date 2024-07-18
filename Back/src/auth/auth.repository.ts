@@ -19,7 +19,9 @@ export class AuthRepository {
         id: true,
         email: true,
         password: true,
+        deleteDate: true
       },
+      withDeleted: true,
     });
     return credential;
   }
@@ -61,5 +63,24 @@ export class AuthRepository {
 
   async changePass(authToUpdate: Auth) {
     return this.authRepository.save(authToUpdate);
+  }
+
+  async changeStatus(credential: Auth, action: string) {
+    const email = credential.email;
+    if(action === 'activate') {
+      const authToRestore: Auth = await this.authRepository
+        .createQueryBuilder('auth')
+        .withDeleted()
+        .where('auth.email = :email', { email })
+        .andWhere('auth.deleteDate IS NOT NULL')
+        .select(['auth.password', 'auth.id'])
+        .getOne()
+
+      await this.authRepository.restore(authToRestore);
+    } else if (action === 'deactivate') {
+      await this.authRepository.softDelete(credential.id);
+    } else {
+      
+    }
   }
 }

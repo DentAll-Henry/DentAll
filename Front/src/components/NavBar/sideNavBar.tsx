@@ -56,7 +56,6 @@ const handleLogout = () => {
   }).then((result) => {
     if (result.isConfirmed) {
       const url = `https://${domain}/v2/logout?client_id=${clientId}&returnTo=${returnTo}/api/auth/logout`;
-      console.log(url);
       router.push(url);
     }
   });

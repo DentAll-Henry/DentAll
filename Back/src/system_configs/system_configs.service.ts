@@ -11,7 +11,6 @@ export class SystemConfigsService {
 
   async onModuleInit() {
     const response = await this.systemConfigsRepository.seedSystemConfigsSeeder();
-    console.log(response)
   }
 
   findAll() {

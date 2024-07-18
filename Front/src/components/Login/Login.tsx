@@ -26,7 +26,6 @@ const Login = () => {
   });
 
   useEffect(() => {
-    console.log("Componente Login renderizado");
     const userSession = localStorage.getItem("userSession");
     if (userSession) {
       router.push("/patients");
@@ -49,7 +48,6 @@ const Login = () => {
       try {
         const response = await login(dataUser);
         const { token, userData } = response;
-        console.log(response);
         localStorage.setItem(
           "userSession",
           JSON.stringify({ token: token, userData })
@@ -72,7 +70,6 @@ const Login = () => {
           iat: Date;
           roles: string;
         } = decodeJWT(token);
-        console.log(decodedToken);
 
         if (decodedToken?.roles === "patient") {
           router.push("/patients");
@@ -86,7 +83,6 @@ const Login = () => {
           router.push("/");
         }
       } catch (error: any) {
-        console.log(error);
         Swal.fire({
           title: "Error",
           text: "Hubo un problema al iniciar sesión. Por favor, intente de nuevo.",

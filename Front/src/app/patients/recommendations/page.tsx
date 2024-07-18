@@ -12,12 +12,11 @@ const page: React.FC = () => {
       <div className="space-y-4">
         <div className="w-[90%] m-auto flex rounded text-black bg-greenD-500">
           <div className="p-8 w-[50%]  ">
-            <h1 className="text-3xl font-bold mb-4">Mi Video de YouTube</h1>
-            <YouTubeVideo videoId="https://youtu.be/p2KiPXjVOFc" />
+            <YouTubeVideo videoId="p2KiPXjVOFc" />
           </div>
           <div className="w-[50%] p-8 space-y-4">
-            <div className="text-center text-2xl font-bold">
-              ¿Como cepillarse los dientes?
+            <div className="text-center text-xl font-bold">
+              Tecnica correcta para el cepillado de dientes
             </div>
             <ul className="list-disc list-inside">
               <li>Usa un cepillo de cerdas suaves y cambia cada 3 meses.</li>
@@ -41,17 +40,11 @@ const page: React.FC = () => {
 
         <div className="w-[90%] m-auto flex rounded text-black bg-white">
           <div className="p-8 w-[50%]  ">
-            <VideoPlayer
-              src="https://res.cloudinary.com/ddpohfyur/video/upload/v1720191340/-c598-455d-af3c-ae7342691c4b_lntmww.mp4"
-              type="video/mp4"
-              controls
-              loop
-              muted
-            />
+            <YouTubeVideo videoId="EsoM0NGNuqc" />
           </div>
           <div className="w-[50%] p-4 space-y-4">
-            <div className="text-center text-2xl font-bold">
-              ¿Como usar el hilo dental?
+            <div className="text-center text-xl font-bold">
+              Uso adecuado del hilo dental
             </div>
             <ul className="list-disc list-inside">
               <li>Corta aproximadamente 45 cm de hilo dental.</li>
@@ -81,80 +74,44 @@ const page: React.FC = () => {
         <div className="bg-darkD-500 p-4">
           <div className=" ">
             {" "}
-            <VideoPlayer
-              src="https://res.cloudinary.com/ddpohfyur/video/upload/v1720190304/video_Recomendaciones_0_eb62cw.mp4"
-              type="video/mp4"
-              controls
-              loop
-              muted
-            />
+            <YouTubeVideo videoId="PRceDrPaMZ8" />
           </div>
-          <h2>¿Qué es y cuando se realiza una incrustacion dental?</h2>
+          <h2>¿Sabías que muchas bebidas pueden dañar tus dientes? </h2>
         </div>
         <div className="bg-darkD-500 p-4">
           <div className=" ">
             {" "}
-            <VideoPlayer
-              src="https://res.cloudinary.com/ddpohfyur/video/upload/v1720191340/-c598-455d-af3c-ae7342691c4b_lntmww.mp4"
-              type="video/mp4"
-              controls
-              loop
-              muted
-            />
+            <YouTubeVideo videoId="g3KoKg8QznI" />
           </div>
-          <h2>¿Qué es y cuando se realiza una incrustacion dental?</h2>
+          <h2>Que es la placa bacteriana?</h2>
         </div>
         <div className="bg-darkD-500 p-4">
           <div className=" ">
             {" "}
-            <VideoPlayer
-              src="https://res.cloudinary.com/ddpohfyur/video/upload/v1720191575/-2760-4c41-a5d0-50059eb56156_qnljux.mp4"
-              type="video/mp4"
-              controls
-              loop
-              muted
-            />
+            <YouTubeVideo videoId="KD_MBshYlOw" />
           </div>
-          <h2>¿Qué es y cuando se realiza una incrustacion dental?</h2>
+          <h2>Incrustaciones dentales - Restauración dental</h2>
         </div>
         <div className="bg-darkD-500 p-4">
           <div className=" ">
             {" "}
-            <VideoPlayer
-              src="https://res.cloudinary.com/ddpohfyur/video/upload/v1720191340/-c598-455d-af3c-ae7342691c4b_lntmww.mp4"
-              type="video/mp4"
-              controls
-              loop
-              muted
-            />
+            <YouTubeVideo videoId="rXSYbcDbelM" />
           </div>
-          <h2>¿Qué es y cuando se realiza una incrustacion dental?</h2>
+          <h2>Implante, Pilar y Corona</h2>
         </div>
         <div className="bg-darkD-500 p-4">
           <div className=" ">
             {" "}
-            <VideoPlayer
-              src="https://res.cloudinary.com/ddpohfyur/video/upload/v1720191575/-2760-4c41-a5d0-50059eb56156_qnljux.mp4"
-              type="video/mp4"
-              controls
-              loop
-              muted
-            />
+            <YouTubeVideo videoId="at5vyO-HjWM" />
           </div>
-          <h2>¿Qué es y cuando se realiza una incrustacion dental?</h2>
+          <h2>Periodontitis - Enfermedad de las Encias</h2>
         </div>
         <div className="bg-darkD-500 p-4">
           <div className=" ">
             {" "}
-            <VideoPlayer
-              src="https://res.cloudinary.com/ddpohfyur/video/upload/v1720191340/-c598-455d-af3c-ae7342691c4b_lntmww.mp4"
-              type="video/mp4"
-              controls
-              loop
-              muted
-            />
+            <YouTubeVideo videoId="uXeGjo54TVQ" />
           </div>
-          <h2>¿Qué es y cuando se realiza una incrustacion dental?</h2>
+          <h2>¿Qué es Caries Dental ?</h2>
         </div>
       </div>
     </div>

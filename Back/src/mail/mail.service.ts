@@ -22,8 +22,6 @@ export class MailService {
       subject,
       html,
     });
-
-    console.log(aa);
   }
 
   // async sendMail(to: string, subject: string, template: string, context: any) {

@@ -4,6 +4,7 @@ import axiosInstance from "@/utils/axiosInstance";
 import { ErrorMessage } from "formik";
 import Select from "react-select";
 import { Service } from "@/types";
+import Swal from "sweetalert2";
 
 type CloseFunction = () => void;
 
@@ -29,29 +30,32 @@ const FormModal = ({
       ...formData,
       [name]: value,
     });
-    console.log(`${name}: ${value}`);
-    console.log(formData);
   };
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    console.log("Form data:", formData);
     const response = await axiosInstance.post(
       "/appointments/pending_appointment",
       formData
     );
-    console.log(response.data);
-    onClose(); // Cerrar el modal después de enviar el formulario
+    onClose();
+    await Swal.fire({
+      title: "¡Excelente!",
+      text: "Nueva orden creada.",
+      icon: "success",
+      confirmButtonText: "Aceptar",
+      customClass: {
+        confirmButton:
+          "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
+      },
+    });
   };
 
   useEffect(() => {
     const getDentalServices = async () => {
       const response = await axiosInstance.get("/dental-serv?page=1&limit=100");
-      console.log("--> Acá Carlos <--");
-      console.log(response.data.services);
       setDentalServices(response.data.services);
     };
-
     getDentalServices();
   }, []);
 
@@ -140,10 +144,10 @@ const FormModal = ({
               })}
             />
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col ">
             <label> Descripción:</label>
             <textarea
-              className="text-black"
+              className="text-black rounded"
               name="description"
               value={formData.description}
               onChange={handleInputChange}

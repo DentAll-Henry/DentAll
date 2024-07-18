@@ -90,6 +90,7 @@ export class PeopleRepository {
         'person.email',
         'person.deleteDate',
         'person.photo',
+        'person.is_active'
       ])
       .leftJoinAndSelect('person.roles', 'roles')
       .getOne();
@@ -117,6 +118,7 @@ export class PeopleRepository {
         'person.email',
         'person.deleteDate',
         'person.photo',
+        'person.is_active'
       ])
       .leftJoinAndSelect('person.roles', 'roles')
       .leftJoinAndSelect('person.auth', 'auth')

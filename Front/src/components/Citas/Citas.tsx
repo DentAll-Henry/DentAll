@@ -1,13 +1,16 @@
-"use client"
-import { format } from "date-fns"
-import { toZonedTime } from "date-fns-tz"
-import axios from "axios"
-import { enviroment } from "@/utils/config"
-import { useState } from "react"
-import Swal from "sweetalert2"
-import "sweetalert2/dist/sweetalert2.min.css"
-import { Appointment } from "@/types"
-import axiosInstance from "@/utils/axiosInstance"
+"use client";
+import { format } from "date-fns";
+import { toZonedTime } from "date-fns-tz";
+import axios from "axios";
+import { enviroment } from "@/utils/config";
+import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
+import "sweetalert2/dist/sweetalert2.min.css";
+import { Appointment } from "@/types";
+import axiosInstance from "@/utils/axiosInstance";
+import { handlePayment } from "@/helpers/handlePayment";
+import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
+import Link from "next/link";
 
 type CitasProps = {
   futureAppointments: Appointment[]
@@ -26,7 +29,8 @@ const Citas: React.FC<CitasProps> = ({
 }) => {
   const [canceledAppointments, setCanceledAppointments] = useState<
     Appointment[]
-  >([])
+  >([]);
+  const [preferenceId, setPreferenceId] = useState<{ preferenceId: string, appointmentId: string } | null>(null);
 
   const handleCancelAppointment = async (id: string) => {
     try {
@@ -76,6 +80,20 @@ const Citas: React.FC<CitasProps> = ({
     }
   }
 
+  useEffect(() => {
+    initMercadoPago(enviroment.mercadopagoPublicKey, {
+      locale: "en-US",
+    });
+  }, []);
+
+  const getPreferenceId = async (patient: string, appointment_id: string): Promise<string> => {
+    const preference = await handlePayment(
+      patient,
+      appointment_id
+    );
+    return preference.preferenceId
+  }
+
   return (
     <div className="mx-8 mt-4 h-screen">
       <div className="flex flex-col gap-2">
@@ -103,18 +121,43 @@ const Citas: React.FC<CitasProps> = ({
             </div>
             <div className="w-[30%] px-4 py-2">{appointment.service.name}</div>
             <div
-              className={`w-[10%] px-2 py-2 ${
-                appointment.payment ? "bg-[#00FB5E]" : "bg-[#FFAF44]"
-              } rounded-md text-black font-medium text-center`}
+              className={`w-[10%] px-2 py-2 ${appointment.payment ? "bg-[#00FB5E]" : "bg-[#FFAF44]"
+                } rounded-md text-black font-medium text-center`}
             >
-              {appointment.payment ? "Completado" : "Pendiente"}
+              {appointment.payment ? "Completado" : (
+                <>
+                  <Link
+                    href={`#`}
+                    onClick={async () => {
+                      setPreferenceId(null)
+                      const preferenceId = await getPreferenceId(appointment.patient.id, appointment.id)
+                      setPreferenceId({
+                        preferenceId,
+                        appointmentId: appointment.id
+                      })
+                    }}
+                  >
+                    {preferenceId?.preferenceId && preferenceId?.appointmentId === appointment.id ? (
+                      <>
+                        {<Wallet
+                          initialization={{ preferenceId: preferenceId?.preferenceId }} />}
+                      </>
+                    ) : "Pendiente"}
+
+                  </Link>
+
+                </>
+              )}
             </div>
-            <div
-              onClick={() => handleCancelAppointment(appointment.id)}
-              className="w-[16%] px-4 py-2 rounded-md bg-[#FF2F44] text-center cursor-pointer"
-            >
-              cancelar
-            </div>
+            {
+              !appointment.payment &&
+              <div
+                onClick={() => handleCancelAppointment(appointment.id)}
+                className="w-[16%] px-4 py-2 rounded-md bg-[#FF2F44] text-center cursor-pointer"
+              >
+                cancelar
+              </div>
+            }
           </div>
         ))}
 
@@ -137,7 +180,7 @@ const Citas: React.FC<CitasProps> = ({
           <div className="w-[30%] px-4 py-2">Tipo de consulta</div>
           <div className="w-[10%] px-2 py-2">Estado</div>
         </div>
-        {canceledAppointments.map((appointment) => (
+        {pastAppointments.map((appointment) => (
           <div key={appointment.id} className="flex flex-row rounded-md gap-1">
             <div className="w-[14%] px-4 py-2">
               {format(toZonedTime(appointment.date_time, "UTC"), "dd-MM-yyyy")}
@@ -145,10 +188,10 @@ const Citas: React.FC<CitasProps> = ({
             <div className="w-[9%] px-4 py-2">
               {format(toZonedTime(appointment.date_time, "UTC"), "HH:mm")}
             </div>
-            <div className="w-[20%] px-4 py-2">Dr.tanto tanto</div>
+            <div className="w-[20%] px-4 py-2">{`${appointment.dentist_id.person.first_name} ${appointment.dentist_id.person.last_name}`}</div>
             <div className="w-[30%] px-4 py-2">{appointment.service.name}</div>
-            <div className="w-[10%] px-2 py-2 bg-[#FF2F44] rounded-md text-black font-medium text-center">
-              Cancelado
+            <div className="w-[10%] px-2 py-2 bg-[#00CE90] rounded-md text-black font-medium text-center">
+              Atendido
             </div>
           </div>
         ))}

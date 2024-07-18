@@ -29,9 +29,8 @@ const MapComponent = () => {
       try {
         const data = await fetchMapData();
         setMapData(data);
-        console.log("Map data:", data);
       } catch (error) {
-        console.error("Error fetching map data:", error);
+        
       }
     };
 

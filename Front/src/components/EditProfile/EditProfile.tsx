@@ -17,6 +17,7 @@ type User = {
   address: string;
   location: string;
   nationality: string;
+  is_auth0: boolean;
   [key: string]: any;
 };
 
@@ -26,7 +27,6 @@ type DataUser = {
   address: string;
   location: string;
   password: string;
-  confirmPass: string;
   nationality: string;
 };
 
@@ -36,7 +36,6 @@ type ErrorDataUser = {
   address?: string;
   location?: string;
   password?: string;
-  confirmPass?: string;
   nationality?: string;
 };
 
@@ -51,7 +50,6 @@ const EditProfile = () => {
     nationality: "",
     location: "",
     password: "",
-    confirmPass: "",
   });
   const [errorUser, setErrorUser] = useState<ErrorDataUser>({
     phone: "",
@@ -60,11 +58,9 @@ const EditProfile = () => {
     address: "",
     location: "",
     password: "",
-    confirmPass: "",
   });
 
   useEffect(() => {
-    console.log("Componente EditProfile renderizado");
     const userSession = localStorage.getItem("userSession");
     if (userSession) {
       const parsedUser = JSON.parse(userSession);
@@ -76,7 +72,6 @@ const EditProfile = () => {
         location: parsedUser.userData.location,
         nationality: parsedUser.userData.location,
         password: "",
-        confirmPass: "",
       });
       setAuthToken(parsedUser.token);
     } else {
@@ -85,7 +80,6 @@ const EditProfile = () => {
   }, []);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("handleChange llamado");
     setDataUser({
       ...dataUser,
       [event.target.name]: event.target.value,
@@ -98,10 +92,9 @@ const EditProfile = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log("handleSubmit llamado");
-    const errors = updateRegisterForm(dataUser);
+    const errors = updateRegisterForm(dataUser, user?.is_auth0);
     setErrorUser(errors);
-
+      
     if (Object.keys(errors).length === 0) {
       try {
         const response = await axiosInstance.patch("/auth/updateperson", {
@@ -124,8 +117,11 @@ const EditProfile = () => {
             confirmButton:
               "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
           },
+        }).then((result) => {
+          if(result.isConfirmed) {
+            router.push("/users/account");
+          }
         });
-        router.push("/patients/appointments");
       } catch (error: any) {
         Swal.fire({
           title: "Error",
@@ -138,11 +134,9 @@ const EditProfile = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-darkD-500 m-8 p-4 mt-12">
-      <div className="flex flex-col w-full h-full justify-center items-center ">
+    <div className="flex justify-center items-center  bg-darkD-400 p-4 rounded">
         <div className="text-white p-8 w-full max-w-3xl">
-          <h2 className="text-xl mb-8 text-center">Información personal</h2>
-          <form
+          {/* <form
             onSubmit={handleSubmit}
             className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8"
           >
@@ -230,9 +224,9 @@ const EditProfile = () => {
                 onChange={handleChange}
               />
             </div>
-          </form>
+          </form> */}
 
-          <h2 className="text-xl mb-8 text-center">Información Requerida</h2>
+          <h2 className="text-xl mb-8 text-center">Editar información</h2>
           <form
             onSubmit={handleSubmit}
             className="grid grid-cols-1 md:grid-cols-2 gap-6"
@@ -310,24 +304,32 @@ const EditProfile = () => {
                 <p className="text-red-500">{errorUser.location}</p>
               )}
             </div>
-            <div className="w-full">
-              <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
-                CONTRASEÑA
-              </label>
-              <input
-                type="password"
-                className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#FFF] w-full text-black"
-                placeholder="Contraseña"
-                value={dataUser.password}
-                id="password"
-                name="password"
-                required
-                onChange={handleChange}
-              />
-              {errorUser.password && (
-                <p className="text-red-500">{errorUser.password}</p>
-              )}
-            </div>
+            {
+              !user?.is_auth0 && 
+                <div className="flex w-full flex justify-center md:col-span-2">
+                  <div className="w-full">
+                    <p>Corfirma tu contraseña para <br/> guardar los cambios</p>
+                  </div>
+                  <div className="w-full">
+                    <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
+                      CONTRASEÑA
+                    </label>
+                    <input
+                      type="password"
+                      className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#FFF] w-full text-black"
+                      placeholder="Contraseña"
+                      value={dataUser.password}
+                      id="password"
+                      name="password"
+                      required
+                      onChange={handleChange}
+                    />
+                    {errorUser.password && (
+                      <p className="text-red-500">{errorUser.password}</p>
+                    )}
+                  </div>
+                </div>
+            }
             {/* <div className="w-full">
               <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
                 REPETIR CONTRASEÑA
@@ -359,7 +361,7 @@ const EditProfile = () => {
           </form>
         </div>
       </div>
-    </div>
+    
   );
 };
 

@@ -64,7 +64,7 @@ export class UpdatePersonDto {
   })
   location?: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @ApiProperty({
     description: 'Confirm your current password',
     example: 'Pass*123',

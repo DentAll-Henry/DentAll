@@ -3,6 +3,8 @@ import {
   Controller,
   Delete,
   Get,
+  Param,
+  ParseUUIDPipe,
   Patch,
   Post,
   Req,
@@ -168,5 +170,19 @@ export class AuthController {
   updatePerson(@Req() req: Request, @Body() infoToUpdate: UpdatePersonDto) {
     const role: Roles = (req as any).userRoles;
     return this.authService.updatePerson(role, infoToUpdate);
+  }
+
+  @ApiBearerAuth()
+  @Patch('changestatus/:idperson')
+  @DRoles(Roles.ADMIN)
+  @UseGuards(AuthGuard, RolesGuard)
+  @ApiOperation({
+    summary:
+      'Activate or deactivate users.',
+  })
+  @ApiResponse({ status: 201, description: 'Information updated succesfully.' })
+  @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
+  changeStatus(@Param('idperson', ParseUUIDPipe) idperson: string) {
+    return this.authService.changeStatus(idperson);
   }
 }

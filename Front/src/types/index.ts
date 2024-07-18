@@ -66,7 +66,13 @@ export interface Appointment {
   id: string;
   date_time: string;
   description: string;
-  patient: string;
+  patient: {
+    id: string;
+    person: {
+      first_name: string;
+      last_name: string;
+    };
+  };
   payment: {
     id: string;
     date: string;
@@ -113,33 +119,34 @@ export interface personAppointments {
   id: string;
   date_time: string;
   description: string;
- 
+
 }
 
-export interface Patients{
-  id:string;
-  person:{
-    id:string;
-    first_name:string;
-    last_name:string;
-    birthdate:Date;
-    dni:string;
-    phone:string;
-    email:string;
-    address:string;
-    location:string;
-    nationality:string;
+export interface Patients {
+  id: string;
+  person: {
+    id: string;
+    first_name: string;
+    last_name: string;
+    birthdate: Date;
+    dni: string;
+    phone: string;
+    email: string;
+    address: string;
+    location: string;
+    nationality: string;
     is_auth0: boolean;
-    photo:string;
-    deleteDate:null;
+    photo: string;
+    deleteDate: null;
+    is_active: boolean;
     roles: {
       id: string;
       name: string;
       description: string
     }[]
   };
-  appointments:personAppointments[];
-  dentalRecord:null
+  appointments: personAppointments[];
+  dentalRecord: null
 }
 
 
@@ -148,7 +155,7 @@ export interface Dentist {
   rate: string;
   is_active: boolean;
   specialty: {
-    description:string;
+    description: string;
     id: string;
     name: string;
   };
@@ -191,95 +198,95 @@ export interface Dentist {
 }
 
 
-export interface PatientId{
+export interface PatientId {
   id: string;
-  person:{
-    id:string;
-    first_name:string;
-    last_name:string;
-    birthdate:Date;
-    dni:string;
-    phone:string;
-    email:string;
-    address:string;
-    location:string;
-    nationality:string;
+  person: {
+    id: string;
+    first_name: string;
+    last_name: string;
+    birthdate: Date;
+    dni: string;
+    phone: string;
+    email: string;
+    address: string;
+    location: string;
+    nationality: string;
     is_auth0: boolean;
-    photo:string;
-    deleteDate:null
+    photo: string;
+    deleteDate: null
   };
 
 }
 
-export interface DentistId{
-  id:string;
-  rate:string;
+export interface DentistId {
+  id: string;
+  rate: string;
   is_active: boolean;
-  description:string;
+  description: string;
   specialty: string | null;
-  person:{
-    id:string;
-    first_name:string;
-    last_name:string;
-    birthdate:Date;
-    dni:string;
-    phone:string;
-    email:string;
-    address:string;
-    location:string;
-    nationality:string;
+  person: {
+    id: string;
+    first_name: string;
+    last_name: string;
+    birthdate: Date;
+    dni: string;
+    phone: string;
+    email: string;
+    address: string;
+    location: string;
+    nationality: string;
     is_auth0: boolean;
-    photo:string;
-    deleteDate:null
+    photo: string;
+    deleteDate: null
   };
-  appointments:{
-    id:string;
-    date_time:string;
+  appointments: {
+    id: string;
+    date_time: string;
     description: string;
-    expiration_date:string | null; 
-  } [] 
+    expiration_date: string | null;
+  }[]
 }
 
 
 
 
 
-export interface AppointmentId{
-  id:string;
-  date_time:string;
+export interface AppointmentId {
+  id: string;
+  date_time: string;
   description: string;
-  expiration_date:string;
-  service:{
-    id:string;
-    name:string;
-    price:string;
+  expiration_date: string;
+  service: {
+    id: string;
+    name: string;
+    price: string;
     description: string;
     img: string | null;
     isActive: boolean;
   };
-  patient:{
-    id:string;
-    
+  patient: {
+    id: string;
+
   };
-  dentist_id:{
-    id:string;
-    rate:string;
+  dentist_id: {
+    id: string;
+    rate: string;
     is_active: boolean;
-    description:string;
-    person:{
-      id:string;
-      first_name:string;
-      last_name:string;
-      birthdate:Date;
-      dni:string;
-      phone:string;
-      email:string;
-      address:string;
-      location:string;
-      nationality:string;
+    description: string;
+    person: {
+      id: string;
+      first_name: string;
+      last_name: string;
+      birthdate: Date;
+      dni: string;
+      phone: string;
+      email: string;
+      address: string;
+      location: string;
+      nationality: string;
       is_auth0: boolean;
-      photo:string;
-      deleteDate:null;
+      photo: string;
+      deleteDate: null;
     }
   }
 
@@ -300,11 +307,11 @@ export interface RegisterAuth0Props {
   photo: string,
   is_auth0: boolean,
 }
-export interface PaymentId{
-  id:string;
-  date:Date;
-  payment_id:number;
-  payment_status:string;
+export interface PaymentId {
+  id: string;
+  date: Date;
+  payment_id: number;
+  payment_status: string;
   dentalServ: {
     id: string;
     name: string;
@@ -314,7 +321,7 @@ export interface PaymentId{
     isActive: boolean;
   }
   appointment: {
-    id:string;
+    id: string;
     date_time: string;
     description: string;
     expiration_date: string | null;
