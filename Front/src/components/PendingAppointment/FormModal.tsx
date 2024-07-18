@@ -4,6 +4,7 @@ import axiosInstance from "@/utils/axiosInstance";
 import { ErrorMessage } from "formik";
 import Select from "react-select";
 import { Service } from "@/types";
+import Swal from "sweetalert2";
 
 type CloseFunction = () => void;
 
@@ -40,8 +41,17 @@ const FormModal = ({
       "/appointments/pending_appointment",
       formData
     );
-    console.log(response.data);
-    onClose(); // Cerrar el modal después de enviar el formulario
+    onClose();
+    await Swal.fire({
+      title: "¡Excelente!",
+      text: "Nueva orden creada.",
+      icon: "success",
+      confirmButtonText: "Aceptar",
+      customClass: {
+        confirmButton:
+          "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
+      },
+    });
   };
 
   useEffect(() => {
