@@ -224,7 +224,7 @@ const ModalNuevaCita: React.FC<ModalCitaProps> = ({
                         if (response.status === 201) {
                             Swal.fire({
                                 title: "Cita agendada con exito!",
-                                text: `La cita ha sido agendada satisfactoriamente el dia ${format(toZonedTime(date_time, "UTC"), "dd-MM-yyyy")} a las ${format(toZonedTime(date_time, "UTC"), "HH:mm")}`,
+                                text: `La cita ha sido agendada satisfactoriamente.`,
                                 icon: "success",
                                 confirmButtonText: "OK",
                                 customClass: {

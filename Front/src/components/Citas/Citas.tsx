@@ -149,12 +149,15 @@ const Citas: React.FC<CitasProps> = ({
                 </>
               )}
             </div>
-            <div
-              onClick={() => handleCancelAppointment(appointment.id)}
-              className="w-[16%] px-4 py-2 rounded-md bg-[#FF2F44] text-center cursor-pointer"
-            >
-              cancelar
-            </div>
+            {
+              !appointment.payment &&
+              <div
+                onClick={() => handleCancelAppointment(appointment.id)}
+                className="w-[16%] px-4 py-2 rounded-md bg-[#FF2F44] text-center cursor-pointer"
+              >
+                cancelar
+              </div>
+            }
           </div>
         ))}
 
@@ -177,7 +180,7 @@ const Citas: React.FC<CitasProps> = ({
           <div className="w-[30%] px-4 py-2">Tipo de consulta</div>
           <div className="w-[10%] px-2 py-2">Estado</div>
         </div>
-        {canceledAppointments.map((appointment) => (
+        {pastAppointments.map((appointment) => (
           <div key={appointment.id} className="flex flex-row rounded-md gap-1">
             <div className="w-[14%] px-4 py-2">
               {format(toZonedTime(appointment.date_time, "UTC"), "dd-MM-yyyy")}
@@ -185,10 +188,10 @@ const Citas: React.FC<CitasProps> = ({
             <div className="w-[9%] px-4 py-2">
               {format(toZonedTime(appointment.date_time, "UTC"), "HH:mm")}
             </div>
-            <div className="w-[20%] px-4 py-2">Dr.tanto tanto</div>
+            <div className="w-[20%] px-4 py-2">{`${appointment.dentist_id.person.first_name} ${appointment.dentist_id.person.last_name}`}</div>
             <div className="w-[30%] px-4 py-2">{appointment.service.name}</div>
-            <div className="w-[10%] px-2 py-2 bg-[#FF2F44] rounded-md text-black font-medium text-center">
-              Cancelado
+            <div className="w-[10%] px-2 py-2 bg-[#00CE90] rounded-md text-black font-medium text-center">
+              Atendido
             </div>
           </div>
         ))}

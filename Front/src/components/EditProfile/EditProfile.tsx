@@ -117,8 +117,11 @@ const EditProfile = () => {
             confirmButton:
               "hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded",
           },
+        }).then((result) => {
+          if(result.isConfirmed) {
+            router.push("/users/account");
+          }
         });
-        router.push("/patients/appointments");
       } catch (error: any) {
         Swal.fire({
           title: "Error",
@@ -304,27 +307,27 @@ const EditProfile = () => {
             {
               !user?.is_auth0 && 
                 <div className="flex w-full flex justify-center md:col-span-2">
-                <div className="w-full">
-                  <p>Corfirma tu contraseña para guardar los cambios</p>
-                </div>
-                <div className="w-full">
-                  <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
-                    CONTRASEÑA
-                  </label>
-                  <input
-                    type="password"
-                    className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#FFF] w-full text-black"
-                    placeholder="Contraseña"
-                    value={dataUser.password}
-                    id="password"
-                    name="password"
-                    required
-                    onChange={handleChange}
-                  />
-                  {errorUser.password && (
-                    <p className="text-red-500">{errorUser.password}</p>
-                  )}
-                </div>
+                  <div className="w-full">
+                    <p>Corfirma tu contraseña para <br/> guardar los cambios</p>
+                  </div>
+                  <div className="w-full">
+                    <label className="text-[#ECEDF6] font-mulish text-[15px] font-medium leading-normal">
+                      CONTRASEÑA
+                    </label>
+                    <input
+                      type="password"
+                      className="flex h-[30px] px-[15px] py-[11px] items-start gap-[10px] self-stretch border border-gray-300 rounded-[1px] bg-[#FFF] w-full text-black"
+                      placeholder="Contraseña"
+                      value={dataUser.password}
+                      id="password"
+                      name="password"
+                      required
+                      onChange={handleChange}
+                    />
+                    {errorUser.password && (
+                      <p className="text-red-500">{errorUser.password}</p>
+                    )}
+                  </div>
                 </div>
             }
             {/* <div className="w-full">

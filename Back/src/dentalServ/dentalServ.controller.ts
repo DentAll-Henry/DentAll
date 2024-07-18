@@ -128,7 +128,7 @@ export class DentalServController {
 
   @ApiBearerAuth()
   @Post()
-  @DRoles(Roles.ADMIN, Roles.ADMINISTRATIVE)
+  @DRoles(Roles.ADMIN, Roles.ADMINISTRATIVE, Roles.DENTIST)
   @UseGuards(AuthGuard, RolesGuard)
   @ApiOperation({ summary: 'Create a new dental service' })
   @ApiResponse({ status: 201, description: 'Return created service' })
