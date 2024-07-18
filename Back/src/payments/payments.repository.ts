@@ -57,7 +57,7 @@ export class PaymentsRepository {
             id: service.id,
             currency_id: 'ARS', // moked for the moment
             title: service.name,
-            quantity: 0.5,
+            quantity: 1,
             unit_price: Number(service.price),
           },
         ],

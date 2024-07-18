@@ -106,7 +106,7 @@ function AdminPage() {
               </div>
             </Link>
 
-            
+            <Link href="#">
               <div className="flex flex-row">
                 <div className="flex justify-center bg-[#19CD56] p-4 w-[20%] rounded-tl-[10px] rounded-tr-0 rounded-br-0 rounded-bl-[10px]">
                   <Image
@@ -122,9 +122,9 @@ function AdminPage() {
                   <p className="text-sm">{totalAdmins?.total} Administrativos </p>
                 </div>
               </div>
-            
+              </Link>
 
-            
+              <Link href="#">
               <div className="flex flex-row">
                 <div className="flex justify-center bg-[#36A2EB] p-4 w-[20%] rounded-tl-[10px] rounded-tr-0 rounded-br-0 rounded-bl-[10px]">
                   <Image
@@ -140,7 +140,7 @@ function AdminPage() {
                   <p className="text-sm">{totalSuperAdmins?.total} SuperAdmin </p>
                 </div>
               </div>
-            
+              </Link>
 
 
           </div>
@@ -161,7 +161,7 @@ function AdminPage() {
                 height={40}
                 alt="Editar servicios"
               />
-              <p>Mis citas</p>
+              <p>Calendario de citas</p>
             </div>
           </Link>
 

@@ -58,8 +58,10 @@ function CardTotalDentist() {
   return (
     <div>
       {dentists.map((dentist) => (
+
         <div className="w-full flex flex-row gap-5" key={dentist.person.id}>
           <div className="w-[30%] p-3 flex flex-row gap-4 rounded-full">
+
             <Image
             className="rounded-full"
               src={dentist.person.photo}
@@ -76,10 +78,10 @@ function CardTotalDentist() {
           <div className="w-[18%] p-3">
             <p>{dentist.person.phone}</p>
           </div>
-          <div className="w-[23%] p-3">
+          <div className="w-[27%] p-3">
             <p>{dentist.person.email}</p>
           </div>
-          <div className="w-[28%] p-3  ">
+          <div className="w-[24%] p-3  ">
             <p className=" text-blue-500 rounded-sm px-1">
               {dentist.specialty.name}
             </p>

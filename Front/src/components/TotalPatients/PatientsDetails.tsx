@@ -8,7 +8,7 @@ import Swal from "sweetalert2";
 interface PatientsDetailsProps {
   patientId: string;
   tag: string;
-  folder: string;
+  text: string;
   title: string;
 }
 
@@ -16,7 +16,7 @@ const PatientsDetails = ({
   patientId,
   tag,
   title,
-  folder,
+  text,
   close,
 }: PatientsDetailsProps & { close: () => void }) => {
   const [open, setOpen] = useState(false);
@@ -58,7 +58,7 @@ const PatientsDetails = ({
   const handleClick = () => {
     const fetchHistory = async () => {
       if (patient?.person.email) {
-        const response = await getImages(`DentAll/${IsEmail}/${folder}`);
+        const response = await getImages(`DentAll/${IsEmail}/${tag}`);
         setHistory(response.data);
       }
     };
@@ -69,13 +69,13 @@ const PatientsDetails = ({
 
   const handleImageUpload = async (
     event: React.ChangeEvent<HTMLInputElement>,
-    folder: string
+    text: string
   ) => {
     const imageFile = event.target.files?.[0];
     if (imageFile) {
       const formData = new FormData();
       formData.append("file", imageFile);
-      formData.append("path", `DentAll/${IsEmail}/${folder}`);
+      formData.append("path", `DentAll/${IsEmail}/${tag}`);
       try {
         const upload = await axiosInstance.post("/files/upload", formData, {
           headers: {
@@ -125,7 +125,7 @@ const PatientsDetails = ({
           X
         </button>
         <div className="mb-4">
-          <h2 className="text-center text-xl font-semibold">Nueva orden</h2>
+          <h2 className="text-center text-xl font-semibold">{`${text}`}</h2>
         </div>
         <div className="flex justify-around mb-4 items-center text-center space-x-2">
           <button
@@ -170,7 +170,7 @@ const PatientsDetails = ({
                 name="profileImage"
                 accept="image/*"
                 className="hidden"
-                onChange={(event) => handleImageUpload(event, folder)}
+                onChange={(event) => handleImageUpload(event, tag)}
               />
             </label>
           </div>

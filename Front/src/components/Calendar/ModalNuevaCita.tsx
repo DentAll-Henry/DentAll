@@ -223,16 +223,11 @@ const ModalNuevaCita: React.FC<ModalCitaProps> = ({
                     }).then(response => {
                         if (response.status === 201) {
                             Swal.fire({
-                              title: "Cita agendada con exito!",
-                              text: `La cita ha sido agendada satisfactoriamente el dia ${format(
-                                toZonedTime(date_time, "UTC"),
-                                "dd-MM-yyyy"
-                              )} a las ${format(
-                                toZonedTime(date_time, "UTC"),
-                                "HH:mm"
-                              )}`,
-                              icon: "success",
-                              confirmButtonText: "Aceptar",
+
+                                title: "Cita agendada con exito!",
+                                text: `La cita ha sido agendada satisfactoriamente.`,
+                                icon: "success",
+                               confirmButtonText: "Aceptar",
                               background: "#1D1D1D", // Cambia este valor al color de fondo que prefieras
                               customClass: {
                                 confirmButton:
@@ -240,6 +235,7 @@ const ModalNuevaCita: React.FC<ModalCitaProps> = ({
                                 title: "text-greenD-500", // Cambia el color del texto del título
                                 popup: "text-white", // Cambia el color del texto del contenido
                               },
+
                             }).then(() => {
                               modalOpen(false);
                               goNext();

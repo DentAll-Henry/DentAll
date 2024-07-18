@@ -13,12 +13,12 @@ import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 import Link from "next/link";
 
 type CitasProps = {
-  futureAppointments: Appointment[];
-  pastAppointments: Appointment[];
-  fetchAppointments: () => void;
-  loadMoreAppointments: () => void;
-  loadMoreButton: boolean;
-};
+  futureAppointments: Appointment[]
+  pastAppointments: Appointment[]
+  fetchAppointments: () => void
+  loadMoreAppointments: () => void
+  loadMoreButton: boolean
+}
 
 const Citas: React.FC<CitasProps> = ({
   futureAppointments,
@@ -50,10 +50,10 @@ const Citas: React.FC<CitasProps> = ({
           title: "text-greenD-500", // Cambia el color del texto del título
           popup: "text-white", // Cambia el color del texto del contenido
         },
-      });
+      })
 
       if (result.isConfirmed) {
-        const response = await axiosInstance.delete(`/appointments/${id}`);
+        const response = await axiosInstance.delete(`/appointments/${id}`)
         if (response.status === 200) {
           Swal.fire({
             title: "¡Excelente!",
@@ -67,24 +67,24 @@ const Citas: React.FC<CitasProps> = ({
               title: "text-greenD-500", // Cambia el color del texto del título
               popup: "text-white", // Cambia el color del texto del contenido
             },
-          });
+          })
           const canceledAppointment = futureAppointments.find(
             (app) => app.id === id
-          );
+          )
           if (canceledAppointment) {
             setCanceledAppointments([
               ...canceledAppointments,
               canceledAppointment,
-            ]);
-            fetchAppointments();
+            ])
+            fetchAppointments()
           }
         }
       }
     } catch (error) {
-      alert("Error al cancelar la cita");
-      console.error(error);
+      alert("Error al cancelar la cita")
+      console.error(error)
     }
-  };
+  }
 
   useEffect(() => {
     initMercadoPago(enviroment.mercadopagoPublicKey, {
@@ -155,12 +155,15 @@ const Citas: React.FC<CitasProps> = ({
                 </>
               )}
             </div>
-            <div
-              onClick={() => handleCancelAppointment(appointment.id)}
-              className="w-[16%] px-4 py-2 rounded-md bg-[#FF2F44] text-center cursor-pointer"
-            >
-              cancelar
-            </div>
+            {
+              !appointment.payment &&
+              <div
+                onClick={() => handleCancelAppointment(appointment.id)}
+                className="w-[16%] px-4 py-2 rounded-md bg-[#FF2F44] text-center cursor-pointer"
+              >
+                cancelar
+              </div>
+            }
           </div>
         ))}
 
@@ -183,7 +186,7 @@ const Citas: React.FC<CitasProps> = ({
           <div className="w-[30%] px-4 py-2">Tipo de consulta</div>
           <div className="w-[10%] px-2 py-2">Estado</div>
         </div>
-        {canceledAppointments.map((appointment) => (
+        {pastAppointments.map((appointment) => (
           <div key={appointment.id} className="flex flex-row rounded-md gap-1">
             <div className="w-[14%] px-4 py-2">
               {format(toZonedTime(appointment.date_time, "UTC"), "dd-MM-yyyy")}
@@ -191,16 +194,17 @@ const Citas: React.FC<CitasProps> = ({
             <div className="w-[9%] px-4 py-2">
               {format(toZonedTime(appointment.date_time, "UTC"), "HH:mm")}
             </div>
-            <div className="w-[20%] px-4 py-2">Dr.tanto tanto</div>
+            <div className="w-[20%] px-4 py-2">{`${appointment.dentist_id.person.first_name} ${appointment.dentist_id.person.last_name}`}</div>
             <div className="w-[30%] px-4 py-2">{appointment.service.name}</div>
-            <div className="w-[10%] px-2 py-2 bg-[#FF2F44] rounded-md text-black font-medium text-center">
-              Cancelado
+            <div className="w-[10%] px-2 py-2 bg-[#00CE90] rounded-md text-black font-medium text-center">
+              Atendido
             </div>
           </div>
         ))}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Citas;
+export default Citas
+
