@@ -20,63 +20,62 @@ export async function getPatientId(id: string) {
       `${enviroment.apiUrl}/patients/${id}`
     );
     return response.data;
-  } catch (error: any) {
-    
-  }
+  } catch (error: any) {}
 }
 
 export async function getPatientDentistId(id: string) {
   try {
-    const response = await axiosInstance.get(
-      `/patients/${id}`
-    );
+    const response = await axiosInstance.get(`/patients/${id}`);
     return response.data;
-  } catch (error: any) {
-    
-  }
+  } catch (error: any) {}
 }
-
-
-
 
 export async function getTotalPatient() {
   try {
-    
-    const response = await axiosInstance.get(
-      `/patients/quantity`
-    );
+    const response = await axiosInstance.get(`/patients/quantity`);
     return response.data;
-  } catch (error: any) {
-    
-  }
+  } catch (error: any) {}
 }
 
 export async function getTotalDentist() {
   try {
-    
-    const response = await axiosInstance.get(
-      `/dentists/quantity`
-    );
+    const response = await axiosInstance.get(`/dentists/quantity`);
     return response.data;
-  } catch (error: any) {
-    
-  }
+  } catch (error: any) {}
 }
 
 export async function getTotalAdministrative() {
   try {
-    const response = await axiosInstance.get(`/people/administratives/quantity`);
+    const response = await axiosInstance.get(
+      `/people/administratives/quantity`
+    );
     return response.data;
-  } catch (error: any) {
-    
-  }
+  } catch (error: any) {}
 }
 
 export async function getTotalSuperAdmin() {
   try {
     const response = await axiosInstance.get(`/people/superadmins/quantity`);
     return response.data;
+  } catch (error: any) {}
+}
+
+export async function getPeopleByRole(role: string) {
+  try {
+    const userSession = localStorage.getItem("userSession");
+    const tokenInfo = userSession ? JSON.parse(userSession) : null;
+
+    const response = await axiosInstance.get(`/people/byrole/${role}`, {
+      headers: {
+        Authorization: `Bearer ${tokenInfo.token}`,
+      },
+    });
+
+    console.log(response.data);
+    console.log();
+
+    return response.data;
   } catch (error: any) {
-    
+    console.log(error);
   }
 }
