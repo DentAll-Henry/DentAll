@@ -1,11 +1,16 @@
-"use client"
+"use client";
 import NavDash from "@/components/NavBar/navDash";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import BarChart from "@/components/BarChart/BarChart";
 import { userSession } from "@/types";
-import { getTotalAdministrative, getTotalDentist, getTotalPatient, getTotalSuperAdmin } from "@/helpers/patients.helper";
+import {
+  getTotalAdministrative,
+  getTotalDentist,
+  getTotalPatient,
+  getTotalSuperAdmin,
+} from "@/helpers/patients.helper";
 
 interface TotalUsers {
   total: number;
@@ -18,12 +23,14 @@ function AdminPage() {
   const [totalPatients, setTotalPatients] = useState<TotalUsers | null>(null);
   const [totalDentists, setTotalDentists] = useState<TotalUsers | null>(null);
   const [totalAdmins, setTotalAdmins] = useState<TotalUsers | null>(null);
-    const [totalSuperAdmins, setTotalSuperAdmins] = useState<TotalUsers | null>(null);
+  const [totalSuperAdmins, setTotalSuperAdmins] = useState<TotalUsers | null>(
+    null
+  );
 
   // Obtener userSession de localStorage
   useEffect(() => {
-    if (typeof window !== 'undefined' && window.localStorage) {
-      const userData = localStorage.getItem('userSession');
+    if (typeof window !== "undefined" && window.localStorage) {
+      const userData = localStorage.getItem("userSession");
       setUserData(JSON.parse(userData!));
     }
   }, []);
@@ -46,22 +53,22 @@ function AdminPage() {
     fetchData();
   }, []);
 
-     // Obtener información de administrativos
-     useEffect(() => {
-      const fetchData = async () => {
-          const totalAdmin = await getTotalAdministrative();
-          setTotalAdmins(totalAdmin);
-      };
-      fetchData();
+  // Obtener información de administrativos
+  useEffect(() => {
+    const fetchData = async () => {
+      const totalAdmin = await getTotalAdministrative();
+      setTotalAdmins(totalAdmin);
+    };
+    fetchData();
   }, []);
 
   // Obtener información de superadmins
   useEffect(() => {
-      const fetchData = async () => {
-          const totalSuperAdmin = await getTotalSuperAdmin();
-          setTotalSuperAdmins(totalSuperAdmin);
-      };
-      fetchData();
+    const fetchData = async () => {
+      const totalSuperAdmin = await getTotalSuperAdmin();
+      setTotalSuperAdmins(totalSuperAdmin);
+    };
+    fetchData();
   }, []);
 
   return (
@@ -100,13 +107,15 @@ function AdminPage() {
                   />
                 </div>
                 <div className="bg-[#ffa0402e] w-[80%] p-4 rounded-tl-0 rounded-tr-[10px] rounded-br-[10px] rounded-bl-0">
-                  <p className="text-xs text-[#FF9F40B2] ">Total de profesionales</p>
+                  <p className="text-xs text-[#FF9F40B2] ">
+                    Total de profesionales
+                  </p>
                   <p className="text-sm">{totalDentists?.total} dentistas </p>
                 </div>
               </div>
             </Link>
 
-            <Link href="#">
+            <Link href="/admin/users/administrative">
               <div className="flex flex-row">
                 <div className="flex justify-center bg-[#19CD56] p-4 w-[20%] rounded-tl-[10px] rounded-tr-0 rounded-br-0 rounded-bl-[10px]">
                   <Image
@@ -118,13 +127,17 @@ function AdminPage() {
                   />
                 </div>
                 <div className="bg-[#19cd5541] w-[80%] p-4 rounded-tl-0 rounded-tr-[10px] rounded-br-[10px] rounded-bl-0">
-                  <p className="text-xs text-[#19CD56] ">Total de Administrativos</p>
-                  <p className="text-sm">{totalAdmins?.total} Administrativos </p>
+                  <p className="text-xs text-[#19CD56] ">
+                    Total de Administrativos
+                  </p>
+                  <p className="text-sm">
+                    {totalAdmins?.total} Administrativos{" "}
+                  </p>
                 </div>
               </div>
-              </Link>
+            </Link>
 
-              <Link href="#">
+            <Link href="/admin/users/super-admin">
               <div className="flex flex-row">
                 <div className="flex justify-center bg-[#36A2EB] p-4 w-[20%] rounded-tl-[10px] rounded-tr-0 rounded-br-0 rounded-bl-[10px]">
                   <Image
@@ -137,12 +150,12 @@ function AdminPage() {
                 </div>
                 <div className="bg-[#36a3eb43] w-[80%] p-4 rounded-tl-0 rounded-tr-[10px] rounded-br-[10px] rounded-bl-0">
                   <p className="text-xs text-[#36A2EB] ">Total de SuperAdmin</p>
-                  <p className="text-sm">{totalSuperAdmins?.total} SuperAdmin </p>
+                  <p className="text-sm">
+                    {totalSuperAdmins?.total} SuperAdmin{" "}
+                  </p>
                 </div>
               </div>
-              </Link>
-
-
+            </Link>
           </div>
 
           <div className="w-1/2 flex justify-center bg-[#1D1D1D] m-6 py-6 rounded-md">
@@ -151,7 +164,6 @@ function AdminPage() {
         </div>
 
         <div className="m-8 flex flex-row gap-4">
-          
           <Link className="w-1/4" href="/admin/appointments">
             <div className="flex-row bg-[#df37158b]  gap-4 py-3 gap-4 rounded-md border flex justify-center items-center hover:scale-105 transition-transform duration-300 mt-4">
               <Image
@@ -177,7 +189,6 @@ function AdminPage() {
               <p>Editar servicios</p>
             </div>
           </Link>
-
         </div>
       </div>
     </div>
