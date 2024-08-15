@@ -94,8 +94,7 @@ export interface Appointment {
     name: string;
     price: string;
   };
-};
-
+}
 
 export interface Service {
   id: string;
@@ -114,12 +113,10 @@ export interface VideoPlayerProps {
   muted?: boolean;
 }
 
-
 export interface personAppointments {
   id: string;
   date_time: string;
   description: string;
-
 }
 
 export interface Patients {
@@ -142,13 +139,12 @@ export interface Patients {
     roles: {
       id: string;
       name: string;
-      description: string
-    }[]
+      description: string;
+    }[];
   };
   appointments: personAppointments[];
-  dentalRecord: null
+  dentalRecord: null;
 }
-
 
 export interface Dentist {
   id: string;
@@ -197,7 +193,6 @@ export interface Dentist {
   }[];
 }
 
-
 export interface PatientId {
   id: string;
   person: {
@@ -213,9 +208,8 @@ export interface PatientId {
     nationality: string;
     is_auth0: boolean;
     photo: string;
-    deleteDate: null
+    deleteDate: null;
   };
-
 }
 
 export interface DentistId {
@@ -237,19 +231,15 @@ export interface DentistId {
     nationality: string;
     is_auth0: boolean;
     photo: string;
-    deleteDate: null
+    deleteDate: null;
   };
   appointments: {
     id: string;
     date_time: string;
     description: string;
     expiration_date: string | null;
-  }[]
+  }[];
 }
-
-
-
-
 
 export interface AppointmentId {
   id: string;
@@ -266,7 +256,6 @@ export interface AppointmentId {
   };
   patient: {
     id: string;
-
   };
   dentist_id: {
     id: string;
@@ -287,9 +276,8 @@ export interface AppointmentId {
       is_auth0: boolean;
       photo: string;
       deleteDate: null;
-    }
-  }
-
+    };
+  };
 }
 
 export interface RegisterAuth0Props {
@@ -304,8 +292,8 @@ export interface RegisterAuth0Props {
   address: string;
   location: string;
   nationality: string;
-  photo: string,
-  is_auth0: boolean,
+  photo: string;
+  is_auth0: boolean;
 }
 export interface PaymentId {
   id: string;
@@ -319,13 +307,33 @@ export interface PaymentId {
     description: string;
     img: string | null;
     isActive: boolean;
-  }
+  };
   appointment: {
     id: string;
     date_time: string;
     description: string;
     expiration_date: string | null;
-  }
-
+  };
 }
 
+export interface PersonInterface {
+  id: string;
+  first_name: string;
+  last_name: string;
+  birthdate: Date;
+  dni: string;
+  phone: string;
+  email: string;
+  address: string;
+  location: string;
+  nationality: string;
+  is_auth0: boolean;
+  photo: string;
+  deleteDate: null;
+  is_active: boolean;
+  roles: {
+    id: string;
+    name: string;
+    description: string;
+  }[];
+}
