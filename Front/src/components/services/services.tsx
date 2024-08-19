@@ -56,7 +56,7 @@ const Services = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 px-20 gap-8">
+        <div className="space-y-4 px-20 gap-8">
           {serviceData.map((service) => (
             <div key={service.id} className="flex flex-row">
               <div className="flex justify-center bg-darkD-400 p-4 w-[20%] rounded-tl-[10px] rounded-tr-0 rounded-br-0 rounded-bl-[10px]">
@@ -75,8 +75,8 @@ const Services = () => {
               >
                 <p className="text-base text-white font-bold">{service.name}</p>
                 <p className="text-sm text-white">{service.description}</p>
-                <button className="text-black " onClick={() => handleDelete(service.id)}>
-                  {service.isActive ? "Dar de baja" : "Dar de alta"}
+                <button className="text-black bg-darkD-400 w-[20%] rounded" onClick={() => handleDelete(service.id)}>
+                  {service.isActive ? "Desactivar" : "Activar"}
                 </button>
               </div>
               <div className="flex justify-center items-center bg-darkD-400 p-4 w-[20%] rounded-tr-[10px] rounded-tl-0 rounded-bl-0 rounded-br-[10px]">
