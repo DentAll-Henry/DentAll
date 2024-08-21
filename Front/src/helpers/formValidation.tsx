@@ -1,4 +1,6 @@
 import {
+  ChangePassErrorProps,
+  ChangePassProps,
   LoginErrorProps,
   LoginProps,
   NewServiceErrorProps,
@@ -277,6 +279,39 @@ export function updateRegisterForm(
   } else if (!regexValidations.localidad.test(values.location)) {
     errors.location =
       "City must be between 2 and 50 characters and only contain letters and spaces";
+  }
+
+  return errors;
+}
+
+export function changePassForm(
+  values: Partial<ChangePassProps>,
+): ChangePassErrorProps {
+  let errors: ChangePassErrorProps = {};
+
+  if (!values.currentPass) {
+    errors.currentPass = "Password is required";
+  } else if (!regexValidations.contrasena.test(values.currentPass)) {
+    errors.currentPass =
+      "Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, a number, and a special character";
+  }
+
+  if (!values.newPass) {
+    errors.newPass = "Password is required";
+  } else if (!regexValidations.contrasena.test(values.newPass)) {
+    errors.newPass =
+      "Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, a number, and a special character";
+  }
+
+  if (!values.confirmNewPass) {
+    errors.confirmNewPass = "Password is required";
+  } else if (!regexValidations.contrasena.test(values.confirmNewPass)) {
+    errors.confirmNewPass =
+      "Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, a number, and a special character";
+  }
+
+  if (values.newPass !== values.confirmNewPass) {
+    errors.confirmNewPass = "It is not equal to new password.";
   }
 
   return errors;
