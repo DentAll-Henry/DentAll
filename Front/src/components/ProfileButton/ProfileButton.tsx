@@ -137,6 +137,17 @@ export default function ProfileButton() {
             >
               Editar perfil
             </Link>
+            {
+              userData.userData.is_auth0===false && (
+                <Link
+                  href="/users/password"
+                  className="rounded block px-4 py-2 text-sm text-black bg-white hover:bg-gray-200"
+                >
+                  Cambiar constraseña
+                </Link>
+              )
+            }
+            
           </div>
           {showRolesDropdown && (
             <div className="py-1 space-y-1">
