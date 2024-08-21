@@ -228,7 +228,7 @@ export class AuthService {
     return person;
   }
 
-  async changePass(newPass: {email: string, currentPass: string, newPass: string, confirmNewPass: string }) {
+  async changePass(newPass: { email: string, currentPass: string, newPass: string, confirmNewPass: string }) {
     const authToUpdate: Auth = await this.credentialByEmail(newPass.email);
     
     if (!authToUpdate) throw new BadRequestException('Credenciales de acceso inválidas.');

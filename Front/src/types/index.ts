@@ -8,6 +8,18 @@ export interface LoginErrorProps {
   password?: string;
 }
 
+export interface ChangePassProps {
+  currentPass: string;
+  newPass: string;
+  confirmNewPass: string;
+}
+
+export interface ChangePassErrorProps {
+  currentPass?: string;
+  newPass?: string;
+  confirmNewPass?: string;
+}
+
 export interface RegisterProps {
   email: string;
   password: string;
