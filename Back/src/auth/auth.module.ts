@@ -6,9 +6,10 @@ import { AuthService } from './auth.service';
 import { AuthRepository } from './auth.repository';
 import { PeopleModule } from '../person/person.module';
 import { KnowRoleMiddleware } from './middlewares/knowRole'
+import { MailModule } from 'src/mail/mail.module';
 
 @Module({
-  imports: [PeopleModule, TypeOrmModule.forFeature([Auth])],
+  imports: [PeopleModule, MailModule, TypeOrmModule.forFeature([Auth])],
   controllers: [AuthController],
   providers: [AuthService, AuthRepository],
 })
