@@ -11,6 +11,7 @@ import PasswordInput from "../PasswordImput";
 import { decodeJWT } from "../../helpers/decodeJwt";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import Link from "next/link";
+import RestorePasswordModal from "../RestorePassword/RestorePassword";
 
 const Login = () => {
   const router = useRouter();
@@ -24,6 +25,8 @@ const Login = () => {
     email: "",
     password: "",
   });
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const userSession = localStorage.getItem("userSession");
@@ -163,11 +166,6 @@ const Login = () => {
                   <p className="text-red-500">{errorUser.password}</p>
                 )}
               </div>
-              <div className="w-full max-w-[100%] mt-2 flex justify-end">
-                <a href="#" className="text-[#00CE90] font-mulish text-[15px]">
-                  Olvidé mi contraseña
-                </a>
-              </div>
               <div className="w-full  mt-4 flex justify-center">
                 <button
                   type="submit"
@@ -179,6 +177,16 @@ const Login = () => {
                 </button>
               </div>
             </form>
+              <div
+                className="w-full max-w-[100%] mt-2 flex justify-end cursor-pointer"
+                onClick={() => setIsModalOpen(true)}
+              >
+                Olvidé mi contraseña
+              </div>
+              <RestorePasswordModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+              />
           </div>
           <div className="w-full max-w-[80%] text-[#00CE90] mt-8 flex flex-col items-center space-y-4">
             <p className="text-white">O inicia sesión con:</p>

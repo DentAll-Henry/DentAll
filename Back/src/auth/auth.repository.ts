@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { MoreThan, Repository } from 'typeorm';
 import { Auth } from './entities/auth.entity';
 import { ComparePass } from '../utils/comparePass';
 
@@ -9,6 +9,27 @@ export class AuthRepository {
   constructor(
     @InjectRepository(Auth) private authRepository: Repository<Auth>,
   ) {}
+
+  async credentialById(id: string) {
+    const auth: Auth = await this.authRepository.findOne({
+      where: {
+        id,
+      }
+    })
+
+    return auth;
+  }
+
+  async credentialByToken(token: string) {
+    const auth: Auth = await this.authRepository.findOne({
+      where: {
+        resetPasswordToken: token,
+        resetPasswordExpires: MoreThan(new Date()),
+      }
+    })
+
+    return auth;
+  }
 
   async credentialByEmail(email: string): Promise<Auth> {
     const credential: Auth = await this.authRepository.findOne({
@@ -26,7 +47,7 @@ export class AuthRepository {
     return credential;
   }
   
-  async signUp(signUpInfo: Omit<Auth, 'id'>): Promise<Auth> {
+  async signUp(signUpInfo: Omit<Auth, 'id' | 'resetPasswordToken' | 'resetPasswordExpires'>): Promise<Auth> {
     const emailExist: Auth = await this.authRepository.findOne({
       where: {
         email: signUpInfo.email,
@@ -35,6 +56,16 @@ export class AuthRepository {
     if (emailExist) throw new BadRequestException('Ya existe usuario registrado con ese email.');
     const credentialCreated: Auth = await this.authRepository.save(signUpInfo);
     return credentialCreated;
+  }
+
+  async updateAuth(authInfo: {id: string, email?: string, password?: string, resetPasswordToken?: string, resetPasswordExpires?: Date }) {
+    const auth: Auth = await this.credentialById(authInfo.id);
+    if (!auth) {
+      return;
+    }
+
+    const authUpdated: Auth = await this.authRepository.save(authInfo);
+    return authUpdated;
   }
 
   async deleteAuth(authToDelete: Auth) {

@@ -11,6 +11,8 @@ import { Roles } from 'src/role/enums/roles.enum';
 import { Role } from 'src/role/entities/role.entity';
 import { Dentist } from 'src/person/entities/dentist.entity';
 import { DentistsService } from 'src/person/dentist.service';
+import { environment } from 'src/config/environment';
+import { MailService } from 'src/mail/mail.service';
 
 @Injectable()
 export class AuthService {
@@ -20,6 +22,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
     private readonly dentistsService: DentistsService,
+    private readonly mailService: MailService,
   ) {}
 
   async credentialByEmail(email: string): Promise<Auth> {
@@ -28,7 +31,7 @@ export class AuthService {
 
   async signUp(
     personInfo: Partial<Person>,
-    signUpInfo: Omit<Auth, 'id'>,
+    signUpInfo: Omit<Auth, 'id' | 'resetPasswordToken' | 'resetPasswordExpires'>,
   ) {
     const personByEmailExist: Person =
       await this.peopleService.personByEmail(personInfo.email);
@@ -56,7 +59,7 @@ export class AuthService {
     });
   }
 
-  async signIn(signInInfo: Omit<Auth, 'id'>) {
+  async signIn(signInInfo: Omit<Auth, 'id' | 'resetPasswordToken' | 'resetPasswordExpires'>) {
     const credential: Auth =
       await this.credentialByEmail(signInInfo.email);
 
@@ -85,7 +88,7 @@ export class AuthService {
 
   async createDentist(
     personInfo: Partial<Person>,
-    signUpInfo: Omit<Auth, 'id'>,
+    signUpInfo: Omit<Auth, 'id' | 'resetPasswordToken' | 'resetPasswordExpires'>,
     dentistInfo: Partial<Dentist>,
   ) {
     const personByEmailExist: Person =
@@ -149,6 +152,64 @@ export class AuthService {
     return { succes: 'Authorized acces', token, userData: person };
   }
 
+  async requestRestorePassword(email: string) {
+    const auth: Auth = await this.credentialByEmail(email);
+    if(!auth) {
+      return;
+    }
+
+    const person: Person = await this.peopleService.personByEmail(email);
+
+    const authPayload = {
+      id: person.id,
+      email: person.email,
+    }
+
+    const token = this.jwtService.sign(authPayload, {
+      secret: this.configService.get<string>('JWT_SECRET'),
+    });
+
+    auth.resetPasswordToken = token;
+    auth.resetPasswordExpires = new Date(Date.now() + 3600000);
+    await this.authRepository.updateAuth(auth);
+
+    const resetUrl: string = `${environment.fronturl}restore-password?token=${token}`;
+
+    await this.mailService.sendMail(
+      auth.email,
+      'Restablecimiento de contraseña',
+      `Use el siguiente enlace para restablecer su contraseña: ${resetUrl}`
+    )
+
+    return 'Verifique su buzón de correo electrónico.'
+  }
+
+  async restorePassword(token: string, newPasswordInfo: { newPass: string, confirmNewPass: string }) {
+    const { newPass, confirmNewPass } = newPasswordInfo;
+
+    if(newPass !== confirmNewPass) {
+      throw new BadRequestException('La nueva contraseña y su confirmación deben ser iguales.')
+    }
+
+    const auth: Auth = await this.authRepository.credentialByToken(token);
+
+    if(!auth) {
+      throw new BadRequestException('El token no es válido o ya expiró.')
+    }
+
+    auth.password = await Hash(newPass);
+
+    const newCredential: Auth = await this.authRepository.updateAuth({
+      id: auth.id,
+      email: auth.email,
+      password: auth.password,
+      resetPasswordToken: null,
+      resetPasswordExpires: null,
+    })
+
+    return 'Contraseña restablecida.'
+  }
+
   async deleteAuth(authInfo: Partial<Auth>) {
     const authToDelte: Auth = await this.credentialByEmail(authInfo.email);
     if (!authToDelte) throw new BadRequestException(`No existen credenciales de acceso para el email ${authInfo.email}.`);
@@ -197,6 +258,7 @@ export class AuthService {
       if (!isPassCorrect) throw new BadRequestException('No se puede proceder con la solicitud. Información incorrecta.');
     }
 
+    await this.authRepository.updateAuth({ id: credentials.id, email: infoToUpdate.email });
     const personUpdated: Person = await this.peopleService.updatePerson(person.id, infoPersonToUpdate);
 
     const { auth, ...personToReturn } = personUpdated
