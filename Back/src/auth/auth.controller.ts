@@ -33,6 +33,7 @@ import { DRoles } from 'src/decorators/roles.decorator';
 import { Roles } from 'src/role/enums/roles.enum';
 import { AuthGuard } from './guards/auth.guard';
 import { CreateDentistPersonDto } from 'src/person/dtos/createDentistPerson.dto';
+import { RestorePasswordDto } from './dtos/restorePassword.dto';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -117,6 +118,22 @@ export class AuthController {
   @ApiBadRequestResponse({ status: 400, description: 'Bad request.' })
   changeRole(@Body() changeRoleInfo: ChangeRoleDto) {
     return this.authService.changeRole(changeRoleInfo);
+  }
+
+  @Post('request-restore-password')
+  @ApiOperation({ summary: 'Reuqest to restore password.' })
+  @ApiResponse({ status: 201, description: 'Return the link to restore password.' })
+  @ApiBadRequestResponse({ status: 400, description: 'Bad Request.' })
+  requestRestorePassword(@Body() email: AuthByEmailDto) {
+    return this.authService.requestRestorePassword(email.email);
+  }
+
+  @Post('restore-password/:token')
+  @ApiOperation({ summary: 'Restore password.' })
+  @ApiResponse({ status: 201, description: 'Password restored.' })
+  @ApiBadRequestResponse({ status: 400, description: 'Bad Request.' })
+  restorePassword(@Param('token') token: string, @Body() newPasswordInfo: RestorePasswordDto) {
+    return this.authService.restorePassword(token, newPasswordInfo);
   }
 
   @ApiBearerAuth()
