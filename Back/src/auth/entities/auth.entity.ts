@@ -24,6 +24,18 @@ export class Auth {
   })
   password: string;
 
+  @Column({
+    type: 'varchar',
+    nullable: true,
+  })
+  resetPasswordToken: string;
+
+  @Column({
+    type: Date,
+    nullable: true,
+  })
+  resetPasswordExpires: Date;
+
   @DeleteDateColumn({
     nullable: true,
   })
