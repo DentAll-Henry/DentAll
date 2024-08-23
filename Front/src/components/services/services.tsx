@@ -161,7 +161,7 @@ const Services = () => {
     <div>
       <section className="flex flex-col p-10 gap-5">
         
-        <div className="flex justify-between mx-[8%]">
+        <div className="flex justify-between ">
           <h2 className="text-[30px] text-white font-bold leading-normal">
             Editar servicios
           </h2>
@@ -173,7 +173,7 @@ const Services = () => {
           </div>
         </div>
 
-        <div className="space-y-4 px-20 gap-8">
+        {/* <div className="space-y-4 px-20 gap-8">
           {serviceData.map((service) => (
             <div key={service.id} className="flex flex-row">
               <div className="flex justify-center bg-darkD-400 p-4 w-[20%] rounded-tl-[10px] rounded-tr-0 rounded-br-0 rounded-bl-[10px]">
@@ -202,6 +202,33 @@ const Services = () => {
               </div>
             </div>
           ))}
+        </div> */}
+        <div >
+          <div className="flex flex-row gap-4 bg-[#f1f6ff3f] py-2 px-1 rounded text-sm">
+            <div className="w-[30%] h-auto">Nombre del servicio</div>
+            <div className="w-[50%] h-auto">Descripción</div>
+            <div className="w-[10%] h-auto">Precio</div>
+            <div className="w-[5%] h-auto">Acciones</div>
+          </div>
+          <div className="text-sm ">
+            {serviceData.map((service, index) => (
+              <div key={service.id}>
+                <div className="flex flex-row gap-4 py-2 px-1 rounded">
+                  <div className="w-[30%] h-auto text-[#1877F2]">{service.name}</div>
+                  <div className="w-[50%] h-auto">{service.description}</div>
+                  <div className="w-[10%] h-auto text-[#00FB5E]">$ {service.price}</div>
+                  <div className="w-[5%] h-auto">
+                    <Switch
+                      isOn={service.isActive}
+                      onToggle={() => handleToggle(service.id, service.isActive)}
+                    />
+                  </div>
+                </div>
+                {index < serviceData.length - 1 && <hr className="my-2 border-[#f1f6ff0a]" />}
+              </div>
+            ))}
+          </div>
+
         </div>
       </section>
 
