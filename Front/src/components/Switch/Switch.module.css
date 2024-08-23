@@ -1,0 +1,37 @@
+.switch {
+  width: 50px;
+  height: 25px;
+  border-radius: 25px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 2px;
+  transition: background-color 0.3s ease;
+  position: relative;
+}
+
+.switchOn {
+  background-color: #4caf50; /* Verde cuando está encendido */
+}
+
+.switchOff {
+  background-color: #ccc; /* Gris cuando está apagado */
+}
+
+.switchHandle {
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  border-radius: 50%;
+  position: absolute;
+  transition: transform 0.3s ease;
+  left: 2px;
+}
+
+.switchOn .switchHandle {
+  transform: translateX(25px); /* Mueve el handle a la derecha */
+}
+
+.switchOff .switchHandle {
+  transform: translateX(0px); /* Mueve el handle a la izquierda */
+}
