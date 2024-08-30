@@ -102,9 +102,9 @@ const ModalNuevaCita: React.FC<ModalCitaProps> = ({
     };
 
     const fetchServices = async () => {
-      const response = await axiosInstance.get("/dental-serv?limit=10000");
+      const response = await axiosInstance.get("/dentists/dentalServices");
       if (response.status === 200) {
-        const options = response.data.services.map((service: any) => {
+        const options = response.data.map((service: any) => {
           return {
             value: service.id,
             label: service.name,

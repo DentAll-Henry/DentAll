@@ -99,6 +99,30 @@ export class DentistsRepository {
     return { total: dentistsQuantity, active: activeDentistsQuantity, inactive: dentistsQuantity-activeDentistsQuantity };
   }
 
+  async dentalServicesWithDentist() {
+    try {
+      const dentists: Dentist[] = await this.dentistsRepository.find({
+        relations: {
+          dental_services: true,
+        }
+      });
+
+      const dentalServices: DentalServ[] = [];
+      
+      dentists.forEach(dentist => {
+        dentist.dental_services.forEach(service => {
+          if(!dentalServices.some(s => s.id === service.id)) {
+            dentalServices.push(service);
+          }
+        })
+      })
+
+      return dentalServices;
+    } catch (error) {
+      throw new BadRequestException("No hay sericios disponibles");
+    }
+  }
+
   async dentistByPersonId(idperson: Person['id']) {
     const dentist: Dentist = await this.dentistsRepository.findOne({
       where: {
