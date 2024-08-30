@@ -111,6 +111,11 @@ export class DentistsController {
     return this.dentistsService.dentistsQuantity();
   }
 
+  @Get('dentalServices')
+  dentalServicesWithDentists() {
+    return this.dentistsService.dentalServicesWhitDentists();
+  }
+
   @ApiBearerAuth()
   @Get('person/:id')
   @DRoles(Roles.ADMIN, Roles.ADMINISTRATIVE, Roles.PATIENT, Roles.DENTIST)
