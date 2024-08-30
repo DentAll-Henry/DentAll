@@ -99,7 +99,7 @@ const PaymentsHistory = () => {
               )}
               <p className="text-[#60D66A]">${payment.dentalServ.price}</p>
               <p className="text-[#60D66A]">
-                {format(payment.appointment.date_time, "dd/MM/yyyy")}
+                {format(payment.date, "dd/MM/yyyy")}
               </p>
               <Image
                 className="group-hover:fill-current text-white"
