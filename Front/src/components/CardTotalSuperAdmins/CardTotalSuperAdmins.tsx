@@ -5,7 +5,11 @@ import Link from "next/link";
 import Modal from "../Modal/Modal";
 import { Patients, PersonInterface } from "@/types";
 import { useRouter } from "next/navigation";
-import { allPatients, getPeopleByRole } from "@/helpers/patients.helper";
+import {
+  allPatients,
+  getPeopleByMail,
+  getPeopleByRole,
+} from "@/helpers/patients.helper";
 import axiosInstance from "@/utils/axiosInstance";
 import Swal from "sweetalert2";
 
@@ -14,6 +18,24 @@ type AllRoles = {
   esp: string;
   status: boolean;
   personId: string;
+};
+
+const personVacio: PersonInterface = {
+  birthdate: new Date(),
+  deleteDate: null,
+  dni: "",
+  email: "",
+  first_name: "",
+  id: "",
+  is_active: false,
+  is_auth0: false,
+  last_name: "",
+  location: "",
+  nationality: "",
+  phone: "",
+  photo: "",
+  address: "",
+  roles: [],
 };
 
 function CardTotalSuperAdmins() {
@@ -56,18 +78,16 @@ function CardTotalSuperAdmins() {
   ]);
   const router = useRouter();
 
-  const openModal = (patient: PersonInterface) => {
-    setSelectedPatient(patient);
+  const openModal = (person: PersonInterface) => {
+    setSelectedPatient(person);
     setIsModalOpen(true);
     // Cargar los roles del paciente seleccionado al abrir el modal
-    const rolesPatient: string[] = patient.roles.map((r) => r.name);
-    console.log(rolesPatient);
-
+    const rolesPatient: string[] = person.roles.map((r) => r.name);
     const allRolesPatient: AllRoles[] = allRoles.map((r) => {
-      if (rolesPatient.includes(r.eng)) {
-        return { ...r, status: false, personId: patient.id };
+      if (rolesPatient?.includes(r.eng)) {
+        return { ...r, status: false, personId: person.id };
       } else {
-        return { ...r, status: true, personId: patient.id };
+        return { ...r, status: true, personId: person.id };
       }
     });
     setAllRoles(allRolesPatient);
@@ -81,12 +101,16 @@ function CardTotalSuperAdmins() {
   const addRole = async (role: string, personId: string) => {
     if (role !== "dentist") {
       try {
+        console.log("personId: ", personId);
+
         const response = await axiosInstance.patch(
           `/people/addrole/${personId}`,
           {
             roleName: role,
           }
         );
+        console.log(response);
+
         await Swal.fire({
           title: "¡Excelente!",
           text: "Rol añadido.",
@@ -101,6 +125,8 @@ function CardTotalSuperAdmins() {
           },
         });
       } catch (error: any) {
+        console.log(error);
+
         await Swal.fire({
           title: "¡Error!",
           text: error.message,
@@ -248,9 +274,19 @@ function CardTotalSuperAdmins() {
   const fetchAdminstratives = async () => {
     try {
       const patientsData = await getPeopleByRole("admin");
+      fetchByMail(patientsData);
+      console.log(patients);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-      setPatients(patientsData);
-      console.log(patientsData);
+  const fetchByMail = async (person: PersonInterface[]) => {
+    try {
+      for (let i = 0; i < person.length; i++) {
+        person[i] = await getPeopleByMail(person[i]);
+      }
+      setPatients(person);
     } catch (error) {
       console.log(error);
     }
@@ -262,7 +298,7 @@ function CardTotalSuperAdmins() {
 
   return (
     <div>
-      {patients?.map((patient) => (
+      {patients.map((patient) => (
         <div className="w-full flex flex-row gap-5" key={patient.id}>
           <div className="w-[31%] p-3 flex flex-row gap-4 rounded-full">
             <Image
