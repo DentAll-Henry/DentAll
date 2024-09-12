@@ -1,6 +1,6 @@
 import axios from "axios";
 import { enviroment } from "@/utils/config";
-import { PatientId } from "@/types";
+import { PatientId, PersonInterface } from "@/types";
 import axiosInstance from "@/utils/axiosInstance";
 
 export async function allPatients() {
@@ -70,12 +70,21 @@ export async function getPeopleByRole(role: string) {
         Authorization: `Bearer ${tokenInfo.token}`,
       },
     });
-
-    console.log(response.data);
-    console.log();
-
     return response.data;
   } catch (error: any) {
     console.log(error);
+  }
+}
+export async function getPeopleByMail(people: PersonInterface) {
+  try {
+    const response = await axiosInstance.get(`/people/byemail`, {
+      params: {
+        email: people.email,
+      },
+    });
+    return response.data;
+  } catch (error: any) {
+    console.log(error);
+    return [];
   }
 }
